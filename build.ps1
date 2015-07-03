@@ -6,6 +6,11 @@ if ($env:APPVEYOR_BUILD_NUMBER) {
     $buildNumber = $env:APPVEYOR_BUILD_NUMBER
 }
 
+if ($env:preRelease) {
+    Write-Output "Setting Prerelease: $env:preRelease"
+    $preRelease = $env:preRelease
+}
+
 function Install-Dnvm
 {
     & where.exe dnvm 2>&1 | Out-Null
@@ -32,8 +37,8 @@ Push-Location $PSScriptRoot
 Install-Dnvm
 
 # Install DNX
-dnvm install $dnvmVersion -r CoreCLR -NoNative
-dnvm install $dnvmVersion -r CLR -NoNative
+dnvm install $dnvmVersion -r CoreCLR -Unstable -NoNative
+dnvm install $dnvmVersion -r CLR -Unstable -NoNative
 dnvm use $dnvmVersion -r CLR
 
 Import-Module .\psake.psm1
@@ -41,5 +46,3 @@ Import-Module .\psake.psm1
 Invoke-Psake -taskList Build,Test -properties @{ buildNumber=$buildNumber; preRelease=$preRelease }
 
 Pop-Location
-
-if ($psake.build_success -eq $false) { exit 1 } else { exit 0 }

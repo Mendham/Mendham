@@ -1,22 +1,12 @@
 properties {
-    $base_directory = Resolve-Path .
-    $source_directory = "$base_directory\source"
-    $output_directory = "$base_directory\build"
-    $dist_directory = "$base_directory\distribution"
-    $nuget_directory = "$base_directory\nuget"
-    $config = "Debug"
-
-    #$xunit_console = "$base_directory\packages\xunit.runners.2.0.0-rc2-build2857\tools\xunit.console.exe"
-
     $buildNumber = 0
-    #$version = "0.1.0.0"
     $preRelease = $null
 }
 
 function Restore-Packages
 {
     param([string] $DirectoryName)
-    & dnu restore ("""" + $DirectoryName + """") --parallel --source "https://www.myget.org/F/aspnetmaster/api/v2/" --source "https://www.nuget.org/api/v2/"
+    & dnu restore ("""" + $DirectoryName + """") --parallel --source "https://www.nuget.org/api/v2/" --source "https://www.myget.org/F/aspnetmaster/api/v2/"
 }
 
 function Build-Projects
@@ -68,12 +58,12 @@ task SetBuildNumber -description "Sets the build number that may be added to the
             $buildSuffix = "$buildSuffix-"
         }
 
-        $buildSuffix = $buildSuffix +"build" + $buildNumber.ToString().PadLeft(5,'0')
-    }
+        $buildSuffix = $buildSuffix + $buildNumber.ToString().PadLeft(5,'0')
 
-    if ($buildSuffix -ne $null) {
-        Write-Output "Set build number to $buildSuffix"
-        $env:DNX_BUILD_VERSION = $buildSuffix
+        if ($buildSuffix -ne $null) {
+            Write-Output "Set build number to $buildSuffix"
+            $env:DNX_BUILD_VERSION = $buildSuffix
+        }
     }
 }
 
