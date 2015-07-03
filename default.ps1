@@ -16,7 +16,7 @@ properties {
 function Restore-Packages
 {
     param([string] $DirectoryName)
-    & dnu restore ("""" + $DirectoryName + """")
+    & dnu restore ("""" + $DirectoryName + """") --parallel --source "https://www.myget.org/F/aspnetmaster/api/v2/" --source "https://www.nuget.org/api/v2/"
 }
 
 function Build-Projects
@@ -52,8 +52,7 @@ task Clean -description "Deletes all build artifacts" {
 }
 
 task Restore -description "Restores packages for all projects" {
-    Get-ChildItem -Path . -Filter *.xproj -Recurse |
-        % { Restore-Packages $_.DirectoryName }
+    Restore-Packages (Get-Item -Path ".\" -Verbose).FullName
 }
 
 task SetBuildNumber -description "Sets the build number that may be added to the version" {
