@@ -41,3 +41,5 @@ Import-Module .\psake.psm1
 Invoke-Psake -taskList Build,Test -properties @{ buildNumber=$buildNumber; preRelease=$preRelease }
 
 Pop-Location
+
+if ($psake.build_success -eq $false) { exit 1 } else { exit 0 }
