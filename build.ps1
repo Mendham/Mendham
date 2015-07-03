@@ -32,8 +32,8 @@ Push-Location $PSScriptRoot
 Install-Dnvm
 
 # Install DNX
-dnvm install $dnvmVersion -r CoreCLR -Unstable -NoNative
-dnvm install $dnvmVersion -r CLR -Unstable -NoNative
+dnvm install $dnvmVersion -r CoreCLR -NoNative
+dnvm install $dnvmVersion -r CLR -NoNative
 dnvm use $dnvmVersion -r CLR
 
 Import-Module .\psake.psm1
