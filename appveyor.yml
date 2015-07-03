@@ -10,3 +10,11 @@ build_script:
 artifacts:
 - path: artifacts\packages\**\*.nupkg
   name: MyGet
+
+deploy:
+- provider: NuGet
+  server: https://www.myget.org/F/mendham/api/v2
+  api_key:
+    secure: lc6qh+UNxNqcweligghUHBrdF22ErLbrckDPGQB0W0CF+jH+EeP0ZnZCwGkl0wg9
+  symbol_server: https://nuget.symbolsource.org/MyGet/mendham
+  artifact: MyGet
