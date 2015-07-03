@@ -1,10 +1,11 @@
 {
-    "version": "1.0.0-*",
+    "version": "0.1.0-*",
     "description": ".NET Application Framework",
     "authors": [ "Craig Beall" ],
     "tags": [ "" ],
     "projectUrl": "https://github.com/cbeall/Mendham",
     "licenseUrl": "https://raw.githubusercontent.com/cbeall/Mendham/master/LICENSE",
+    "requireLicenseAcceptance": false,
 
     "dependencies": {
     },
