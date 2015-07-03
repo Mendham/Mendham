@@ -1,13 +1,14 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace CBeall.Mendham
 {
-    public static class ArgumentVerificationExtensions
-    {
-    	/// <summary>
+	public static class ArgumentVerificationExtensions
+	{
+		/// <summary>
 		/// Throws an ArgumentException if value is null
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
@@ -109,5 +110,5 @@ namespace CBeall.Mendham
 
 			return obj;
 		}
-    }
+	}
 }
