@@ -5,8 +5,8 @@ configuration: Release
 test: off
 
 build_script:
-- ps: .\build.ps1;
+- ps: .\build.ps1
 
-artifcats:
+artifacts:
 - path: artifacts\packages\**\*.nupkg
   name: MyGet
