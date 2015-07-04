@@ -9,7 +9,7 @@ namespace CBeall.Mendham
 	public static class ObjectExtensions
 	{
 		/// <summary>
-		/// Converts T into an IEnumerable&lt;T> that has the original object as its only item
+		/// Converts T into an IEnumerable<T> that has the original object as its only item
 		/// </summary>
 		/// <typeparam name="T">Type of enumerable</typeparam>
 		/// <param name="obj">Object to add to collection</param>

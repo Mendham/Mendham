@@ -6,7 +6,7 @@ using FluentAssertions;
 using Ploeh.AutoFixture.Xunit2;
 using Xunit;
 
-namespace CBeall.Mendham.Test.Tests
+namespace CBeall.Mendham.Test.BaseExtensions
 {
     public class ArgumentVerificationExtensionsTest
     {
