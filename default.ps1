@@ -59,13 +59,9 @@ task SetBuildNumber -description "Sets the build number that may be added to the
 
             $buildSuffix = $buildSuffix + $buildNumber.ToString().PadLeft(5,'0')
         }
-        else { Write-Output "Bad build number" }
-        Write-Output "Build number is $buildNumber"
-
     }
 
     if ($buildSuffix -ne $null) {
-        Write-Output "Set build number to $buildSuffix"
         $env:DNX_BUILD_VERSION = $buildSuffix
     }
 }
