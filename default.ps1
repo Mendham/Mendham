@@ -3,21 +3,19 @@ properties {
     $preRelease = $null
 }
 
-function Restore-Packages
+function Restore-Packages ([string] $DirectoryName)
 {
-    param([string] $DirectoryName)
     & dnu restore ("""" + $DirectoryName + """") --parallel --source "https://www.nuget.org/api/v2/" --source "https://www.myget.org/F/aspnetmaster/api/v2/"
 }
 
-function Build-Projects
+function Build-Projects ([string] $DirectoryName, [string] $ProjectName)
 {
-    param([string] $DirectoryName)
-    & dnu pack ("""" + $DirectoryName + """") --configuration Release --out .\artifacts\packages; if($LASTEXITCODE -ne 0) { exit 1 }
+    Write-Output "Directory: $DirectoryName"
+    & dnu pack ("""" + $DirectoryName + """") --configuration Release --out ".\artifacts\packages\$ProjectName"; if($LASTEXITCODE -ne 0) { exit 1 }
 }
 
-function Test-Projects
+function Test-Projects ([string] $DirectoryName)
 {
-    param([string] $DirectoryName)
     & dnx ("""" + $DirectoryName + """") test; if($LASTEXITCODE -ne 0) { exit 2 }
 }
 
@@ -68,7 +66,7 @@ task SetBuildNumber -description "Sets the build number that may be added to the
 
 task Build -depends Clean,Restore,SetBuildNumber -description "Builds every source project" {
     Get-ChildItem -Path .\src -Filter *.xproj -Recurse |
-        % { Build-Projects $_.DirectoryName}
+        % { Build-Projects $_.DirectoryName $_.Directory.Name }
 }
 
 task Test -depends Restore -description "Runs tests" {
