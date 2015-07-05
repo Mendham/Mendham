@@ -5,11 +5,18 @@ VisualStudioVersion = 14.0.22823.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham", "src\Mendham\Mendham.xproj", "{127B3382-DB94-4831-A416-D55FB982B583}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{5837883B-CC74-4A1F-96F5-AEEEAFD73EC4}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{5837883B-CC74-4A1F-96F5-AEEEAFD73EC4}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Test", "test\Mendham.Test\Mendham.Test.xproj", "{2DE976F1-707F-4C63-8F35-8BFDE14CA2CD}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Domain", "src\Mendham.Domain\Mendham.Domain.xproj", "{432FF272-B51E-4B20-908F-51202AA09C18}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5C1754A0-62FE-4212-B667-6700917D372E}"
+	ProjectSection(SolutionItems) = preProject
+		global.json = global.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{856ADE16-2C01-47A4-9120-1EF2B409A9D3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,6 +41,8 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{127B3382-DB94-4831-A416-D55FB982B583} = {856ADE16-2C01-47A4-9120-1EF2B409A9D3}
 		{2DE976F1-707F-4C63-8F35-8BFDE14CA2CD} = {5837883B-CC74-4A1F-96F5-AEEEAFD73EC4}
+		{432FF272-B51E-4B20-908F-51202AA09C18} = {856ADE16-2C01-47A4-9120-1EF2B409A9D3}
 	EndGlobalSection
 EndGlobal
