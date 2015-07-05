@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CBeall.Mendham;
+using Mendham;
 using FluentAssertions;
 using Ploeh.AutoFixture.Xunit2;
 using Xunit;
 
-namespace CBeall.Mendham.Test.BaseExtensions
+namespace Mendham.Test.BaseExtensions
 {
 	public class ObjectExtensionTest
 	{

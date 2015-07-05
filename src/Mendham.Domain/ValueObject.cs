@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CBeall.Mendham.Equality;
+using Mendham.Equality;
 
-namespace CBeall.Mendham.Domain
+namespace Mendham.Domain
 {
 	public abstract class ValueObject : IHasEqualityComponents
 	{

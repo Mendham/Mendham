@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CBeall.Mendham.Equality;
+using Mendham.Equality;
 using FluentAssertions;
 using Ploeh.AutoFixture.Xunit2;
 using Xunit;
 
-namespace CBeall.Mendham.Test.Equality
+namespace Mendham.Test.Equality
 {
 	public class EqualityComponentsExtensionTests
 	{

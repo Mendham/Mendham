@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CBeall.Mendham.Equality
+namespace Mendham.Equality
 {
 	/// <summary>
 	/// A contract that defines the properties of the object that are used to determine equality. It can be thought of as the objects "key"

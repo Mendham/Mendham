@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CBeall.Mendham.Concurrency
+namespace Mendham.Concurrency
 {
 	public class ConcurrencyException : InvalidOperationException
 	{

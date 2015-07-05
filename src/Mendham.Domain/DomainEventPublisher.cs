@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CBeall.Mendham;
+using Mendham;
 using System.Reflection;
 
-namespace CBeall.Mendham.Domain
+namespace Mendham.Domain
 {
 	public class DomainEventPublisher : IDomainEventPublisher
 	{
