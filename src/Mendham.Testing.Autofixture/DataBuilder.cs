@@ -2,6 +2,8 @@
 using System.Diagnostics;
 using System.Linq.Expressions;
 using System.Reflection;
+using Mendham.Testing.Helpers;
+using Ploeh.AutoFixture;
 
 namespace Mendham.Testing
 {
@@ -33,6 +35,16 @@ namespace Mendham.Testing
 
 		protected abstract T BuildObject();
 
+		protected TResult CreateAnonymous<TResult>()
+		{
+			return SharedFixture.Create<TResult>();
+		}
+
+		protected TResult CreateAnonymous<TResult>(TResult seed)
+		{
+			return SharedFixture.Create<TResult>(seed);
+		}
+
 		public static implicit operator T(DataBuilder<T> builder)
 		{
 			return builder.Build();
@@ -40,48 +52,17 @@ namespace Mendham.Testing
 
 		protected static void SetPropertyNonPublicSetter<TSource, TProperty>(TSource obj, Expression<Func<TSource, TProperty>> propertyLambda, object value)
 		{
-			var propertyInfo = GetPropertyInfo(propertyLambda);
-			propertyInfo.SetValue(obj, value);
+			obj.SetPropertyNonPublicSetter(propertyLambda, value);
 		}
 
 		protected static void SetNonPublicMember<TSource>(TSource obj, string memberName, object value)
 		{
-			Type type = typeof(TSource);
-
-			type.GetField(memberName, BindingFlags.NonPublic | BindingFlags.Instance)
-				.SetValue(obj, value);
-		}
-
-		private static PropertyInfo GetPropertyInfo<TSource, TProperty>(Expression<Func<TSource, TProperty>> propertyLambda)
-		{
-			Type type = typeof(TSource);
-
-			MemberExpression member = propertyLambda.Body as MemberExpression;
-			if (member == null)
-				throw new ArgumentException(string.Format(
-					"Expression '{0}' refers to a method, not a property.",
-					propertyLambda.ToString()));
-
-			PropertyInfo propInfo = member.Member as PropertyInfo;
-			if (propInfo == null)
-				throw new ArgumentException(string.Format(
-					"Expression '{0}' refers to a field, not a property.",
-					propertyLambda.ToString()));
-
-			if (type != propInfo.ReflectedType && !type.IsSubclassOf(propInfo.ReflectedType))
-				throw new ArgumentException(string.Format(
-					"Expresion '{0}' refers to a property that is not from type {1}.",
-					propertyLambda.ToString(), type));
-
-			return propInfo;
+			obj.SetNonPublicMember(memberName, value);
 		}
 
 		protected static void CallNonPublicMethod(T obj, string methodName, params object[] parameters)
 		{
-			BindingFlags flags = BindingFlags.Instance | BindingFlags.NonPublic;
-			MethodInfo methodInfo = typeof(T).GetMethod(methodName, flags);
-
-			methodInfo.Invoke(obj, parameters);
+			obj.CallNonPublicMethod(methodName, parameters);
 		}
 	}
 }

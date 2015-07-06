@@ -1,6 +1,6 @@
 ﻿{
     "version": "0.1.0-*",
-    "description": "Testing helpers using Autofixture",
+    "description": "Testing helpers using AutoFixture",
     "authors": [ "Craig Beall" ],
     "tags": [ "" ],
     "projectUrl": "https://github.com/cbeall/Mendham",
