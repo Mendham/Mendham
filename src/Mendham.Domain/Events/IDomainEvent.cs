@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Mendham.Domain
+namespace Mendham.Domain.Events
 {
 	public interface IDomainEvent
 	{

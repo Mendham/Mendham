@@ -5,18 +5,18 @@ using System.Threading.Tasks;
 using Mendham;
 using System.Reflection;
 
-namespace Mendham.Domain
+namespace Mendham.Domain.Events
 {
 	public class DomainEventPublisher : IDomainEventPublisher
 	{
-		private readonly IEnumerable<IDomainEventHandler> allHandlers;
+		private readonly IDomainEventHandlerContainer handlers;
 		private readonly IEnumerable<IDomainEventLogger> domainEventLoggers;
 
-		public DomainEventPublisher(IEnumerable<IDomainEventHandler> allHandlers,
-			IEnumerable<IDomainEventLogger> domainEventLogger)
+		public DomainEventPublisher(IDomainEventHandlerContainer handlers,
+			IEnumerable<IDomainEventLogger> domainEventLoggers)
 		{
-			this.allHandlers = allHandlers;
-			this.domainEventLoggers = domainEventLogger;
+			this.handlers = handlers;
+			this.domainEventLoggers = domainEventLoggers;
 		}
 
 		public Task RaiseAsync<TDomainEvent>(TDomainEvent domainEvent)
@@ -36,9 +36,12 @@ namespace Mendham.Domain
 		private IEnumerable<IDomainEventHandler<TDomainEvent>> GetHandlers<TDomainEvent>(TDomainEvent domainEvent)
 			where TDomainEvent : class, IDomainEvent
 		{
-			return allHandlers
-				.Where(IsDomainEventHandler<TDomainEvent>)
-				.Select(SelectDomainEvents<TDomainEvent>);
+			throw new NotImplementedException();
+
+			//return handlers.GetHandlers(domainEvent)
+			//	.Select(a => a.HandleAsync(domainEvent));
+
+
 		}
 
 		private static bool IsDomainEventHandler<TDomainEvent>(IDomainEventHandler handler)
