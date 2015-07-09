@@ -13,7 +13,7 @@ namespace Mendham.Test.BaseExtensions
 	{
 		[Theory]
 		[AutoData]
-		public void SingleIntAsCollection(int val)
+		public void AsSingleItemEnumerable_Int_SingleItemCollection(int val)
 		{
 			var result = val.AsSingleItemEnumerable();
 

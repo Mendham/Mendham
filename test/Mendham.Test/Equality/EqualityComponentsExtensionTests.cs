@@ -13,14 +13,14 @@ namespace Mendham.Test.Equality
 	{
 		public class TestObject : IHasEqualityComponents
 		{
-			public TestObject(String strVal, int intVal, object objVal)
+			public TestObject(string strVal, int intVal, object objVal)
 			{
 				this.StrVal = strVal;
 				this.IntVal = intVal;
 				this.ObjVal = objVal;
 			}
 
-			public String StrVal { get; set; }
+			public string StrVal { get; set; }
 			public int IntVal { get; set; }
 			public object ObjVal { get; set; }
 
@@ -38,7 +38,7 @@ namespace Mendham.Test.Equality
 
 		[Theory]
 		[AutoData]
-		public void SameObjectReferenceIsEqual(TestObject obj)
+		public void EqualsFromComponents_SameObjectReference_Equal(TestObject obj)
 		{
 			var objRefCopy = obj;
 
@@ -49,7 +49,7 @@ namespace Mendham.Test.Equality
 
 		[Theory]
 		[AutoData]
-		public void DifferentObjectNotEqual(TestObject obj1, TestObject obj2)
+		public void EqualsFromComponents_DifferentObject_NotEqual(TestObject obj1, TestObject obj2)
 		{
 			var equal = obj1.EqualsFromComponents(obj2);
 
@@ -58,7 +58,7 @@ namespace Mendham.Test.Equality
 
 		[Theory]
 		[AutoData]
-		public void DifferentObjectSameComponentsEqual(String strVal, int intVal, object objVal)
+		public void EqualsFromComponents_DifferentObjectWithSameComponents_Equal(string strVal, int intVal, object objVal)
 		{
 			var testObj1 = new TestObject(strVal, intVal, objVal);
 			var testObj2 = new TestObject(strVal, intVal, objVal);
@@ -71,7 +71,7 @@ namespace Mendham.Test.Equality
 
 		[Theory]
 		[AutoData]
-		public void SameObjectReferenceSameHashcode(TestObject obj)
+		public void GetHashCodeFromComponents_SameObjectReference_Equal(TestObject obj)
 		{
 			var objRefCopy = obj;
 
@@ -83,7 +83,7 @@ namespace Mendham.Test.Equality
 
 		[Theory]
 		[AutoData]
-		public void DifferentObjectDifferentHashCode(TestObject obj1, TestObject obj2)
+		public void GetHashCodeFromComponents_DifferentObject_NotEqual(TestObject obj1, TestObject obj2)
 		{
 			var hashCodeForObj1 = obj1.GetHashCodeFromComponents();
 			var hashCodeForObj2 = obj2.GetHashCodeFromComponents();
@@ -93,7 +93,7 @@ namespace Mendham.Test.Equality
 
 		[Theory]
 		[AutoData]
-		public void DifferentObjectSameComponentsSameHashCode(String strVal, int intVal, object objVal)
+		public void GetHashCodeFromComponents_DifferentObjectSameComponents_Equal(string strVal, int intVal, object objVal)
 		{
 			var testObj1 = new TestObject(strVal, intVal, objVal);
 			var testObj2 = new TestObject(strVal, intVal, objVal);

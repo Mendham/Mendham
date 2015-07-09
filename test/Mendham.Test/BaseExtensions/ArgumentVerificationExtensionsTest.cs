@@ -12,7 +12,7 @@ namespace Mendham.Test.BaseExtensions
     {
 		[Theory]
 		[AutoData]
-		public void VerifyArgumentNotNullFalse(String msg)
+		public void VerifyArgumentNotNull_NullString_Throws(string msg)
 		{
 			String str = null;
 
@@ -24,7 +24,7 @@ namespace Mendham.Test.BaseExtensions
 
 		[Theory]
 		[AutoData]
-		public void VerifyArgumentNotNullTrue(int? obj, String msg)
+		public void VerifyArgumentNotNull_Int_Passes(int? obj, string msg)
 		{
 			var result = obj.VerifyArgumentNotNull(msg);
 
@@ -33,7 +33,19 @@ namespace Mendham.Test.BaseExtensions
 
 		[Theory]
 		[AutoData]
-		public void VerifyArguementNotDefaultFalseInt(String msg)
+		public void VerifyArguementNotDefault_NullInt_Throws(string msg)
+		{
+			int? val = null;
+
+			Action act = () => val.VerifyArgumentNotDefaultValue(msg);
+
+			act.ShouldThrow<ArgumentException>()
+				.WithMessage(msg);
+		}
+
+		[Theory]
+		[AutoData]
+		public void VerifyArguementNotDefault_DefaultInt_Throws(string msg)
 		{
 			int val = default(int);
 
@@ -45,9 +57,9 @@ namespace Mendham.Test.BaseExtensions
 
 		[Theory]
 		[AutoData]
-		public void VerifyArguementNotDefaultFalseString(String msg)
+		public void VerifyArguementNotDefault_DefaultString_Throws(string msg)
 		{
-			String val = default(String);
+			string val = default(String);
 
 			Action act = () => val.VerifyArgumentNotDefaultValue(msg);
 
@@ -57,7 +69,7 @@ namespace Mendham.Test.BaseExtensions
 
 		[Theory]
 		[AutoData]
-		public void VerifyArguementNotDefaultTrueString(String val, String msg)
+		public void VerifyArguementNotDefault_String_Passes(string val, string msg)
 		{
 			var result = val.VerifyArgumentNotDefaultValue(msg);
 
@@ -66,7 +78,7 @@ namespace Mendham.Test.BaseExtensions
 
 		[Theory]
 		[AutoData]
-		public void VerifyArgumentNotNullOrEmptyFalseNullCollection(String msg)
+		public void VerifyArgumentNotNullOrEmpty_NullCollection_Throws(string msg)
 		{
 			List<int> val = null;
 
@@ -78,7 +90,7 @@ namespace Mendham.Test.BaseExtensions
 
 		[Theory]
 		[AutoData]
-		public void VerifyArgumentNotNullOrEmptyFalseEmptyCollection(String msg)
+		public void VerifyArgumentNotNullOrEmpty_EmptyCollection_Throws(string msg)
 		{
 			List<int> val = new List<int>();
 
@@ -90,7 +102,7 @@ namespace Mendham.Test.BaseExtensions
 
 		[Theory]
 		[AutoData]
-		public void VerifyArgumentNotNullOrEmptyTrueCollection(List<int> vals, String msg)
+		public void VerifyArgumentNotNullOrEmpty_NonEmptyCollection_Passes(List<int> vals, string msg)
 		{
 			var result = vals.VerifyArgumentNotNullOrEmpty(msg);
 
@@ -99,9 +111,9 @@ namespace Mendham.Test.BaseExtensions
 
 		[Theory]
 		[AutoData]
-		public void VerifyArgumentNotNullOrEmptyFalseNullString(String msg)
+		public void VerifyArgumentNotNullOrEmpty_NullString_Throws(string msg)
 		{
-			String val = null;
+			string val = null;
 
 			Action act = () => val.VerifyArgumentNotNullOrEmpty(msg);
 
@@ -111,9 +123,9 @@ namespace Mendham.Test.BaseExtensions
 
 		[Theory]
 		[AutoData]
-		public void VerifyArgumentNotNullOrEmptyFalseEmptyString(String msg)
+		public void VerifyArgumentNotNullOrEmpty_EmptyString_Throws(string msg)
 		{
-			String val = String.Empty;
+			string val = String.Empty;
 
 			Action act = () => val.VerifyArgumentNotNullOrEmpty(msg);
 
@@ -123,7 +135,7 @@ namespace Mendham.Test.BaseExtensions
 
 		[Theory]
 		[AutoData]
-		public void VerifyArgumentNotNullOrEmptyTrueString(String val, String msg)
+		public void VerifyArgumentNotNullOrEmpty_NonEmptyString_Passes(string val, string msg)
 		{
 			var result = val.VerifyArgumentNotNullOrEmpty(msg);
 
@@ -132,9 +144,9 @@ namespace Mendham.Test.BaseExtensions
 
 		[Theory]
 		[AutoData]
-		public void VerifyArgumentNotNullOrWhiteSpaceFalseNullString(String msg)
+		public void VerifyArgumentNotNullOrWhiteSpace_NullString_Throws(string msg)
 		{
-			String val = null;
+			string val = null;
 
 			Action act = () => val.VerifyArgumentNotNullOrWhiteSpace(msg);
 
@@ -144,9 +156,9 @@ namespace Mendham.Test.BaseExtensions
 
 		[Theory]
 		[AutoData]
-		public void VerifyArgumentNotNullOrWhiteSpaceFalseEmptyString(String msg)
+		public void VerifyArgumentNotNullOrWhiteSpac_EmptyString_Throws(string msg)
 		{
-			String val = String.Empty;
+			string val = String.Empty;
 
 			Action act = () => val.VerifyArgumentNotNullOrWhiteSpace(msg);
 
@@ -156,9 +168,9 @@ namespace Mendham.Test.BaseExtensions
 
 		[Theory]
 		[AutoData]
-		public void VerifyArgumentNotNullOrWhiteSpaceFalseWhiteSpaceString(String msg)
+		public void VerifyArgumentNotNullOrWhiteSpace_WhiteSpaceString_Throws(string msg)
 		{
-			String val = "   ";
+			string val = "   ";
 
 			Action act = () => val.VerifyArgumentNotNullOrWhiteSpace(msg);
 
@@ -168,7 +180,7 @@ namespace Mendham.Test.BaseExtensions
 
 		[Theory]
 		[AutoData]
-		public void VerifyArgumentNotNullOrWhiteSpaceTrueString(String val, String msg)
+		public void VerifyArgumentNotNullOrWhiteSpace_ValidString_Passes(string val, string msg)
 		{
 			var result = val.VerifyArgumentNotNullOrWhiteSpace(msg);
 
@@ -180,7 +192,7 @@ namespace Mendham.Test.BaseExtensions
 		[InlineAutoData("test", null, 5, false)]
 		[InlineAutoData("test", 1, null, false)]
 		[InlineAutoData(" test  ", 1, 5, true)]
-		public void VerifyArgumentLengthTrue(String val, int? minimum, int? maximum, bool trimFirst, String msg)
+		public void VerifyArgumentLength_ValidCase_Passes(string val, int? minimum, int? maximum, bool trimFirst, string msg)
 		{
 			var result = val.VerifyArgumentLength(minimum, maximum, msg, trimFirst);
 
@@ -192,7 +204,7 @@ namespace Mendham.Test.BaseExtensions
 		[InlineAutoData("test", null, 3, false)]
 		[InlineAutoData("test", 5, null, false)]
 		[InlineAutoData(" test  ", 5, 10, true)]
-		public void VerifyArgumentLengthFalse(String val, int? minimum, int? maximum, bool trimFirst, String msg)
+		public void VerifyArgumentLength_InvalidCase_Throws(string val, int? minimum, int? maximum, bool trimFirst, string msg)
 		{
 			Action act = () => val.VerifyArgumentLength(minimum, maximum, msg, trimFirst);
 
@@ -202,7 +214,7 @@ namespace Mendham.Test.BaseExtensions
 
 		[Theory]
 		[AutoData]
-		public void VerifyArgumentMeetsCriteriaTrue(int val, String msg)
+		public void VerifyArgumentMeetsCriteria_ValidCriteria_Passes(int val, string msg)
 		{
 			var result = val.VerifyArgumentMeetsCriteria(a => true, msg);
 
@@ -211,7 +223,7 @@ namespace Mendham.Test.BaseExtensions
 
 		[Theory]
 		[AutoData]
-		public void VerifyArgumentMeetsCriteriaFalse(String val, String msg)
+		public void VerifyArgumentMeetsCriteria_InvalidCriteria_Throws(string val, string msg)
 		{
 			Action act = () => val.VerifyArgumentMeetsCriteria(a => false, msg);
 

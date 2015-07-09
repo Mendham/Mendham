@@ -18,7 +18,7 @@ namespace Mendham.Domain.Test
 		{ }
 
 		[Fact]
-		public async Task BaseHandler_HandledBy_BaseEvent()
+		public async Task HandleAllAsync_BaseEvent_HandlesBaseHandler()
 		{
 			var baseEvent = _fixture.CreateBaseDomainEvent();
 
@@ -35,7 +35,7 @@ namespace Mendham.Domain.Test
 		}
 
 		[Fact]
-		public async Task DerivedHandler_NotHandledBy_BaseEvent()
+		public async Task HandleAllAsync_BaseEvent_DoesntHandlesDerivedHandler()
 		{
 			var baseEvent = _fixture.CreateBaseDomainEvent();
 
@@ -48,7 +48,7 @@ namespace Mendham.Domain.Test
 		}
 
 		[Fact]
-		public async Task OtherHandler_NotHandledBy_BaseEvent()
+		public async Task HandleAllAsync_BaseEvent_DoesntHandlesOtherHandler()
 		{
 			var baseEvent = _fixture.CreateBaseDomainEvent();
 
@@ -61,7 +61,7 @@ namespace Mendham.Domain.Test
 		}
 
 		[Fact]
-		public async Task BaseHandler_HandledBy_DerivedEvent()
+		public async Task HandleAllAsync_DerivedEvent_HandlesBaseHandler()
 		{
 			var derivedEvent = _fixture.CreateDerivedDomainEvent();
 
@@ -78,7 +78,7 @@ namespace Mendham.Domain.Test
 		}
 
 		[Fact]
-		public async Task DerivedHandler_HandledBy_DerivedEvent()
+		public async Task HandleAllAsync_DerivedEvent_HandlesDerivedHandler()
 		{
 			var derivedEvent = _fixture.CreateDerivedDomainEvent();
 
@@ -95,7 +95,7 @@ namespace Mendham.Domain.Test
 		}
 
 		[Fact]
-		public async Task OtherHandler_NotHandledBy_DerivedEvent()
+		public async Task HandleAllAsync_DerivedEvent_DoesntHandlesOtherHandler()
 		{
 			var derivedEvent = _fixture.CreateDerivedDomainEvent();
 
@@ -108,7 +108,7 @@ namespace Mendham.Domain.Test
 		}
 
 		[Fact]
-		public void OneHandlerTaskThrowsException_Returns_SingleDomainEventHandlingException()
+		public void HandleAllAsync_HandlerTaskThrowsExcpetion_ThrowsDomainEventHandlingException()
 		{
 			var derivedEvent = _fixture.CreateDerivedDomainEvent();
 			var exceptionFromHandler = new InvalidOperationException("Test exception");
@@ -133,7 +133,7 @@ namespace Mendham.Domain.Test
 		}
 
 		[Fact]
-		public void OneHandlerThrowsException_Returns_SingleDomainEventHandlingException()
+		public void HandleAllAsync_HandlerThrowsExcpetion_ThrowsDomainEventHandlingException()
 		{
 			var derivedEvent = _fixture.CreateDerivedDomainEvent();
 			var exceptionFromHandler = new InvalidOperationException("Test exception");
@@ -154,7 +154,7 @@ namespace Mendham.Domain.Test
 		}
 
 		[Fact]
-		public void MultipleHandlerThrowExceptions_Returns_DomainEventHandlingException()
+		public void HandleAllAsync_HandlersThrowMultipleExcpetions_ThrowsDomainEventHandlingException()
 		{
 			var derivedEvent = _fixture.CreateDerivedDomainEvent();
 			var exceptionFromHandler = new InvalidOperationException("Test exception");
