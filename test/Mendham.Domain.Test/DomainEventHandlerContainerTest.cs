@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Mendham.Domain.Events;
@@ -118,7 +119,7 @@ namespace Mendham.Domain.Test
 		}
 
 		[Fact]
-		public async Task OtherHandler_NotHandledBy_Derived_Event()
+		public async Task OtherHandler_NotHandledBy_DerivedEvent()
 		{
 			var derivedEvent = new DerivedDomainEvent();
 
@@ -129,5 +130,72 @@ namespace Mendham.Domain.Test
 			_otherEventHandler.AsMock()
 				.Verify(a => a.HandleAsync(It.IsAny<OtherDomainEvent>()), Times.Never);
 		}
-    }
+
+		[Fact]
+		public void OneHandlerTaskThrowsException_Returns_SingleDomainEventHandlingException()
+		{
+			var derivedEvent = new DerivedDomainEvent();
+			var exceptionFromHandler = new InvalidOperationException("Test exception");
+			Func<Task> exTask = async () =>
+			{
+				await Task.FromResult(0);
+				throw exceptionFromHandler;
+			};
+
+			var sut = _fixture.CreateSut();
+
+			_derivedEventHandler.AsMock()
+				.Setup(a => a.HandleAsync(derivedEvent))
+				.Returns(exTask());
+
+			Func<Task> act = () => sut.HandleAllAsync(derivedEvent);
+
+			act.ShouldThrow<DomainEventHandlingException>()
+				.Where(a => a.InnerException == exceptionFromHandler)
+				.Where(a => a.DomainEvent == derivedEvent)
+				.Which.DomainEventHandlerType.Should().Be(_derivedEventHandler.GetType());
+		}
+
+		[Fact]
+		public void OneHandlerThrowsException_Returns_SingleDomainEventHandlingException()
+		{
+			var derivedEvent = new DerivedDomainEvent();
+			var exceptionFromHandler = new InvalidOperationException("Test exception");
+			Func<Task> exTask = () => { throw exceptionFromHandler; };
+
+			var sut = _fixture.CreateSut();
+
+			_derivedEventHandler.AsMock()
+				.Setup(a => a.HandleAsync(derivedEvent))
+				.Throws(exceptionFromHandler);
+
+			Func<Task> act = () => sut.HandleAllAsync(derivedEvent);
+
+			act.ShouldThrow<DomainEventHandlingException>()
+				.Where(a => a.InnerException == exceptionFromHandler)
+				.Where(a => a.DomainEvent == derivedEvent)
+				.Which.DomainEventHandlerType.Should().Be(_derivedEventHandler.GetType());
+		}
+
+		[Fact]
+		public void MultipleHandlerThrowExceptions_Returns_DomainEventHandlingException()
+		{
+			var derivedEvent = new DerivedDomainEvent();
+			var exceptionFromHandler = new InvalidOperationException("Test exception");
+			Func<Task> exTask = () => { throw exceptionFromHandler; };
+
+			var sut = _fixture.CreateSut();
+
+			_derivedEventHandler.AsMock()
+				.Setup(a => a.HandleAsync(derivedEvent))
+				.Throws(exceptionFromHandler);
+			_baseEventHandler.AsMock()
+				.Setup(a => a.HandleAsync(derivedEvent))
+				.Throws(exceptionFromHandler);
+
+			Func<Task> act = () => sut.HandleAllAsync(derivedEvent);
+
+			act.ShouldThrow<DomainEventHandlingException>();
+		}
+	}
 }

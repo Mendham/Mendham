@@ -15,13 +15,13 @@ namespace Mendham.Domain.Events
 			this.domainEventHandlers = domainEventHandlers;
 		}
 
-		public Task HandleAllAsync<TDomainEvent>(TDomainEvent domainEvent) 
+		public Task HandleAllAsync<TDomainEvent>(TDomainEvent domainEvent)
 			where TDomainEvent : IDomainEvent
 		{
 			var handleTasks = domainEventHandlers
 				.Where(HandlesDomainEvent<TDomainEvent>)
 				.Select(GetGenericDomainEventHandlerForDomainEvent<TDomainEvent>)
-				.Select(a => a.HandleAsync(domainEvent));
+				.Select(handler => HandleAsync(handler, domainEvent));
 
 			return Task.WhenAll(handleTasks);
 		}
@@ -77,6 +77,20 @@ namespace Mendham.Domain.Events
 
 			return (IDomainEventHandler<TDomainEvent>)
 				Activator.CreateInstance(constructedDomainEventHandlerWrapper, handler);
+		}
+
+		private async Task<bool> HandleAsync<TDomainEvent>(IDomainEventHandler<TDomainEvent> handler, TDomainEvent domainEvent)
+			where TDomainEvent :  IDomainEvent
+		{
+			try
+			{
+				await handler.HandleAsync(domainEvent);
+				return true;
+			}
+			catch (Exception ex)
+			{
+				throw new DomainEventHandlingException(handler.GetType(), domainEvent, ex);
+			}
 		}
 
 		private class DomainEventHandlerWrapper<TBaseDomainEvent, TDerivedDomainEvent> : IDomainEventHandler<TDerivedDomainEvent>
