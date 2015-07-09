@@ -4,23 +4,58 @@ using System.Linq;
 using System.Threading.Tasks;
 using Mendham.Domain.Events;
 using Mendham.Testing;
+using Moq;
 
 namespace Mendham.Domain.Test.Fixtures
 {
     public class DomainEventHandlerContainerFixture : BaseFixture<DomainEventHandlerContainer>
     {
-		public IEnumerable<IDomainEventHandler> DomainEventHandlers { get; set; }
+
+		public IDomainEventHandler<BaseDomainEvent> BaseEventHandler { get; set; }
+		public IDomainEventHandler<DerivedDomainEvent> DerivedEventHandler { get; set; }
+		public IDomainEventHandler<OtherDomainEvent> OtherEventHandler { get; set; }
 
 		public override DomainEventHandlerContainer CreateSut()
 		{
-			return new DomainEventHandlerContainer(this.DomainEventHandlers);
+			return new DomainEventHandlerContainer(handlers);
+		}
+
+		private IEnumerable<IDomainEventHandler> handlers
+		{
+			get
+			{
+				yield return BaseEventHandler;
+				yield return DerivedEventHandler;
+				yield return OtherEventHandler;
+			}
 		}
 
 		public override void ResetFixture()
 		{
 			base.ResetFixture();
 
-			DomainEventHandlers = Enumerable.Empty<IDomainEventHandler>();
+			BaseEventHandler = Mock.Of<IDomainEventHandler<BaseDomainEvent>>();
+			DerivedEventHandler = Mock.Of<IDomainEventHandler<DerivedDomainEvent>>();
+			OtherEventHandler = Mock.Of<IDomainEventHandler<OtherDomainEvent>>();
+		}
+
+		public class BaseDomainEvent : DomainEvent
+		{ }
+
+		public class DerivedDomainEvent : BaseDomainEvent
+		{ }
+
+		public class OtherDomainEvent : DomainEvent
+		{ }
+
+		public BaseDomainEvent CreateBaseDomainEvent()
+		{
+			return new BaseDomainEvent();
+		}
+
+		public DerivedDomainEvent CreateDerivedDomainEvent()
+		{
+			return new DerivedDomainEvent();
 		}
 	}
 }
