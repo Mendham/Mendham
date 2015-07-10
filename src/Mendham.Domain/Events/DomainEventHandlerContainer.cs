@@ -79,13 +79,12 @@ namespace Mendham.Domain.Events
 				Activator.CreateInstance(constructedDomainEventHandlerWrapper, handler);
 		}
 
-		private async Task<bool> HandleAsync<TDomainEvent>(IDomainEventHandler<TDomainEvent> handler, TDomainEvent domainEvent)
+		private async Task HandleAsync<TDomainEvent>(IDomainEventHandler<TDomainEvent> handler, TDomainEvent domainEvent)
 			where TDomainEvent :  IDomainEvent
 		{
 			try
 			{
 				await handler.HandleAsync(domainEvent);
-				return true;
 			}
 			catch (Exception ex)
 			{
@@ -93,6 +92,12 @@ namespace Mendham.Domain.Events
 			}
 		}
 
+		/// <summary>
+		/// When a base domain event handler must be passed in an enumerable, because of problems with contravariance,
+		/// handlers for base types must be wrapped in an handler of the derived type. This class does this.
+		/// </summary>
+		/// <typeparam name="TBaseDomainEvent"></typeparam>
+		/// <typeparam name="TDerivedDomainEvent"></typeparam>
 		private class DomainEventHandlerWrapper<TBaseDomainEvent, TDerivedDomainEvent> : IDomainEventHandler<TDerivedDomainEvent>
 			where TBaseDomainEvent : IDomainEvent
 			where TDerivedDomainEvent : TBaseDomainEvent
