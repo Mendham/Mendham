@@ -108,7 +108,7 @@ namespace Mendham.Domain.Test
 		}
 
 		[Fact]
-		public void HandleAllAsync_HandlerTaskThrowsExcpetion_ThrowsDomainEventHandlingException()
+		public async Task HandleAllAsync_HandlerTaskThrowsExcpetion_ThrowsDomainEventHandlingException()
 		{
 			var derivedEvent = _fixture.CreateDerivedDomainEvent();
 			var exceptionFromHandler = new InvalidOperationException("Test exception");
@@ -124,16 +124,16 @@ namespace Mendham.Domain.Test
 				.Setup(a => a.HandleAsync(derivedEvent))
 				.Returns(exTask());
 
-			Func<Task> act = () => sut.HandleAllAsync(derivedEvent);
+			var ex = await Assert.ThrowsAsync<DomainEventHandlingException>(
+				() => sut.HandleAllAsync(derivedEvent));
 
-			act.ShouldThrow<DomainEventHandlingException>()
-				.Where(a => a.InnerException == exceptionFromHandler)
-				.Where(a => a.DomainEvent == derivedEvent)
-				.Which.DomainEventHandlerType.Should().Be(_fixture.DerivedEventHandler.GetType());
+			ex.InnerException.ShouldBeEquivalentTo(exceptionFromHandler);
+			ex.DomainEvent.ShouldBeEquivalentTo(derivedEvent);
+			ex.DomainEventHandlerType.ShouldBeEquivalentTo(_fixture.DerivedEventHandler.GetType());
 		}
 
 		[Fact]
-		public void HandleAllAsync_HandlerThrowsExcpetion_ThrowsDomainEventHandlingException()
+		public async Task HandleAllAsync_HandlerThrowsExcpetion_ThrowsDomainEventHandlingException()
 		{
 			var derivedEvent = _fixture.CreateDerivedDomainEvent();
 			var exceptionFromHandler = new InvalidOperationException("Test exception");
@@ -145,20 +145,24 @@ namespace Mendham.Domain.Test
 				.Setup(a => a.HandleAsync(derivedEvent))
 				.Throws(exceptionFromHandler);
 
-			Func<Task> act = () => sut.HandleAllAsync(derivedEvent);
+			var ex = await Assert.ThrowsAsync<DomainEventHandlingException>(
+				() => sut.HandleAllAsync(derivedEvent));
 
-			act.ShouldThrow<DomainEventHandlingException>()
-				.Where(a => a.InnerException == exceptionFromHandler)
-				.Where(a => a.DomainEvent == derivedEvent)
-				.Which.DomainEventHandlerType.Should().Be(_fixture.DerivedEventHandler.GetType());
+			ex.InnerException.ShouldBeEquivalentTo(exceptionFromHandler);
+			ex.DomainEvent.ShouldBeEquivalentTo(derivedEvent);
+			ex.DomainEventHandlerType.ShouldBeEquivalentTo(_fixture.DerivedEventHandler.GetType());
 		}
 
 		[Fact]
-		public void HandleAllAsync_HandlersThrowMultipleExcpetions_ThrowsDomainEventHandlingException()
+		public async Task HandleAllAsync_HandlersThrowMultipleExcpetions_ThrowsDomainEventHandlingException()
 		{
 			var derivedEvent = _fixture.CreateDerivedDomainEvent();
 			var exceptionFromHandler = new InvalidOperationException("Test exception");
-			Func<Task> exTask = () => { throw exceptionFromHandler; };
+			Func<Task> exTask = async () =>
+			{
+				await Task.FromResult(0);
+				throw exceptionFromHandler;
+			};
 
 			var sut = _fixture.CreateSut();
 
@@ -169,9 +173,11 @@ namespace Mendham.Domain.Test
 				.Setup(a => a.HandleAsync(derivedEvent))
 				.Throws(exceptionFromHandler);
 
-			Func<Task> act = () => sut.HandleAllAsync(derivedEvent);
+			var ex = await Assert.ThrowsAsync<AggregateDomainEventHandlingException>(
+				() => sut.HandleAllAsync(derivedEvent));
 
-			act.ShouldThrow<DomainEventHandlingException>();
+			ex.DomainEvent.ShouldBeEquivalentTo(derivedEvent);
+			ex.DomainEventHandlerTypes.Should().HaveCount(2);
 		}
 	}
 }

@@ -15,15 +15,31 @@ namespace Mendham.Domain.Events
 			this.domainEventHandlers = domainEventHandlers;
 		}
 
-		public Task HandleAllAsync<TDomainEvent>(TDomainEvent domainEvent)
+		public async Task HandleAllAsync<TDomainEvent>(TDomainEvent domainEvent)
 			where TDomainEvent : IDomainEvent
 		{
 			var handleTasks = domainEventHandlers
 				.Where(HandlesDomainEvent<TDomainEvent>)
 				.Select(GetGenericDomainEventHandlerForDomainEvent<TDomainEvent>)
-				.Select(handler => HandleAsync(handler, domainEvent));
+				.Select(handler => HandleAsync(handler, domainEvent))
+				.ToList();
 
-			return Task.WhenAll(handleTasks);
+			try
+			{
+				await Task.WhenAll(handleTasks);
+			}
+			catch (DomainEventHandlingException ex)
+			{
+				var dehExceptions = handleTasks
+					.Where(a => a.Exception != null)
+					.SelectMany(a => a.Exception.InnerExceptions)
+					.OfType<DomainEventHandlingException>();
+
+				if (dehExceptions.Count() > 1)
+					throw new AggregateDomainEventHandlingException(dehExceptions, ex);
+
+				throw ex;
+            }
 		}
 
 		private static bool HandlesDomainEvent<TDomainEvent>(IDomainEventHandler handler)
@@ -88,8 +104,20 @@ namespace Mendham.Domain.Events
 			}
 			catch (Exception ex)
 			{
-				throw new DomainEventHandlingException(handler.GetType(), domainEvent, ex);
+				Type handlerType = handler.GetType();
+
+				var wrapper = handler as IDomainEventHandlerWrapper;
+
+				if (wrapper != null)
+					handlerType = wrapper.GetBaseHandlerType();
+
+				throw new DomainEventHandlingException(handlerType, domainEvent, ex);
 			}
+		}
+
+		private interface IDomainEventHandlerWrapper
+		{
+			Type GetBaseHandlerType();
 		}
 
 		/// <summary>
@@ -98,7 +126,7 @@ namespace Mendham.Domain.Events
 		/// </summary>
 		/// <typeparam name="TBaseDomainEvent"></typeparam>
 		/// <typeparam name="TDerivedDomainEvent"></typeparam>
-		private class DomainEventHandlerWrapper<TBaseDomainEvent, TDerivedDomainEvent> : IDomainEventHandler<TDerivedDomainEvent>
+		private class DomainEventHandlerWrapper<TBaseDomainEvent, TDerivedDomainEvent> : IDomainEventHandler<TDerivedDomainEvent>, IDomainEventHandlerWrapper
 			where TBaseDomainEvent : IDomainEvent
 			where TDerivedDomainEvent : TBaseDomainEvent
 		{
@@ -114,6 +142,11 @@ namespace Mendham.Domain.Events
 			Task IDomainEventHandler<TDerivedDomainEvent>.HandleAsync(TDerivedDomainEvent domainEvent)
 			{
 				return this.domainEventHandler.HandleAsync(domainEvent);
+			}
+
+			Type IDomainEventHandlerWrapper.GetBaseHandlerType()
+			{
+				return this.domainEventHandler.GetType();
 			}
 		}
 	}
