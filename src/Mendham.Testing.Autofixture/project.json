@@ -1,0 +1,22 @@
+﻿{
+    "version": "0.1.0-*",
+    "description": "Testing helpers using AutoFixture",
+    "authors": [ "Craig Beall" ],
+    "tags": [ "" ],
+    "projectUrl": "https://github.com/cbeall/Mendham",
+    "licenseUrl": "https://raw.githubusercontent.com/cbeall/Mendham/master/LICENSE",
+
+    "dependencies": {
+        "xunit": "2.1.0-beta3-*",
+        "xunit.runner.dnx": "2.1.0-beta3-*",
+        "AutoFixture": "3.30.8",
+        "AutoFixture.Xunit2": "3.30.8",
+        "Mendham": "0.1.0-*",
+        "Mendham.Testing": "0.1.0-*"
+    },
+
+    "frameworks": {
+        "net451": { },
+        "dnx451": { }
+    }
+}
