@@ -177,7 +177,13 @@ namespace Mendham.Domain.Test
 				() => sut.HandleAllAsync(derivedEvent));
 
 			ex.DomainEvent.ShouldBeEquivalentTo(derivedEvent);
+			ex.InnerException.Should().BeOfType<DomainEventHandlingException>();
+			ex.InnerExceptions.Should().HaveCount(2);
 			ex.DomainEventHandlerTypes.Should().HaveCount(2);
+			ex.DomainEventHandlerTypes.Should()
+				.Contain(_fixture.DerivedEventHandler.GetType());
+			ex.DomainEventHandlerTypes.Should()
+				.Contain(_fixture.BaseEventHandler.GetType());
 		}
 	}
 }

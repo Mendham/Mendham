@@ -8,9 +8,19 @@ using Mendham;
 
 namespace Mendham.Domain.Events
 {
+	/// <summary>
+	/// Exception that occurs when an event handler throws an exception when an event is rasied.
+	/// The inner exception contains the details of the exception.
+	/// </summary>
     public class DomainEventHandlingException : Exception
     {
+		/// <summary>
+		/// The domain event raised when the exception occured
+		/// </summary>
 		public IDomainEvent DomainEvent { get; protected set; }
+		/// <summary>
+		/// The type of the handler that threw an exception
+		/// </summary>
 		public Type DomainEventHandlerType { get; protected set; }
 
 		private const string DEFAULT_MESSAGE = "An exception occured when handling the domain event";
@@ -40,6 +50,10 @@ namespace Mendham.Domain.Events
 		}
 	}
 
+	/// <summary>
+	/// An exception that contains details when multiple domain event handlers throw an excpetion
+	/// during the processing of a single domain event being raised.
+	/// </summary>
 	[DebuggerDisplay("Count = {Count}")]
 	public class AggregateDomainEventHandlingException : DomainEventHandlingException
 	{
@@ -67,6 +81,9 @@ namespace Mendham.Domain.Events
 #endif
 		}
 
+		/// <summary>
+		/// Types of the domain event handlers that threw an exception
+		/// </summary>
 		public IEnumerable<Type> DomainEventHandlerTypes
 		{
 			get
@@ -75,7 +92,10 @@ namespace Mendham.Domain.Events
 					.Select(a => a.DomainEventHandlerType);
 			}
 		}
-
+		
+		/// <summary>
+		/// Exceptions thrown by domain event handlers
+		/// </summary>
 		public IEnumerable<DomainEventHandlingException> InnerExceptions
 		{
 			get

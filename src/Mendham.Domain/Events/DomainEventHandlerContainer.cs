@@ -15,6 +15,13 @@ namespace Mendham.Domain.Events
 			this.domainEventHandlers = domainEventHandlers;
 		}
 
+		/// <summary>
+		/// Handles all associated domain event handlers
+		/// </summary>
+		/// <typeparam name="TDomainEvent">Type of domain event</typeparam>
+		/// <param name="domainEvent">Domain Event</param>
+		/// <returns>A task that represents the completion of all domain event handlers</returns>
+		/// <exception cref="DomainEventHandlingException">One or more errors occured by handler</exception>
 		public async Task HandleAllAsync<TDomainEvent>(TDomainEvent domainEvent)
 			where TDomainEvent : IDomainEvent
 		{
@@ -42,6 +49,13 @@ namespace Mendham.Domain.Events
             }
 		}
 
+		/// <summary>
+		/// Determines if a given domain event handler is mean to handle the domain event. The
+		/// handler can be either a exact match or meant to handle a base type of the domain event
+		/// </summary>
+		/// <typeparam name="TDomainEvent">Type of domain event to be handled</typeparam>
+		/// <param name="handler">Domain event handler to be evaluated</param>
+		/// <returns></returns>
 		private static bool HandlesDomainEvent<TDomainEvent>(IDomainEventHandler handler)
 		{
 			var expectedDomainEventTypeInfo = typeof(TDomainEvent).GetTypeInfo();
@@ -55,6 +69,11 @@ namespace Mendham.Domain.Events
 				.IsAssignableFrom(expectedDomainEventTypeInfo);
 		}
 
+		/// <summary>
+		/// Gets the type of domain event that is handled by the domain event handler
+		/// </summary>
+		/// <param name="handler">Handler</param>
+		/// <returns>Type of domain event the handler is meant to handle</returns>
 		private static Type GetDomainEventTypeFromHandler(IDomainEventHandler handler)
 		{
 			var handlerInterface = handler
@@ -68,6 +87,11 @@ namespace Mendham.Domain.Events
 			return handlerInterface.GetGenericArguments()[0];
 		}
 		
+		/// <summary>
+		/// Verifies that type of domain event handler implements the generic type of IDomainEventHandler
+		/// </summary>
+		/// <param name="t">Type of domain event</param>
+		/// <returns>True if type implements the the genreic type of IDomainEventHandler</returns>
 		private static bool IsGenericDomainEventHandler(Type t)
 		{
 			var ti = t.GetTypeInfo();
@@ -77,6 +101,12 @@ namespace Mendham.Domain.Events
 				&& ti.GetGenericTypeDefinition() == typeof(IDomainEventHandler<>);
 		}
 
+		/// <summary>
+		/// Gets the domain event handler casted to the correct type for the domain event. Wraps the event if needed
+		/// </summary>
+		/// <typeparam name="TDomainEvent">Type of domain event</typeparam>
+		/// <param name="handler">Handler that is known to be correct for the type of domain event</param>
+		/// <returns></returns>
 		private static IDomainEventHandler<TDomainEvent> GetGenericDomainEventHandlerForDomainEvent<TDomainEvent>(IDomainEventHandler handler)
 			where TDomainEvent :  IDomainEvent
 		{
@@ -95,6 +125,15 @@ namespace Mendham.Domain.Events
 				Activator.CreateInstance(constructedDomainEventHandlerWrapper, handler);
 		}
 
+		/// <summary>
+		/// Handles the domain event. If the domain event throws an exception, a 
+		/// DomainEventHandlingException is returned which wraps the original exception.
+		/// </summary>
+		/// <typeparam name="TDomainEvent">Type of domain event</typeparam>
+		/// <param name="handler">Handler</param>
+		/// <param name="domainEvent">Domain Event</param>
+		/// <returns>A task that represents the the completion of the event being handled.</returns>
+		/// <exception cref="DomainEventHandlingException">An error has occured by handler</exception>
 		private async Task HandleAsync<TDomainEvent>(IDomainEventHandler<TDomainEvent> handler, TDomainEvent domainEvent)
 			where TDomainEvent :  IDomainEvent
 		{
@@ -115,6 +154,9 @@ namespace Mendham.Domain.Events
 			}
 		}
 
+		/// <summary>
+		/// Interface used to get the type of the underlying handler within a DomainEventHandlerWrapper
+		/// </summary>
 		private interface IDomainEventHandlerWrapper
 		{
 			Type GetBaseHandlerType();
