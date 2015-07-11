@@ -163,7 +163,7 @@ namespace Mendham.Domain.Events
 		}
 
 		/// <summary>
-		/// When a base domain event handler must be passed in an enumerable, because of problems with contravariance,
+		/// When a base domain event handler must be passed in an enumerable, because the generic type does not match,
 		/// handlers for base types must be wrapped in an handler of the derived type. This class does this.
 		/// </summary>
 		/// <typeparam name="TBaseDomainEvent"></typeparam>
