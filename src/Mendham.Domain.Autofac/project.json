@@ -14,10 +14,19 @@
     },
 
     "frameworks": {
-        "net451": { },
-        "dnx451": { },
+        "net451": {
+            "dependencies": {
+                "Autofac": "3.5.2"
+            }
+        },
+        "dnx451": {
+            "dependencies": {
+                "Autofac.Dnx": "4.0.0-alpha2"
+            }
+        },
         "dnxcore50": {
             "dependencies": {
+                "Autofac.Dnx": "4.0.0-alpha2",
                 "System.Collections": "4.0.10-beta-22816",
                 "System.Linq": "4.0.0-beta-22816",
                 "System.Threading": "4.0.10-beta-22816",
