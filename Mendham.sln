@@ -26,7 +26,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "testing", "testing", "{0939
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Testing.Moq", "src\Mendham.Testing.Moq\Mendham.Testing.Moq.xproj", "{C98D37D7-D0D6-4F49-BB35-1B6310906AEB}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Testing.AutoFixture", "src\Mendham.Testing.AutoFixture\Mendham.Testing.AutoFixture.xproj", "{8B3F465E-616B-42E4-99D1-43DEFD7EEE58}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Testing.Autofixture", "src\Mendham.Testing.Autofixture\Mendham.Testing.Autofixture.xproj", "{A9BE8EB4-E1D5-4D22-BF6D-825D5114C7C2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,10 +58,10 @@ Global
 		{C98D37D7-D0D6-4F49-BB35-1B6310906AEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C98D37D7-D0D6-4F49-BB35-1B6310906AEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C98D37D7-D0D6-4F49-BB35-1B6310906AEB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8B3F465E-616B-42E4-99D1-43DEFD7EEE58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8B3F465E-616B-42E4-99D1-43DEFD7EEE58}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8B3F465E-616B-42E4-99D1-43DEFD7EEE58}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8B3F465E-616B-42E4-99D1-43DEFD7EEE58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9BE8EB4-E1D5-4D22-BF6D-825D5114C7C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9BE8EB4-E1D5-4D22-BF6D-825D5114C7C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9BE8EB4-E1D5-4D22-BF6D-825D5114C7C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9BE8EB4-E1D5-4D22-BF6D-825D5114C7C2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -74,6 +74,6 @@ Global
 		{CDFA7305-2314-41AC-A40E-010AA015A29A} = {0939C9D9-E0AA-4599-AA22-AC58F16C96DE}
 		{0939C9D9-E0AA-4599-AA22-AC58F16C96DE} = {856ADE16-2C01-47A4-9120-1EF2B409A9D3}
 		{C98D37D7-D0D6-4F49-BB35-1B6310906AEB} = {0939C9D9-E0AA-4599-AA22-AC58F16C96DE}
-		{8B3F465E-616B-42E4-99D1-43DEFD7EEE58} = {0939C9D9-E0AA-4599-AA22-AC58F16C96DE}
+		{A9BE8EB4-E1D5-4D22-BF6D-825D5114C7C2} = {0939C9D9-E0AA-4599-AA22-AC58F16C96DE}
 	EndGlobalSection
 EndGlobal
