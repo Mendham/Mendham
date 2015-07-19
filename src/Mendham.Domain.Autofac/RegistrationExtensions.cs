@@ -14,19 +14,27 @@ namespace Mendham.Domain.Autofac
 		{
 			builder
 				.RegisterAssemblyTypes(assembly)
-				.As<IDomainEventHandler>();
+				.As<IDomainEventHandler>()
+				.InstancePerLifetimeScope();
 		}
 
 		public static void RegisterDomainFacades(this ContainerBuilder builder, Assembly assembly)
 		{
 			builder
 				.RegisterAssemblyTypes(assembly)
-				.Where(a => a
+				.Where(a => typeof(Entity)
 					.GetTypeInfo()
-					.IsAssignableFrom(typeof(IDomainFacade).GetTypeInfo()))
-				.As(t => t.GetInterfaces()
-					.Where(a => a != typeof(IDomainFacade)));
-        }
+					.IsAssignableFrom(a.GetTypeInfo()))
+				.InstancePerDependency();
 
+			builder
+				.RegisterAssemblyTypes(assembly)
+				.Where(a => typeof(IDomainFacade)
+					.GetTypeInfo()
+					.IsAssignableFrom(a.GetTypeInfo()))
+				.As(t => t.GetInterfaces()
+					.Where(a => a != typeof(IDomainFacade)))
+				.InstancePerLifetimeScope();
+        }
 	}
 }

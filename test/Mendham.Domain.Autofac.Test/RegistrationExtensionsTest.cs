@@ -35,5 +35,42 @@ namespace Mendham.Domain.Autofac.Test
 					.Contain(a => a is Test2DomainEventHandler);
 			}
 		}
-    }
+
+		[Fact]
+		public void RegisterDomainFacades_ApplyingToBuilder_ReturnsFacade()
+		{
+			var assembly = typeof(RegistrationExtensionsTest).GetTypeInfo().Assembly;
+
+			var builder = new ContainerBuilder();
+			builder.RegisterModule<DomainEventHandlingModule>();
+			builder.RegisterDomainFacades(assembly);
+
+			using (var sut = builder.Build().BeginLifetimeScope())
+			{
+				var facade = sut.Resolve<TestEntityWithDomainFacade.IFacade>();
+
+				facade.Should().NotBeNull();
+			}
+		}
+
+		[Fact]
+		public void RegisterDomainFacades_ApplyingToBuilder_ReturnsEntity()
+		{
+			var assembly = typeof(RegistrationExtensionsTest).GetTypeInfo().Assembly;
+
+			var builder = new ContainerBuilder();
+			builder.RegisterModule<DomainEventHandlingModule>();
+			builder.RegisterDomainFacades(assembly);
+
+			using (var sut = builder.Build().BeginLifetimeScope())
+			{
+				var factory = sut.Resolve<TestEntityWithDomainFacade.Factory>();
+
+				var entity = factory(7);
+
+				entity.Should().NotBeNull();
+				entity.HasValidFacade().Should().BeTrue();
+			}
+		}
+	}
 }
