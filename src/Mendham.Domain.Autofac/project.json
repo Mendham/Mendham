@@ -8,7 +8,6 @@
     "requireLicenseAcceptance": false,
 
     "dependencies": {
-        "Autofac.Dnx": "4.0.0-alpha2",
         "Mendham": "0.1.0-*",
         "Mendham.Domain": "0.1.0-*"
     },
