@@ -20,7 +20,7 @@
                 "System.Collections": "4.0.10",
                 "System.Linq": "4.0.0.0",
                 "System.Threading": "4.0.10-beta-23019",
-                "System.Runtime.Extensions": "4.0.10-beta-23019"
+                "System.Runtime.Extensions": "4.0.10-beta-23110"
             }
         }
     }
