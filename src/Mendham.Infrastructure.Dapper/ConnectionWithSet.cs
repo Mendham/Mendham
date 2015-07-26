@@ -2,11 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 
 #if DNXCORE50
+using IDbConnection = global::System.Data.Common.DbConnection;
 using IDbTransaction = global::System.Data.Common.DbTransaction;
 #endif
 
@@ -14,14 +15,14 @@ namespace Mendham.Infrastructure.Dapper
 {
     public class ConnectionWithSet<T> : IDisposable
     {
-        private readonly SqlConnection _conn;
+        private readonly IDbConnection _conn;
         private readonly IConnectionWithSetMapping<T> _mapping;
 
-        public ConnectionWithSet(Func<SqlConnection> connectionFactory, IConnectionWithSetMapping<T> mapping)
+        public ConnectionWithSet(Func<IDbConnection> connectionFactory, IConnectionWithSetMapping<T> mapping)
             : this(connectionFactory(), mapping)
         { }
 
-        public ConnectionWithSet(SqlConnection connection, IConnectionWithSetMapping<T> mapping)
+        public ConnectionWithSet(IDbConnection connection, IConnectionWithSetMapping<T> mapping)
         {
             connection.VerifyArgumentNotNull("Connection is required")
                 .VerifyArgumentMeetsCriteria(a => a.State == ConnectionState.Closed, "Connection must not be closed before wrapping");
@@ -36,13 +37,31 @@ namespace Mendham.Infrastructure.Dapper
             set.VerifyArgumentMeetsCriteria(a => 
                 a.All(_mapping.ItemIsValidPredicate), _mapping.InvalidSetErrorMessage);
 
-            await _conn.OpenAsync();
+            await OpenConnectionAsync();
             await _conn.ExecuteAsync(_mapping.CreateTableSql);
 
             foreach (var item in set)
                 await SqlMapper.ExecuteAsync(_conn, _mapping.InsertItemSql, _mapping.GetParamForInsert(item));
 
             return this;
+        }
+
+        private Task OpenConnectionAsync()
+        {
+#if DNXCORE50
+            return _conn.OpenAsync();
+#else
+            DbConnection dbConnection = _conn as DbConnection;
+
+            if (dbConnection != default(DbConnection))
+                return dbConnection.OpenAsync();
+            else
+            {
+                // No known async opening support, use non async open
+                _conn.Open();
+                return Task.FromResult(0);
+            }
+#endif
         }
 
         public Task<IEnumerable<TResult>> QueryAsync<TResult>(string sql, dynamic param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null)
