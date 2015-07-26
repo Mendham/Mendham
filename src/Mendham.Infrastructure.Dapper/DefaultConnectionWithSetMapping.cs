@@ -15,6 +15,8 @@ namespace Mendham.Infrastructure.Dapper
         {
             if (typeof(T) == typeof(int))
                 return new IntSetMapping(tableName, columnName) as IConnectionWithSetMapping<T>;
+            if (typeof(T) == typeof(Guid))
+                return new GuidSetMapping(tableName, columnName) as IConnectionWithSetMapping<T>;
             if (typeof(T) == typeof(string))
                 return new StringSetMapping(tableName, columnName) as IConnectionWithSetMapping<T>;
 
