@@ -21,7 +21,7 @@ namespace Mendham.Infrastructure.Dapper.Mapping
 
         public override bool ItemIsValidPredicate(string item)
         {
-            return base.ItemIsValidPredicate(item) && item.Length >= MAX_STRING_LENGTH;
+            return base.ItemIsValidPredicate(item) && item.Length <= MAX_STRING_LENGTH;
         }
 
         public override string InvalidSetErrorMessage

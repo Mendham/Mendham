@@ -47,7 +47,7 @@ namespace Mendham.Infrastructure.Dapper.Mapping
         {
             get
             {
-                return string.Format("INSERT INTO {0} VALUES (@value)", _columnName);
+                return string.Format("INSERT INTO {0} VALUES (@value)", _tableName);
             }
         }
 

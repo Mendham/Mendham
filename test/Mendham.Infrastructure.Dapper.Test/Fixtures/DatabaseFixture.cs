@@ -30,8 +30,6 @@ namespace Mendham.Infrastructure.Dapper.Test.Fixtures
             return () => GetConnection(TEST_DATABASE);
         }
 
-        
-
         public override void ResetFixture()
         {
             base.ResetFixture();
@@ -41,6 +39,15 @@ namespace Mendham.Infrastructure.Dapper.Test.Fixtures
         public void Dispose()
         {
             DropDatabase();
+        }
+
+        public IEnumerable<int> KnownInts
+        {
+            get
+            {
+                return Enumerable.Range(1, 1000)
+                    .Select(a => a * 2);
+            }
         }
 
         public IEnumerable<Guid> KnownGuids
@@ -53,6 +60,14 @@ namespace Mendham.Infrastructure.Dapper.Test.Fixtures
                 yield return new Guid("{B726DF11-4ACA-4C5F-9E2E-16E715715234}");
                 yield return new Guid("{8E87D4E5-22CB-4DCA-8563-7CCA1FA72AEE}");
                 yield return new Guid("{1320CCC3-2CA0-49EE-B6B8-6C6B75493EF0}");
+            }
+        }
+
+        public IEnumerable<string> KnownStrings
+        {
+            get
+            {
+                return KnownGuids.Select(a => a.ToString());
             }
         }
 
