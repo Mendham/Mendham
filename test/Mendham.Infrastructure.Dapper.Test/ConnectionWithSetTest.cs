@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using Mendham.Infrastructure.Dapper.Test.Fixtures;
+using Mendham.Infrastructure.Dapper.Test.Helpers;
 using Mendham.Testing;
 using System;
 using System.Collections.Generic;
@@ -82,5 +83,27 @@ namespace Mendham.Infrastructure.Dapper.Test
             }
         }
 
+        [Fact]
+        public async Task ConnectionWithSet_CompositeIdMapping_AllSelectedValues()
+        {
+            var mapping = _fixture.GetCompositeIdMapping();
+            using (var conn = new ConnectionWithSet<CompositeId>(_fixture.CreateSut(), mapping))
+            {
+                await conn.OpenAsync(_fixture.KnownCompositeIds);
+
+                var q = await conn.QueryAsync<CompositeId>(@"
+                    SELECT tcit.GuidVal, tcit.IntVal
+                    FROM CompositeIdTable tcit
+                        INNER JOIN #TestCompositeIdSet items ON tcit.GuidVal = items.GuidVal
+                            AND tcit.IntVal= items.IntVal
+                ");
+
+                var result = q.ToList();
+
+                Assert.NotEmpty(result);
+                Assert.Equal(_fixture.KnownCompositeIds.Count(), result.Count());
+                Assert.Equal(_fixture.KnownCompositeIds.OrderBy(a => a.GuidVal), result.OrderBy(a => a.GuidVal));
+            }
+        }
     }
 }

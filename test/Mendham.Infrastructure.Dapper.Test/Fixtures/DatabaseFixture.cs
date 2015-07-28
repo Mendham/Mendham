@@ -1,4 +1,5 @@
-﻿using Mendham.Testing;
+﻿using Mendham.Infrastructure.Dapper.Test.Helpers;
+using Mendham.Testing;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -71,6 +72,27 @@ namespace Mendham.Infrastructure.Dapper.Test.Fixtures
             }
         }
 
+        public IEnumerable<CompositeId> KnownCompositeIds
+        {
+            get
+            {
+                var guids = KnownGuids.ToList();
+                for (int i = 0; i < guids.Count(); i++)
+                {
+                    yield return new CompositeId
+                    {
+                        GuidVal = guids[i],
+                        IntVal = i
+                    };
+                }
+            }
+        }
+
+        public CompositeIdMapping GetCompositeIdMapping()
+        {
+            return new CompositeIdMapping();
+        }
+
         private const string DEFAULT_CONNECITON_STRING =
             @"Data Source=(localdb)\v11.0;Initial Catalog={0};Persist Security Info=False;Integrated Security=true;MultipleActiveResultSets=True";
 
@@ -138,6 +160,13 @@ namespace Mendham.Infrastructure.Dapper.Test.Fixtures
             cmdTestSb.AppendLine("CREATE TABLE StrTable (Id VARCHAR(100) PRIMARY KEY)");
             cmdTestSb.AppendLine("CREATE TABLE GuidTable (Id UNIQUEIDENTIFIER PRIMARY KEY)");
 
+            cmdTestSb.AppendLine(@"CREATE TABLE CompositeIdTable 
+                (
+                    GuidVal UNIQUEIDENTIFIER NOT NULL, 
+                    IntVal INT NOT NULL,
+                    CONSTRAINT [PK_CompositeIdTable] PRIMARY KEY (GuidVal, IntVal)
+                )");
+
             foreach (var num in Enumerable.Range(1, 2000))
                 cmdTestSb.AppendFormat("INSERT INTO IntTable (Id) VALUES ({0}) \n", num);
 
@@ -150,6 +179,15 @@ namespace Mendham.Infrastructure.Dapper.Test.Fixtures
 
             foreach (var guidStr in guids.Select(a => a.ToString()))
                 cmdTestSb.AppendFormat("INSERT INTO StrTable (Id) VALUES ('{0}') \n", guidStr);
+
+            var compositeIds = KnownCompositeIds
+                .Union(Enumerable.Range(100, 100)
+                    .Select(a => new CompositeId { GuidVal = Guid.NewGuid(), IntVal = a }))
+                .OrderBy(a => Guid.NewGuid());
+
+            foreach (var val in compositeIds)
+                cmdTestSb.AppendFormat("INSERT INTO CompositeIdTable (GuidVal, IntVal) VALUES ('{0}', {1}) \n", 
+                    val.GuidVal, val.IntVal);
 
             using (var conn = GetConnection(TEST_DATABASE))
             {
