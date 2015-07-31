@@ -8,7 +8,7 @@
 
     "dependencies": {
         "Mendham": "0.1.0-*",
-        "Dapper": "1.41-beta6"
+        "Dapper": "1.41.0-beta5"
     },
 
     "frameworks": {
