@@ -100,9 +100,10 @@ namespace Mendham.Infrastructure.Dapper.Test.Fixtures
         {
             var connFormatStr = DEFAULT_CONNECITON_STRING;
 
-            // TODO Check Environment for alternative
-
-
+            // Check Environment for alternative
+            var connFromEnv = Environment.GetEnvironmentVariable("MENDHAM_INTEGRATION_DATABASE");
+            if (!string.IsNullOrWhiteSpace(connFromEnv))
+                connFormatStr = connFromEnv;
 
             var connStr =  string.Format(connFormatStr, databaseName);
 

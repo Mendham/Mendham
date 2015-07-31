@@ -4,6 +4,9 @@ configuration: Release
 
 test: off
 
+services:
+  - mssql2014
+
 build_script:
 - ps: .\build.ps1
 
