@@ -12,16 +12,8 @@
     },
 
     "frameworks": {
-        "net451": {
-            "dependencies": {
-                "xunit.runner.visualstudio": "2.1.0-beta3-build1069"
-            }
-        },
-        "dnx451": {
-            "dependencies": {
-                "xunit.runner.dnx": "2.1.0-beta3-*"
-            }
-        },
+        "net451": { },
+        "dnx451": { },
         "dnxcore50": {
             "dependencies": {
                 "Microsoft.CSharp": "4.0.0.0",
