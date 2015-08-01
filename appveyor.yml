@@ -1,7 +1,5 @@
 version: "0.1.0.{build}"
 
-configuration: Release
-
 test: off
 
 services:
@@ -14,10 +12,27 @@ artifacts:
 - path: artifacts\packages\**\*.nupkg
   name: MyGet
 
-deploy:
-- provider: NuGet
-  server: https://www.myget.org/F/mendham/api/v2
-  api_key:
-    secure: lc6qh+UNxNqcweligghUHBrdF22ErLbrckDPGQB0W0CF+jH+EeP0ZnZCwGkl0wg9
-  symbol_server: https://nuget.symbolsource.org/MyGet/mendham
-  artifact: MyGet
+
+# Master configuration (does deploy)
+-
+	branches:
+	  only:
+	    - master
+
+	configuration: Release
+
+	deploy:
+	- provider: NuGet
+	  server: https://www.myget.org/F/mendham/api/v2
+	  api_key:
+	    secure: lc6qh+UNxNqcweligghUHBrdF22ErLbrckDPGQB0W0CF+jH+EeP0ZnZCwGkl0wg9
+	  symbol_server: https://nuget.symbolsource.org/MyGet/mendham
+	  artifact: MyGet
+
+# Dev configuration (just builds and tests)
+- 
+	branches:
+	  only:
+	    - dev
+
+	configuration: Debug
