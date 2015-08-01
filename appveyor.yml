@@ -12,24 +12,24 @@ artifacts:
 
 # Master configuration (does deploy)
 -
-	branches:
-	  only:
-	    - master
+ branches:
+  only:
+   - master
 
-	configuration: Release
+ configuration: Release
 
-	deploy:
-	- provider: NuGet
-	  server: https://www.myget.org/F/mendham/api/v2
-	  api_key:
-	    secure: lc6qh+UNxNqcweligghUHBrdF22ErLbrckDPGQB0W0CF+jH+EeP0ZnZCwGkl0wg9
-	  symbol_server: https://nuget.symbolsource.org/MyGet/mendham
-	  artifact: MyGet
+ deploy:
+ - provider: NuGet
+   server: https://www.myget.org/F/mendham/api/v2
+   api_key:
+     secure: lc6qh+UNxNqcweligghUHBrdF22ErLbrckDPGQB0W0CF+jH+EeP0ZnZCwGkl0wg9
+   symbol_server: https://nuget.symbolsource.org/MyGet/mendham
+   artifact: MyGet
 
 # Dev configuration (just builds and tests)
 - 
-	branches:
-	  only:
-	    - dev
+ branches:
+  only:
+   - dev
 
-	configuration: Debug
+ configuration: Debug
