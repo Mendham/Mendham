@@ -1,23 +1,22 @@
-version: "0.1.0.{build}"
-
-test: off
-
-services:
-  - mssql2014
-
-build_script:
-- ps: .\build.ps1
-
-artifacts:
-- path: artifacts\packages\**\*.nupkg
-  name: MyGet
-
-
 # Master configuration (does deploy)
 -
  branches:
   only:
    - master
+
+ version: "0.1.0.{build}"
+
+ test: off
+
+ services:
+  - mssql2014
+
+ build_script:
+ - ps: .\build.ps1
+
+ artifacts:
+ - path: artifacts\packages\**\*.nupkg
+   name: MyGet
 
  configuration: Release
 
@@ -34,5 +33,19 @@ artifacts:
  branches:
   only:
    - dev
+
+ version: "0.1.0.{build}-dev"
+
+ test: off
+
+ services:
+  - mssql2014
+
+ build_script:
+ - ps: .\build.ps1
+
+ artifacts:
+ - path: artifacts\packages\**\*.nupkg
+   name: MyGet
 
  configuration: Debug
