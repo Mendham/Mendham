@@ -1,4 +1,4 @@
-﻿{
+{
     "version": "0.1.0-*",
     "description": "Testing helpers using Moq",
     "authors": [ "Craig Beall" ],
@@ -7,7 +7,7 @@
     "licenseUrl": "https://raw.githubusercontent.com/cbeall/Mendham/master/LICENSE",
 
     "dependencies": {
-        "xunit": "2.1.0-beta3-*",
+        "xunit": "2.1.0-beta4-build3109",
         "Moq": "4.2.1506.2515",
         "Mendham": "0.1.0-*",
         "Mendham.Testing": "0.1.0-*"

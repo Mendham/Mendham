@@ -1,4 +1,4 @@
-﻿{
+{
     "version": "0.1.0-*",
     "description": "Unit tests for Mendham.Domain",
     "authors": [ "Craig Beall" ],
@@ -7,8 +7,8 @@
     "licenseUrl": "https://raw.githubusercontent.com/cbeall/Mendham/master/LICENSE",
 
     "dependencies": {
-        "xunit": "2.1.0-beta3-*",
-        "xunit.runner.dnx": "2.1.0-beta3-*",
+        "xunit": "2.1.0-beta4-build3109",
+        "xunit.runner.dnx": "2.1.0-beta4-build134",
         "Moq": "4.2.1506.2515",
         "FluentAssertions": "3.4.0",
         "AutoFixture": "3.30.8",
