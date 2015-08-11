@@ -94,7 +94,7 @@ namespace Mendham.Infrastructure.Dapper.Test.Fixtures
         }
 
         private const string DEFAULT_CONNECITON_STRING =
-            @"Data Source=(localdb)\v11.0;Initial Catalog={0};Persist Security Info=False;Integrated Security=true;MultipleActiveResultSets=True";
+            @"Data Source=(localdb)\IntegrationTests;Initial Catalog={0};Persist Security Info=False;Integrated Security=true;MultipleActiveResultSets=True";
 
         private SqlConnection GetConnection(string databaseName)
         {
