@@ -8,7 +8,7 @@
 
     "dependencies": {
         "xunit": "2.1.0-beta4-build3109",
-        "Moq": "4.2.1506.2515",
+        "Moq": "4.2.1507.118",
         "Mendham": "0.1.0-*",
         "Mendham.Testing": "0.1.0-*"
     },
