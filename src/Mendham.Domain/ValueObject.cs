@@ -43,7 +43,13 @@ namespace Mendham.Domain
 	{
 		public T Value { get; protected set; }
 
-		public static implicit operator T(SingleFieldValueObject<T> singleFieldValueObject)
+        public SingleFieldValueObject(T value)
+        {
+            value.VerifyArgumentNotDefaultValue("Value is required");
+            this.Value = value;
+        }
+
+        public static implicit operator T(SingleFieldValueObject<T> singleFieldValueObject)
 		{
 			return singleFieldValueObject.Value;
 		}
