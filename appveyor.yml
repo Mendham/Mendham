@@ -9,7 +9,7 @@
  test: off
 
  cache:
-  - %USERPROFILE%\.dnx
+  - packages -> **\packages.config 
 
  services:
   - mssql2014
