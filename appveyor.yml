@@ -9,7 +9,7 @@
  test: off
 
  cache:
-  - packages -> **\packages.config 
+  - '%USERPROFILE%\.dnx'
 
  services:
   - mssql2014
@@ -64,7 +64,7 @@
  test: off
 
  cache:
-  - %USERPROFILE%\.dnx
+  - '%USERPROFILE%\.dnx'
 
  services:
   - mssql2014
