@@ -8,6 +8,9 @@
 
  test: off
 
+ cache:
+  - %USERPROFILE%\.dnx
+
  services:
   - mssql2014
 
@@ -27,6 +30,8 @@
      secure: lc6qh+UNxNqcweligghUHBrdF22ErLbrckDPGQB0W0CF+jH+EeP0ZnZCwGkl0wg9
    symbol_server: https://nuget.symbolsource.org/MyGet/mendham
    artifact: MendhamPackages
+   on:
+    branch: master
 
  - provider: GitHub
    release: Mendham 0.1.0-alpha-build$(appveyor_build_version)
@@ -46,7 +51,7 @@
    on:
     branch: master
     appveyor_repo_tag: true
-   
+
 
 # Dev configuration (just builds and tests)
 - 
@@ -57,6 +62,9 @@
  version: "0.1.0.{build}-dev"
 
  test: off
+
+ cache:
+  - %USERPROFILE%\.dnx
 
  services:
   - mssql2014
