@@ -16,10 +16,10 @@ if ($env:APPVEYOR) {
     Write-Output "Building branch: $env:APPVEYOR_REPO_BRANCH"
 
     if ($env.APPVEYOR_REPO_TAG) {
-        Write-Output: "Building tag: $env:APPVEYOR_REPO_TAG_NAME"
+        Write-Output "Building tag: $env:APPVEYOR_REPO_TAG_NAME"
     }
     else {
-        Write-Output: "No tag applied to build"
+        Write-Output "No tag applied to build"
     }
 }
 
