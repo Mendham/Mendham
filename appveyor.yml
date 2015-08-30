@@ -16,29 +16,29 @@ configuration: Release
 
 deploy:
 - provider: NuGet
- server: https://www.myget.org/F/mendham/api/v2
- api_key:
-   secure: lc6qh+UNxNqcweligghUHBrdF22ErLbrckDPGQB0W0CF+jH+EeP0ZnZCwGkl0wg9
- symbol_server: https://nuget.symbolsource.org/MyGet/mendham
- artifact: MendhamPackages
- on:
-  branch: master
+  server: https://www.myget.org/F/mendham/api/v2
+  api_key:
+    secure: lc6qh+UNxNqcweligghUHBrdF22ErLbrckDPGQB0W0CF+jH+EeP0ZnZCwGkl0wg9
+  symbol_server: https://nuget.symbolsource.org/MyGet/mendham
+  artifact: MendhamPackages
+  on:
+    branch: master
 
 - provider: GitHub
- release: Mendham 0.1.0-alpha-build$(appveyor_build_version)
- artifact: /.*\.nupkg/ 
- auth_token:
-  secure: X5coKvPlCFPeRzwFfSopbB8jO8doWfNmx9p9g8yp1AsUKz4QLUtaNYwjwwLDAPPk
- prerelease: true
- on:
-  branch: master
-  appveyor_repo_tag: true
+  release: Mendham 0.1.0-alpha-build$(appveyor_build_version)
+  artifact: /.*\.nupkg/ 
+  auth_token:
+   secure: X5coKvPlCFPeRzwFfSopbB8jO8doWfNmx9p9g8yp1AsUKz4QLUtaNYwjwwLDAPPk
+  prerelease: true
+  on:
+   branch: master
+   appveyor_repo_tag: true
 
 - provider: NuGet
- api_key:
-   secure: 7FiludlzP0brUSV6CsRH2QbiXSgvd35Kcpm+ruj0WGx05Q+CF7X+0sf5ylMwLHhi
- skip_symbols: true
- artifact: MendhamPackages
- on:
-  branch: master
-  appveyor_repo_tag: true
+  api_key:
+    secure: 7FiludlzP0brUSV6CsRH2QbiXSgvd35Kcpm+ruj0WGx05Q+CF7X+0sf5ylMwLHhi
+  skip_symbols: true
+  artifact: MendhamPackages
+  on:
+   branch: master
+   appveyor_repo_tag: true
