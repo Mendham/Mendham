@@ -10,7 +10,7 @@ build_script:
 
 artifacts:
 - path: artifacts\packages\**\*.nupkg
- name: MendhamPackages
+  name: MendhamPackages
 
 configuration: Release
 
