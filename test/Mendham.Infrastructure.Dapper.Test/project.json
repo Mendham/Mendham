@@ -1,44 +1,33 @@
 {
-    "version": "0.1.0-*",
-    "description": "Unit tests for Mendham.Infrastructure.Dapper",
-    "authors": [ "Craig Beall" ],
-    "tags": [ "" ],
-    "projectUrl": "https://github.com/cbeall/Mendham",
-    "licenseUrl": "https://raw.githubusercontent.com/cbeall/Mendham/master/LICENSE",
+  "version": "0.1.0-*",
+  "description": "Unit tests for Mendham.Infrastructure.Dapper",
+  "authors": [ "Craig Beall" ],
+  "tags": [ "" ],
+  "projectUrl": "https://github.com/cbeall/Mendham",
+  "licenseUrl": "https://raw.githubusercontent.com/cbeall/Mendham/master/LICENSE",
 
-    "dependencies": {
-        "xunit": "2.1.0-beta4-build3109",
-        "Mendham.Domain": "0.1.0-*",
-        "Mendham.Infrastructure.Dapper": "0.1.0-*",
-        "Mendham.Testing": "0.1.0-*"
+  "dependencies": {
+    "xunit": "2.1.0-rc2-build3176",
+    "Mendham.Domain": "0.1.0-*",
+    "Mendham.Infrastructure.Dapper": "0.1.0-*",
+    "Mendham.Testing": "0.1.0-*"
+  },
+
+  "commands": {
+    "test": "xunit.runner.dnx"
+  },
+
+  "frameworks": {
+    "net451": {
+      "dependencies": {
+        "xunit.runner.visualstudio": "2.1.0-beta4-build1109"
+      }
     },
+    "dnx451": {
+      "dependencies": {
+        "xunit.runner.dnx": "2.1.0-beta5-build169"
+      }
 
-    "commands": {
-        "test": "xunit.runner.dnx"
-    },
-
-    "frameworks": {
-        "net451": {
-            "dependencies": {
-                "xunit.runner.visualstudio": "2.1.0-beta4-build1109"
-            }
-        },
-        "dnx451": {
-            "dependencies": {
-                "xunit.runner.dnx": "2.1.0-beta4-build134",
-                "xunit.runner.visualstudio": "2.1.0-beta4-build1109"
-            }
-
-        },
-        "dnxcore50": {
-            "dependencies": {
-                "System.Collections": "4.0.10-beta-22816",
-                "System.Linq": "4.0.0-beta-22816",
-                "System.Threading": "4.0.10-beta-22816",
-                "Microsoft.CSharp": "4.0.0-beta-22816",
-                "System.Data.SqlClient": "4.0.0-beta-23110",
-                "xunit.runner.dnx": "2.1.0-beta4-build134"
-            }
-        }
     }
+  }
 }
