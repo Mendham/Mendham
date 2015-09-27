@@ -1,36 +1,39 @@
 {
-    "version": "0.1.0-*",
-    "description": "Autofac plugin to use with Mendham.Domain ",
-    "authors": [ "Craig Beall" ],
-    "tags": [ "" ],
-    "projectUrl": "https://github.com/cbeall/Mendham",
-    "licenseUrl": "https://raw.githubusercontent.com/cbeall/Mendham/master/LICENSE",
-    "requireLicenseAcceptance": false,
+  "version": "0.1.0-*",
+  "description": "Autofac plugin to use with Mendham.Domain ",
+  "authors": [ "Craig Beall" ],
+  "tags": [ "" ],
+  "projectUrl": "https://github.com/cbeall/Mendham",
+  "licenseUrl": "https://raw.githubusercontent.com/cbeall/Mendham/master/LICENSE",
+  "requireLicenseAcceptance": false,
 
-    "dependencies": {
-        "Mendham": "0.1.0-*",
-        "Mendham.Domain": "0.1.0-*"
+  "dependencies": {
+    "Mendham": "0.1.0-*",
+    "Mendham.Domain": "0.1.0-*",
+    "Microsoft.CSharp": "4.0.1-beta-23225"
+  },
+
+  "frameworks": {
+    "net451": {
+      "dependencies": {
+        "Autofac": "3.5.2"
+      }
     },
-
-    "frameworks": {
-        "net451": {
-            "dependencies": {
-                "Autofac": "3.5.2"
-            }
-        },
-        "dnx451": {
-            "dependencies": {
-                "Autofac.Dnx": "4.0.0-alpha2"
-            }
-        },
-        "dnxcore50": {
-            "dependencies": {
-                "Autofac.Dnx": "4.0.0-alpha2",
-                "System.Collections": "4.0.10-beta-22816",
-                "System.Linq": "4.0.0-beta-22816",
-                "System.Threading": "4.0.10-beta-22816",
-                "Microsoft.CSharp": "4.0.0-beta-22816"
-            }
-        }
+    "dnx451": {
+      "dependencies": {
+        "Autofac.Dnx": "4.0.0-alpha2",
+        "xunit.runner.dnx": "2.1.0-beta5-build169"
+      }
+    },
+    "dnxcore50": {
+      "dependencies": {
+        "Autofac.Dnx": "4.0.0-alpha2",
+        "System.Collections": "4.0.10-beta-22816",
+        "System.Linq": "4.0.0-beta-22816",
+        "System.Threading": "4.0.10-beta-22816",
+        "Microsoft.CSharp": "4.0.0-beta-22816",
+        "xunit.runner.dnx": "2.1.0-beta5-build169"
+      }
     }
+  }
 }

@@ -1,4 +1,4 @@
-$dnvmVersion = "1.0.0-beta6";
+$dnvmVersion = "1.0.0-beta7";
 $buildNumber = 0;
 $preRelease = $null;
 
