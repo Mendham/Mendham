@@ -20,7 +20,7 @@
   "frameworks": {
     "net451": {
       "dependencies": {
-        "xunit.runner.visualstudio": "2.1.0-beta4-build1109"
+        "xunit.runner.visualstudio": "2.1.0-rc2-build1126"
       }
     },
     "dnx451": {
