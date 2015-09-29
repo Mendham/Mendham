@@ -15,7 +15,7 @@
   "frameworks": {
     "net451": {
       "dependencies": {
-        "Autofac": "3.5.2"
+        "Autofac": "4.0.0-beta7-130"
       }
     },
     "dnx451": {
