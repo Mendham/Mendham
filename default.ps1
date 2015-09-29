@@ -14,10 +14,10 @@ function Build-Projects ([string] $DirectoryName, [string] $ProjectName)
     & dnu pack ("""" + $DirectoryName + """") --configuration Release --out ".\artifacts\packages\$ProjectName"; if($LASTEXITCODE -ne 0) { exit 1 }
 }dnx
 
-function Test-Projects ([string] $DirectoryName)
+function Test-Projects ([string] $Project)
 {
-    Write-Output "Testing Project: $DirectoryName"
-    & dnx ("""" + $DirectoryName + """") test; if($LASTEXITCODE -ne 0) { exit 2 }
+    Write-Output "Testing Project: $Project"
+    & dnx -p $Project test; if($LASTEXITCODE -ne 0) { exit 2 }
 }
 
 task ValidateConfig -description "Checking values in config" {
@@ -72,7 +72,7 @@ task Build -depends Clean,Restore,SetBuildNumber -description "Builds every sour
 }
 
 task Test -depends Restore -description "Runs tests" {
-    Get-ChildItem -Path .\test -Filter *.xproj -Recurse |
-        ? { $_.Name -NotLike "*Dapper*.xproj" } |
-        % { Test-Projects $_.DirectoryName }
+    Get-ChildItem -Path .\test -Filter project.json -Recurse |
+        ? { $_.DirectoryName -NotLike "*Dapper*" } |
+        % { Test-Projects $_.FullName }
 }
