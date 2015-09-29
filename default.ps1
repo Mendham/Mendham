@@ -17,7 +17,7 @@ function Build-Projects ([string] $DirectoryName, [string] $ProjectName)
 function Test-Projects ([string] $Project)
 {
     Write-Output "Testing Project: $Project"
-    & dnx -p $Project test; if($LASTEXITCODE -ne 0) { exit 2 }
+    & dnx -p ("""" + $Project + """") test; if($LASTEXITCODE -ne 0) { exit 2 }
 }
 
 task ValidateConfig -description "Checking values in config" {
