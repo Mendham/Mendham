@@ -15,7 +15,7 @@
   "frameworks": {
     "net451": {
       "dependencies": {
-        "Autofac": "4.0.0-beta7-130"
+        "Autofac": "4.0.0-beta8-157"
       }
     },
     "dnx451": {
@@ -27,7 +27,7 @@
     "dnxcore50": {
       "dependencies": {
         "Autofac.Dnx": "4.0.0-alpha2",
-        "System.Collections": "4.0.10-beta-22816",
+        "System.Collections": "4.0.10",
         "System.Linq": "4.0.0-beta-22816",
         "System.Threading": "4.0.10-beta-22816",
         "Microsoft.CSharp": "4.0.1-beta-23225",

@@ -7,12 +7,13 @@
   "licenseUrl": "https://raw.githubusercontent.com/cbeall/Mendham/master/LICENSE",
 
   "dependencies": {
-    "xunit": "2.1.0-rc2-build3176",
-    "Moq": "4.2.1507.118",
-    "FluentAssertions": "4.0.0",
-    "AutoFixture": "3.31.3",
-    "AutoFixture.Xunit2": "3.31.0",
-    "Mendham": "0.1.0-*"
+    "xunit": "2.1.0",
+    "Moq": "4.2.1510.2205",
+    "FluentAssertions": "4.0.1",
+    "AutoFixture": "3.36.9",
+    "AutoFixture.Xunit2": "3.36.9",
+    "Mendham": "0.1.0-*",
+    "xunit.runner.visualstudio": "2.1.0"
   },
 
   "commands": {
@@ -22,7 +23,7 @@
   "frameworks": {
     "net451": {
       "dependencies": {
-        "xunit.runner.visualstudio": "2.1.0-rc2-build1126"
+        "xunit.runner.visualstudio": "2.1.0"
       },
       "frameworkAssemblies": {
         "System.Runtime": "4.0.10.0"
@@ -30,7 +31,7 @@
     },
     "dnx451": {
       "dependencies": {
-        "xunit.runner.dnx": "2.1.0-beta5-build169"
+        "xunit.runner.dnx": "2.1.0-beta6-build191"
       }
     }
   }

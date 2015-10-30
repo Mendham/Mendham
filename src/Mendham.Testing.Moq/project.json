@@ -7,8 +7,8 @@
   "licenseUrl": "https://raw.githubusercontent.com/cbeall/Mendham/master/LICENSE",
 
   "dependencies": {
-    "xunit": "2.1.0-rc2-build3176",
-    "Moq": "4.2.1507.118",
+    "xunit": "2.1.0",
+    "Moq": "4.2.1510.2205",
     "Mendham": "0.1.0-*",
     "Mendham.Testing": "0.1.0-*"
   },
