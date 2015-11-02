@@ -9,23 +9,14 @@
 
   "dependencies": {
     "Mendham": "0.1.0-*",
-    "Mendham.Domain": "0.1.0-*"
+    "Mendham.Domain": "0.1.0-*",
+    "Autofac": "4.0.0-beta8-157"
   },
 
   "frameworks": {
-    "net451": {
-      "dependencies": {
-        "Autofac": "4.0.0-beta8-157"
-      }
-    },
-    "dnx451": {
-      "dependencies": {
-        "Autofac.Dnx": "4.0.0-alpha2"
-      }
-    },
+    "net451": { },
     "dnxcore50": {
       "dependencies": {
-        "Autofac.Dnx": "4.0.0-alpha2",
         "System.Collections": "4.0.10",
         "System.Linq": "4.0.0-beta-22816",
         "System.Threading": "4.0.10-beta-22816",

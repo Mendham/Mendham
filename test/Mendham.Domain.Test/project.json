@@ -14,8 +14,7 @@
     "AutoFixture.Xunit2": "3.36.9",
     "Mendham.Domain": "0.1.0-*",
     "Mendham.Testing": "0.1.0-*",
-    "Mendham.Testing.Moq": "0.1.0-*",
-    "xunit.runner.visualstudio": "2.1.0"
+    "Mendham.Testing.Moq": "0.1.0-*"
   },
 
   "commands": {

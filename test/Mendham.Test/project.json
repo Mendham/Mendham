@@ -12,8 +12,7 @@
     "FluentAssertions": "4.0.1",
     "AutoFixture": "3.36.9",
     "AutoFixture.Xunit2": "3.36.9",
-    "Mendham": "0.1.0-*",
-    "xunit.runner.visualstudio": "2.1.0"
+    "Mendham": "0.1.0-*"
   },
 
   "commands": {
