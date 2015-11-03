@@ -35,10 +35,10 @@ namespace Mendham.Domain.Autofac.Test.Data
 		{
 			private readonly bool domainEventPublisherHasValue;
 
-			public Facade(IDomainEventPublisher domainEventPublisher)
-				: base(domainEventPublisher)
+			public Facade(IDomainEventPublisherProvider domainEventPublisherProvider)
+				: base(domainEventPublisherProvider)
 			{
-				domainEventPublisherHasValue = domainEventPublisher != null;
+				domainEventPublisherHasValue = domainEventPublisherProvider != null;
 			}
 
 			public bool HasDomainEventPublisher()

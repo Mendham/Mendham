@@ -8,11 +8,11 @@ namespace Mendham.Domain
 {
 	public abstract class DomainFacade : IDomainFacade
 	{
-		private IDomainEventPublisher domainEventPublisher;
+		private readonly IDomainEventPublisher domainEventPublisher;
 
-		public DomainFacade(IDomainEventPublisher domainEventPublisher)
+		public DomainFacade(IDomainEventPublisherProvider domainEventPublisherProvider)
 		{
-			this.domainEventPublisher = domainEventPublisher;
+			this.domainEventPublisher = domainEventPublisherProvider.GetPublisher();
 		}
 
 		public Task RaiseEventAsync<TDomainEvent>(TDomainEvent domainEvent)

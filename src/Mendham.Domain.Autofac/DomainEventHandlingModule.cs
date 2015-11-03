@@ -18,6 +18,9 @@ namespace Mendham.Domain.Autofac
 			builder.RegisterType<DomainEventHandlerContainer>()
 				.As<IDomainEventHandlerContainer>()
 				.SingleInstance();
+
+            builder.Register<IDomainEventPublisherProvider>(c => new DomainEventPublisherProvider(c))
+                .SingleInstance();
 		}
 	}
 }
