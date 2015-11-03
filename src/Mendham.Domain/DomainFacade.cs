@@ -21,10 +21,4 @@ namespace Mendham.Domain
 			return domainEventPublisher.RaiseAsync(domainEvent);
 		}
 	}
-
-	public interface IDomainFacade
-	{
-		Task RaiseEventAsync<TDomainEvent>(TDomainEvent domainEvent)
-			where TDomainEvent : class, IDomainEvent;
-	}
 }
