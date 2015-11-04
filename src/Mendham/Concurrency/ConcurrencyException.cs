@@ -23,12 +23,12 @@ namespace Mendham.Concurrency
 		{
 			get
 			{
-				string additionalInfo = String.Empty;
+				string additionalInfo = string.Empty;
 
-				if (!String.IsNullOrWhiteSpace(base.Message))
-					additionalInfo = String.Format(" ADDITIONAL INFORMATION: {0}", base.Message);
+				if (!string.IsNullOrWhiteSpace(base.Message))
+					additionalInfo = string.Format(" ADDITIONAL INFORMATION: {0}", base.Message);
 
-				return String.Format("Concurrency exception on entity {0}. Expected: {1}, Actual: {2}.{3}",
+				return string.Format("Concurrency exception on entity {0}. Expected: {1}, Actual: {2}.{3}",
 					this.Entity,
 					this.Expected,
 					this.Actual,

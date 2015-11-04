@@ -90,7 +90,7 @@ namespace Mendham.Infrastructure.Dapper
             {
                 if (_conn.State == ConnectionState.Open)
                 {
-                    var dropSql = String.Format("IF OBJECT_ID('tempdb..{0}') IS NOT NULL DROP TABLE {0}", _mapping.TableName);
+                    var dropSql = string.Format("IF OBJECT_ID('tempdb..{0}') IS NOT NULL DROP TABLE {0}", _mapping.TableName);
                     _conn.Execute(dropSql);
                 }
                 else if (_conn.State != ConnectionState.Closed)

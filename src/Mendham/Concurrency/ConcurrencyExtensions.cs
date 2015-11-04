@@ -7,20 +7,20 @@ namespace Mendham.Concurrency
 {
     public static class ConcurrencyExtensions
     {
-		public static T VerifyConcurrencyTokenIsNotNull<T>(this T obj, String message = null)
+		public static T VerifyConcurrencyTokenIsNotNull<T>(this T obj, string message = null)
 			where T : IHasConcurrencyToken
 		{
 			return obj.VerifyTokenObjectIsNotNull()
 				.VerifyArgumentMeetsCriteria(a => a.Token != null, message ?? "Concurrency Token is null");
 		}
 
-		public static T VerifyConcurrencyTokenIsNotSet<T>(this T obj, String message = null)
+		public static T VerifyConcurrencyTokenIsNotSet<T>(this T obj, string message = null)
 			where T : IHasConcurrencyToken
 		{
 			return obj.VerifyArgumentMeetsCriteria(a => a.Token == null, message ?? "Concurrency Token is already set");
 		}
 
-		public static T ValidateConcurrencyToken<T>(this T obj, ConcurrencyToken serverToken, String message = null)
+		public static T ValidateConcurrencyToken<T>(this T obj, ConcurrencyToken serverToken, string message = null)
 			where T : IHasConcurrencyToken
 		{
 			obj.VerifyConcurrencyTokenIsNotNull();

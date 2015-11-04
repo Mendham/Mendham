@@ -16,7 +16,7 @@ namespace Mendham
 		/// <param name="message">Message to display if value is null</param>
 		/// <returns></returns>
 		[DebuggerStepThrough]
-		public static T VerifyArgumentNotNull<T>(this T obj, String message)
+		public static T VerifyArgumentNotNull<T>(this T obj, string message)
 		{
 			return obj.VerifyArgumentMeetsCriteria(a => a != null, message);
 		}
@@ -29,7 +29,7 @@ namespace Mendham
 		/// <param name="message">Message to display if value is null or default value</param>
 		/// <returns></returns>
 		[DebuggerStepThrough]
-		public static T VerifyArgumentNotDefaultValue<T>(this T tObj, String message)
+		public static T VerifyArgumentNotDefaultValue<T>(this T tObj, string message)
 		{
 			return tObj.VerifyArgumentMeetsCriteria(a => a != null && !a.Equals(default(T)), message);
 		}
@@ -42,7 +42,7 @@ namespace Mendham
 		/// <param name="message">Message to display if enumerable is null or empty</param>
 		/// <returns></returns>
 		[DebuggerStepThrough]
-		public static IEnumerable<T> VerifyArgumentNotNullOrEmpty<T>(this IEnumerable<T> tEnumerable, String message)
+		public static IEnumerable<T> VerifyArgumentNotNullOrEmpty<T>(this IEnumerable<T> tEnumerable, string message)
 		{
 			return tEnumerable.VerifyArgumentMeetsCriteria(a => a != null && tEnumerable.Any(), message);
 		}
@@ -54,9 +54,9 @@ namespace Mendham
 		/// <param name="message">Message to display if string is null or empty</param>
 		/// <returns></returns>
 		[DebuggerStepThrough]
-		public static String VerifyArgumentNotNullOrEmpty(this String str, String message)
+		public static string VerifyArgumentNotNullOrEmpty(this string str, string message)
 		{
-			return str.VerifyArgumentMeetsCriteria(a => !String.IsNullOrEmpty(a), message);
+			return str.VerifyArgumentMeetsCriteria(a => !string.IsNullOrEmpty(a), message);
 		}
 
 		/// <summary>
@@ -66,9 +66,9 @@ namespace Mendham
 		/// <param name="message">Message to display if string is null or whitespace</param>
 		/// <returns></returns>
 		[DebuggerStepThrough]
-		public static String VerifyArgumentNotNullOrWhiteSpace(this String str, String message)
+		public static string VerifyArgumentNotNullOrWhiteSpace(this string str, string message)
 		{
-			return str.VerifyArgumentMeetsCriteria(a => !String.IsNullOrWhiteSpace(a), message);
+			return str.VerifyArgumentMeetsCriteria(a => !string.IsNullOrWhiteSpace(a), message);
 		}
 
 		/// <summary>
@@ -81,14 +81,14 @@ namespace Mendham
 		/// <param name="trimStringFirst">(Optional) Trim string prior to checking minium and maximum (default = true)</param>
 		/// <returns></returns>
 		[DebuggerStepThrough]
-		public static String VerifyArgumentLength(this String str, int? minimum, int? maximum, String message, bool trimStringFirst = true)
+		public static string VerifyArgumentLength(this string str, int? minimum, int? maximum, string message, bool trimStringFirst = true)
 		{
 			var localStr = str;
 
 			if (trimStringFirst && str != null)
 				localStr = str.Trim();
 
-			Func<String, bool> condition = a => a != null && (!minimum.HasValue || a.Length >= minimum) && (!maximum.HasValue || a.Length <= maximum);
+			Func<string, bool> condition = a => a != null && (!minimum.HasValue || a.Length >= minimum) && (!maximum.HasValue || a.Length <= maximum);
 			localStr.VerifyArgumentMeetsCriteria(condition, message);
 
 			return str;
@@ -103,7 +103,7 @@ namespace Mendham
 		/// <param name="message">Message to display if acceptance criteria is not met</param>
 		/// <returns></returns>
 		[DebuggerStepThrough]
-		public static T VerifyArgumentMeetsCriteria<T>(this T obj, Func<T, bool> acceptanceCriteria, String message)
+		public static T VerifyArgumentMeetsCriteria<T>(this T obj, Func<T, bool> acceptanceCriteria, string message)
 		{
 			if (!acceptanceCriteria(obj))
 				throw new ArgumentException(message);

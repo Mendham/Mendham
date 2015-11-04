@@ -52,7 +52,7 @@ namespace Mendham.Concurrency
 		public override string ToString()
 		{
 			var val = BitConverter.ToInt64(this.Value.Reverse().ToArray(), 0);
-			return String.Format("Currency Token [0x{0:X}]", val);
+			return string.Format("Currency Token [0x{0:X}]", val);
 		}
 	}
 }

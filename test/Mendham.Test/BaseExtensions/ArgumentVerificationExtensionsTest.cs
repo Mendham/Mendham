@@ -14,7 +14,7 @@ namespace Mendham.Test.BaseExtensions
 		[AutoData]
 		public void VerifyArgumentNotNull_NullString_Throws(string msg)
 		{
-			String str = null;
+			string str = null;
 
 			Action act = () => str.VerifyArgumentNotNull(msg);
 
@@ -59,7 +59,7 @@ namespace Mendham.Test.BaseExtensions
 		[AutoData]
 		public void VerifyArguementNotDefault_DefaultString_Throws(string msg)
 		{
-			string val = default(String);
+			string val = default(string);
 
 			Action act = () => val.VerifyArgumentNotDefaultValue(msg);
 
@@ -125,7 +125,7 @@ namespace Mendham.Test.BaseExtensions
 		[AutoData]
 		public void VerifyArgumentNotNullOrEmpty_EmptyString_Throws(string msg)
 		{
-			string val = String.Empty;
+			string val = string.Empty;
 
 			Action act = () => val.VerifyArgumentNotNullOrEmpty(msg);
 
@@ -158,7 +158,7 @@ namespace Mendham.Test.BaseExtensions
 		[AutoData]
 		public void VerifyArgumentNotNullOrWhiteSpac_EmptyString_Throws(string msg)
 		{
-			string val = String.Empty;
+			string val = string.Empty;
 
 			Action act = () => val.VerifyArgumentNotNullOrWhiteSpace(msg);
 
