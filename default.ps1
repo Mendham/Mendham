@@ -67,12 +67,10 @@ task SetBuildNumber -description "Sets the build number that may be added to the
 
 task Build -depends Clean,Restore,SetBuildNumber -description "Builds every source project" {
     Get-ChildItem -Path .\src -Filter *.xproj -Recurse |
-        ? { $_.Name -NotLike "*Dapper*.xproj" } |
         % { Build-Projects $_.DirectoryName $_.Directory.Name }
 }
 
 task Test -depends Restore -description "Runs tests" {
     Get-ChildItem -Path .\test -Filter project.json -Recurse |
-        ? { $_.DirectoryName -NotLike "*Dapper*" } |
         % { Test-Projects $_.FullName }
 }
