@@ -1,0 +1,20 @@
+﻿{
+  "version": "0.1.0-*",
+  "description": "Test helpers for Mendham.Domain using Moq",
+  "authors": [ "Craig Beall" ],
+  "tags": [ "" ],
+  "projectUrl": "https://github.com/cbeall/Mendham",
+  "licenseUrl": "https://raw.githubusercontent.com/cbeall/Mendham/master/LICENSE",
+
+  "dependencies": {
+    "Moq": "4.2.1510.2205",
+    "Mendham": "0.1.0-*",
+    "Mendham.Testing": "0.1.0-*",
+    "Mendham.Testing.Domain": "0.1.0-*",
+    "Mendham.Testing.Moq": "0.1.0-*"
+  },
+
+  "frameworks": {
+    "dnx451": { }
+  }
+}

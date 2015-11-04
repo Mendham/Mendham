@@ -6,7 +6,7 @@ using Mendham.Equality;
 
 namespace Mendham.Domain
 {
-	public abstract class Entity : IHasEqualityComponents
+	public abstract class Entity : IEntity
 	{
 		IEnumerable<object> IHasEqualityComponents.EqualityComponents
 		{
