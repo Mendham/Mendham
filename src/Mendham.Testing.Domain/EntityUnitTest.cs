@@ -27,12 +27,12 @@ namespace Mendham.Testing
     /// <typeparam name="TEntity">Entity being tested</typeparam>
     /// <typeparam name="TFacade">Domain facade used by the entity under test</typeparam>
     /// <typeparam name="TBuilder">Builder that creates the entity to be tested</typeparam>
-    public class EntityUnitTest<TEntity, TFacade, TBuilder> : BaseUnitTest<EntityWithFacadeFixture<TEntity, TFacade, TBuilder>>
+    public class EntityUnitTest<TEntity, TFacade, TBuilder> : BaseUnitTest<EntityFixture<TEntity, TFacade, TBuilder>>
         where TEntity : class, IEntity
         where TFacade : class, IDomainFacade
-        where TBuilder : IEntityWithFacadeBuilder<TEntity, TFacade, TBuilder>, new()
+        where TBuilder : IEntityBuilder<TEntity, TFacade, TBuilder>, new()
     {
-        public EntityUnitTest(EntityWithFacadeFixture<TEntity, TFacade, TBuilder> fixture)
+        public EntityUnitTest(EntityFixture<TEntity, TFacade, TBuilder> fixture)
             : base(fixture)
         { }
     }
