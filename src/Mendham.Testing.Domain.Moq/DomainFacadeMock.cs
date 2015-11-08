@@ -10,6 +10,11 @@ namespace Mendham.Testing
 {
     public class DomainFacadeMock
     {
+        /// <summary>
+        /// Generates a mockable implementation of the domain facade
+        /// </summary>
+        /// <typeparam name="TFacade">Type of the domain facade</typeparam>
+        /// <returns>Mockable implementation of the domain facade</returns>
         public static TFacade Of<TFacade>()
             where TFacade : class, IDomainFacade
         {
@@ -19,6 +24,12 @@ namespace Mendham.Testing
             return Of<TFacade>(emptyProvider);
         }
 
+        /// <summary>
+        /// Generates a mockable implementation of the domain facade that utlizes a domain event publisher
+        /// </summary>
+        /// <typeparam name="TFacade">Type of the domain facade</typeparam>
+        /// <param name="domainEventPublisherProvider">A IDomainEventPublisherProvider that is implemented to include an IDomainEventPublisher</param>
+        /// <returns>Mockable implementation of the domain facade</returns>
         public static TFacade Of<TFacade>(IDomainEventPublisherProvider domainEventPublisherProvider)
             where TFacade : class, IDomainFacade
         {
@@ -27,6 +38,12 @@ namespace Mendham.Testing
                 .Object;
         }
 
+        /// <summary>
+        /// Generates a mockable implementation of the domain facade that utlizes a domain event publisher defined in a fixture
+        /// </summary>
+        /// <typeparam name="TFacade">Type of the domain facade</typeparam>
+        /// <param name="domainEventPublisherFixture">A DomainEventPublisherFixture that is used for tracking domain events with raised within the fixture</param>
+        /// <returns>Mockable implementation of the domain facade</returns>
         public static TFacade Of<TFacade>(DomainEventPublisherFixture domainEventPublisherFixture)
             where TFacade : class, IDomainFacade
         {

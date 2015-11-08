@@ -21,9 +21,9 @@ namespace Mendham.Infrastructure.Dapper.Test
         public async Task ConnectionWithSet_IntDefaultMapping_AllSelectedValues()
         {
             var mapping = DefaultConnectionWithSetMapping.Get<int>();
-            using (var conn = new ConnectionWithSet<int>(_fixture.CreateSut(), mapping))
+            using (var conn = new ConnectionWithSet<int>(TestFixture.CreateSut(), mapping))
             {
-                await conn.OpenAsync(_fixture.KnownInts);
+                await conn.OpenAsync(TestFixture.KnownInts);
 
                 var q = await conn.QueryAsync<int>(@"
                     SELECT Id
@@ -34,8 +34,8 @@ namespace Mendham.Infrastructure.Dapper.Test
                 var result = q.ToList();
 
                 Assert.NotEmpty(result);
-                Assert.Equal(_fixture.KnownInts.Count(), result.Count());
-                Assert.Equal(_fixture.KnownInts.OrderBy(a => a), result.OrderBy(a => a));
+                Assert.Equal(TestFixture.KnownInts.Count(), result.Count());
+                Assert.Equal(TestFixture.KnownInts.OrderBy(a => a), result.OrderBy(a => a));
             }
         }
 
@@ -43,9 +43,9 @@ namespace Mendham.Infrastructure.Dapper.Test
         public async Task ConnectionWithSet_GuidDefaultMapping_AllSelectedValues()
         {
             var mapping = DefaultConnectionWithSetMapping.Get<Guid>();
-            using (var conn = new ConnectionWithSet<Guid>(_fixture.CreateSut(), mapping))
+            using (var conn = new ConnectionWithSet<Guid>(TestFixture.CreateSut(), mapping))
             {
-                await conn.OpenAsync(_fixture.KnownGuids);
+                await conn.OpenAsync(TestFixture.KnownGuids);
 
                 var q = await conn.QueryAsync<Guid>(@"
                     SELECT Id
@@ -56,8 +56,8 @@ namespace Mendham.Infrastructure.Dapper.Test
                 var result = q.ToList();
 
                 Assert.NotEmpty(result);
-                Assert.Equal(_fixture.KnownGuids.Count(), result.Count());
-                Assert.Equal(_fixture.KnownGuids.OrderBy(a => a), result.OrderBy(a => a));
+                Assert.Equal(TestFixture.KnownGuids.Count(), result.Count());
+                Assert.Equal(TestFixture.KnownGuids.OrderBy(a => a), result.OrderBy(a => a));
             }
         }
 
@@ -65,9 +65,9 @@ namespace Mendham.Infrastructure.Dapper.Test
         public async Task ConnectionWithSet_StringDefaultMapping_AllSelectedValues()
         {
             var mapping = DefaultConnectionWithSetMapping.Get<string>();
-            using (var conn = new ConnectionWithSet<string>(_fixture.CreateSut(), mapping))
+            using (var conn = new ConnectionWithSet<string>(TestFixture.CreateSut(), mapping))
             {
-                await conn.OpenAsync(_fixture.KnownStrings);
+                await conn.OpenAsync(TestFixture.KnownStrings);
 
                 var q = await conn.QueryAsync<string>(@"
                     SELECT Id
@@ -78,18 +78,18 @@ namespace Mendham.Infrastructure.Dapper.Test
                 var result = q.ToList();
 
                 Assert.NotEmpty(result);
-                Assert.Equal(_fixture.KnownStrings.Count(), result.Count());
-                Assert.Equal(_fixture.KnownStrings.OrderBy(a => a), result.OrderBy(a => a));
+                Assert.Equal(TestFixture.KnownStrings.Count(), result.Count());
+                Assert.Equal(TestFixture.KnownStrings.OrderBy(a => a), result.OrderBy(a => a));
             }
         }
 
         [Fact]
         public async Task ConnectionWithSet_CompositeIdMapping_AllSelectedValues()
         {
-            var mapping = _fixture.GetCompositeIdMapping();
-            using (var conn = new ConnectionWithSet<CompositeId>(_fixture.CreateSut(), mapping))
+            var mapping = TestFixture.GetCompositeIdMapping();
+            using (var conn = new ConnectionWithSet<CompositeId>(TestFixture.CreateSut(), mapping))
             {
-                await conn.OpenAsync(_fixture.KnownCompositeIds);
+                await conn.OpenAsync(TestFixture.KnownCompositeIds);
 
                 var q = await conn.QueryAsync<CompositeId>(@"
                     SELECT tcit.GuidVal, tcit.IntVal
@@ -101,8 +101,8 @@ namespace Mendham.Infrastructure.Dapper.Test
                 var result = q.ToList();
 
                 Assert.NotEmpty(result);
-                Assert.Equal(_fixture.KnownCompositeIds.Count(), result.Count());
-                Assert.Equal(_fixture.KnownCompositeIds.OrderBy(a => a.GuidVal), result.OrderBy(a => a.GuidVal));
+                Assert.Equal(TestFixture.KnownCompositeIds.Count(), result.Count());
+                Assert.Equal(TestFixture.KnownCompositeIds.OrderBy(a => a.GuidVal), result.OrderBy(a => a.GuidVal));
             }
         }
     }

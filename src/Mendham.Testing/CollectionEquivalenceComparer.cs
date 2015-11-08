@@ -5,6 +5,10 @@ using Mendham.Equality;
 
 namespace Mendham.Testing
 {
+    /// <summary>
+    /// Equality Comparer used to determine if two collections contain the same elements regardless of order
+    /// </summary>
+    /// <typeparam name="T">Type within collection to be evaluated</typeparam>
 	public class CollectionEquivalenceComparer<T> : IEqualityComparer<IEnumerable<T>>
 		where T : IEquatable<T>
 	{
@@ -38,6 +42,9 @@ namespace Mendham.Testing
 				.GetHashCodeForComponents();
 		}
 
+        /// <summary>
+        /// Returns a CollectionEquivalenceComparer for use in comparing sets
+        /// </summary>
 		public static CollectionEquivalenceComparer<T> Default
 		{ 
 			get
@@ -45,6 +52,5 @@ namespace Mendham.Testing
 				return new CollectionEquivalenceComparer<T>();
 			}
 		}
-
 	}
 }

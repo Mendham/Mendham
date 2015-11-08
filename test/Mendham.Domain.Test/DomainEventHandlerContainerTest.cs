@@ -20,97 +20,97 @@ namespace Mendham.Domain.Test
 		[Fact]
 		public async Task HandleAllAsync_BaseEvent_HandlesBaseHandler()
 		{
-			var baseEvent = _fixture.CreateBaseDomainEvent();
+			var baseEvent = TestFixture.CreateBaseDomainEvent();
 
-			_fixture.BaseEventHandler.AsMock()
+			TestFixture.BaseEventHandler.AsMock()
 				.Setup(a => a.HandleAsync(baseEvent))
 				.ReturnsNoActionTask();
 
-			var sut = _fixture.CreateSut();
+			var sut = TestFixture.CreateSut();
 
 			await sut.HandleAllAsync(baseEvent);
 
-			_fixture.BaseEventHandler.AsMock()
+			TestFixture.BaseEventHandler.AsMock()
 				.Verify(a => a.HandleAsync(baseEvent), Times.Once);
 		}
 
 		[Fact]
 		public async Task HandleAllAsync_BaseEvent_DoesntHandlesDerivedHandler()
 		{
-			var baseEvent = _fixture.CreateBaseDomainEvent();
+			var baseEvent = TestFixture.CreateBaseDomainEvent();
 
-			var sut = _fixture.CreateSut();
+			var sut = TestFixture.CreateSut();
 
 			await sut.HandleAllAsync(baseEvent);
 
-			_fixture.DerivedEventHandler.AsMock()
+			TestFixture.DerivedEventHandler.AsMock()
 				.Verify(a => a.HandleAsync(It.IsAny<DomainEventHandlerContainerFixture.DerivedDomainEvent>()), Times.Never);
 		}
 
 		[Fact]
 		public async Task HandleAllAsync_BaseEvent_DoesntHandlesOtherHandler()
 		{
-			var baseEvent = _fixture.CreateBaseDomainEvent();
+			var baseEvent = TestFixture.CreateBaseDomainEvent();
 
-			var sut = _fixture.CreateSut();
+			var sut = TestFixture.CreateSut();
 
 			await sut.HandleAllAsync(baseEvent);
 
-			_fixture.OtherEventHandler.AsMock()
+			TestFixture.OtherEventHandler.AsMock()
 				.Verify(a => a.HandleAsync(It.IsAny<DomainEventHandlerContainerFixture.OtherDomainEvent>()), Times.Never);
 		}
 
 		[Fact]
 		public async Task HandleAllAsync_DerivedEvent_HandlesBaseHandler()
 		{
-			var derivedEvent = _fixture.CreateDerivedDomainEvent();
+			var derivedEvent = TestFixture.CreateDerivedDomainEvent();
 
-			_fixture.BaseEventHandler.AsMock()
+			TestFixture.BaseEventHandler.AsMock()
 				.Setup(a => a.HandleAsync(derivedEvent))
 				.ReturnsNoActionTask();
 
-			var sut = _fixture.CreateSut();
+			var sut = TestFixture.CreateSut();
 
 			await sut.HandleAllAsync(derivedEvent);
 
-			_fixture.BaseEventHandler.AsMock()
+			TestFixture.BaseEventHandler.AsMock()
 				.Verify(a => a.HandleAsync(derivedEvent), Times.Once);
 		}
 
 		[Fact]
 		public async Task HandleAllAsync_DerivedEvent_HandlesDerivedHandler()
 		{
-			var derivedEvent = _fixture.CreateDerivedDomainEvent();
+			var derivedEvent = TestFixture.CreateDerivedDomainEvent();
 
-			_fixture.DerivedEventHandler.AsMock()
+			TestFixture.DerivedEventHandler.AsMock()
 				.Setup(a => a.HandleAsync(derivedEvent))
 				.ReturnsNoActionTask();
 
-			var sut = _fixture.CreateSut();
+			var sut = TestFixture.CreateSut();
 
 			await sut.HandleAllAsync(derivedEvent);
 
-			_fixture.DerivedEventHandler.AsMock()
+			TestFixture.DerivedEventHandler.AsMock()
 				.Verify(a => a.HandleAsync(derivedEvent), Times.Once);
 		}
 
 		[Fact]
 		public async Task HandleAllAsync_DerivedEvent_DoesntHandlesOtherHandler()
 		{
-			var derivedEvent = _fixture.CreateDerivedDomainEvent();
+			var derivedEvent = TestFixture.CreateDerivedDomainEvent();
 
-			var sut = _fixture.CreateSut();
+			var sut = TestFixture.CreateSut();
 
 			await sut.HandleAllAsync(derivedEvent);
 
-			_fixture.OtherEventHandler.AsMock()
+			TestFixture.OtherEventHandler.AsMock()
 				.Verify(a => a.HandleAsync(It.IsAny<DomainEventHandlerContainerFixture.OtherDomainEvent>()), Times.Never);
 		}
 
 		[Fact]
 		public async Task HandleAllAsync_HandlerTaskThrowsExcpetion_ThrowsDomainEventHandlingException()
 		{
-			var derivedEvent = _fixture.CreateDerivedDomainEvent();
+			var derivedEvent = TestFixture.CreateDerivedDomainEvent();
 			var exceptionFromHandler = new InvalidOperationException("Test exception");
 			Func<Task> exTask = async () =>
 			{
@@ -118,9 +118,9 @@ namespace Mendham.Domain.Test
 				throw exceptionFromHandler;
 			};
 
-			var sut = _fixture.CreateSut();
+			var sut = TestFixture.CreateSut();
 
-			_fixture.DerivedEventHandler.AsMock()
+			TestFixture.DerivedEventHandler.AsMock()
 				.Setup(a => a.HandleAsync(derivedEvent))
 				.Returns(exTask());
 
@@ -129,19 +129,19 @@ namespace Mendham.Domain.Test
 
 			ex.InnerException.ShouldBeEquivalentTo(exceptionFromHandler);
 			ex.DomainEvent.ShouldBeEquivalentTo(derivedEvent);
-			ex.DomainEventHandlerType.ShouldBeEquivalentTo(_fixture.DerivedEventHandler.GetType());
+			ex.DomainEventHandlerType.ShouldBeEquivalentTo(TestFixture.DerivedEventHandler.GetType());
 		}
 
 		[Fact]
 		public async Task HandleAllAsync_HandlerThrowsExcpetion_ThrowsDomainEventHandlingException()
 		{
-			var derivedEvent = _fixture.CreateDerivedDomainEvent();
+			var derivedEvent = TestFixture.CreateDerivedDomainEvent();
 			var exceptionFromHandler = new InvalidOperationException("Test exception");
 			Func<Task> exTask = () => { throw exceptionFromHandler; };
 
-			var sut = _fixture.CreateSut();
+			var sut = TestFixture.CreateSut();
 
-			_fixture.DerivedEventHandler.AsMock()
+			TestFixture.DerivedEventHandler.AsMock()
 				.Setup(a => a.HandleAsync(derivedEvent))
 				.Throws(exceptionFromHandler);
 
@@ -150,13 +150,13 @@ namespace Mendham.Domain.Test
 
 			ex.InnerException.ShouldBeEquivalentTo(exceptionFromHandler);
 			ex.DomainEvent.ShouldBeEquivalentTo(derivedEvent);
-			ex.DomainEventHandlerType.ShouldBeEquivalentTo(_fixture.DerivedEventHandler.GetType());
+			ex.DomainEventHandlerType.ShouldBeEquivalentTo(TestFixture.DerivedEventHandler.GetType());
 		}
 
 		[Fact]
 		public async Task HandleAllAsync_HandlersThrowMultipleExcpetions_ThrowsDomainEventHandlingException()
 		{
-			var derivedEvent = _fixture.CreateDerivedDomainEvent();
+			var derivedEvent = TestFixture.CreateDerivedDomainEvent();
 			var exceptionFromHandler = new InvalidOperationException("Test exception");
 			Func<Task> exTask = async () =>
 			{
@@ -164,12 +164,12 @@ namespace Mendham.Domain.Test
 				throw exceptionFromHandler;
 			};
 
-			var sut = _fixture.CreateSut();
+			var sut = TestFixture.CreateSut();
 
-			_fixture.DerivedEventHandler.AsMock()
+			TestFixture.DerivedEventHandler.AsMock()
 				.Setup(a => a.HandleAsync(derivedEvent))
 				.Throws(exceptionFromHandler);
-			_fixture.BaseEventHandler.AsMock()
+			TestFixture.BaseEventHandler.AsMock()
 				.Setup(a => a.HandleAsync(derivedEvent))
 				.Throws(exceptionFromHandler);
 
@@ -181,9 +181,9 @@ namespace Mendham.Domain.Test
 			ex.InnerExceptions.Should().HaveCount(2);
 			ex.DomainEventHandlerTypes.Should().HaveCount(2);
 			ex.DomainEventHandlerTypes.Should()
-				.Contain(_fixture.DerivedEventHandler.GetType());
+				.Contain(TestFixture.DerivedEventHandler.GetType());
 			ex.DomainEventHandlerTypes.Should()
-				.Contain(_fixture.BaseEventHandler.GetType());
+				.Contain(TestFixture.BaseEventHandler.GetType());
 		}
 	}
 }
