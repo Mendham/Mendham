@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Mendham.Testing
+namespace Mendham.Testing.Moq
 {
     public interface IBuilderForMocking<T> : IBuilder<T>
         where T : class

@@ -9,7 +9,7 @@
 		{ }
 
         /// <summary>
-        /// Create the software under test
+        /// Create the system under test
         /// </summary>
 		public abstract T CreateSut();
 

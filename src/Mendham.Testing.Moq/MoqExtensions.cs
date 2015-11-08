@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Moq;
 using Moq.Language.Flow;
 
-namespace Mendham.Testing
+namespace Mendham.Testing.Moq
 {
 	public static class MoqExtensions
 	{

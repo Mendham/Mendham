@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Mendham.Domain.Events;
+using Mendham.Domain.Test.Fixtures;
+using Mendham.Testing;
+using Mendham.Testing.Moq;
+using Moq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using FluentAssertions;
-using Mendham.Domain.Events;
-using Mendham.Domain.Test.Fixtures;
-using Mendham.Testing;
-using Moq;
 using Xunit;
 
 namespace Mendham.Domain.Test

@@ -14,11 +14,11 @@
     /// <summary>
     /// A fixture for unit testing a specific type
     /// </summary>
-    /// <typeparam name="T">Type of Software Under Test</typeparam>
+    /// <typeparam name="T">Type of System Under Test</typeparam>
 	public interface IFixture<T> : IFixture
 	{
         /// <summary>
-        /// Create the software under test
+        /// Create the system under test
         /// </summary>
 		T CreateSut();
 	}
