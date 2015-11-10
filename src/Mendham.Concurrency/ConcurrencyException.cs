@@ -7,11 +7,11 @@ namespace Mendham.Concurrency
 {
 	public class ConcurrencyException : InvalidOperationException
 	{
-		public ConcurrencyToken Expected { get; private set; }
-		public ConcurrencyToken Actual { get; private set; }
+		public IConcurrencyToken Expected { get; private set; }
+		public IConcurrencyToken Actual { get; private set; }
 		public string Entity { get; private set; }
 
-		public ConcurrencyException(ConcurrencyToken expected, ConcurrencyToken actual, string entity, string message = null)
+		public ConcurrencyException(IConcurrencyToken expected, IConcurrencyToken actual, string entity, string message = null)
 			: base(message)
 		{
 			this.Expected = expected;

@@ -7,11 +7,11 @@ namespace Mendham.Concurrency
 {
     public static class ConcurrencyExtensions
     {
-		public static T VerifyConcurrencyTokenIsNotNull<T>(this T obj, string message = null)
+		public static T VerifyConcurrencyTokenIsSet<T>(this T obj, string message = null)
 			where T : IHasConcurrencyToken
 		{
 			return obj.VerifyTokenObjectIsNotNull()
-				.VerifyArgumentMeetsCriteria(a => a.Token != null, message ?? "Concurrency Token is null");
+				.VerifyArgumentMeetsCriteria(a => a.Token != null, message ?? "Concurrency Token is not set");
 		}
 
 		public static T VerifyConcurrencyTokenIsNotSet<T>(this T obj, string message = null)
@@ -20,10 +20,10 @@ namespace Mendham.Concurrency
 			return obj.VerifyArgumentMeetsCriteria(a => a.Token == null, message ?? "Concurrency Token is already set");
 		}
 
-		public static T ValidateConcurrencyToken<T>(this T obj, ConcurrencyToken serverToken, string message = null)
+		public static T ValidateConcurrencyToken<T>(this T obj, IConcurrencyToken serverToken, string message = null)
 			where T : IHasConcurrencyToken
 		{
-			obj.VerifyConcurrencyTokenIsNotNull();
+			obj.VerifyConcurrencyTokenIsSet();
 
 			if (!obj.Token.Equals(serverToken))
 				throw new ConcurrencyException(obj.Token, serverToken, message);
@@ -31,39 +31,18 @@ namespace Mendham.Concurrency
 			return obj;
 		}
 
-		public static T ValidateConcurrencyToken<T>(this T obj, IEnumerable<byte[]> tokenFromQuery, string message = null)
-			where T : IHasConcurrencyToken
-		{
-			return obj.ValidateConcurrencyToken(GetTokenFromCollection(tokenFromQuery), message);
-		}
-
-		private static ConcurrencyToken GetTokenFromCollection(IEnumerable<byte[]> tokenFromQuery)
-		{
-			var value = tokenFromQuery.SingleOrDefault();
-
-			if (value == null || !value.Any())
-				throw new InvalidOperationException("Token not provided by query");
-
-			return value;
-		}
-
-		public static T SetConcurrencyToken<T>(this T obj, ConcurrencyToken newToken)
+		public static T SetConcurrencyToken<T>(this T obj, IConcurrencyToken newToken)
 		   where T : IHasConcurrencyToken
 		{
-			obj.Update(newToken);
+            newToken.VerifyArgumentNotDefaultValue("Token is required");
+
+            obj.Token = newToken;
 			return obj;
 		}
 
 		private static T VerifyTokenObjectIsNotNull<T>(this T obj)
 		{
 			return obj.VerifyArgumentNotNull("Object containing token is null");
-		}
-
-		private static T SetOrOverwriteConcurrencyToken<T>(this T obj, ConcurrencyToken serverFromToken)
-			where T : IHasConcurrencyToken
-		{
-			obj.Update(serverFromToken);
-			return obj;
 		}
 	}
 }

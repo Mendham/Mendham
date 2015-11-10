@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace Mendham.Concurrency
 {
-	public interface IHasConcurrencyToken
-	{
-        IConcurrencyToken Token { get; set; }
+    public static class HasConcurrencyTokenExtensions
+    {
+        
     }
 }

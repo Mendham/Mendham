@@ -1,13 +1,13 @@
 ﻿{
   "version": "0.1.0-*",
-  "description": "Mendham library used for tracking working with concurrent objects",
+  "description": "Mendham library used for tracking working with domain and concurrent objects",
   "authors": [ "Craig Beall" ],
   "tags": [ "" ],
   "projectUrl": "https://github.com/cbeall/Mendham",
   "licenseUrl": "https://raw.githubusercontent.com/cbeall/Mendham/master/LICENSE",
   "requireLicenseAcceptance": false,
   "frameworks": {
-    "net451": { },
+    "dnx451": { },
     "dnxcore50": {
       "dependencies": {
         "Microsoft.CSharp": "4.0.1-beta-23409",
@@ -19,6 +19,8 @@
     }
   },
   "dependencies": {
-    "Mendham": "0.1.0-*"
+    "Mendham": "0.1.0-*",
+    "Mendham.Concurrency": "0.1.0-*",
+    "Mendham.Domain": "0.1.0-*"
   }
 }
