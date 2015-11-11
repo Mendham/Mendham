@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Mendham.Testing.Domain")]
+[assembly: AssemblyTitle("Mendham.Testing.Domain.Test")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Mendham.Testing.Domain")]
+[assembly: AssemblyProduct("Mendham.Testing.Domain.Test")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,6 +20,4 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("9186b9f0-2691-412b-b3aa-2089a35dfc15")]
-
-[assembly: InternalsVisibleTo("Mendham.Testing.Domain.Test")]
+[assembly: Guid("3a07ba56-9fba-4d95-bab0-7bc38d7f3327")]

@@ -64,7 +64,7 @@ namespace Mendham.Testing
         private const string FAIL_DETAILS_ONCE = "once and only once";
 
         public readonly static TimesRaised AtLeastOnce = new TimesRaised(FAIL_DETAILS_AT_LEAST_ONCE, 1, null);
-        public readonly static TimesRaised AtMostOnce = new TimesRaised(FAIL_DETAILS_AT_MOST_ONCE, 1, null);
+        public readonly static TimesRaised AtMostOnce = new TimesRaised(FAIL_DETAILS_AT_MOST_ONCE, null, 1);
         public readonly static TimesRaised Once = new TimesRaised(FAIL_DETAILS_ONCE, 1, 1);
         public readonly static TimesRaised Never = new TimesRaised(FAIL_DETAILS_NEVER, 0, 0);
 
@@ -80,12 +80,15 @@ namespace Mendham.Testing
 
         public static TimesRaised AtMost(int timesRaised)
         {
-            timesRaised.VerifyArgumentMeetsCriteria(a => a > 0, "Times raised must be at least 1");
+            timesRaised.VerifyArgumentMeetsCriteria(a => a >= 0, "Times raised must not be a negative number");
+
+            if (timesRaised == 0)
+                return Never;
 
             if (timesRaised == 1)
                 return AtMostOnce;
 
-            return new TimesRaised(FAIL_DETAILS_AT_MOST, timesRaised, null);
+            return new TimesRaised(FAIL_DETAILS_AT_MOST, null, timesRaised);
         }
 
         public static TimesRaised Between(int minTimesRaised, int maxTimesRaised)
@@ -93,7 +96,7 @@ namespace Mendham.Testing
             minTimesRaised.VerifyArgumentMeetsCriteria(a => a >= 0,
                 "Minimum times raised must be at least 0");
             maxTimesRaised.VerifyArgumentMeetsCriteria(a => a >= minTimesRaised,
-                "Maximum time raised cannot be less than minimum times raised");
+                    "Maximum time raised cannot be less than minimum times raised");
 
             if (minTimesRaised == maxTimesRaised)
                 return Exactly(minTimesRaised);
@@ -103,7 +106,7 @@ namespace Mendham.Testing
 
         public static TimesRaised Exactly(int timesRaised)
         {
-            timesRaised.VerifyArgumentMeetsCriteria(a => a > 0, "Times raised must be at least 1");
+            timesRaised.VerifyArgumentMeetsCriteria(a => a >= 0, "Times raised cannot be a negative number");
 
             switch (timesRaised)
             {
