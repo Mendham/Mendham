@@ -21,6 +21,32 @@ namespace Mendham.Testing.Moq
 		}
 
         /// <summary>
+        /// For a method that returns a enumeration, returns items (passed as parameters) as a collection of those items
+        /// </summary>
+        /// <typeparam name="T">Type of mock</typeparam>
+        /// <typeparam name="TResult">Type of results returned by setup</typeparam>
+        /// <param name="setup">Setup of mock</param>
+        /// <param name="results">Additional items to be returned</param>
+		public static void ReturnItems<T, TResult>(this ISetup<T, IEnumerable<TResult>> setup, params TResult[] results)
+            where T : class
+        {
+            setup.Returns(results);
+        }
+
+        /// <summary>
+        /// For a method that returns a enumeration, returns items (passed as parameters) as a collection of those items
+        /// </summary>
+        /// <typeparam name="T">Type of mock</typeparam>
+        /// <typeparam name="TResult">Type of results returned by setup</typeparam>
+        /// <param name="setup">Setup of mock</param>
+        /// <param name="results">Additional items to be returned</param>
+		public static void ReturnItemsAsync<T, TResult>(this ISetup<T, Task<IEnumerable<TResult>>> setup, params TResult[] results)
+            where T : class
+        {
+            setup.Returns(Task.FromResult<IEnumerable<TResult>>(results));
+        }
+
+        /// <summary>
         /// Allows for a mock setup to return a different result on subsequent calls based as defined by the collection of results
         /// </summary>
         /// <typeparam name="T">Type of mock</typeparam>
