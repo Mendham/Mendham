@@ -4,27 +4,29 @@ using System.Linq.Expressions;
 using System.Reflection;
 using Mendham.Testing.Helpers;
 using Ploeh.AutoFixture;
+using Mendham.Testing.Builder;
 
 namespace Mendham.Testing
 {
 	public abstract class DataBuilder<T> : IBuilder<T>
-	{
-		private static Ploeh.AutoFixture.Fixture _sharedFixture;
-		private static Ploeh.AutoFixture.Fixture SharedFixture
+    {
+		private static IObjectCreationContext _objectCreationContext;
+		private static IObjectCreationContext ObjectCreationContext
 		{
 			get
 			{
-				return _sharedFixture = _sharedFixture ?? new Ploeh.AutoFixture.Fixture();
+                if (_objectCreationContext == default(IObjectCreationContext))
+                {
+                    _objectCreationContext = new ObjectCreationContext(typeof(DataBuilder<T>).Assembly);
+                }
+
+                return _objectCreationContext;
 			}
 		}
 
-		protected Ploeh.AutoFixture.Fixture AutoFixture { get; private set; }
-
 		[DebuggerStepThrough]
 		public DataBuilder()
-		{
-			this.AutoFixture = SharedFixture;
-		}
+		{ }
 
 		[DebuggerStepThrough()]
 		public T Build()
@@ -37,12 +39,12 @@ namespace Mendham.Testing
 
 		protected TResult CreateAnonymous<TResult>()
 		{
-			return SharedFixture.Create<TResult>();
+			return ObjectCreationContext.Create<TResult>();
 		}
 
 		protected TResult CreateAnonymous<TResult>(TResult seed)
 		{
-			return SharedFixture.Create<TResult>(seed);
+			return ObjectCreationContext.Create<TResult>(seed);
 		}
 
 		public static implicit operator T(DataBuilder<T> builder)
