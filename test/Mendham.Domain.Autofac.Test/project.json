@@ -16,7 +16,7 @@
     "Mendham.Domain.Autofac": "0.1.0-*",
     "Mendham.Testing": "0.1.0-*",
     "Mendham.Testing.Moq": "0.1.0-*",
-    "Autofac": "4.0.0-beta8-157"
+    "Autofac": "4.0.0-rc1-177"
   },
 
   "commands": {
@@ -35,7 +35,7 @@
     },
     "dnx451": {
       "dependencies": {
-        "xunit.runner.dnx": "2.1.0-beta6-build191"
+        "xunit.runner.dnx": "2.1.0-rc1-build204"
       }
     }
   }
