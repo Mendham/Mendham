@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace Mendham.Testing.Builder
 {
-    public interface IBuilderLookup
+    public interface IBuilderRegistrationFactory
     {
-        IEnumerable<Type> GetBuilderTypes();
+        IBuilderRegistration Create();
     }
 }

@@ -32,11 +32,10 @@ namespace Mendham.Testing.Builder
         }
 
         public T Build<T>()
-            where T : class
         {
-            var obj = BuildObject() as T;
+            var obj = BuildObject();
 
-            if (obj == default(T))
+            if (typeof(T).IsAssignableFrom(obj.GetType()))
             {
                 var msg = string.Format(
                     CultureInfo.CurrentCulture,
@@ -47,7 +46,7 @@ namespace Mendham.Testing.Builder
                 throw new InvalidOperationException(msg);
             }
 
-            return obj;
+            return (T)obj;
         }
     }
 }
