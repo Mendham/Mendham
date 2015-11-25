@@ -182,7 +182,7 @@ namespace Mendham.Testing.Builder.Test
         }
 
         [Fact]
-        public void Build_SingleDefaultBuilder_DefaultObject()
+        public void BuildGeneric_SingleDefaultBuilder_DefaultObject()
         {
             var builderTypeForConstrainedInputObject = typeof(ConstrainedInputObjectBuilder);
             var mendhamBuilderAttribute = new MendhamBuilderAttribute();
@@ -204,7 +204,7 @@ namespace Mendham.Testing.Builder.Test
         }
 
         [Fact]
-        public void Build_SingleOverridenBuilder_DefaultObectAsBaseType()
+        public void BuildGeneric_SingleOverridenBuilder_DefaultObjectAsBaseType()
         {
             var builderTypeForConstrainedInputObject = typeof(ConstrainedInputObjectBuilder);
             var abstractConstrainedInputObjectType = typeof(AbstractConstrainedInputObject);
@@ -228,7 +228,7 @@ namespace Mendham.Testing.Builder.Test
         }
 
         [Fact]
-        public void Build_TypeNotRegistered_ThrowsUnregisteredBuilderTypeException()
+        public void BuildGeneric_TypeNotRegistered_ThrowsUnregisteredBuilderTypeException()
         {
             var builderTypeForConstrainedInputObject = typeof(ConstrainedInputObjectBuilder);
             var typeWithUndefinedBuilder = typeof(DerivedConstrainedInputObject);
@@ -251,7 +251,7 @@ namespace Mendham.Testing.Builder.Test
         }
 
         [Fact]
-        public void Build_RegisterNotCalled_ThrowsBuilderRegistrationNotRegisteredException()
+        public void BuildGeneric_RegisterNotCalled_ThrowsBuilderRegistrationNotRegisteredException()
         {
             var sut = TestFixture.CreateSut();
             Action act = () => sut.Build<ConstrainedInputObject>();
@@ -260,7 +260,7 @@ namespace Mendham.Testing.Builder.Test
         }
 
         [Fact]
-        public void TryBuild_SingleDefaultBuilder_TrueWithDefaultObject()
+        public void Build_SingleDefaultBuilder_DefaultObject()
         {
             var builderTypeForConstrainedInputObject = typeof(ConstrainedInputObjectBuilder);
             var mendhamBuilderAttribute = new MendhamBuilderAttribute();
@@ -275,17 +275,14 @@ namespace Mendham.Testing.Builder.Test
             var sut = TestFixture.CreateSut();
             sut.Register(TestFixture.TestAssembly);
 
-            ConstrainedInputObject objBuilt = null;
-            var result = sut.TryBuild(out objBuilt);
+            var result = sut.Build(typeof(ConstrainedInputObject));
 
             result.Should()
-                .BeTrue();
-            objBuilt.Should()
                 .NotBeNull();
         }
 
         [Fact]
-        public void TryBuild_SingleOverridenBuilder_TrueWithDefaultObectAsBaseType()
+        public void Build_SingleOverridenBuilder_DefaultObjectAsBaseType()
         {
             var builderTypeForConstrainedInputObject = typeof(ConstrainedInputObjectBuilder);
             var abstractConstrainedInputObjectType = typeof(AbstractConstrainedInputObject);
@@ -301,18 +298,15 @@ namespace Mendham.Testing.Builder.Test
             var sut = TestFixture.CreateSut();
             sut.Register(TestFixture.TestAssembly);
 
-            AbstractConstrainedInputObject objBuilt = null;
-            var result = sut.TryBuild(out objBuilt);
+            var result = sut.Build(typeof(AbstractConstrainedInputObject));
 
             result.Should()
-                .BeTrue();
-            objBuilt.Should()
                 .NotBeNull("Because the builder built an object")
                 .And.BeAssignableTo<ConstrainedInputObject>("Because it is actually this type");
         }
 
         [Fact]
-        public void TryBuild_TypeNotRegistered_False()
+        public void Build_TypeNotRegistered_ThrowsUnregisteredBuilderTypeException()
         {
             var builderTypeForConstrainedInputObject = typeof(ConstrainedInputObjectBuilder);
             var typeWithUndefinedBuilder = typeof(DerivedConstrainedInputObject);
@@ -328,22 +322,17 @@ namespace Mendham.Testing.Builder.Test
             var sut = TestFixture.CreateSut();
             sut.Register(TestFixture.TestAssembly);
 
-            DerivedConstrainedInputObject objBuilt = null;
-            var result = sut.TryBuild(out objBuilt);
+            Action act = () => sut.Build(typeof(DerivedConstrainedInputObject));
 
-            result.Should()
-                .BeFalse();
-            objBuilt.Should()
-                .BeNull();
+            act.ShouldThrow<UnregisteredBuilderTypeException>()
+                .Where(a => a.TypeAttemptedToBuild == typeWithUndefinedBuilder);
         }
 
         [Fact]
-        public void TryBuild_RegisterNotCalled_ThrowsBuilderRegistrationNotRegisteredException()
+        public void Build_RegisterNotCalled_ThrowsBuilderRegistrationNotRegisteredException()
         {
             var sut = TestFixture.CreateSut();
-            ConstrainedInputObject objBuilt = null;
-
-            Action act = () => sut.TryBuild(out objBuilt);
+            Action act = () => sut.Build(typeof(ConstrainedInputObject));
 
             act.ShouldThrow<BuilderRegistrationNotRegisteredException>();
         }

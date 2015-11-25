@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Mendham.Testing.Builder.AutoFixture;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -17,25 +18,31 @@ namespace Mendham.Testing.Builder
         public ObjectCreationContext(Assembly callerAssembly)
         {
             this.builderRegistration = builderRegistrationManager.GetBuilderRegistration(callerAssembly);
-            this.anonymousBuilder = new AutoFixtureObjectCreationService();
+            this.anonymousBuilder = new AutoFixtureObjectCreationService(builderRegistration);
         }
 
         public T Create<T>()
         {
-            T obj = default(T);
-            if (builderRegistration.TryBuild(out obj))
-                return obj;
-
-            return anonymousBuilder.Create<T>();
+            if (builderRegistration.IsTypeRegistered<T>())
+            {
+                return builderRegistration.Build<T>();
+            }
+            else
+            {
+                return anonymousBuilder.Create<T>();
+            }
         }
 
         public T Create<T>(T seed)
         {
-            T obj = default(T);
-            if (builderRegistration.TryBuild(out obj))
-                return obj;
-
-            return anonymousBuilder.Create<T>(seed);
+            if (builderRegistration.IsTypeRegistered<T>())
+            {
+                return builderRegistration.Build<T>();
+            }
+            else
+            {
+                return anonymousBuilder.Create<T>(seed);
+            }
         }
 
         public IEnumerable<T> CreateMany<T>()

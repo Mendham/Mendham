@@ -8,12 +8,10 @@ namespace Mendham.Testing.Builder
 {
     public interface IBuilderRegistration
     {
-        void Register(Assembly callingAssembly);
-
         bool IsTypeRegistered<T>();
+        bool IsTypeRegistered(Type typeToBuild);
 
         T Build<T>();
-
-        bool TryBuild<T>(out T value);
+        object Build(Type typeToBuild);
     }
 }

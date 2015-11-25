@@ -4,15 +4,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Mendham.Testing.Builder
+namespace Mendham.Testing.Builder.AutoFixture
 {
     public class AutoFixtureObjectCreationService : IUnregisteredObjectCreationService
     {
         private readonly Fixture _fixture;
 
-        public AutoFixtureObjectCreationService()
+        public AutoFixtureObjectCreationService(IBuilderRegistration builderRegistration)
         {
-            this._fixture = new Fixture();
+            _fixture = new Fixture();
+            _fixture.Customizations.Add(new BuilderRegistrationSpecimenBuilder(builderRegistration));
         }
 
         public T Create<T>()
@@ -22,7 +23,7 @@ namespace Mendham.Testing.Builder
 
         public T Create<T>(T seed)
         {
-            return _fixture.Create<T>(seed);
+            return _fixture.Create(seed);
         }
 
         public IEnumerable<T> CreateMany<T>()
@@ -32,7 +33,7 @@ namespace Mendham.Testing.Builder
 
         public IEnumerable<T> CreateMany<T>(T seed)
         {
-            return _fixture.CreateMany<T>();
+            return _fixture.CreateMany(seed);
         }
     }
 }

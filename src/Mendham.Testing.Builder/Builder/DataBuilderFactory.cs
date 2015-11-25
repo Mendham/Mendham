@@ -33,20 +33,25 @@ namespace Mendham.Testing.Builder
 
         public T Build<T>()
         {
+            return (T)Build(typeof(T));
+        }
+
+        public object Build(Type typeToBuild)
+        {
             var obj = BuildObject();
 
-            if (typeof(T).IsAssignableFrom(obj.GetType()))
+            if (!typeToBuild.IsAssignableFrom(obj.GetType()))
             {
                 var msg = string.Format(
                     CultureInfo.CurrentCulture,
                     "The type built {0} was not assignable to the type request {1}. Check DataTheoryBuilderAttribute configuration",
                     obj.GetType().FullName,
-                    typeof(T).FullName);
+                    typeToBuild.FullName);
 
                 throw new InvalidOperationException(msg);
             }
 
-            return (T)obj;
+            return obj;
         }
     }
 }

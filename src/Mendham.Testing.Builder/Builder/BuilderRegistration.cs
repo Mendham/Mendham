@@ -11,11 +11,11 @@ namespace Mendham.Testing.Builder
 {
     public class BuilderRegistration : IBuilderRegistration
     {
-        private readonly ConcurrentDictionary<Type, DataBuilderFactory> registeredTypes;
+        private readonly Dictionary<Type, DataBuilderFactory> registeredTypes;
         private readonly IBuilderQueryService builderQuerySvc;
         private readonly IBuilderAttributeResolver builderAttributeResolver;
 
-        private bool isComplete = false;
+        private bool isRegistered = false;
 
 
         public BuilderRegistration(IBuilderQueryService builderQuerySvc, IBuilderAttributeResolver builderAttributeResolver)
@@ -26,28 +26,25 @@ namespace Mendham.Testing.Builder
             this.builderQuerySvc = builderQuerySvc;
             this.builderAttributeResolver = builderAttributeResolver;
 
-            registeredTypes = new ConcurrentDictionary<Type, DataBuilderFactory>();
-            isComplete = false;
+            registeredTypes = new Dictionary<Type, DataBuilderFactory>();
+            isRegistered = false;
         }
 
-        public void Register(Assembly assembly)
+        public void Register(Assembly callingAssembly)
         {
-            if (isComplete)
+            if (isRegistered)
                 return;
 
             var builderTypes = builderQuerySvc
-                .GetBuilderTypes(assembly)
+                .GetBuilderTypes(callingAssembly)
                 .Select(ValidateBuilder);
 
             foreach (var builderType in builderTypes)
             {
-                if (isComplete)
-                    return;
-
                 AddBuilderTypesToRegistation(builderType, builderAttributeResolver);
             }
 
-            isComplete = true;
+            isRegistered = true;
         }
 
         /// <summary>
@@ -57,42 +54,39 @@ namespace Mendham.Testing.Builder
         /// <returns>True if registered, false if not</returns>
         public bool IsTypeRegistered<T>()
         {
-            if (!isComplete)
+            return IsTypeRegistered(typeof(T));
+        }
+
+        public bool IsTypeRegistered(Type typeToBuild)
+        {
+            if (!isRegistered)
                 throw new BuilderRegistrationNotRegisteredException();
 
-            return registeredTypes.ContainsKey(typeof(T));
+            return registeredTypes.ContainsKey(typeToBuild);
         }
 
         public T Build<T>()
         {
-            if (!isComplete)
+            if (!isRegistered)
                 throw new BuilderRegistrationNotRegisteredException();
 
-            DataBuilderFactory mdbFactory = null;
+            var typeToBuild = typeof(T);
+                 
+            if (!registeredTypes.ContainsKey(typeToBuild))
+                throw new UnregisteredBuilderTypeException(typeToBuild);
 
-            if (!registeredTypes.TryGetValue(typeof(T), out mdbFactory))
-            {
-                throw new UnregisteredBuilderTypeException(typeof(T));
-            }
-
-            return mdbFactory.Build<T>();
+            return registeredTypes[typeToBuild].Build<T>();
         }
 
-        public bool TryBuild<T>(out T value)
+        public object Build(Type typeToBuild)
         {
-            if (!isComplete)
+            if (!isRegistered)
                 throw new BuilderRegistrationNotRegisteredException();
 
-            DataBuilderFactory mdbFactory = null;
+            if (!registeredTypes.ContainsKey(typeToBuild))
+                throw new UnregisteredBuilderTypeException(typeToBuild);
 
-            if (!registeredTypes.TryGetValue(typeof(T), out mdbFactory))
-            {
-                value = default(T);
-                return false;
-            }
-
-            value = mdbFactory.Build<T>();
-            return true;
+            return registeredTypes[typeToBuild].Build(typeToBuild);
         }
 
         private Type ValidateBuilder(Type builderType)
@@ -116,7 +110,7 @@ namespace Mendham.Testing.Builder
 
             foreach (var typeToBuild in typesToBuild)
             {
-                if (isComplete)
+                if (isRegistered)
                     return;
 
                 AddToDictionary(builderType, typeToBuild);
@@ -144,19 +138,23 @@ namespace Mendham.Testing.Builder
 
         private void AddToDictionary(Type builderType, Type typeToBuild)
         {
-            var builderFactory = new DataBuilderFactory(builderType);
+            if (registeredTypes.ContainsKey(typeToBuild))
+            {
+                var existingBuilderType = registeredTypes[typeToBuild].BuilderType;
 
-            registeredTypes
-                .AddOrUpdate(typeToBuild, builderFactory, (key, existingValue) =>
+                if (existingBuilderType != builderType)
                 {
-                    if (!existingValue.IsBuilderMatch(builderType))
-                    {
-                        throw new MultipleBuilderForTypeException(existingValue.BuilderType, 
-                            builderType,  typeToBuild);
-                    }
+                    throw new MultipleBuilderForTypeException(existingBuilderType,
+                        builderType, typeToBuild);
+                }
+                else
+                {
+                    return;
+                }
+            }
 
-                    return existingValue;
-                });
+            var builderFactory = new DataBuilderFactory(builderType);
+            registeredTypes[typeToBuild] = builderFactory;
         }
     }
 }

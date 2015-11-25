@@ -32,8 +32,7 @@ namespace Mendham.Testing.Builder
 
         private IBuilderRegistration CreateBuilderRegistration(Assembly callingAssembly)
         {
-            var builderRegistration = builderRegistrationFactory.Create();
-            builderRegistration.Register(callingAssembly);
+            var builderRegistration = builderRegistrationFactory.Create(callingAssembly);
 
             return builderRegistration;
         }
