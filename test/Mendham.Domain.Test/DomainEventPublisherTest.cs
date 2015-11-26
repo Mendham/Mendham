@@ -19,30 +19,30 @@ namespace Mendham.Domain.Test
 		[Fact]
 		public async Task RaiseAsync_DomainEvent_RaisesHandlers()
 		{
-			var domainEvent = TestFixture.CreateDomainEvent();
-			TestFixture.DomainEventHandlerContainer.AsMock()
+			var domainEvent = Fixture.CreateDomainEvent();
+			Fixture.DomainEventHandlerContainer.AsMock()
 				.Setup(a => a.HandleAllAsync(domainEvent))
 				.ReturnsNoActionTask();
 
-			var sut = TestFixture.CreateSut();
+			var sut = Fixture.CreateSut();
 
 			await sut.RaiseAsync(domainEvent);
 
-			TestFixture.DomainEventHandlerContainer.AsMock()
+			Fixture.DomainEventHandlerContainer.AsMock()
 				.Verify(a => a.HandleAllAsync(domainEvent), Times.Once);
 		}
 
 		[Fact]
 		public async Task RaiseAsync_DomainEvent_LogsEvent()
 		{
-			var domainEvent = TestFixture.CreateDomainEvent();
+			var domainEvent = Fixture.CreateDomainEvent();
 			var logger = Mock.Of<IDomainEventLogger>();
-			TestFixture.DomainEventLoggers = logger.AsSingleItemEnumerable();
-			TestFixture.DomainEventHandlerContainer.AsMock()
+			Fixture.DomainEventLoggers = logger.AsSingleItemEnumerable();
+			Fixture.DomainEventHandlerContainer.AsMock()
 				.Setup(a => a.HandleAllAsync(domainEvent))
 				.ReturnsNoActionTask();
 
-			var sut = TestFixture.CreateSut();
+			var sut = Fixture.CreateSut();
 
 			await sut.RaiseAsync(domainEvent);
 
@@ -53,14 +53,14 @@ namespace Mendham.Domain.Test
 		[Fact]
 		public async Task RaiseAsync_HandlerException_StillLogsEvent()
 		{
-			var domainEvent = TestFixture.CreateDomainEvent();
+			var domainEvent = Fixture.CreateDomainEvent();
 			var logger = Mock.Of<IDomainEventLogger>();
-			TestFixture.DomainEventLoggers = logger.AsSingleItemEnumerable();
-			TestFixture.DomainEventHandlerContainer.AsMock()
+			Fixture.DomainEventLoggers = logger.AsSingleItemEnumerable();
+			Fixture.DomainEventHandlerContainer.AsMock()
 				.Setup(a => a.HandleAllAsync(domainEvent))
 				.Throws<InvalidOperationException>();
 
-			var sut = TestFixture.CreateSut();
+			var sut = Fixture.CreateSut();
 
 			await Assert.ThrowsAsync<InvalidOperationException>(
 				() => sut.RaiseAsync(domainEvent));

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Mendham.Testing.Builder.Test.TestObjects
 {
     [MendhamBuilder]
-    public class DerivedConstrainedInputObjectBuilder : DataBuilder<DerivedConstrainedInputObject>
+    public class DerivedConstrainedInputObjectBuilder : Builder<DerivedConstrainedInputObject>
     {
         private string value;
         private int derivedValue;

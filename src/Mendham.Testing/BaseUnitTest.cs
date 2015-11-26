@@ -13,14 +13,14 @@ namespace Mendham.Testing
     public abstract class BaseUnitTest<TFixture> : IClassFixture<TFixture>
 		where TFixture : class, IFixture, new()
 	{
-		protected TFixture TestFixture { get; private set; }
+		protected TFixture Fixture { get; private set; }
 
 		public BaseUnitTest(TFixture fixture)
 		{
-			this.TestFixture = fixture;
+			this.Fixture = fixture;
 
             // This constructor is called prior to every test which resets the fixture prior to each test
-			TestFixture.ResetFixture();
+			Fixture.ResetFixture();
 		}
 	}
 }

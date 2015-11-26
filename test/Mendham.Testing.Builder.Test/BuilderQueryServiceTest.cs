@@ -19,11 +19,11 @@ namespace Mendham.Testing.Builder.Test
         {
             var thisAssembly = this.GetType().Assembly;
 
-            TestFixture.BuilderAssemblyQueryService.AsMock()
+            Fixture.BuilderAssemblyQueryService.AsMock()
                 .Setup(a => a.GetAssembliesWithBuilders(thisAssembly))
                 .ReturnItems(thisAssembly, typeof(IBuilder<>).Assembly);
 
-            var sut = TestFixture.CreateSut();
+            var sut = Fixture.CreateSut();
 
             var result = sut.GetBuilderTypes(thisAssembly);
 

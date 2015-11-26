@@ -8,16 +8,16 @@ using Mendham.Testing.Builder;
 
 namespace Mendham.Testing
 {
-	public abstract class DataBuilder<T> : IBuilder<T>
+	public abstract class Builder<T> : IBuilder<T>
     {
 		private static IObjectCreationContext _objectCreationContext;
-		private static IObjectCreationContext ObjectCreationContext
+		protected static IObjectCreationContext ObjectCreationContext
 		{
 			get
 			{
                 if (_objectCreationContext == default(IObjectCreationContext))
                 {
-                    _objectCreationContext = new ObjectCreationContext(typeof(DataBuilder<T>).Assembly);
+                    _objectCreationContext = new ObjectCreationContext(typeof(Builder<T>).Assembly);
                 }
 
                 return _objectCreationContext;
@@ -25,7 +25,7 @@ namespace Mendham.Testing
 		}
 
 		[DebuggerStepThrough]
-		public DataBuilder()
+		public Builder()
 		{ }
 
 		[DebuggerStepThrough()]
@@ -44,10 +44,10 @@ namespace Mendham.Testing
 
 		protected TResult CreateAnonymous<TResult>(TResult seed)
 		{
-			return ObjectCreationContext.Create<TResult>(seed);
+			return ObjectCreationContext.Create(seed);
 		}
 
-		public static implicit operator T(DataBuilder<T> builder)
+		public static implicit operator T(Builder<T> builder)
 		{
 			return builder.Build();
 		}

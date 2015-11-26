@@ -20,8 +20,8 @@ namespace Mendham.Testing.Domain.Test
         [Fact]
         public async Task VerifyDomainEventRaised_Raised_NoException()
         {
-            var sut = TestFixture.CreateSut();
-            await TestFixture.RaiseTestDomainEvent1();
+            var sut = Fixture.CreateSut();
+            await Fixture.RaiseTestDomainEvent1();
 
             Action act = () => sut.VerifyDomainEventRaised<Fixture.TestDomainEvent1>();
 
@@ -31,9 +31,9 @@ namespace Mendham.Testing.Domain.Test
         [Fact]
         public async Task VerifyDomainEventRaised_RaisedTwice_NoException()
         {
-            var sut = TestFixture.CreateSut();
-            await TestFixture.RaiseTestDomainEvent1();
-            await TestFixture.RaiseTestDomainEvent1();
+            var sut = Fixture.CreateSut();
+            await Fixture.RaiseTestDomainEvent1();
+            await Fixture.RaiseTestDomainEvent1();
 
             Action act = () => sut.VerifyDomainEventRaised<Fixture.TestDomainEvent1>();
 
@@ -44,7 +44,7 @@ namespace Mendham.Testing.Domain.Test
         [AutoData]
         public void VerifyDomainEventRaised_NotRaised_DomainEventVerificationException(string userMessage)
         {
-            var sut = TestFixture.CreateSut();
+            var sut = Fixture.CreateSut();
 
             Action act = () => sut.VerifyDomainEventRaised<Fixture.TestDomainEvent1>(userMessage);
 
@@ -56,8 +56,8 @@ namespace Mendham.Testing.Domain.Test
         [AutoData]
         public async Task VerifyDomainEventRaised_WrongEventRaised_DomainEventVerificationException(string userMessage)
         {
-            var sut = TestFixture.CreateSut();
-            await TestFixture.RaiseTestDomainEvent1();
+            var sut = Fixture.CreateSut();
+            await Fixture.RaiseTestDomainEvent1();
 
             Action act = () => sut.VerifyDomainEventRaised<Fixture.TestDomainEvent2>(userMessage);
 
@@ -68,9 +68,9 @@ namespace Mendham.Testing.Domain.Test
         [Fact]
         public async Task VerifyDomainEventRaisedTwice_RaisedTwice_NoException()
         {
-            var sut = TestFixture.CreateSut();
-            await TestFixture.RaiseTestDomainEvent1();
-            await TestFixture.RaiseTestDomainEvent1();
+            var sut = Fixture.CreateSut();
+            await Fixture.RaiseTestDomainEvent1();
+            await Fixture.RaiseTestDomainEvent1();
 
             Action act = () => sut.VerifyDomainEventRaised<Fixture.TestDomainEvent1>(TimesRaised.Exactly(2));
 
@@ -81,8 +81,8 @@ namespace Mendham.Testing.Domain.Test
         [AutoData]
         public async Task VerifyDomainEventRaisedTwice_RaiseOnce_DomainEventVerificationException(string userMessage)
         {
-            var sut = TestFixture.CreateSut();
-            await TestFixture.RaiseTestDomainEvent1();
+            var sut = Fixture.CreateSut();
+            await Fixture.RaiseTestDomainEvent1();
 
             Action act = () => sut.VerifyDomainEventRaised<Fixture.TestDomainEvent1>(TimesRaised.Exactly(2), userMessage);
 
@@ -94,8 +94,8 @@ namespace Mendham.Testing.Domain.Test
         [AutoData]
         public async Task VerifyDomainEventRaisedWithCondition_Raised_NoException(string domainEventValue)
         {
-            var sut = TestFixture.CreateSut();
-            await TestFixture.RaiseTestDomainEvent2(domainEventValue);
+            var sut = Fixture.CreateSut();
+            await Fixture.RaiseTestDomainEvent2(domainEventValue);
 
             Action act = () => sut.VerifyDomainEventRaised<Fixture.TestDomainEvent2>(a => a.Value == domainEventValue);
 
@@ -106,9 +106,9 @@ namespace Mendham.Testing.Domain.Test
         [AutoData]
         public async Task VerifyDomainEventRaisedWithCondition_RaisedTwice_NoException(string domainEventValue)
         {
-            var sut = TestFixture.CreateSut();
-            await TestFixture.RaiseTestDomainEvent2(domainEventValue);
-            await TestFixture.RaiseTestDomainEvent2(domainEventValue);
+            var sut = Fixture.CreateSut();
+            await Fixture.RaiseTestDomainEvent2(domainEventValue);
+            await Fixture.RaiseTestDomainEvent2(domainEventValue);
 
             Action act = () => sut.VerifyDomainEventRaised<Fixture.TestDomainEvent2>(a => a.Value == domainEventValue);
 
@@ -119,7 +119,7 @@ namespace Mendham.Testing.Domain.Test
         [AutoData]
         public void VerifyDomainEventRaisedWithCondition_NotRaised_DomainEventVerificationException(string domainEventValue, string userMessage)
         {
-            var sut = TestFixture.CreateSut();
+            var sut = Fixture.CreateSut();
 
             Action act = () => sut.VerifyDomainEventRaised<Fixture.TestDomainEvent2>(a => a.Value == domainEventValue, userMessage);
 
@@ -132,8 +132,8 @@ namespace Mendham.Testing.Domain.Test
         public async Task VerifyDomainEventRaisedWithCondition_RaisedIncorrectionCondition_DomainEventVerificationException(
             string expectedDomainEventValue, string actualDomainEventValue, string userMessage)
         {
-            var sut = TestFixture.CreateSut();
-            await TestFixture.RaiseTestDomainEvent2(actualDomainEventValue);
+            var sut = Fixture.CreateSut();
+            await Fixture.RaiseTestDomainEvent2(actualDomainEventValue);
 
             Action act = () => sut.VerifyDomainEventRaised<Fixture.TestDomainEvent2>(a => a.Value == expectedDomainEventValue, userMessage);
 
@@ -145,8 +145,8 @@ namespace Mendham.Testing.Domain.Test
         [AutoData]
         public async Task VerifyDomainEventRaisedWithCondition_WrongEventRaised_DomainEventVerificationException(string domainEventValue, string userMessage)
         {
-            var sut = TestFixture.CreateSut();
-            await TestFixture.RaiseTestDomainEvent1();
+            var sut = Fixture.CreateSut();
+            await Fixture.RaiseTestDomainEvent1();
 
             Action act = () => sut.VerifyDomainEventRaised<Fixture.TestDomainEvent2>(a => a.Value == domainEventValue, userMessage);
 
@@ -158,9 +158,9 @@ namespace Mendham.Testing.Domain.Test
         [AutoData]
         public async Task VerifyDomainEventRaisedWithConditionTwice_RaisedTwice_NoException(string domainEventValue)
         {
-            var sut = TestFixture.CreateSut();
-            await TestFixture.RaiseTestDomainEvent2(domainEventValue);
-            await TestFixture.RaiseTestDomainEvent2(domainEventValue);
+            var sut = Fixture.CreateSut();
+            await Fixture.RaiseTestDomainEvent2(domainEventValue);
+            await Fixture.RaiseTestDomainEvent2(domainEventValue);
 
             Action act = () => sut.VerifyDomainEventRaised<Fixture.TestDomainEvent2>(
                 a => a.Value == domainEventValue, TimesRaised.Exactly(2));
@@ -172,8 +172,8 @@ namespace Mendham.Testing.Domain.Test
         [AutoData]
         public async Task VerifyDomainEventRaisedWithConditionTwice_RaiseOnce_DomainEventVerificationException(string domainEventValue, string userMessage)
         {
-            var sut = TestFixture.CreateSut();
-            await TestFixture.RaiseTestDomainEvent2(domainEventValue);
+            var sut = Fixture.CreateSut();
+            await Fixture.RaiseTestDomainEvent2(domainEventValue);
 
             Action act = () => sut.VerifyDomainEventRaised<Fixture.TestDomainEvent2>(
                 a => a.Value == domainEventValue, TimesRaised.Exactly(2), userMessage);
@@ -187,9 +187,9 @@ namespace Mendham.Testing.Domain.Test
         public async Task VerifyDomainEventRaisedWithConditionTwice_NotAllMeetCondition_DomainEventVerificationException(
             string domainEventValue, string altDomainEventValue, string userMessage)
         {
-            var sut = TestFixture.CreateSut();
-            await TestFixture.RaiseTestDomainEvent2(domainEventValue);
-            await TestFixture.RaiseTestDomainEvent2(altDomainEventValue);
+            var sut = Fixture.CreateSut();
+            await Fixture.RaiseTestDomainEvent2(domainEventValue);
+            await Fixture.RaiseTestDomainEvent2(altDomainEventValue);
 
             Action act = () => sut.VerifyDomainEventRaised<Fixture.TestDomainEvent2>(a => 
             a.Value == domainEventValue, TimesRaised.Exactly(2), userMessage);

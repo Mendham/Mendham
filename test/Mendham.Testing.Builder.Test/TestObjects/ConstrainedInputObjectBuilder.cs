@@ -8,7 +8,7 @@ namespace Mendham.Testing.Builder.Test.TestObjects
 {
     [MendhamBuilder]
     [MendhamBuilder(typeof(AbstractConstrainedInputObject))]
-    public class ConstrainedInputObjectBuilder : DataBuilder<ConstrainedInputObject>
+    public class ConstrainedInputObjectBuilder : Builder<ConstrainedInputObject>
     {
         private string value;
 
