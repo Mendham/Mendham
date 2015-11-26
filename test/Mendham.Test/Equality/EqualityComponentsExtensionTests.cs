@@ -1,10 +1,10 @@
-﻿using System;
+﻿using FluentAssertions;
+using Mendham.Equality;
+using Mendham.Testing;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Mendham.Equality;
-using FluentAssertions;
-using Ploeh.AutoFixture.Xunit2;
 using Xunit;
 
 namespace Mendham.Test.Equality
@@ -37,7 +37,7 @@ namespace Mendham.Test.Equality
 		}
 
 		[Theory]
-		[AutoData]
+		[MendhamData]
 		public void EqualsFromComponents_SameObjectReference_Equal(TestObject obj)
 		{
 			var objRefCopy = obj;
@@ -48,7 +48,7 @@ namespace Mendham.Test.Equality
 		}
 
 		[Theory]
-		[AutoData]
+		[MendhamData]
 		public void EqualsFromComponents_DifferentObject_NotEqual(TestObject obj1, TestObject obj2)
 		{
 			var equal = obj1.EqualsFromComponents(obj2);
@@ -57,7 +57,7 @@ namespace Mendham.Test.Equality
 		}
 
 		[Theory]
-		[AutoData]
+		[MendhamData]
 		public void EqualsFromComponents_DifferentObjectWithSameComponents_Equal(string strVal, int intVal, object objVal)
 		{
 			var testObj1 = new TestObject(strVal, intVal, objVal);
@@ -70,7 +70,7 @@ namespace Mendham.Test.Equality
 		}
 
 		[Theory]
-		[AutoData]
+		[MendhamData]
 		public void GetHashCodeFromComponents_SameObjectReference_Equal(TestObject obj)
 		{
 			var objRefCopy = obj;
@@ -82,7 +82,7 @@ namespace Mendham.Test.Equality
 		}
 
 		[Theory]
-		[AutoData]
+		[MendhamData]
 		public void GetHashCodeFromComponents_DifferentObject_NotEqual(TestObject obj1, TestObject obj2)
 		{
 			var hashCodeForObj1 = obj1.GetHashCodeFromComponents();
@@ -92,7 +92,7 @@ namespace Mendham.Test.Equality
 		}
 
 		[Theory]
-		[AutoData]
+		[MendhamData]
 		public void GetHashCodeFromComponents_DifferentObjectSameComponents_Equal(string strVal, int intVal, object objVal)
 		{
 			var testObj1 = new TestObject(strVal, intVal, objVal);

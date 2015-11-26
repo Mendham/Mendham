@@ -1,10 +1,10 @@
-﻿using System;
+﻿using FluentAssertions;
+using Mendham;
+using Mendham.Testing;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Mendham;
-using FluentAssertions;
-using Ploeh.AutoFixture.Xunit2;
 using Xunit;
 
 namespace Mendham.Test.BaseExtensions
@@ -12,7 +12,7 @@ namespace Mendham.Test.BaseExtensions
 	public class ObjectExtensionTest
 	{
 		[Theory]
-		[AutoData]
+		[MendhamData]
 		public void AsSingleItemEnumerable_Int_SingleItemCollection(int val)
 		{
 			var result = val.AsSingleItemEnumerable();

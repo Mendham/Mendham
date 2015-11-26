@@ -9,9 +9,8 @@
   "dependencies": {
     "Moq": "4.2.1510.2205",
     "FluentAssertions": "4.0.1",
-    "AutoFixture": "3.36.9",
-    "AutoFixture.Xunit2": "3.36.9",
     "Mendham.Domain": "0.1.0-*",
+    "Mendham.Testing.Builder": "0.1.0-*",
     "Mendham.Testing": "0.1.0-*",
     "Mendham.Testing.Moq": "0.1.0-*",
     "xunit": "2.1.0"
