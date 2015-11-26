@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Mendham.Testing.Builder
@@ -16,6 +17,7 @@ namespace Mendham.Testing.Builder
             where TAttribute : Attribute
         {
             return classWithAttribute
+                .GetTypeInfo()
                 .GetCustomAttributes(typeof(TAttribute), false)
                 .Cast<TAttribute>();
         }

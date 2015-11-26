@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Mendham.Testing.Builder
@@ -10,12 +11,14 @@ namespace Mendham.Testing.Builder
     {
         internal static bool IsIBuilderInterface(this Type type)
         {
-            return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IBuilder<>);
+            var ti = type.GetTypeInfo();
+            return ti.IsGenericType && ti.GetGenericTypeDefinition() == typeof(IBuilder<>);
         }
 
         internal static bool ImplementsIBuilder(this Type type)
         {
-            return type.GetInterfaces()
+            return type
+                .GetInterfaces()
                 .Any(a => a.IsIBuilderInterface());
         }
 
@@ -42,6 +45,7 @@ namespace Mendham.Testing.Builder
         {
             return type
                 .GetIBuilderInterface()
+                .GetTypeInfo()
                 .GetGenericArguments()[0];
         }
     }

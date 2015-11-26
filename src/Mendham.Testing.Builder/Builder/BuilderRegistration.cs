@@ -124,7 +124,7 @@ namespace Mendham.Testing.Builder
 
             if (builderAttribute.TypeOverride != default(Type))
             {
-                if (!builderAttribute.TypeOverride.IsAssignableFrom(defaultTypeToBeBuilt))
+                if (!builderAttribute.TypeOverride.GetTypeInfo().IsAssignableFrom(defaultTypeToBeBuilt))
                 {
                     throw new InvalidMendhamBuilderOverrideException(builderType,
                         builderAttribute.TypeOverride, defaultTypeToBeBuilt);
