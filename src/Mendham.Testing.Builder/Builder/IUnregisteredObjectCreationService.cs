@@ -9,6 +9,9 @@ namespace Mendham.Testing.Builder
     {
         T Create<T>();
         T Create<T>(T seed);
+
+        object Create(Type type);
+
         IEnumerable<T> CreateMany<T>();
         IEnumerable<T> CreateMany<T>(T seed);
     }

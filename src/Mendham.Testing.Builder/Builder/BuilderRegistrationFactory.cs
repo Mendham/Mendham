@@ -10,7 +10,12 @@ namespace Mendham.Testing.Builder
     {
         public IBuilderRegistration Create(Assembly callingAssembly)
         {
-            return new BuilderRegistration(new BuilderQueryService(), new BuilderAttributeResolver());
+            var registration = new BuilderRegistration(new BuilderQueryService(), 
+                new BuilderAttributeResolver());
+
+            registration.Register(callingAssembly);
+
+            return registration;
         }
     }
 }

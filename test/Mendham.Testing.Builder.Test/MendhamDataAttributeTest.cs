@@ -47,5 +47,25 @@ namespace Mendham.Testing.Builder.Test1
             sut.DerivedValue.Should()
                 .NotBe(default(int));
         }
+
+        [Theory]
+        [MendhamData]
+        public void MendhamData_String_NotNullOrEmpty(string obj)
+        {
+            var sut = obj;
+
+            sut.Should()
+                .NotBeNullOrEmpty();
+        }
+
+        [Theory]
+        [MendhamData]
+        public void MendhamData_TwoStrings_NotEqual(string obj1, string obj2)
+        {
+            var sut = obj1;
+
+            sut.Should()
+                .NotBe(obj2);
+        }
     }
 }

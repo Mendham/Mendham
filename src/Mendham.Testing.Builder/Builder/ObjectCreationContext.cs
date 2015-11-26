@@ -45,6 +45,18 @@ namespace Mendham.Testing.Builder
             }
         }
 
+        public object Create(Type type)
+        {
+            if (builderRegistration.IsTypeRegistered(type))
+            {
+                return builderRegistration.Build(type);
+            }
+            else
+            {
+                return anonymousBuilder.Create(type);
+            }
+        }
+
         public IEnumerable<T> CreateMany<T>()
         {
             throw new NotImplementedException();
