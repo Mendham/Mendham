@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Mendham.Equality;
+using System.Reflection;
 
 namespace Mendham.Domain
 {
 	public abstract class ValueObject : IHasEqualityComponents
 	{
-		protected abstract IEnumerable<object> EqualityComponents { get; }
+        private IEnumerable<PropertyInfo> _propertyInfo;
 
-		public override bool Equals(object obj)
+        public override bool Equals(object obj)
 		{
 			return this.EqualsFromComponents(obj);
 		}
@@ -30,11 +31,25 @@ namespace Mendham.Domain
 			return !(a == b);
 		}
 
+        private IEnumerable<PropertyInfo> GetPropertyInfo()
+        {
+            return this.GetType()
+                .GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                .Where(a => a.CanRead && a.GetGetMethod(false) != null)
+                .OrderBy(a => a.Name);
+        }
+
+
 		IEnumerable<object> IHasEqualityComponents.EqualityComponents
 		{
 			get
 			{
-				return this.EqualityComponents;
+                if (_propertyInfo == null)
+                {
+                    _propertyInfo = GetPropertyInfo();
+                }
+
+                return _propertyInfo.Select(a => a.GetValue(this));
 			}
 		}
 	}

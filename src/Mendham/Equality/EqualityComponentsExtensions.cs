@@ -14,7 +14,7 @@ namespace Mendham.Equality
 		/// <returns></returns>
 		public static int GetHashCodeFromComponents(this IHasEqualityComponents objectWithEqualityComponents)
 		{
-			return objectWithEqualityComponents.EqualityComponents.GetHashCodeForComponents();
+			return objectWithEqualityComponents.EqualityComponents.GetHashCodeForComponents(objectWithEqualityComponents);
 		}
 
 		/// <summary>
@@ -43,14 +43,31 @@ namespace Mendham.Equality
 		/// <returns></returns>
 		public static int GetHashCodeForComponents(this IEnumerable<object> objects)
 		{
-			unchecked
-			{
-				return new int[] { 19 }
-					.Union(objects
-						.Where(a => a != null)
-						.Select(a => a.GetHashCode()))
-					.Aggregate((sum, next) => sum * 13 + next);
-			}
+            return GetHashCodeForComponents(objects, 19);
 		}
-	}
+
+        /// <summary>
+		/// Gets a hash code for a set of components. The object that passes the components is also considered in hash.
+        /// The order in which the objects are passed does matter.
+		/// </summary>
+		/// <param name="objects"></param>
+        /// <param name="objectWithComponents">Object that contains the components</param>
+		/// <returns></returns>
+		public static int GetHashCodeForComponents(this IEnumerable<object> objects, object objectWithComponents)
+        {
+            var hashCodeOfObjectName = objectWithComponents.GetType().FullName.GetHashCode();
+            return GetHashCodeForComponents(objects, hashCodeOfObjectName);
+        }
+
+        private static int GetHashCodeForComponents(IEnumerable<object> objects, int startingValue)
+        {
+            unchecked
+            {
+                return new int[] { startingValue }
+                    .Union(objects
+                        .Select(a => a != null ? a.GetHashCode() : 0))
+                    .Aggregate((sum, next) => sum * 13 + next);
+            }
+        }
+    }
 }

@@ -20,14 +20,6 @@ namespace Mendham.Domain
             return singleFieldValueObject.Value;
         }
 
-        protected override IEnumerable<object> EqualityComponents
-        {
-            get
-            {
-                yield return this.Value;
-            }
-        }
-
         public override string ToString()
         {
             return Value.ToString();
