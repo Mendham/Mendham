@@ -12,20 +12,20 @@ namespace Mendham.Domain
 		{
 			get
 			{
-				return this.EqualityComponents;
+				return this.IdentityComponents;
 			}
 		}
 
-		protected abstract IEnumerable<object> EqualityComponents { get; }
+		protected abstract IEnumerable<object> IdentityComponents { get; }
 
 		public override bool Equals(object obj)
 		{
-			return this.EqualsFromComponents(obj);
+			return this.HaveEqualComponents(obj);
 		}
 
 		public override int GetHashCode()
 		{
-			return this.GetHashCodeFromComponents();
+			return this.GetHashCodeForObjectWithComponents();
 		}
 	}
 }

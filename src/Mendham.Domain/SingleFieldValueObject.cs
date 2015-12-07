@@ -5,24 +5,20 @@ using System.Threading.Tasks;
 
 namespace Mendham.Domain
 {
-    public abstract class SingleFieldValueObject<T> : ValueObject
+    public abstract class SingleFieldValueObject<TSingleField, TValueObject> : ValueObject<TValueObject>
+        where TValueObject : ValueObject, IValueObject<TValueObject>
     {
-        public T Value { get; protected set; }
+        public TSingleField Value { get; protected set; }
 
-        public SingleFieldValueObject(T value)
+        public SingleFieldValueObject(TSingleField value)
         {
             value.VerifyArgumentNotDefaultValue("Value is required");
             this.Value = value;
         }
 
-        public static implicit operator T(SingleFieldValueObject<T> singleFieldValueObject)
+        public static implicit operator TSingleField(SingleFieldValueObject<TSingleField, TValueObject> singleFieldValueObject)
         {
             return singleFieldValueObject.Value;
-        }
-
-        public override string ToString()
-        {
-            return Value.ToString();
         }
     }
 }

@@ -7,56 +7,73 @@ namespace Mendham.Equality
 {
 	public static class EqualityComponentsExtensions
 	{
-		/// <summary>
-		/// Gets a hash code for a set of components
-		/// </summary>
-		/// <param name="objectWithEqualityComponents"></param>
-		/// <returns></returns>
-		public static int GetHashCodeFromComponents(this IHasEqualityComponents objectWithEqualityComponents)
+        /// <summary>
+        /// Determines if two IHasEqualityComponents objects have an equal components without regard for the object itself
+        /// </summary>
+        /// <param name="objectWithEqualityComponents"></param>
+        /// <param name="otherObj"></param>
+        /// <returns></returns>
+        public static bool HaveEqualComponents(this IHasEqualityComponents objectWithEqualityComponents, object otherObj)
 		{
-			return objectWithEqualityComponents.EqualityComponents.GetHashCodeForComponents(objectWithEqualityComponents);
-		}
+            if (objectWithEqualityComponents == null)
+                throw new NullReferenceException("Object being checked by HaveEqualComponents cannot be null");
 
-		/// <summary>
-		/// Determines if two IHasEqualityComponents objects are equal based on their components
-		/// </summary>
-		/// <param name="objectWithEqualityComponents"></param>
-		/// <param name="otherObj"></param>
-		/// <returns></returns>
-		public static bool EqualsFromComponents(this IHasEqualityComponents objectWithEqualityComponents, object otherObj)
-		{
-			if (object.ReferenceEquals(objectWithEqualityComponents, otherObj))
+            if (ReferenceEquals(objectWithEqualityComponents, otherObj))
 				return true;
 
 			var otherObjectAsHasEqualityComponents = otherObj as IHasEqualityComponents;
 
-			if (otherObjectAsHasEqualityComponents == null || objectWithEqualityComponents.GetType() != otherObj.GetType())
+			if (otherObjectAsHasEqualityComponents == null)
 				return false;
 
 			return objectWithEqualityComponents.EqualityComponents.SequenceEqual(otherObjectAsHasEqualityComponents.EqualityComponents);
 		}
 
-		/// <summary>
-		/// Gets a hash code for a set of components. The order in which the objects are passed does matter.
+        /// <summary>
+		/// Determines if two IHasEqualityComponents objects have an equal components without regard for the object itself
 		/// </summary>
-		/// <param name="objects"></param>
+		/// <param name="objectWithEqualityComponents"></param>
+		/// <param name="otherObj"></param>
 		/// <returns></returns>
-		public static int GetHashCodeForComponents(this IEnumerable<object> objects)
+		public static bool HaveEqualComponents<T>(this T objectWithEqualityComponents, T otherObj)
+            where T : IHasEqualityComponents
+        {
+            if (objectWithEqualityComponents == null)
+                throw new NullReferenceException("Object being checked by HaveEqualComponents cannot be null");
+
+            if (otherObj == null)
+                return false;
+
+            if (ReferenceEquals(objectWithEqualityComponents, otherObj))
+                return true;
+
+            return objectWithEqualityComponents.EqualityComponents.SequenceEqual(otherObj.EqualityComponents);
+        }
+
+        public static bool IsObjectSameType(this IHasEqualityComponents obj, object otherObject)
+        {
+            return obj.GetType() == otherObject.GetType();
+        }
+
+        /// <summary>
+        /// Gets a hash code for a set of components. The order in which the objects are passed does matter.
+        /// </summary>
+        /// <param name="objects"></param>
+        /// <returns></returns>
+        public static int GetHashCodeForComponents(this IEnumerable<object> objects)
 		{
             return GetHashCodeForComponents(objects, 19);
 		}
 
         /// <summary>
-		/// Gets a hash code for a set of components. The object that passes the components is also considered in hash.
-        /// The order in which the objects are passed does matter.
+		/// Gets a hash code for object that implements IHasEqualityComponents.
 		/// </summary>
-		/// <param name="objects"></param>
         /// <param name="objectWithComponents">Object that contains the components</param>
 		/// <returns></returns>
-		public static int GetHashCodeForComponents(this IEnumerable<object> objects, object objectWithComponents)
+		public static int GetHashCodeForObjectWithComponents(this IHasEqualityComponents objectWithComponents)
         {
             var hashCodeOfObjectName = objectWithComponents.GetType().FullName.GetHashCode();
-            return GetHashCodeForComponents(objects, hashCodeOfObjectName);
+            return GetHashCodeForComponents(objectWithComponents.EqualityComponents, hashCodeOfObjectName);
         }
 
         private static int GetHashCodeForComponents(IEnumerable<object> objects, int startingValue)
@@ -65,7 +82,7 @@ namespace Mendham.Equality
             {
                 return new int[] { startingValue }
                     .Union(objects
-                        .Select(a => a != null ? a.GetHashCode() : 0))
+                        .Select(a => a != null ? a.GetHashCode() : -7))
                     .Aggregate((sum, next) => sum * 13 + next);
             }
         }

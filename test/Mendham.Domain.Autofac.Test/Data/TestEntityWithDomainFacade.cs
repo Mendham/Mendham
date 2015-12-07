@@ -47,8 +47,8 @@ namespace Mendham.Domain.Autofac.Test.Data
 			}
 		}
 
-		protected override IEnumerable<object> EqualityComponents
-		{
+		protected override IEnumerable<object> IdentityComponents
+        {
 			get
 			{
 				yield return Id;

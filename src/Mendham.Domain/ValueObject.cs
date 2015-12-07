@@ -7,18 +7,48 @@ using System.Reflection;
 
 namespace Mendham.Domain
 {
-	public abstract class ValueObject : IHasEqualityComponents
-	{
+    /// <summary>
+    /// Base class for value objects that defines implements IEquatable for the type
+    /// </summary>
+    /// <typeparam name="T">The type that extends the base class that is equatable.</typeparam>
+    public abstract class ValueObject<T> : ValueObject, IValueObject<T>, IEquatable<T>
+        where T : ValueObject, IValueObject<T>, IHasEqualityComponents
+    {
+        public bool Equals(T other)
+        {
+            return ((T)this).HaveEqualComponents<T>(other) && this.IsObjectSameType(other);
+        }
+
+        public static explicit operator T (ValueObject<T> valueObject)
+        {
+            var tValueObject = valueObject as T;
+
+            if (tValueObject == default(T))
+            {
+                var msg = "Value Object {0} is not configured correctly. Its base class type must be T of itself, but is actually T of {1}";
+
+                throw new InvalidOperationException(string.Format(msg, valueObject.GetType().FullName, typeof(T).FullName));
+            }
+
+            return tValueObject;
+        }
+    }
+
+    /// <summary>
+    /// Base class for value object that does not define IEquatable. To have IEquatable already defined, use ValueObject<T>
+    /// </summary>
+    public abstract class ValueObject : IValueObject, IHasEqualityComponents
+    {
         private IEnumerable<PropertyInfo> _propertyInfo;
 
-        public override bool Equals(object obj)
+        public sealed override bool Equals(object obj)
 		{
-			return this.EqualsFromComponents(obj);
-		}
+            return this.HaveEqualComponents(obj) && this.IsObjectSameType(obj);
+        }
 
-		public override int GetHashCode()
+        public sealed override int GetHashCode()
 		{
-			return this.GetHashCodeFromComponents();
+			return this.GetHashCodeForObjectWithComponents();
 		}
 
 		public static bool operator ==(ValueObject a, ValueObject b)
@@ -38,7 +68,6 @@ namespace Mendham.Domain
                 .Where(a => a.CanRead && a.GetGetMethod(false) != null)
                 .OrderBy(a => a.Name);
         }
-
 
 		IEnumerable<object> IHasEqualityComponents.EqualityComponents
 		{

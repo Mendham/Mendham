@@ -42,7 +42,7 @@ namespace Mendham.Test.Equality
 		{
 			var objRefCopy = obj;
 
-			var equal = obj.EqualsFromComponents(objRefCopy);
+			var equal = obj.HaveEqualComponents(objRefCopy);
 
 			equal.Should().BeTrue();
 		}
@@ -51,7 +51,7 @@ namespace Mendham.Test.Equality
 		[MendhamData]
 		public void EqualsFromComponents_DifferentObject_NotEqual(TestObject obj1, TestObject obj2)
 		{
-			var equal = obj1.EqualsFromComponents(obj2);
+			var equal = obj1.HaveEqualComponents(obj2);
 
 			equal.Should().BeFalse();
 		}
@@ -63,7 +63,7 @@ namespace Mendham.Test.Equality
 			var testObj1 = new TestObject(strVal, intVal, objVal);
 			var testObj2 = new TestObject(strVal, intVal, objVal);
 
-			var equal = testObj1.EqualsFromComponents(testObj2);
+			var equal = testObj1.HaveEqualComponents(testObj2);
 
 			testObj1.Should().NotBeSameAs(testObj2);
 			equal.Should().BeTrue();
@@ -71,35 +71,35 @@ namespace Mendham.Test.Equality
 
 		[Theory]
 		[MendhamData]
-		public void GetHashCodeFromComponents_SameObjectReference_Equal(TestObject obj)
+		public void GetHashCodeForObjectWithComponents_SameObjectReference_Equal(TestObject obj)
 		{
 			var objRefCopy = obj;
 
-			var hashCodeForObj = obj.GetHashCodeFromComponents();
-			var hashCodeForObjCopy = objRefCopy.GetHashCodeFromComponents();
+			var hashCodeForObj = obj.GetHashCodeForObjectWithComponents();
+			var hashCodeForObjCopy = objRefCopy.GetHashCodeForObjectWithComponents();
 
 			hashCodeForObj.Should().Equals(hashCodeForObjCopy);
 		}
 
 		[Theory]
 		[MendhamData]
-		public void GetHashCodeFromComponents_DifferentObject_NotEqual(TestObject obj1, TestObject obj2)
+		public void GetHashCodeForObjectWithComponents_DifferentObject_NotEqual(TestObject obj1, TestObject obj2)
 		{
-			var hashCodeForObj1 = obj1.GetHashCodeFromComponents();
-			var hashCodeForObj2 = obj2.GetHashCodeFromComponents();
+			var hashCodeForObj1 = obj1.GetHashCodeForObjectWithComponents();
+			var hashCodeForObj2 = obj2.GetHashCodeForObjectWithComponents();
 
 			hashCodeForObj1.Should().NotBe(hashCodeForObj2);
 		}
 
 		[Theory]
 		[MendhamData]
-		public void GetHashCodeFromComponents_DifferentObjectSameComponents_Equal(string strVal, int intVal, object objVal)
+		public void GetHashCodeForObjectWithComponents_DifferentObjectSameComponents_Equal(string strVal, int intVal, object objVal)
 		{
 			var testObj1 = new TestObject(strVal, intVal, objVal);
 			var testObj2 = new TestObject(strVal, intVal, objVal);
 
-			var hashCodeForObj1 = testObj1.GetHashCodeFromComponents();
-			var hashCodeForObj2 = testObj2.GetHashCodeFromComponents();
+			var hashCodeForObj1 = testObj1.GetHashCodeForObjectWithComponents();
+			var hashCodeForObj2 = testObj2.GetHashCodeForObjectWithComponents();
 
 			testObj1.Should().NotBeSameAs(testObj2);
 			hashCodeForObj1.Should().Be(hashCodeForObj2);
