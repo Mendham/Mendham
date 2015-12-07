@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Mendham.Domain
 {
     public abstract class SingleFieldValueObject<TSingleField, TValueObject> : ValueObject<TValueObject>
-        where TValueObject : SingleFieldValueObject<TSingleField, TValueObject>, IValueObject<TValueObject>
+        where TValueObject : SingleFieldValueObject<TSingleField, TValueObject>
     {
         public TSingleField Value { get; protected set; }
 

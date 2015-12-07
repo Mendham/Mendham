@@ -13,7 +13,7 @@ namespace Mendham.Domain.Concurrency
     }
 
     public abstract class EntityWithConcurrencyToken<T> : Entity<T>, IHasConcurrencyToken
-        where T : EntityWithConcurrencyToken<T>, IEntity<T>, IHasEqualityComponents
+        where T : EntityWithConcurrencyToken<T>, IHasEqualityComponents
     {
         IConcurrencyToken IHasConcurrencyToken.Token { get; set; }
     }

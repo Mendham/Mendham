@@ -39,8 +39,8 @@ namespace Mendham.Domain
     /// Base class for entity that also implements IEquatable for the type
     /// </summary>
     /// <typeparam name="T">The derived type of Entity<T></typeparam>
-    public abstract class Entity<T> : Entity, IEntity<T>, IEquatable<T>
-        where T : Entity<T>, IEntity<T>, IHasEqualityComponents
+    public abstract class Entity<T> : Entity, IEquatable<T>
+        where T : Entity<T>, IHasEqualityComponents
     {
         public bool Equals(T other)
         {
@@ -49,16 +49,7 @@ namespace Mendham.Domain
 
         public static explicit operator T (Entity<T> entity)
         {
-            T entityObject = entity as T;
-
-            if (entityObject == default(T))
-            {
-                var msg = "Entity {0} is not configured correctly. Its base class type must be T of itself, but is actually T of {1}";
-
-                throw new InvalidOperationException(string.Format(msg, entityObject.GetType().FullName, typeof(T).FullName));
-            }
-
-            return entityObject;
+            return entity as T;
         }
     }
 }

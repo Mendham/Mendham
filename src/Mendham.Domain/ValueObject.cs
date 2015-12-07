@@ -10,7 +10,7 @@ namespace Mendham.Domain
     /// <summary>
     /// Base class for value object that does not implement IEquatable. To have IEquatable already defined, use ValueObject<T>
     /// </summary>
-    public abstract class ValueObject : IValueObject, IHasEqualityComponents
+    public abstract class ValueObject : IHasEqualityComponents
     {
         private IEnumerable<PropertyInfo> _propertyInfo;
 
@@ -60,8 +60,8 @@ namespace Mendham.Domain
     /// Base class for value objects that also implements IEquatable for the type
     /// </summary>
     /// <typeparam name="T">The derived type of ValueObject<T></typeparam>
-    public abstract class ValueObject<T> : ValueObject, IValueObject<T>, IEquatable<T>
-        where T : ValueObject<T>, IValueObject<T>, IHasEqualityComponents
+    public abstract class ValueObject<T> : ValueObject, IEquatable<T>
+        where T : ValueObject<T>, IHasEqualityComponents
     {
         public bool Equals(T other)
         {
@@ -70,16 +70,7 @@ namespace Mendham.Domain
 
         public static explicit operator T(ValueObject<T> valueObject)
         {
-            T tValueObject = valueObject as T;
-
-            if (tValueObject == default(T))
-            {
-                var msg = "Value Object {0} is not configured correctly. Its base class type must be T of itself, but is actually T of {1}";
-
-                throw new InvalidOperationException(string.Format(msg, valueObject.GetType().FullName, typeof(T).FullName));
-            }
-
-            return tValueObject;
+            return valueObject as T;
         }
     }
 }
