@@ -8,4 +8,8 @@ namespace Mendham.Domain
 {
     public interface IEntity : IHasEqualityComponents
     { }
+
+    public interface IEntity<TEntity> : IEntity, IEquatable<TEntity>
+        where TEntity : IEntity
+    { }
 }
