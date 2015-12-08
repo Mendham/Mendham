@@ -33,7 +33,17 @@ namespace Mendham.Domain
 		{
 			return this.GetHashCodeForObjectWithComponents();
 		}
-	}
+
+        public static bool operator ==(Entity a, Entity b)
+        {
+            return object.Equals(a, b);
+        }
+
+        public static bool operator !=(Entity a, Entity b)
+        {
+            return !(a == b);
+        }
+    }
 
     /// <summary>
     /// Base class for entity that also implements IEquatable for the type

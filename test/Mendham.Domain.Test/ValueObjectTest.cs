@@ -316,6 +316,41 @@ namespace Mendham.Domain.Test
             result.Should().BeTrue();
         }
 
+        [Fact]
+        public void EqualOperator_TwoNulls_True()
+        {
+            TestValueObject valueObject1 = null;
+            TestValueObject valueObject2 = null;
+
+            bool result = valueObject1 == valueObject2;
+
+            result.Should().BeTrue();
+        }
+
+        [Theory]
+        [MendhamData]
+        public void EqualOperator_FirstHasNull_True(string voStr, int voInt)
+        {
+            TestValueObject valueObject1 = null;
+            TestValueObject valueObject2 = new TestValueObject(voStr, voInt);
+
+            bool result = valueObject1 == valueObject2;
+
+            result.Should().BeFalse();
+        }
+
+        [Theory]
+        [MendhamData]
+        public void EqualOperator_SecondHasNull_True(string voStr, int voInt)
+        {
+            TestValueObject valueObject1 = new TestValueObject(voStr, voInt);
+            TestValueObject valueObject2 = null;
+
+            bool result = valueObject1 == valueObject2;
+
+            result.Should().BeFalse();
+        }
+
         [Theory]
         [MendhamData]
         public void UnequalOperator_SameReference_False(TestValueObject valueObject)
@@ -346,6 +381,41 @@ namespace Mendham.Domain.Test
             bool result = valueObject1 != valueObject2;
 
             result.Should().BeFalse();
+        }
+
+        [Fact]
+        public void UnequalOperator_TwoNulls_False()
+        {
+            TestValueObject valueObject1 = null;
+            TestValueObject valueObject2 = null;
+
+            bool result = valueObject1 != valueObject2;
+
+            result.Should().BeFalse();
+        }
+
+        [Theory]
+        [MendhamData]
+        public void UnequalOperator_FirstHasNull_True(string voStr, int voInt)
+        {
+            TestValueObject valueObject1 = null;
+            TestValueObject valueObject2 = new TestValueObject(voStr, voInt);
+
+            bool result = valueObject1 != valueObject2;
+
+            result.Should().BeTrue();
+        }
+
+        [Theory]
+        [MendhamData]
+        public void UnequalOperator_SecondHasNull_True(string voStr, int voInt)
+        {
+            TestValueObject valueObject1 = new TestValueObject(voStr, voInt);
+            TestValueObject valueObject2 = null;
+
+            bool result = valueObject1 != valueObject2;
+
+            result.Should().BeTrue();
         }
 
         [Theory]
