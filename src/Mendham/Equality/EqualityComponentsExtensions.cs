@@ -50,8 +50,20 @@ namespace Mendham.Equality
             return objectWithEqualityComponents.EqualityComponents.SequenceEqual(otherObj.EqualityComponents);
         }
 
+        /// <summary>
+        /// Deterines if an object is the same as the object implementing IHasEqualityComponents
+        /// </summary>
         public static bool IsObjectSameType(this IHasEqualityComponents obj, object otherObject)
         {
+            if (obj == null)
+                throw new NullReferenceException("Object being checked by HaveEqualComponents cannot be null");
+
+            if (otherObject == null)
+                return false;
+
+            if (ReferenceEquals(obj, otherObject))
+                return true;
+
             return obj.GetType() == otherObject.GetType();
         }
 
