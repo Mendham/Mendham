@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Mendham.Equality;
 using Mendham.Testing;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,13 @@ namespace Mendham.Domain.Test
             }
         }
 
+        public class DerivedNoDifferenceTestValueObject : TestValueObject
+        {
+            public DerivedNoDifferenceTestValueObject(string strVal, int intVal) : base(strVal, intVal)
+            {
+            }
+        }
+
         public class AltTestValueObjectWithSameFields : ValueObject<AltTestValueObjectWithSameFields>
         {
             public string StrVal { get; private set; }
@@ -41,6 +49,27 @@ namespace Mendham.Domain.Test
             {
                 this.StrVal = strVal;
                 this.IntVal = intVal;
+            }
+        }
+
+        public class NonValueObjectWithComponents : IHasEqualityComponents
+        {
+            public string StrVal { get; private set; }
+            public int IntVal { get; private set; }
+
+            public NonValueObjectWithComponents(string strVal, int intVal)
+            {
+                this.StrVal = strVal;
+                this.IntVal = intVal;
+            }
+
+            public IEnumerable<object> EqualityComponents
+            {
+                get
+                {
+                    yield return IntVal;
+                    yield return StrVal;
+                }
             }
         }
 
@@ -152,6 +181,18 @@ namespace Mendham.Domain.Test
         {
             TestValueObject valueObject1 = new TestValueObject(voStr, voInt);
             TestValueObject valueObject2 = new DerivedTestValueObject(voStr, voInt, null);
+
+            bool result = valueObject1.Equals(valueObject2);
+
+            result.Should().BeFalse();
+        }
+
+        [Theory]
+        [MendhamData]
+        public void EqualsT_DerivedNoDifferenceWithSameFields_False(string voStr, int voInt)
+        {
+            TestValueObject valueObject1 = new TestValueObject(voStr, voInt);
+            TestValueObject valueObject2 = new DerivedNoDifferenceTestValueObject(voStr, voInt);
 
             bool result = valueObject1.Equals(valueObject2);
 
@@ -280,6 +321,30 @@ namespace Mendham.Domain.Test
             object valueObject2 = new AltTestValueObjectWithSameFields(voStr, voInt);
 
             bool result = valueObject1.Equals(valueObject2);
+
+            result.Should().BeFalse();
+        }
+
+        [Theory]
+        [MendhamData]
+        public void EqualsObject_DerivedNoDifferenceWithSameFields_False(string voStr, int voInt)
+        {
+            TestValueObject valueObject1 = new TestValueObject(voStr, voInt);
+            object valueObject2 = new DerivedNoDifferenceTestValueObject(voStr, voInt);
+
+            bool result = valueObject1.Equals(valueObject2);
+
+            result.Should().BeFalse();
+        }
+
+        [Theory]
+        [MendhamData]
+        public void EqualsObject_NonValueObjectWithSameFields_False(string voStr, int voInt)
+        {
+            TestValueObject valueObject = new TestValueObject(voStr, voInt);
+            object nonValueObject = new NonValueObjectWithComponents(voStr, voInt);
+
+            bool result = valueObject.Equals(nonValueObject);
 
             result.Should().BeFalse();
         }
@@ -459,6 +524,19 @@ namespace Mendham.Domain.Test
         {
             var valueObject1 = new TestValueObject(voStr, voInt);
             var valueObject2 = new AltTestValueObjectWithSameFields(voStr, voInt);
+
+            var expected = valueObject1.GetHashCode();
+            int result = valueObject2.GetHashCode();
+
+            result.Should().NotBe(expected);
+        }
+
+        [Theory]
+        [MendhamData]
+        public void GetHashCode_DerivedNoDifferenceWithSameFields_NotEqual(string voStr, int voInt)
+        {
+            var valueObject1 = new TestValueObject(voStr, voInt);
+            var valueObject2 = new DerivedNoDifferenceTestValueObject(voStr, voInt);
 
             var expected = valueObject1.GetHashCode();
             int result = valueObject2.GetHashCode();
