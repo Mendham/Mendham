@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace Mendham.Domain.Test.TestObjects.Entities
 {
-    public class DerivedPocoEntity : PocoEntity
+    public class PocoDerivedEntity : PocoEntity
     {
         public Guid DerivedNonIdentityValue { get; set; }
 
-        public DerivedPocoEntity(string strVal, int intVal) : base(strVal, intVal)
+        public PocoDerivedEntity(string strVal, int intVal) : base(strVal, intVal)
         {
             DerivedNonIdentityValue = Guid.NewGuid();
         }

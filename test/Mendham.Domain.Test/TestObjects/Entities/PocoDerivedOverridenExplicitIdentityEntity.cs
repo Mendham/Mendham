@@ -5,17 +5,18 @@ using System.Threading.Tasks;
 
 namespace Mendham.Domain.Test.TestObjects.Entities
 {
-    public class DerivedOverridenIdentityPocoEntity : PocoEntity
+    public class PocoDerivedOverridenExplicitIdentityEntity : PocoExplicitIdentityEntity, IEntity
     {
         public Guid DerivedNonIdentityValue { get; set; }
 
-        public DerivedOverridenIdentityPocoEntity(string strVal, int intVal)
+        public PocoDerivedOverridenExplicitIdentityEntity(string strVal, int intVal)
             : base(strVal, intVal)
         {
             this.DerivedNonIdentityValue = Guid.NewGuid();
         }
 
-        public override IEnumerable<object> IdentityComponents
+        // This is an "override" of the explicit IdentityComponents in base class
+        IEnumerable<object> IEntity.IdentityComponents
         {
             get
             {

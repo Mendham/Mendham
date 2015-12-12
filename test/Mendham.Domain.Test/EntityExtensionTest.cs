@@ -100,10 +100,10 @@ namespace Mendham.Domain.Test
 
         [Theory]
         [MendhamData]
-        public void IsEqualToEntity_BaseByDerivedWithCommonSharedValues_True(string entityStr, int entityInt)
+        public void IsEqualToEntity_BaseByDerivedWithCommonSharedValuesImplicitIdentity_True(string entityStr, int entityInt)
         {
             IEntity entity1 = new PocoEntity(entityStr, entityInt);
-            IEntity entity2 = new DerivedPocoEntity(entityStr, entityInt);
+            IEntity entity2 = new PocoDerivedEntity(entityStr, entityInt);
 
             bool result = entity1.IsEqualToEntity(entity2);
 
@@ -113,9 +113,9 @@ namespace Mendham.Domain.Test
 
         [Theory]
         [MendhamData]
-        public void IsEqualToEntity_DerivedByBaseWithCommonSharedValues_True(string entityStr, int entityInt, string derivedentityStr)
+        public void IsEqualToEntity_DerivedByBaseWithCommonSharedValuesImplicitIdentity_True(string entityStr, int entityInt, string derivedentityStr)
         {
-            IEntity entity1 = new DerivedPocoEntity(entityStr, entityInt);
+            IEntity entity1 = new PocoDerivedEntity(entityStr, entityInt);
             IEntity entity2 = new PocoEntity(entityStr, entityInt);
 
             bool result = entity1.IsEqualToEntity(entity2);
@@ -126,10 +126,10 @@ namespace Mendham.Domain.Test
 
         [Theory]
         [MendhamData]
-        public void IsEqualToEntity_BaseByDerivedOverridenIdentityWithCommonSharedAndOverridenIdentityValues_False(string entityStr, int entityInt)
+        public void IsEqualToEntity_BaseByDerivedOverridenIdentityWithCommonSharedAndOverridenImplicitIdentityValues_False(string entityStr, int entityInt)
         {
             IEntity entity1 = new PocoEntity(entityStr, entityInt);
-            IEntity entity2 = new DerivedOverridenIdentityPocoEntity(entityStr, entityInt);
+            IEntity entity2 = new PocoDerivedOverridenIdentityEntity(entityStr, entityInt);
 
             bool result = entity1.IsEqualToEntity(entity2);
 
@@ -139,10 +139,62 @@ namespace Mendham.Domain.Test
 
         [Theory]
         [MendhamData]
-        public void IsEqualToEntity_DerivedOverridenIdentityByBaseWithCommonSharedValues_False(string entityStr, int entityInt)
+        public void IsEqualToEntity_DerivedOverridenImplicitIdentityByBaseWithCommonSharedValues_False(string entityStr, int entityInt)
         {
-            IEntity entity1 = new DerivedOverridenIdentityPocoEntity(entityStr, entityInt);
+            IEntity entity1 = new PocoDerivedOverridenIdentityEntity(entityStr, entityInt);
             IEntity entity2 = new PocoEntity(entityStr, entityInt);
+
+            bool result = entity1.IsEqualToEntity(entity2);
+
+            result.Should()
+                .BeFalse("the first, derived entity overrides the identity definition used by the other");
+        }
+
+        [Theory]
+        [MendhamData]
+        public void IsEqualToEntity_BaseByDerivedWithCommonSharedValuesExplicitIdentity_True(string entityStr, int entityInt)
+        {
+            IEntity entity1 = new PocoExplicitIdentityEntity(entityStr, entityInt);
+            IEntity entity2 = new PocoExplicitIdentityDerivedEntity(entityStr, entityInt);
+
+            bool result = entity1.IsEqualToEntity(entity2);
+
+            result.Should()
+                .BeTrue("both levels of the entity have identity defined at same level and are have equal identities");
+        }
+
+        [Theory]
+        [MendhamData]
+        public void IsEqualToEntity_DerivedByBaseWithCommonSharedValuesExplicitIdentity_True(string entityStr, int entityInt, string derivedentityStr)
+        {
+            IEntity entity1 = new PocoExplicitIdentityDerivedEntity(entityStr, entityInt);
+            IEntity entity2 = new PocoExplicitIdentityEntity(entityStr, entityInt);
+
+            bool result = entity1.IsEqualToEntity(entity2);
+
+            result.Should()
+                .BeTrue("both levels of the entity have identity defined at same level and are have equal identities");
+        }
+
+        [Theory]
+        [MendhamData]
+        public void IsEqualToEntity_BaseByDerivedOverridenIdentityWithCommonSharedAndOverridenExplicitIdentityValues_False(string entityStr, int entityInt)
+        {
+            IEntity entity1 = new PocoExplicitIdentityEntity(entityStr, entityInt);
+            IEntity entity2 = new PocoDerivedOverridenExplicitIdentityEntity(entityStr, entityInt);
+
+            bool result = entity1.IsEqualToEntity(entity2);
+
+            result.Should()
+                .BeFalse("the second, derived entity overrides the identity definition used by the other");
+        }
+
+        [Theory]
+        [MendhamData]
+        public void IsEqualToEntity_DerivedOverridenExplicitIdentityByBaseWithCommonSharedValues_False(string entityStr, int entityInt)
+        {
+            IEntity entity1 = new PocoDerivedOverridenExplicitIdentityEntity(entityStr, entityInt);
+            IEntity entity2 = new PocoExplicitIdentityEntity(entityStr, entityInt);
 
             bool result = entity1.IsEqualToEntity(entity2);
 
@@ -190,10 +242,10 @@ namespace Mendham.Domain.Test
 
         [Theory]
         [MendhamData]
-        public void GetEntityHashCode_DerivedPocoEntitySameIdentity_Equal(string entityStr, int entityInt)
+        public void GetEntityHashCode_DerivedPocoEntitySameImplicitIdentity_Equal(string entityStr, int entityInt)
         {
             IEntity entity1 = new PocoEntity(entityStr, entityInt);
-            IEntity entity2 = new DerivedPocoEntity(entityStr, entityInt);
+            IEntity entity2 = new PocoDerivedEntity(entityStr, entityInt);
 
             int expected = entity1.GetEntityHashCode();
             int result = entity2.GetEntityHashCode();
@@ -204,10 +256,38 @@ namespace Mendham.Domain.Test
 
         [Theory]
         [MendhamData]
-        public void GetEntityHashCode_DerivedOverridenIdentityPocoEntitySameIdentityFields_NotEqual(string entityStr, int entityInt)
+        public void GetEntityHashCode_DerivedOverridenIdentityPocoEntitySameImplicitIdentityFields_NotEqual(string entityStr, int entityInt)
         {
             IEntity entity1 = new PocoEntity(entityStr, entityInt);
-            IEntity entity2 = new DerivedOverridenIdentityPocoEntity(entityStr, entityInt);
+            IEntity entity2 = new PocoDerivedOverridenIdentityEntity(entityStr, entityInt);
+
+            int expected = entity1.GetEntityHashCode();
+            int result = entity2.GetEntityHashCode();
+
+            result.Should()
+                .NotBe(expected, "the entity being tested is derived and overrides the base identity definition used by the expected");
+        }
+
+        [Theory]
+        [MendhamData]
+        public void GetEntityHashCode_DerivedPocoEntitySameExplicitIdentity_Equal(string entityStr, int entityInt)
+        {
+            IEntity entity1 = new PocoExplicitIdentityEntity(entityStr, entityInt);
+            IEntity entity2 = new PocoExplicitIdentityDerivedEntity(entityStr, entityInt);
+
+            int expected = entity1.GetEntityHashCode();
+            int result = entity2.GetEntityHashCode();
+
+            result.Should()
+                .Be(expected, "both levels of the entity have identity defined at same level and are have equal identities");
+        }
+
+        [Theory]
+        [MendhamData]
+        public void GetEntityHashCode_DerivedOverridenIdentityPocoEntitySameExplicitIdentityFields_NotEqual(string entityStr, int entityInt)
+        {
+            IEntity entity1 = new PocoExplicitIdentityEntity(entityStr, entityInt);
+            IEntity entity2 = new PocoDerivedOverridenExplicitIdentityEntity(entityStr, entityInt);
 
             int expected = entity1.GetEntityHashCode();
             int result = entity2.GetEntityHashCode();

@@ -67,15 +67,30 @@ namespace Mendham.Domain.Extensions
             }
             else
             {
-                return entity.GetNonCachedIdentityComponentsDeclaringType();
+                return GetNonCachedIdentityComponentsDeclaringType(entity.GetType());
             }
         }
 
-        private static Type GetNonCachedIdentityComponentsDeclaringType(this IEntity entity)
+        private static Type GetNonCachedIdentityComponentsDeclaringType(Type entityType)
         {
-            return entity.GetType()
-                .GetProperty("IdentityComponents", BindingFlags.Public | BindingFlags.Instance)
-                .DeclaringType;
+            var explicitIdentityComponentsPropertyInfo = entityType
+                .GetProperty("Mendham.Domain.IEntity.IdentityComponents", BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+
+            if (explicitIdentityComponentsPropertyInfo != null)
+                return explicitIdentityComponentsPropertyInfo.DeclaringType;
+
+            var implicitIdentityComponentsPropertyInfo = entityType
+                .GetProperty("IdentityComponents", BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+
+            if (implicitIdentityComponentsPropertyInfo != null)
+                return implicitIdentityComponentsPropertyInfo.DeclaringType;
+
+            Type baseType = entityType.GetTypeInfo().BaseType;
+
+            if (baseType == null)
+                throw new InvalidOperationException("Could not find IdentityComponentsPropertyInfo");
+
+            return GetNonCachedIdentityComponentsDeclaringType(baseType);
         }
 
         private static IHasEqualityComponents AsEqualityComponentsObject(this IEntity entity)
@@ -102,7 +117,5 @@ namespace Mendham.Domain.Extensions
                 }
             }
         }
-
-
     }
 }
