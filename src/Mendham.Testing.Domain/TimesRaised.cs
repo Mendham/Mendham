@@ -118,7 +118,7 @@ namespace Mendham.Testing
 
         public override bool Equals(object obj)
         {
-            return this.HaveEqualComponents(obj);
+            return this.AreComponentsEqual(obj);
         }
 
         public bool Equals(TimesRaised other)
@@ -128,7 +128,7 @@ namespace Mendham.Testing
 
         public override int GetHashCode()
         {
-            return this.GetHashCodeForObjectWithComponents();
+            return this.GetObjectWithEqualityComponentsHashCode();
         }
 
         public static bool operator ==(TimesRaised a, TimesRaised b)

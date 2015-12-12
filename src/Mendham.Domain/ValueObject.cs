@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Mendham.Equality;
 using System.Reflection;
 
@@ -12,16 +11,16 @@ namespace Mendham.Domain
     /// </summary>
     public abstract class ValueObject : IHasEqualityComponents
     {
-        private IEnumerable<PropertyInfo> _propertyInfo;
+        private IEnumerable<Func<object>> _propertyValues;
 
-        public sealed override bool Equals(object obj)
+        public override bool Equals(object obj)
 		{
-            return this.HaveEqualComponents(obj) && this.IsObjectSameType(obj);
+            return this.AreComponentsEqual(obj) && this.IsObjectSameType(obj);
         }
 
-        public sealed override int GetHashCode()
+        public override int GetHashCode()
 		{
-			return this.GetHashCodeForObjectWithComponents();
+			return this.GetObjectWithEqualityComponentsHashCode();
 		}
 
 		public static bool operator ==(ValueObject a, ValueObject b)
@@ -34,24 +33,26 @@ namespace Mendham.Domain
 			return !(a == b);
 		}
 
-        private IEnumerable<PropertyInfo> GetPropertyInfo()
+        private IEnumerable<Func<object>> GetPropertyValues()
         {
             return this.GetType()
                 .GetProperties(BindingFlags.Public | BindingFlags.Instance)
                 .Where(a => a.CanRead && a.GetGetMethod(false) != null)
-                .OrderBy(a => a.Name);
+                .Select<PropertyInfo, Func<object>>(a => () => a.GetValue(this))
+                .ToList();
         }
 
 		IEnumerable<object> IHasEqualityComponents.EqualityComponents
 		{
 			get
 			{
-                if (_propertyInfo == null)
+                if (_propertyValues == null)
                 {
-                    _propertyInfo = GetPropertyInfo();
+                    _propertyValues = GetPropertyValues();
                 }
 
-                return _propertyInfo.Select(a => a.GetValue(this));
+                return _propertyValues
+                    .Select(a => a());
 			}
 		}
 	}
@@ -65,12 +66,23 @@ namespace Mendham.Domain
     {
         public bool Equals(T other)
         {
-            return ((T)this).HaveEqualComponents<T>(other) && this.IsObjectSameType(other);
+            return ((T)this).AreComponentsEqual<T>(other) && this.IsObjectSameType(other);
         }
 
         public static explicit operator T(ValueObject<T> valueObject)
         {
             return valueObject as T;
+        }
+
+        public static bool Equals(T obj1, T obj2)
+        {
+            if (obj1 == null && obj2 == null)
+                return true;
+
+            if (obj1 == null || obj2 == null)
+                return false;
+
+            return obj1.Equals(obj2);
         }
     }
 }

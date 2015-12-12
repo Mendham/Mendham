@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace Mendham.Domain
 {
-    public interface IEntity : IHasEqualityComponents
-    { }
+    public interface IEntity
+    {
+        IEnumerable<object> IdentityComponents { get; }
+    }
 }

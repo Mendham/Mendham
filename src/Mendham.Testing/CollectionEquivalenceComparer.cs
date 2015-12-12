@@ -39,7 +39,7 @@ namespace Mendham.Testing
 		{
 			return obj
 				.Cast<object>()
-				.GetHashCodeForComponents();
+				.GetHashCodeForObjects();
 		}
 
         /// <summary>

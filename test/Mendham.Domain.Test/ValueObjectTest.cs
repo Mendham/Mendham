@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
-using Mendham.Equality;
+using Mendham.Domain.Test.TestObjects.Other;
+using Mendham.Domain.Test.TestObjects.ValueObjects;
 using Mendham.Testing;
 using System;
 using System.Collections.Generic;
@@ -11,67 +12,6 @@ namespace Mendham.Domain.Test
 {
     public class ValueObjectTest
     {
-        public class TestValueObject : ValueObject<TestValueObject>
-        {
-            public string StrVal { get; private set; }
-            public int IntVal { get; private set; }
-
-            public TestValueObject(string strVal, int intVal)
-            {
-                this.StrVal = strVal;
-                this.IntVal = intVal;
-            }
-        }
-
-        public class DerivedTestValueObject : TestValueObject
-        {
-            public string DerivedStrVal { get; private set; }
-
-            public DerivedTestValueObject(string strVal, int intVal, string derivedStrVal) : base(strVal, intVal)
-            {
-                this.DerivedStrVal = derivedStrVal;
-            }
-        }
-
-        public class DerivedNoDifferenceTestValueObject : TestValueObject
-        {
-            public DerivedNoDifferenceTestValueObject(string strVal, int intVal) : base(strVal, intVal)
-            {
-            }
-        }
-
-        public class AltTestValueObjectWithSameFields : ValueObject<AltTestValueObjectWithSameFields>
-        {
-            public string StrVal { get; private set; }
-            public int IntVal { get; private set; }
-
-            public AltTestValueObjectWithSameFields(string strVal, int intVal)
-            {
-                this.StrVal = strVal;
-                this.IntVal = intVal;
-            }
-        }
-
-        public class NonValueObjectWithComponents : IHasEqualityComponents
-        {
-            public string StrVal { get; private set; }
-            public int IntVal { get; private set; }
-
-            public NonValueObjectWithComponents(string strVal, int intVal)
-            {
-                this.StrVal = strVal;
-                this.IntVal = intVal;
-            }
-
-            public IEnumerable<object> EqualityComponents
-            {
-                get
-                {
-                    yield return IntVal;
-                    yield return StrVal;
-                }
-            }
-        }
 
         [Theory]
         [MendhamData]
@@ -342,7 +282,7 @@ namespace Mendham.Domain.Test
         public void EqualsObject_NonValueObjectWithSameFields_False(string voStr, int voInt)
         {
             TestValueObject valueObject = new TestValueObject(voStr, voInt);
-            object nonValueObject = new NonValueObjectWithComponents(voStr, voInt);
+            object nonValueObject = new PlainObjectWithComponents(voStr, voInt);
 
             bool result = valueObject.Equals(nonValueObject);
 

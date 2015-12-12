@@ -11,8 +11,8 @@ namespace Mendham.Domain
     /// </summary>
 	public abstract class Entity : IEntity
 	{
-		IEnumerable<object> IHasEqualityComponents.EqualityComponents
-		{
+		IEnumerable<object> IEntity.IdentityComponents
+        {
 			get
 			{
 				return this.IdentityComponents;
@@ -24,19 +24,19 @@ namespace Mendham.Domain
         /// </summary>
 		protected abstract IEnumerable<object> IdentityComponents { get; }
 
-		public override bool Equals(object obj)
+        public override bool Equals(object obj)
 		{
-			return this.HaveEqualComponents(obj) && this.IsObjectSameType(obj);
-		}
+            return this.IsEqualToEntity(obj as IEntity);
+        }
 
-		public override int GetHashCode()
+        public override int GetHashCode()
 		{
-			return this.GetHashCodeForObjectWithComponents();
+            return this.GetEntityHashCode();
 		}
 
         public static bool operator ==(Entity a, Entity b)
         {
-            return object.Equals(a, b);
+            return a.IsEqualToEntity(b);
         }
 
         public static bool operator !=(Entity a, Entity b)
@@ -50,11 +50,11 @@ namespace Mendham.Domain
     /// </summary>
     /// <typeparam name="T">The derived type of Entity<T></typeparam>
     public abstract class Entity<T> : Entity, IEquatable<T>
-        where T : Entity<T>, IHasEqualityComponents
+        where T : Entity<T>
     {
         public bool Equals(T other)
         {
-            return ((T)this).HaveEqualComponents<T>(other) && this.IsObjectSameType(other);
+            return this.IsEqualToEntity(other);
         }
 
         public static explicit operator T (Entity<T> entity)
