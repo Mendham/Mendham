@@ -481,7 +481,7 @@ namespace Mendham.Domain.Test
             int result = entity2.GetHashCode();
 
             result.Should()
-                .Be(expected, "they have the identity");
+                .Be(expected, "they have the same identity");
         }
 
         [Theory]

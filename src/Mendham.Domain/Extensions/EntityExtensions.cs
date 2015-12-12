@@ -67,11 +67,16 @@ namespace Mendham.Domain.Extensions
             }
             else
             {
-                throw new NotImplementedException();
+                return entity.GetNonCachedIdentityComponentsDeclaringType();
             }
         }
 
-
+        private static Type GetNonCachedIdentityComponentsDeclaringType(this IEntity entity)
+        {
+            return entity.GetType()
+                .GetProperty("IdentityComponents", BindingFlags.Public | BindingFlags.Instance)
+                .DeclaringType;
+        }
 
         private static IHasEqualityComponents AsEqualityComponentsObject(this IEntity entity)
         {

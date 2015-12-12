@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Mendham.Domain.Extensions
 {
-    internal interface IIdentityComponentsDeclaringTypeCache : IEntity
+    public interface IIdentityComponentsDeclaringTypeCache : IEntity
     {
         Type GetIdentityComponentsDeclaringType();
     }
