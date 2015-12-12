@@ -1,10 +1,12 @@
-﻿using Mendham.Equality;
+﻿using Mendham.Domain;
+using Mendham.Equality;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Mendham.Domain
+namespace Mendham.Domain.Extensions
 {
     public static class EntityExtensions
     {
@@ -26,20 +28,49 @@ namespace Mendham.Domain
             if (!hasEqualComponents)
                 return false;
 
-            // This needs to be updated to check level of identity
-            return true;
+            if (entity.GetType() == other.GetType())
+                return true;
+
+            if (!entity.IsOneEntityDerivedFromTheOther(other))
+                return false;
+
+            // When they aren't the same type but are derived, check to see if they use the same identity components
+            return entity.GetIdentityComponentsDeclaringType() == other.GetIdentityComponentsDeclaringType();
         }
 
         public static int GetEntityHashCode(this IEntity entity)
         {
             // This needs to be updated to check for level identity is defined
-            var seed = entity.GetType().GetHashCode();
+            var seed = entity
+                .GetIdentityComponentsDeclaringType()
+                .GetHashCode();
 
             return entity
                 .AsEqualityComponentsObject()
                 .EqualityComponents
                 .GetHashCodeForObjects(seed);
         }
+
+        private static bool IsOneEntityDerivedFromTheOther(this IEntity entity, IEntity other)
+        {
+            return entity.GetType().IsAssignableFrom(other.GetType()) ||
+                other.GetType().IsAssignableFrom(entity.GetType());
+        }
+
+        private static Type GetIdentityComponentsDeclaringType(this IEntity entity)
+        {
+            var identityComponentsDeclaringTypeCache = entity as IIdentityComponentsDeclaringTypeCache;
+
+            if (identityComponentsDeclaringTypeCache != null)
+            {
+                return identityComponentsDeclaringTypeCache.GetIdentityComponentsDeclaringType();
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+        }
+
 
 
         private static IHasEqualityComponents AsEqualityComponentsObject(this IEntity entity)

@@ -127,7 +127,7 @@ namespace Mendham.Domain.Test
         [MendhamData]
         public void EqualsT_DerivedOverridenIdentityByBaseWithCommonSharedValues_False(string entityStr, int entityInt)
         {
-            TestEntity entity1 = new DerivedTestEntity(entityStr, entityInt);
+            TestEntity entity1 = new DerivedOverridenIdentityTestEntity(entityStr, entityInt);
             TestEntity entity2 = new TestEntity(entityStr, entityInt);
 
             bool result = entity1.Equals(entity2);
