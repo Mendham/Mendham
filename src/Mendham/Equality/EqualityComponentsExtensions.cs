@@ -37,24 +37,9 @@ namespace Mendham.Equality
             if (ReferenceEquals(objectWithEqualityComponents, otherObj))
                 return true;
 
-            return objectWithEqualityComponents.EqualityComponents.SequenceEqual(otherObj.EqualityComponents);
-        }
-
-        /// <summary>
-        /// Deterines if an object is the same as the object implementing IHasEqualityComponents
-        /// </summary>
-        public static bool IsObjectSameType(this IHasEqualityComponents obj, object otherObject)
-        {
-            if (obj == null)
-                throw new NullReferenceException("Object being checked by HaveEqualComponents cannot be null");
-
-            if (otherObject == null)
-                return false;
-
-            if (ReferenceEquals(obj, otherObject))
-                return true;
-
-            return obj.GetType().Equals(otherObject.GetType());
+            return objectWithEqualityComponents
+                .EqualityComponents
+                .SequenceEqual(otherObj.EqualityComponents, HasEqualityComponentsComparer.Default);
         }
 
         /// <summary>
@@ -76,8 +61,10 @@ namespace Mendham.Equality
         /// <returns></returns>
         public static int GetHashCodeForObjects(this IEnumerable<object> objects, int seed = 0)
         {
+            var comparer = HasEqualityComponentsComparer.Default;
+
             return objects
-                .Aggregate(seed, (prev, obj) => prev ^ obj.GetHashCode());
+                .Aggregate(seed, (prev, obj) => prev ^ comparer.GetHashCode(obj));
         }
 
         /// <summary>

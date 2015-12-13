@@ -49,6 +49,11 @@ namespace Mendham.Domain
 
         Type IIdentityComponentsDeclaringTypeCache.GetIdentityComponentsDeclaringType()
         {
+            return GetIdentityComponentsDeclaringType();
+        }
+
+        internal protected virtual Type GetIdentityComponentsDeclaringType()
+        {
             if (_identityComponentsDeclaringType == null)
             {
                 _identityComponentsDeclaringType = GetType()

@@ -1,0 +1,54 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Mendham.Equality
+{
+    public class HasEqualityComponentsComparer : IEqualityComparer<object>
+    {
+        private HasEqualityComponentsComparer()
+        { }
+
+        public new bool Equals(object x, object y)
+        {
+            if (ReferenceEquals(x, y))
+                return true;
+
+            var xHasEqualityComponents = x as IHasEqualityComponents;
+
+            if (xHasEqualityComponents != default(IHasEqualityComponents))
+            {
+                return xHasEqualityComponents.AreComponentsEqual(y) && xHasEqualityComponents.IsObjectSameType(y);
+            }
+            else
+            {
+                return object.Equals(x, y);
+            }
+        }
+
+        public int GetHashCode(object obj)
+        {
+            var hasEqualityComponents = obj as IHasEqualityComponents;
+
+            if (hasEqualityComponents != default(IHasEqualityComponents))
+            {
+                return hasEqualityComponents.GetObjectWithEqualityComponentsHashCode();
+            }
+            else
+            {
+                return obj.GetHashCode();
+            }
+        }
+
+        private static HasEqualityComponentsComparer _comparer = new HasEqualityComponentsComparer();
+
+        public static IEqualityComparer<object> Default
+        {
+            get
+            {
+                return _comparer;
+            }
+        }
+    }
+}

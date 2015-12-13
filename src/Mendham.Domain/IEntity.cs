@@ -10,4 +10,10 @@ namespace Mendham.Domain
     {
         IEnumerable<object> IdentityComponents { get; }
     }
+
+    public interface IEntity<TIdentity> : IEntity
+        where TIdentity : IHasEqualityComponents
+    {
+        TIdentity Id { get; }
+    }
 }
