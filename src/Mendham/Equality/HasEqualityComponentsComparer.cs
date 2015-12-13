@@ -10,6 +10,8 @@ namespace Mendham.Equality
         private HasEqualityComponentsComparer()
         { }
 
+        private const int DEFAULT_HASHCODE_FOR_NULL = -7919;
+
         public new bool Equals(object x, object y)
         {
             if (ReferenceEquals(x, y))
@@ -35,9 +37,15 @@ namespace Mendham.Equality
             {
                 return hasEqualityComponents.GetObjectWithEqualityComponentsHashCode();
             }
-            else
+            else if (obj != null)
             {
                 return obj.GetHashCode();
+            }
+            else
+            {
+                // This just handles a null so it is not throwing a null reference and so it is counted 
+                // (in opposed to it being 0 which is a much more common value from a primitive)
+                return DEFAULT_HASHCODE_FOR_NULL;
             }
         }
 

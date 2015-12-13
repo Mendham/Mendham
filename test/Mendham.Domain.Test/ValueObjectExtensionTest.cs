@@ -272,6 +272,20 @@ namespace Mendham.Domain.Test
 
         [Theory]
         [MendhamData]
+        public void GetValueObjectHashCode_HasSameValuesWithNull_Equal(int valueObjectInt)
+        {
+            var valueObject1 = new StructValueObject(null, valueObjectInt);
+            var valueObject2 = new StructValueObject(null, valueObjectInt);
+
+            int expected = valueObject1.GetValueObjectHashCode();
+            int result = valueObject2.GetValueObjectHashCode();
+
+            result.Should()
+                .Be(expected, "they have the same properties");
+        }
+
+        [Theory]
+        [MendhamData]
         public void GetValueObjectHashCode_HasSameValues_NotEqual(string valueObjectStr, int valueObjectInt)
         {
             var valueObject1 = new StructValueObject(valueObjectStr, valueObjectInt);
