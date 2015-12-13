@@ -50,6 +50,11 @@ namespace Mendham.Domain.Extensions
                 .GetHashCodeForObjects(seed);
         }
 
+        public static IEnumerable<object> GetIdentityComponents<T>(this IEntity<T> entity)
+        {
+            return entity.Id.AsSingleItemEnumerable<object>();
+        }
+
         private static bool IsOneEntityDerivedFromTheOther(this IEntity entity, IEntity other)
         {
             return entity.GetType().IsAssignableFrom(other.GetType()) ||
