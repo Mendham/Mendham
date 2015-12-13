@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 using Mendham.Domain.Test.TestObjects.Other;
-using Mendham.Domain.Test.TestObjects.ValueObjects;
+using Mendham.Domain.Test.TestObjects.ValueObjects.Base;
 using Mendham.Testing;
 using System;
 using System.Collections.Generic;

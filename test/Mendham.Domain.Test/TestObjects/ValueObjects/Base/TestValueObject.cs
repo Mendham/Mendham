@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Mendham.Domain.Test.TestObjects.ValueObjects
+namespace Mendham.Domain.Test.TestObjects.ValueObjects.Base
 {
     public class TestValueObject : ValueObject<TestValueObject>, ITestObjectDefaultProperties
     {
