@@ -16,7 +16,7 @@ namespace Mendham.Domain.Extensions
 
             if (obj is T)
             {
-                return valueObject.Equals<T>((T)obj);
+                return valueObject.IsEqualToValueObject<T>((T)obj);
             }
             else
             {
@@ -27,7 +27,16 @@ namespace Mendham.Domain.Extensions
         public static bool IsEqualToValueObject<T>(this IValueObject<T> valueObject, T obj)
             where T : IValueObject<T>
         {
-            return valueObject.Equals<T>(obj);
+            if (ReferenceEquals(valueObject, obj))
+                return true;
+
+            if (valueObject == null && obj == null)
+                return true;
+
+            if (valueObject == null || obj == null)
+                return false;
+
+            return valueObject.AreComponentsEqual(obj) && valueObject.IsObjectSameType(obj);
         }
 
         public static int GetValueObjectHashCode<T>(this T valueObject)
