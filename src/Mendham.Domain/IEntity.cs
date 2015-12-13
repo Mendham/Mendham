@@ -12,7 +12,6 @@ namespace Mendham.Domain
     }
 
     public interface IEntity<TIdentity> : IEntity
-        where TIdentity : IHasEqualityComponents
     {
         TIdentity Id { get; }
     }
