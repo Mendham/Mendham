@@ -11,14 +11,14 @@ namespace Mendham.Domain.Extensions
     {
         public static bool IsEqualToEntity(this IEntity entity, IEntity other)
         {
+            if (ReferenceEquals(entity, other))
+                return true;
+
             if (entity == null && other == null)
                 return true;
 
             if (entity == null || other == null)
                 return false;
-
-            if (ReferenceEquals(entity, other))
-                return true;
 
             var hasEqualComponents = entity
                 .AsEqualityComponentsObject()

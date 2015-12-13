@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Mendham.Equality;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Mendham.Equality;
 using System.Reflection;
 
 namespace Mendham.Domain
@@ -15,6 +15,9 @@ namespace Mendham.Domain
 
         public override bool Equals(object obj)
 		{
+            if (ReferenceEquals(this, obj))
+                return true;
+
             return this.AreComponentsEqual(obj) && this.IsObjectSameType(obj);
         }
 
@@ -61,12 +64,12 @@ namespace Mendham.Domain
     /// Base class for value objects that also implements IEquatable for the type
     /// </summary>
     /// <typeparam name="T">The derived type of ValueObject<T></typeparam>
-    public abstract class ValueObject<T> : ValueObject, IEquatable<T>
-        where T : ValueObject<T>, IHasEqualityComponents
+    public abstract class ValueObject<T> : ValueObject, IValueObject<T>, IEquatable<T>
+        where T : ValueObject<T>
     {
         public bool Equals(T other)
         {
-            return ((T)this).AreComponentsEqual<T>(other) && this.IsObjectSameType(other);
+            return this.Equals<T>(other);
         }
 
         public static explicit operator T(ValueObject<T> valueObject)
