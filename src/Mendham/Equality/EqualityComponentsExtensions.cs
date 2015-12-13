@@ -66,16 +66,5 @@ namespace Mendham.Equality
             return objects
                 .Aggregate(seed, (prev, obj) => prev ^ comparer.GetHashCode(obj));
         }
-
-        /// <summary>
-        /// Gets a hash code collection of objects passed
-        /// </summary>
-        /// <param name="objects">Func to get objects to compare</param>
-        /// <param name="seed">(Optional) Seed to start hash by</param>
-        /// <returns></returns>
-        public static int GetHashCodeForObjects(this IEnumerable<Func<object>> objects, int seed = 0)
-        {
-            return GetHashCodeForObjects(objects.Select(a => a()), seed);
-        }
     }
 }
