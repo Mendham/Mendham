@@ -1,5 +1,4 @@
-﻿using Mendham.Domain;
-using Mendham.Equality;
+﻿using Mendham.Equality;
 using System;
 using System.Collections.Generic;
 using System.Linq;

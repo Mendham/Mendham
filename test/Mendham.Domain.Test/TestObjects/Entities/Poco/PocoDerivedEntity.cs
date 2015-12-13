@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Mendham.Domain.Test.TestObjects.Entities
+namespace Mendham.Domain.Test.TestObjects.Entities.Poco
 {
     public class PocoDerivedEntity : PocoEntity
     {

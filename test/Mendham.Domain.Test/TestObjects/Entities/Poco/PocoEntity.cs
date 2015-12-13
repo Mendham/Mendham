@@ -4,15 +4,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Mendham.Domain.Test.TestObjects.Entities
+namespace Mendham.Domain.Test.TestObjects.Entities.Poco
 {
-    public class PocoExplicitIdentityEntity : IEntity, ITestObjectDefaultProperties
+    public class PocoEntity : IEntity, ITestObjectDefaultProperties
     {
         public string StrVal { get; private set; }
         public int IntVal { get; private set; }
         public Guid NonIdentityValue { get; set; }
 
-        public PocoExplicitIdentityEntity(string strVal, int intVal)
+        public PocoEntity(string strVal, int intVal)
         {
             this.StrVal = strVal;
             this.IntVal = intVal;
@@ -29,7 +29,7 @@ namespace Mendham.Domain.Test.TestObjects.Entities
             return this.GetEntityHashCode();
         }
 
-        IEnumerable<object> IEntity.IdentityComponents
+        public virtual IEnumerable<object> IdentityComponents
         {
             get
             {

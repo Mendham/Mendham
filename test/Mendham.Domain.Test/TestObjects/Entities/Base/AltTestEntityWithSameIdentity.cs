@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Mendham.Domain.Test.TestObjects.Entities
+namespace Mendham.Domain.Test.TestObjects.Entities.Base
 {
-    public class TestEntity : Entity<TestEntity>, ITestObjectDefaultProperties
+    public class AltTestEntityWithSameIdentity : Entity<AltTestEntityWithSameIdentity>, ITestObjectDefaultProperties
     {
         public string StrVal { get; private set; }
         public int IntVal { get; private set; }
-        public Guid NonIdentityValue { get; set; }
+        public Guid nonIdentityValue { get; set; }
 
-        public TestEntity(string strVal, int intVal)
+        public AltTestEntityWithSameIdentity(string strVal, int intVal)
         {
             this.StrVal = strVal;
             this.IntVal = intVal;
-            NonIdentityValue = Guid.NewGuid();
+            nonIdentityValue = Guid.NewGuid();
         }
 
         protected override IEnumerable<object> IdentityComponents

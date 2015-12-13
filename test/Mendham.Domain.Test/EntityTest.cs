@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using Mendham.Domain.Test.TestObjects.Entities;
+using Mendham.Domain.Test.TestObjects.Entities.Base;
 using Mendham.Domain.Test.TestObjects.Other;
 using Mendham.Testing;
 using System;

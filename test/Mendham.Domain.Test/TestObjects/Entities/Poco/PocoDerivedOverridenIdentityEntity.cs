@@ -3,20 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Mendham.Domain.Test.TestObjects.Entities
+namespace Mendham.Domain.Test.TestObjects.Entities.Poco
 {
-    public class PocoDerivedOverridenExplicitIdentityEntity : PocoExplicitIdentityEntity, IEntity
+    public class PocoDerivedOverridenIdentityEntity : PocoEntity
     {
         public Guid DerivedNonIdentityValue { get; set; }
 
-        public PocoDerivedOverridenExplicitIdentityEntity(string strVal, int intVal)
+        public PocoDerivedOverridenIdentityEntity(string strVal, int intVal)
             : base(strVal, intVal)
         {
             this.DerivedNonIdentityValue = Guid.NewGuid();
         }
 
-        // This is an "override" of the explicit IdentityComponents in base class
-        IEnumerable<object> IEntity.IdentityComponents
+        public override IEnumerable<object> IdentityComponents
         {
             get
             {

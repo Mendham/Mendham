@@ -1,7 +1,6 @@
 ﻿using FluentAssertions;
 using Mendham.Domain.Extensions;
-using Mendham.Domain.Test.TestObjects.Entities;
-using Mendham.Domain.Test.TestObjects.Other;
+using Mendham.Domain.Test.TestObjects.Entities.Poco;
 using Mendham.Testing;
 using System;
 using System.Collections.Generic;

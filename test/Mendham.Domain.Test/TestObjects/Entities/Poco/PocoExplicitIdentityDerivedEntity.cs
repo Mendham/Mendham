@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Mendham.Domain.Test.TestObjects.Entities
+namespace Mendham.Domain.Test.TestObjects.Entities.Poco
 {
-    public class DerivedTestEntity : TestEntity
+    public class PocoExplicitIdentityDerivedEntity : PocoExplicitIdentityEntity
     {
         public Guid DerivedNonIdentityValue { get; set; }
 
-        public DerivedTestEntity(string strVal, int intVal) : base(strVal, intVal)
+        public PocoExplicitIdentityDerivedEntity(string strVal, int intVal) : base(strVal, intVal)
         {
             DerivedNonIdentityValue = Guid.NewGuid();
         }
