@@ -1,4 +1,5 @@
-﻿using Mendham.Equality;
+﻿using Mendham.Domain.Extensions;
+using Mendham.Equality;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -69,7 +70,7 @@ namespace Mendham.Domain
     {
         public bool Equals(T other)
         {
-            return this.Equals<T>(other);
+            return this.IsEqualToValueObject(other);
         }
 
         public static explicit operator T(ValueObject<T> valueObject)
