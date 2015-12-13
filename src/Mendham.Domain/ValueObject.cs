@@ -25,7 +25,7 @@ namespace Mendham.Domain
 
 		public static bool operator ==(ValueObject a, ValueObject b)
 		{
-			return object.Equals(a, b);
+			return Equals(a, b);
 		}
 
 		public static bool operator !=(ValueObject a, ValueObject b)
@@ -72,17 +72,6 @@ namespace Mendham.Domain
         public static explicit operator T(ValueObject<T> valueObject)
         {
             return valueObject as T;
-        }
-
-        public static bool Equals(T obj1, T obj2)
-        {
-            if (obj1 == null && obj2 == null)
-                return true;
-
-            if (obj1 == null || obj2 == null)
-                return false;
-
-            return obj1.Equals(obj2);
         }
     }
 }
