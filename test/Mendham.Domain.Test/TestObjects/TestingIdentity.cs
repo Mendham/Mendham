@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Mendham.Domain.Test.TestObjects
 {
-    public class TestingIdentity : IHasEqualityComponents, ITestObjectDefaultProperties
+    public struct TestingIdentity : IHasEqualityComponents, ITestObjectDefaultProperties
     {
         public string StrVal { get; private set; }
         public int IntVal { get; private set; }
