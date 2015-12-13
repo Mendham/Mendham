@@ -17,7 +17,7 @@ namespace Mendham
 		[DebuggerStepThrough]
 		public static IEnumerable<T> AsSingleItemEnumerable<T>(this T obj)
 		{
-			return new List<T> { obj };
+            yield return obj;
 		}
 	}
 }
