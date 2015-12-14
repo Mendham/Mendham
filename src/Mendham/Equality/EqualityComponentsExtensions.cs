@@ -15,6 +15,12 @@ namespace Mendham.Equality
         /// <returns></returns>
         public static bool AreComponentsEqual(this IHasEqualityComponents objectWithEqualityComponents, object otherObj)
 		{
+            if (ReferenceEquals(objectWithEqualityComponents, otherObj))
+                return true;
+
+            if (!(otherObj is IHasEqualityComponents))
+                return false;
+
             return objectWithEqualityComponents
                 .AreComponentsEqual(otherObj as IHasEqualityComponents);
 		}
@@ -28,14 +34,17 @@ namespace Mendham.Equality
 		public static bool AreComponentsEqual<T>(this T objectWithEqualityComponents, T otherObj)
             where T : IHasEqualityComponents
         {
-            if (objectWithEqualityComponents == null)
-                throw new NullReferenceException("Object being checked by HaveEqualComponents cannot be null");
-
-            if (otherObj == null)
-                return false;
-
             if (ReferenceEquals(objectWithEqualityComponents, otherObj))
                 return true;
+
+            bool isObjectDefault = objectWithEqualityComponents.Equals(default(T));
+            bool isOtherDefault = otherObj.Equals(default(T));
+
+            if (isObjectDefault && isOtherDefault)
+                return true;
+
+            if (isObjectDefault || isOtherDefault)
+                return false;
 
             return objectWithEqualityComponents
                 .EqualityComponents
