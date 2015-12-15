@@ -15,11 +15,11 @@ namespace Mendham.Equality
             if (x == null)
                 throw new NullReferenceException("Object being checked by HaveEqualComponents cannot be null");
 
-            if (otherObject == null)
-                return false;
-
             if (ReferenceEquals(x, otherObject))
                 return true;
+
+            if (otherObject == null)
+                return false;
 
             return x.GetType().Equals(otherObject.GetType());
         }

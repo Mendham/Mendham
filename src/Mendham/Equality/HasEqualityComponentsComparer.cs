@@ -17,6 +17,13 @@ namespace Mendham.Equality
             if (ReferenceEquals(x, y))
                 return true;
 
+            var xComponentWithComparer = x as IComponentWithComparer;
+
+            if (xComponentWithComparer != default(IComponentWithComparer))
+            {
+                return xComponentWithComparer.IsEqualToComponent(y);
+            }
+
             var xHasEqualityComponents = x as IHasEqualityComponents;
 
             if (xHasEqualityComponents != default(IHasEqualityComponents))
@@ -31,6 +38,13 @@ namespace Mendham.Equality
 
         public int GetHashCode(object obj)
         {
+            var objComponentWithComparer = obj as IComponentWithComparer;
+
+            if (objComponentWithComparer != default(IComponentWithComparer))
+            {
+                return objComponentWithComparer.GetComponentHashCode();
+            }
+
             var hasEqualityComponents = obj as IHasEqualityComponents;
 
             if (hasEqualityComponents != default(IHasEqualityComponents))
