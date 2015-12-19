@@ -5,4 +5,4 @@
 # Alternatively, an environment variable can be set on machine to allow for a different instance
 # of SQL Server (Regular, Express or LocalDB) to be used.
 
-SqlLocalDB create IntegrationTests -s
+SqlLocalDB create MendhamIntegrationTest -s
