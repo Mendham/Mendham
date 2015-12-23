@@ -7,6 +7,7 @@
   "licenseUrl": "https://raw.githubusercontent.com/cbeall/Mendham/master/LICENSE",
 
   "dependencies": {
+    "Autofac": "4.0.0-rc1-177",
     "xunit": "2.1.0",
     "Moq": "4.2.1510.2205",
     "FluentAssertions": "4.0.1",
@@ -14,8 +15,7 @@
     "Mendham.Domain.Autofac": "0.1.0-*",
     "Mendham.Testing": "0.1.0-*",
     "Mendham.Testing.Builder": "0.1.0-*",
-    "Mendham.Testing.Moq": "0.1.0-*",
-    "Autofac": "4.0.0-rc1-177"
+    "Mendham.Testing.Moq": "0.1.0-*"
   },
 
   "commands": {

@@ -1,5 +1,4 @@
 ﻿using Autofac;
-using Autofac.Core;
 using Mendham.Domain.Events;
 using System;
 using System.Collections.Generic;

@@ -22,8 +22,7 @@ namespace Mendham.Domain.Autofac.Test
                 var provider = sut.Resolve<IDomainEventPublisherProvider>();
                 var publisher = provider.GetPublisher();
 
-                publisher
-                    .Should()
+                publisher.Should()
                     .NotBeNull();
             }
         }

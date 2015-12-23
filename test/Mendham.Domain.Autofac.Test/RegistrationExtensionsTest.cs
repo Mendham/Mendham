@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Autofac;
+using FluentAssertions;
+using Mendham.Domain.Autofac.Test.Data;
+using Mendham.Domain.Events;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Autofac;
-using FluentAssertions;
-using Mendham.Domain.Autofac.Test.Data;
-using Mendham.Domain.Events;
 using Xunit;
 
 namespace Mendham.Domain.Autofac.Test

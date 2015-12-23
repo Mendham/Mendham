@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Autofac;
+using FluentAssertions;
+using Mendham.Domain.Events;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Autofac;
-using FluentAssertions;
-using Mendham.Domain.Events;
 using Xunit;
 
 namespace Mendham.Domain.Autofac.Test
@@ -21,11 +21,9 @@ namespace Mendham.Domain.Autofac.Test
 			{
 				var publisher = sut.Resolve<IDomainEventPublisher>();
 
-				publisher
-					.Should()
+				publisher.Should()
 					.NotBeNull()
-					.And
-					.BeOfType<DomainEventPublisher>();
+					.And.BeOfType<DomainEventPublisher>();
 			}
 		}
 
@@ -39,11 +37,9 @@ namespace Mendham.Domain.Autofac.Test
 			{
 				var publisher = sut.Resolve<IDomainEventHandlerContainer>();
 
-				publisher
-					.Should()
+				publisher.Should()
 					.NotBeNull()
-					.And
-					.BeOfType<DomainEventHandlerContainer>();
+					.And.BeOfType<DomainEventHandlerContainer>();
 			}
 		}
 
