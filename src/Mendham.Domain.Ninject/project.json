@@ -1,0 +1,20 @@
+﻿{
+  "version": "0.1.0-*",
+  "description": "Ninject plugin to use with Mendham.Domain ",
+  "authors": [ "Craig Beall" ],
+  "tags": [ "" ],
+  "projectUrl": "https://github.com/cbeall/Mendham",
+  "licenseUrl": "https://raw.githubusercontent.com/cbeall/Mendham/master/LICENSE",
+  "requireLicenseAcceptance": false,
+
+  "dependencies": {
+    "Mendham": "0.1.0-*",
+    "Mendham.Domain": "0.1.0-*",
+    "Ninject": "3.2.2",
+    "Ninject.Extensions.Conventions": "3.2.0"
+  },
+
+  "frameworks": {
+    "net451": { }
+  }
+}
