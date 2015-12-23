@@ -2,7 +2,7 @@
   "version": "0.1.0-*",
   "description": ".NET Application Framework",
   "authors": [ "Craig Beall" ],
-  "tags": [ "DDD" ],
+  "tags": [ "" ],
   "projectUrl": "https://github.com/cbeall/Mendham",
   "licenseUrl": "https://raw.githubusercontent.com/cbeall/Mendham/master/LICENSE",
   "requireLicenseAcceptance": false,
@@ -15,7 +15,6 @@
     "net451": { },
     "dotnet5.4": {
       "dependencies": {
-        "Microsoft.CSharp": "4.0.1-beta-23225",
         "System.Collections": "4.0.10",
         "System.Linq": "4.0.1-beta-23225",
         "System.Runtime": "4.0.21-beta-23225",
