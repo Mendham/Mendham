@@ -5,6 +5,13 @@ test: off
 services:
 - mssql2014
 
+branches:
+  only:
+    - master
+
+  except:
+    - /gh-pages.*/
+
 build_script:
 - ps: .\build.ps1
 
@@ -30,5 +37,5 @@ deploy:
   symbol_server: https://nuget.symbolsource.org/MyGet/mendham
   artifact: MendhamPackages
   on:
-   branch: master
-   appveyor_repo_tag: true
+    branch: master
+    appveyor_repo_tag: false
