@@ -23,19 +23,12 @@ configuration: Release
 
 deploy:
 - provider: NuGet
-  server: https://www.myget.org/F/mendham/api/v3/index.json
+  server: https://www.myget.org/F/mendham/api/v2/package
   api_key:
     secure: lc6qh+UNxNqcweligghUHBrdF22ErLbrckDPGQB0W0CF+jH+EeP0ZnZCwGkl0wg9
-  skip_symbols: true
-  on:
-    branch: master
-    appveyor_repo_tag: false
-
-- provider: NuGet
-  api_key:
-    secure: lc6qh+UNxNqcweligghUHBrdF22ErLbrckDPGQB0W0CF+jH+EeP0ZnZCwGkl0wg9
-  symbol_server: https://www.myget.org/F/mendham/api/v3/index.json
+  skip_symbols: false
   artifact: MendhamPackages
+  symbol_server: https://www.myget.org/F/mendham/api/v2/package
   on:
     branch: master
     appveyor_repo_tag: false
