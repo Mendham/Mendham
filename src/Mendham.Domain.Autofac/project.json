@@ -15,10 +15,10 @@
 
   "frameworks": {
     "net451": { },
-    "dotnet5.4": {
+    "dotnet5.2": {
       "dependencies": {
-        "System.Linq": "4.0.0-*",
-        "System.Threading": "4.0.10-*",
+        "System.Linq": "4.0.1-*",
+        "System.Threading": "4.0.11-*",
         "Microsoft.CSharp": "4.0.1-*"
       }
     }

@@ -73,8 +73,8 @@ namespace Mendham.Domain.Events
 			this.DomainEvent = firstException.DomainEvent;
 			this.DomainEventHandlerType = firstException.DomainEventHandlerType;
 
-			this.domainEventHandlingExceptions = domainEventHandlingExceptions.ToList().AsReadOnly();
-		}
+            this.domainEventHandlingExceptions = new ReadOnlyCollection<DomainEventHandlingException>(domainEventHandlingExceptions.ToList());
+        }
 
 		/// <summary>
 		/// Types of the domain event handlers that threw an exception
