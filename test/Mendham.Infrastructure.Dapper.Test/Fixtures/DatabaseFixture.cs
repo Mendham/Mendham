@@ -10,7 +10,6 @@ using System.Threading.Tasks;
 
 #if DNXCORE50
 using IDbConnection = global::System.Data.Common.DbConnection;
-using IDbTransaction = global::System.Data.Common.DbTransaction;
 #endif
 
 namespace Mendham.Infrastructure.Dapper.Test.Fixtures

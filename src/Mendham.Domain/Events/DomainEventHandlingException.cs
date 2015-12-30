@@ -73,12 +73,7 @@ namespace Mendham.Domain.Events
 			this.DomainEvent = firstException.DomainEvent;
 			this.DomainEventHandlerType = firstException.DomainEventHandlerType;
 
-#if DNXCORE50
-			// Not sure why this AsReadOnly isn't available for DNXCORE50
-			this.domainEventHandlingExceptions = new ReadOnlyCollection<DomainEventHandlingException>(domainEventHandlingExceptions.ToList());
-#else
 			this.domainEventHandlingExceptions = domainEventHandlingExceptions.ToList().AsReadOnly();
-#endif
 		}
 
 		/// <summary>
