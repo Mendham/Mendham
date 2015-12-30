@@ -109,7 +109,7 @@ namespace Mendham.Domain.Test
 		}
 
 		[Fact]
-		public async Task HandleAllAsync_HandlerTaskThrowsExcpetion_ThrowsDomainEventHandlingException()
+		public async Task HandleAllAsync_HandlerTaskThrowsException_ThrowsDomainEventHandlingException()
 		{
 			var derivedEvent = Fixture.CreateDerivedDomainEvent();
 			var exceptionFromHandler = new InvalidOperationException("Test exception");
@@ -134,17 +134,21 @@ namespace Mendham.Domain.Test
 		}
 
 		[Fact]
-		public async Task HandleAllAsync_HandlerThrowsExcpetion_ThrowsDomainEventHandlingException()
+		public async Task HandleAllAsync_HandlerThrowsException_ThrowsDomainEventHandlingException()
 		{
 			var derivedEvent = Fixture.CreateDerivedDomainEvent();
 			var exceptionFromHandler = new InvalidOperationException("Test exception");
-			Func<Task> exTask = () => { throw exceptionFromHandler; };
+			Func<Task> exTask = async () =>
+            {
+                await Task.FromResult(0);
+                throw exceptionFromHandler;
+            };
 
-			var sut = Fixture.CreateSut();
+            var sut = Fixture.CreateSut();
 
-			Fixture.DerivedEventHandler.AsMock()
-				.Setup(a => a.HandleAsync(derivedEvent))
-				.Throws(exceptionFromHandler);
+            Fixture.DerivedEventHandler.AsMock()
+                .Setup(a => a.HandleAsync(derivedEvent))
+                .Returns(exTask());
 
 			var ex = await Assert.ThrowsAsync<DomainEventHandlingException>(
 				() => sut.HandleAllAsync(derivedEvent));
@@ -155,24 +159,23 @@ namespace Mendham.Domain.Test
 		}
 
 		[Fact]
-		public async Task HandleAllAsync_HandlersThrowMultipleExcpetions_ThrowsDomainEventHandlingException()
+		public async Task HandleAllAsync_HandlersThrowMultipleExceptions_ThrowsDomainEventHandlingException()
 		{
 			var derivedEvent = Fixture.CreateDerivedDomainEvent();
-			var exceptionFromHandler = new InvalidOperationException("Test exception");
 			Func<Task> exTask = async () =>
 			{
 				await Task.FromResult(0);
-				throw exceptionFromHandler;
-			};
+				throw new InvalidOperationException("Test exception");
+            };
 
 			var sut = Fixture.CreateSut();
 
 			Fixture.DerivedEventHandler.AsMock()
 				.Setup(a => a.HandleAsync(derivedEvent))
-				.Throws(exceptionFromHandler);
-			Fixture.BaseEventHandler.AsMock()
-				.Setup(a => a.HandleAsync(derivedEvent))
-				.Throws(exceptionFromHandler);
+                .Returns(exTask());
+            Fixture.BaseEventHandler.AsMock()
+                .Setup(a => a.HandleAsync(derivedEvent))
+                .Returns(exTask());
 
 			var ex = await Assert.ThrowsAsync<AggregateDomainEventHandlingException>(
 				() => sut.HandleAllAsync(derivedEvent));
@@ -180,11 +183,10 @@ namespace Mendham.Domain.Test
 			ex.DomainEvent.ShouldBeEquivalentTo(derivedEvent);
 			ex.InnerException.Should().BeOfType<DomainEventHandlingException>();
 			ex.InnerExceptions.Should().HaveCount(2);
-			ex.DomainEventHandlerTypes.Should().HaveCount(2);
 			ex.DomainEventHandlerTypes.Should()
-				.Contain(Fixture.DerivedEventHandler.GetType());
-			ex.DomainEventHandlerTypes.Should()
-				.Contain(Fixture.BaseEventHandler.GetType());
+                .HaveCount(2)
+                .And.Contain(Fixture.DerivedEventHandler.GetType())
+                .And.Contain(Fixture.BaseEventHandler.GetType());
 		}
 	}
 }
