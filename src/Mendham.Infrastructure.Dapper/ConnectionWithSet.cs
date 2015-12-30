@@ -6,7 +6,7 @@ using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 
-#if DNXCORE50
+#if DOTNET5_4
 using IDbConnection = global::System.Data.Common.DbConnection;
 using IDbTransaction = global::System.Data.Common.DbTransaction;
 #endif
@@ -48,7 +48,7 @@ namespace Mendham.Infrastructure.Dapper
 
         private Task OpenConnectionAsync()
         {
-#if DNXCORE50
+#if DOTNET5_4
             return _conn.OpenAsync();
 #else
             DbConnection dbConnection = _conn as DbConnection;
