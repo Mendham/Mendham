@@ -1,6 +1,6 @@
 {
   "version": "1.0.0-beta1-*",
-  "description": "Testing helpers with builder and ability to populate values directly in XUnit tests",
+  "description": "Testing helpers with builder and ability to populate values directly in xUnit tests",
   "authors": [ "Craig Beall" ],
   "tags": [ "mendham test testing builder testbuilder tdd xunit" ],
   "projectUrl": "https://cbeall.github.io/Mendham",
