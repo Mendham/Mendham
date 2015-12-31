@@ -1,31 +1,41 @@
 $dnvmVersion = "1.0.0-rc1-update1";
 $buildNumber = 0;
-$preRelease = $null;
+$preRelease = $true;
+$tagBuild = $false;
 
 if ($env:APPVEYOR_BUILD_NUMBER) {
     $buildNumber = $env:APPVEYOR_BUILD_NUMBER
 }
 
-if ($env:preRelease) {
-    Write-Output "Setting Prerelease: $env:preRelease"
-    $preRelease = $env:preRelease
-}
-
 if ($env:APPVEYOR) {
     
-    
-
     Write-Output "Building branch: $env:APPVEYOR_REPO_BRANCH"
 
     Write-Output "Current Environment Variables"
     # Dumps Environment
     ls env:
 
-    if ($env:APPVEYOR_REPO_TAG) {
-        Write-Output "Building tag: $env:APPVEYOR_REPO_TAG_NAME"
+    if ($env:APPVEYOR_REPO_TAG -eq $true -or $env:APPVEYOR_REPO_TAG -eq "True") {
+        $tagBuild = $true;
+    }
+
+    if ($tagBuild) {
+
+        $tagText = $env:APPVEYOR_REPO_TAG_NAME
+        Write-Output "Building tag: $tagText"
+
+        if ($tagText -match "[a-zA-Z]") {
+            Write-Output "Is Prerelease: $preReleaseLabel"
+            $preRelease = $true
+        }
+        else {
+            Write-Output "Not PreRelease"
+            $preRelease = $false
+        }
     }
     else {
-        Write-Output "No tag applied to build"
+        Write-Output "No tag applied to build. Is PreRelease"
+        $preRelease = $true
     }
 }
 
@@ -61,6 +71,6 @@ dnvm use $dnvmVersion -r CLR
 
 Import-Module .\psake.psm1
 
-Invoke-Psake -taskList Build,Test -properties @{ buildNumber=$buildNumber; preRelease=$preRelease }
+Invoke-Psake -taskList Build,Test -properties @{ buildNumber=$buildNumber; preRelease=$preRelease; tagBuild = $tagBuild }
 
 Pop-Location

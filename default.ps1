@@ -1,6 +1,7 @@
 properties {
     $buildNumber = 0
-    $preRelease = $null
+    $preRelease = $true
+    $tagBuild = $false
 }
 
 function Restore-Packages ([string] $DirectoryName)
@@ -27,7 +28,7 @@ task ValidateConfig -description "Checking values in config" {
 		Write-Output "Prerelease: n/a"
 	}
 	else {
-		Write-Output "Prerelease: $preRelease"
+		Write-Output "PreRelease: $preRelease"
 	}
 
     Write-Output 'Config value is valid';
@@ -44,28 +45,17 @@ task Restore -description "Restores packages for all projects" {
     Restore-Packages (Get-Item -Path ".\" -Verbose).FullName
 }
 
-task SetBuildNumber -description "Sets the build number that may be added to the version" {
-    $buildSuffix = $null
-
-    if($preRelease) {
-        $buildSuffix = "$preRelease"
-    
+task SetBuildSuffix -description "Sets the build suffix that may be added to the version" {
+    if ($tagBuild -eq $false)
+    {
         if ($buildNumber -ne 0) {
         
-            if ($buildSuffix -ne $null) {
-                $buildSuffix = "$buildSuffix-"
-            }
-
-            $buildSuffix = $buildSuffix + $buildNumber.ToString().PadLeft(5,'0')
+            $env:DNX_BUILD_VERSION = $buildNumber.ToString().PadLeft(5,'0')
         }
-    }
-
-    if ($buildSuffix -ne $null) {
-        $env:DNX_BUILD_VERSION = $buildSuffix
     }
 }
 
-task Build -depends Clean,Restore,SetBuildNumber -description "Builds every source project" {
+task Build -depends Clean,Restore,SetBuildSuffix -description "Builds every source project" {
     Get-ChildItem -Path .\src -Filter *.xproj -Recurse |
         % { Build-Projects $_.DirectoryName $_.Directory.Name }
 }
