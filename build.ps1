@@ -13,7 +13,13 @@ if ($env:preRelease) {
 
 if ($env:APPVEYOR) {
     
+    
+
     Write-Output "Building branch: $env:APPVEYOR_REPO_BRANCH"
+
+    Write-Output "Current Environment Variables"
+    # Dumps Environment
+    ls env:
 
     if ($env:APPVEYOR_REPO_TAG) {
         Write-Output "Building tag: $env:APPVEYOR_REPO_TAG_NAME"

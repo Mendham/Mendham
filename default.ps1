@@ -12,7 +12,7 @@ function Build-Projects ([string] $DirectoryName, [string] $ProjectName)
 {
     Write-Output "Directory: $DirectoryName"
     & dnu pack ("""" + $DirectoryName + """") --configuration Release --out ".\artifacts\packages\$ProjectName"; if($LASTEXITCODE -ne 0) { exit 1 }
-}dnx
+}
 
 function Test-Projects ([string] $Project)
 {
