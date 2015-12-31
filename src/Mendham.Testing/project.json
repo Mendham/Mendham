@@ -1,5 +1,5 @@
 {
-  "version": "0.1.0-*",
+  "version": "1.0.0-beta1-*",
   "description": "Testing helpers",
   "authors": [ "Craig Beall" ],
   "tags": [ "" ],
@@ -8,7 +8,7 @@
 
   "dependencies": {
     "xunit": "2.1.0",
-    "Mendham": "0.1.0-*"
+    "Mendham": "1.0.0-*"
   },
 
   "frameworks": {

@@ -1,5 +1,5 @@
 ﻿{
-  "version": "0.1.0-*",
+  "version": "1.0.0-beta1-*",
   "description": "Mendham library used for tracking working with domain and concurrent objects",
   "authors": [ "Craig Beall" ],
   "tags": [ "" ],
@@ -18,8 +18,8 @@
     }
   },
   "dependencies": {
-    "Mendham": "0.1.0-*",
-    "Mendham.Concurrency": "0.1.0-*",
-    "Mendham.Domain": "0.1.0-*"
+    "Mendham": "1.0.0-*",
+    "Mendham.Concurrency": "1.0.0-*",
+    "Mendham.Domain": "1.0.0-*"
   }
 }

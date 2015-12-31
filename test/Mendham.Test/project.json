@@ -1,5 +1,5 @@
 {
-  "version": "0.1.0-*",
+  "version": "1.0.0-beta1-*",
   "description": "Unit tests for Mendham",
   "authors": [ "Craig Beall" ],
   "tags": [ "" ],
@@ -10,8 +10,8 @@
     "xunit": "2.1.0",
     "Moq": "4.2.1510.2205",
     "FluentAssertions": "4.0.1",
-    "Mendham": "0.1.0-*",
-    "Mendham.Testing.Builder": "0.1.0-*"
+    "Mendham": "1.0.0-*",
+    "Mendham.Testing.Builder": "1.0.0-*"
   },
 
   "commands": {

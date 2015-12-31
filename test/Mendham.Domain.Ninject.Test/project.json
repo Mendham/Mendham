@@ -1,5 +1,5 @@
 {
-  "version": "0.1.0-*",
+  "version": "1.0.0-beta1-*",
   "description": "Unit tests for Mendham.Domain.Ninject",
   "authors": [ "Craig Beall" ],
   "tags": [ "" ],
@@ -11,12 +11,12 @@
     "Moq": "4.2.1510.2205",
     "FluentAssertions":  "4.1.1",
     "Ninject": "3.2.2",
-    "Mendham.Domain": "0.1.0-*",
-    "Mendham.Domain.Autofac": "0.1.0-*",
-    "Mendham.Testing": "0.1.0-*",
-    "Mendham.Testing.Builder": "0.1.0-*",
-    "Mendham.Testing.Moq": "0.1.0-*",
-    "Mendham.Domain.Ninject": "0.1.0-*"
+    "Mendham.Domain": "1.0.0-*",
+    "Mendham.Domain.Autofac": "1.0.0-*",
+    "Mendham.Testing": "1.0.0-*",
+    "Mendham.Testing.Builder": "1.0.0-*",
+    "Mendham.Testing.Moq": "1.0.0-*",
+    "Mendham.Domain.Ninject": "1.0.0-*"
   },
 
   "commands": {

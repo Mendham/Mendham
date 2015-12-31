@@ -1,5 +1,5 @@
 {
-  "version": "0.1.0-*",
+  "version": "1.0.0-beta1-*",
   "description": "Autofac plugin to use with Mendham.Domain ",
   "authors": [ "Craig Beall" ],
   "tags": [ "" ],
@@ -8,8 +8,8 @@
   "requireLicenseAcceptance": false,
 
   "dependencies": {
-    "Mendham": "0.1.0-*",
-    "Mendham.Domain": "0.1.0-*",
+    "Mendham": "1.0.0-*",
+    "Mendham.Domain": "1.0.0-*",
     "Autofac": "4.0.0-rc1-177"
   },
 

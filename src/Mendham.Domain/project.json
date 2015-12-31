@@ -1,5 +1,5 @@
 {
-  "version": "0.1.0-*",
+  "version": "1.0.0-beta1-*",
   "description": ".NET Application Framework",
   "authors": [ "Craig Beall" ],
   "tags": [ "" ],
@@ -8,7 +8,7 @@
   "requireLicenseAcceptance": false,
 
   "dependencies": {
-    "Mendham": "0.1.0-*"
+    "Mendham": "1.0.0-*"
   },
 
   "frameworks": {

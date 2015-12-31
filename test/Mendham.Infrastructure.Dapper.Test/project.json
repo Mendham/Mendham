@@ -1,5 +1,5 @@
 {
-  "version": "0.1.0-*",
+  "version": "1.0.0-beta1-*",
   "description": "Unit tests for Mendham.Infrastructure.Dapper",
   "authors": [ "Craig Beall" ],
   "tags": [ "" ],
@@ -8,9 +8,9 @@
 
   "dependencies": {
     "xunit": "2.1.0",
-    "Mendham.Domain": "0.1.0-*",
-    "Mendham.Infrastructure.Dapper": "0.1.0-*",
-    "Mendham.Testing": "0.1.0-*"
+    "Mendham.Domain": "1.0.0-*",
+    "Mendham.Infrastructure.Dapper": "1.0.0-*",
+    "Mendham.Testing": "1.0.0-*"
   },
 
   "commands": {
