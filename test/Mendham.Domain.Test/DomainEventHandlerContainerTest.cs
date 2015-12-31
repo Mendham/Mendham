@@ -13,7 +13,7 @@ using Xunit;
 
 namespace Mendham.Domain.Test
 {
-	public class DomainEventHandlerContainerTest : BaseUnitTest<DomainEventHandlerContainerFixture>
+	public class DomainEventHandlerContainerTest : UnitTest<DomainEventHandlerContainerFixture>
 	{
 		public DomainEventHandlerContainerTest(DomainEventHandlerContainerFixture fixture) : base(fixture)
 		{ }

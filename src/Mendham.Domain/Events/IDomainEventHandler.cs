@@ -27,7 +27,7 @@ namespace Mendham.Domain.Events
 		Task HandleAsync(TDomainEvent domainEvent);
 	}
 
-	public abstract class BaseDomainEventHandler<TDomainEvent> : IDomainEventHandler<TDomainEvent>
+	public abstract class DomainEventHandler<TDomainEvent> : IDomainEventHandler<TDomainEvent>
 		where TDomainEvent : IDomainEvent
 	{
 		/// <summary>

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Mendham.Testing.Builder.Test.Fixtures
 {
-    public class BuilderQueryServiceFixture : BaseFixture<BuilderQueryService>
+    public class BuilderQueryServiceFixture : FixtureFixture<BuilderQueryService>
     {
         public IBuilderAssemblyQueryService BuilderAssemblyQueryService { get; set; }
 

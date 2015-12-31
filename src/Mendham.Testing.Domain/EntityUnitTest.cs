@@ -12,7 +12,7 @@ namespace Mendham.Testing
     /// </summary>
     /// <typeparam name="TEntity">Entity being tested</typeparam>
     /// <typeparam name="TBuilder">Builder that creates the entity to be tested</typeparam>
-    public class EntityUnitTest<TEntity, TBuilder> : BaseUnitTest<EntityFixture<TEntity, TBuilder>>
+    public class EntityUnitTest<TEntity, TBuilder> : UnitTest<EntityFixture<TEntity, TBuilder>>
         where TEntity : class, IEntity
         where TBuilder : IBuilder<TEntity>, new()
     {

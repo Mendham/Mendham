@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Mendham.Domain.Ninject.Test.TestObjects
 {
-    public sealed class Test1DomainEventHandler : BaseDomainEventHandler<Test1DomainEvent>
+    public sealed class Test1DomainEventHandler : DomainEventHandler<Test1DomainEvent>
     {
         public override Task HandleAsync(Test1DomainEvent domainEvent)
         {
@@ -14,7 +14,7 @@ namespace Mendham.Domain.Ninject.Test.TestObjects
         }
     }
 
-    public sealed class Test2DomainEventHandler : BaseDomainEventHandler<Test2DomainEvent>
+    public sealed class Test2DomainEventHandler : DomainEventHandler<Test2DomainEvent>
     {
         public override Task HandleAsync(Test2DomainEvent domainEvent)
         {

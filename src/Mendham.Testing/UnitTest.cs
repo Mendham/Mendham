@@ -10,12 +10,12 @@ namespace Mendham.Testing
     /// Base for a unit test class that implements IClassFixture and provides access of that fixture to the tests
     /// </summary>
     /// <typeparam name="TFixture">Type of test fixture</typeparam>
-    public abstract class BaseUnitTest<TFixture> : IClassFixture<TFixture>
+    public abstract class UnitTest<TFixture> : IClassFixture<TFixture>
 		where TFixture : class, IFixture, new()
 	{
 		protected TFixture Fixture { get; private set; }
 
-		public BaseUnitTest(TFixture fixture)
+		public UnitTest(TFixture fixture)
 		{
 			this.Fixture = fixture;
 

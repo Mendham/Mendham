@@ -30,7 +30,7 @@ namespace Mendham.Infrastructure.Dapper.Test.Helpers
         }
     }
 
-    public class CompositeIdMapping : BaseSetMapping<CompositeId>
+    public class CompositeIdMapping : SetMapping<CompositeId>
     {
         public override string CreateTableSql
         {

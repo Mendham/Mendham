@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace Mendham.Infrastructure.Dapper.Mapping
 {
-    internal abstract class ItemWithSingleFieldMapping<T> : BaseSetMapping<T>
+    internal abstract class ItemWithSingleFieldMapping<T> : SetMapping<T>
     {
         private readonly string _tableName;
         private readonly string _columnName;

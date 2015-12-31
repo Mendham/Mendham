@@ -10,7 +10,7 @@ using Xunit;
 
 namespace Mendham.Infrastructure.Dapper.Test
 {
-    public class ConnectionWithSetTest : BaseUnitTest<DatabaseFixture>
+    public class ConnectionWithSetTest : UnitTest<DatabaseFixture>
     {
         public ConnectionWithSetTest(DatabaseFixture fixture) : base(fixture)
         {

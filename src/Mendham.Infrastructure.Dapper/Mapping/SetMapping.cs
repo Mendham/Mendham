@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Mendham.Infrastructure.Dapper.Mapping
 {
-    public abstract class BaseSetMapping<T> : IConnectionWithSetMapping<T>
+    public abstract class SetMapping<T> : IConnectionWithSetMapping<T>
     {
         public virtual bool ItemIsValidPredicate(T item)
         {

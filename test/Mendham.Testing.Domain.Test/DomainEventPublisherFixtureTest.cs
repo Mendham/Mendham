@@ -10,7 +10,7 @@ using Fixture = Mendham.Testing.Domain.Test.DomainEventPublisherFixtureTestingFi
 
 namespace Mendham.Testing.Domain.Test
 {
-    public class DomainEventPublisherFixtureTest : BaseUnitTest<DomainEventPublisherFixtureTestingFixture>
+    public class DomainEventPublisherFixtureTest : UnitTest<DomainEventPublisherFixtureTestingFixture>
     {
         public DomainEventPublisherFixtureTest(DomainEventPublisherFixtureTestingFixture fixture) : base(fixture)
         {

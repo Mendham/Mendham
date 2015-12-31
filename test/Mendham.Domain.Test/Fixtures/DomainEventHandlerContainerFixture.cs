@@ -8,7 +8,7 @@ using Moq;
 
 namespace Mendham.Domain.Test.Fixtures
 {
-    public class DomainEventHandlerContainerFixture : BaseFixture<DomainEventHandlerContainer>
+    public class DomainEventHandlerContainerFixture : FixtureFixture<DomainEventHandlerContainer>
     {
 
 		public IDomainEventHandler<BaseDomainEvent> BaseEventHandler { get; set; }

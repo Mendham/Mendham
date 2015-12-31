@@ -11,7 +11,7 @@ using Xunit;
 
 namespace Mendham.Domain.Test
 {
-	public class DomainEventPublisherTest : BaseUnitTest<DomainEventPublisherFixture>
+	public class DomainEventPublisherTest : UnitTest<DomainEventPublisherFixture>
 	{
 		public DomainEventPublisherTest(DomainEventPublisherFixture fixture) : base(fixture)
 		{ }
