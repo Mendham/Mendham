@@ -31,4 +31,12 @@ deploy:
   symbol_server: https://www.myget.org/F/mendham/api/v2/package
   on:
     branch: master
-    appveyor_repo_tag: false
+
+- provider: NuGet
+  api_key:
+    secure: 7FiludlzP0brUSV6CsRH2QbiXSgvd35Kcpm+ruj0WGx05Q+CF7X+0sf5ylMwLHhi
+  skip_symbols: true
+  artifact: MendhamPackages
+  on:
+    branch: master
+    appveyor_repo_tag: true
