@@ -2,7 +2,7 @@
   "version": "1.0.0-beta1-*",
   "description": "Testing helpers using Moq",
   "authors": [ "Craig Beall" ],
-  "tags": [ "" ],
+  "tags": [ "mendham moq mocking test testing tdd xunit" ],
   "projectUrl": "https://github.com/cbeall/Mendham",
   "licenseUrl": "https://raw.githubusercontent.com/cbeall/Mendham/master/LICENSE",
 

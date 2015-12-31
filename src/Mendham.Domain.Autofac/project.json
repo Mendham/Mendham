@@ -2,7 +2,7 @@
   "version": "1.0.0-beta1-*",
   "description": "Autofac plugin to use with Mendham.Domain ",
   "authors": [ "Craig Beall" ],
-  "tags": [ "" ],
+  "tags": [ "mendham domain ddd autofac ioc di" ],
   "projectUrl": "https://github.com/cbeall/Mendham",
   "licenseUrl": "https://raw.githubusercontent.com/cbeall/Mendham/master/LICENSE",
   "requireLicenseAcceptance": false,

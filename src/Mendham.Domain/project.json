@@ -2,7 +2,7 @@
   "version": "1.0.0-beta1-*",
   "description": ".NET Application Framework",
   "authors": [ "Craig Beall" ],
-  "tags": [ "" ],
+  "tags": [ "mendham domain ddd" ],
   "projectUrl": "https://github.com/cbeall/Mendham",
   "licenseUrl": "https://raw.githubusercontent.com/cbeall/Mendham/master/LICENSE",
   "requireLicenseAcceptance": false,

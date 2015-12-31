@@ -2,7 +2,7 @@
   "version": "1.0.0-beta1-*",
   "description": "Helpers designed to be used when building domain infrastructure with Dapper",
   "authors": [ "Craig Beall" ],
-  "tags": [ "DDD Dapper" ],
+  "tags": [ "mendham ddd domain dapper" ],
   "projectUrl": "https://github.com/cbeall/Mendham",
   "licenseUrl": "https://raw.githubusercontent.com/cbeall/Mendham/master/LICENSE",
 

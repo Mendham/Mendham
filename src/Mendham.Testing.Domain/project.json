@@ -2,7 +2,7 @@
   "version": "1.0.0-beta1-*",
   "description": "Test helpers for Mendham.Domain",
   "authors": [ "Craig Beall" ],
-  "tags": [ "" ],
+  "tags": [ "mendham test testing domain ddd tdd xunit" ],
   "projectUrl": "https://github.com/cbeall/Mendham",
   "licenseUrl": "https://raw.githubusercontent.com/cbeall/Mendham/master/LICENSE",
 

@@ -2,7 +2,6 @@
   "version": "1.0.0-beta1-*",
   "description": "Unit tests for Mendham.Domain",
   "authors": [ "Craig Beall" ],
-  "tags": [ "" ],
   "projectUrl": "https://github.com/cbeall/Mendham",
   "licenseUrl": "https://raw.githubusercontent.com/cbeall/Mendham/master/LICENSE",
 
