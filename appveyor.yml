@@ -6,9 +6,6 @@ services:
 - mssql2014
 
 branches:
-  only:
-    - master
-
   except:
     - /gh-pages.*/
 
