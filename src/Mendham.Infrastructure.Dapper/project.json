@@ -3,7 +3,7 @@
   "description": "Helpers designed to be used when building domain infrastructure with Dapper",
   "authors": [ "Craig Beall" ],
   "tags": [ "mendham ddd domain dapper" ],
-  "projectUrl": "https://github.com/cbeall/Mendham",
+  "projectUrl": "https://cbeall.github.io/Mendham",
   "licenseUrl": "https://raw.githubusercontent.com/cbeall/Mendham/master/LICENSE",
 
   "dependencies": {

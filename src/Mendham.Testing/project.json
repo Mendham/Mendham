@@ -3,7 +3,7 @@
   "description": "Testing helpers",
   "authors": [ "Craig Beall" ],
   "tags": [ "mendham test testing tdd xunit" ],
-  "projectUrl": "https://github.com/cbeall/Mendham",
+  "projectUrl": "https://cbeall.github.io/Mendham",
   "licenseUrl": "https://raw.githubusercontent.com/cbeall/Mendham/master/LICENSE",
 
   "dependencies": {

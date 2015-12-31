@@ -3,7 +3,7 @@
   "description": "Mendham library used for tracking working with concurrent objects",
   "authors": [ "Craig Beall" ],
   "tags": [ "mendham concurrency" ],
-  "projectUrl": "https://github.com/cbeall/Mendham",
+  "projectUrl": "https://cbeall.github.io/Mendham",
   "licenseUrl": "https://raw.githubusercontent.com/cbeall/Mendham/master/LICENSE",
   "requireLicenseAcceptance": false,
   "frameworks": {
