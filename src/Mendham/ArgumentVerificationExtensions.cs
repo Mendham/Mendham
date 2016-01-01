@@ -72,37 +72,68 @@ namespace Mendham
 		}
 
 		/// <summary>
-		/// Throws an ArgumentException if string is not within the correct minium and/or maxium length or if string is null
+		/// Throws an ArgumentException if string is not within the correct minimum and/or maximum length or if string is null
 		/// </summary>
 		/// <param name="str">String to test</param>
-		/// <param name="minimum">Minimum length (if null, there is no minium)</param>
-		/// <param name="maximum">Maxium length (if null, there is no maximum)</param>
-		/// <param name="message">Message to display if string is not within the correct minium and/or maxium length or if string is null</param>
-		/// <param name="trimStringFirst">(Optional) Trim string prior to checking minium and maximum (default = true)</param>
+		/// <param name="minimum">Minimum length (if null, there is no minimum)</param>
+		/// <param name="maximum">Maximum length (if null, there is no maximum)</param>
+		/// <param name="message">Message to display if string is not within the correct minimum and/or maximum length or if string is null</param>
 		/// <returns></returns>
 		[DebuggerStepThrough]
-		public static string VerifyArgumentLength(this string str, int? minimum, int? maximum, string message, bool trimStringFirst = true)
+		public static string VerifyArgumentLength(this string str, int? minimum, int? maximum, string message)
 		{
-			var localStr = str;
-
-			if (trimStringFirst && str != null)
-				localStr = str.Trim();
-
-			Func<string, bool> condition = a => a != null && (!minimum.HasValue || a.Length >= minimum) && (!maximum.HasValue || a.Length <= maximum);
-			localStr.VerifyArgumentMeetsCriteria(condition, message);
-
-			return str;
+            return str.VerifyArgumentLength(minimum, maximum, false, message);
 		}
 
-		/// <summary>
-		/// Throws an ArgumentException if acceptance criteria is not met
+        /// <summary>
+		/// Throws an ArgumentException if string is not within the correct minimum and/or maximum length or if string is null
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="obj">Value to test</param>
-		/// <param name="acceptanceCriteria">Criteria for the value to be valid</param>
-		/// <param name="message">Message to display if acceptance criteria is not met</param>
+		/// <param name="str">String to test</param>
+		/// <param name="minimum">Minimum length (if null, there is no minimum)</param>
+		/// <param name="maximum">Maximum length (if null, there is no maximum)</param>
+		/// <param name="trimStringFirst">Trim string prior to checking minimum and maximum (default = true)</param>
+		/// <param name="message">Message to display if string is not within the correct minimum and/or maximum length or if string is null</param>
 		/// <returns></returns>
 		[DebuggerStepThrough]
+        public static string VerifyArgumentLength(this string str, int? minimum, int? maximum, bool trimStringFirst, string message)
+        {
+            var localStr = str;
+
+            if (trimStringFirst && str != null)
+                localStr = str.Trim();
+
+            Func<string, bool> condition = a => a != null && (!minimum.HasValue || a.Length >= minimum) && (!maximum.HasValue || a.Length <= maximum);
+            localStr.VerifyArgumentMeetsCriteria(condition, message);
+
+            return str;
+        }
+
+        /// <summary>
+		/// Throws an ArgumentException if int is not within the correct range
+		/// </summary>
+		/// <param name="num">Int to test</param>
+		/// <param name="minimum">Minimum value (if null, there is no minimum)</param>
+		/// <param name="maximum">Maximum value (if null, there is no maximum)</param>
+		/// <param name="message">Message to display if int is not within the correct range</param>
+		/// <returns></returns>
+		[DebuggerStepThrough]
+        public static int VerifyArgumentRange(this int num, int? minimum, int? maximum, string message)
+        {
+            Func<int, bool> condition = a => (!minimum.HasValue || a >= minimum) && (!maximum.HasValue || a <= maximum);
+            num.VerifyArgumentMeetsCriteria(condition, message);
+
+            return num;
+        }
+
+        /// <summary>
+        /// Throws an ArgumentException if acceptance criteria is not met
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj">Value to test</param>
+        /// <param name="acceptanceCriteria">Criteria for the value to be valid</param>
+        /// <param name="message">Message to display if acceptance criteria is not met</param>
+        /// <returns></returns>
+        [DebuggerStepThrough]
 		public static T VerifyArgumentMeetsCriteria<T>(this T obj, Func<T, bool> acceptanceCriteria, string message)
 		{
 			if (!acceptanceCriteria(obj))
