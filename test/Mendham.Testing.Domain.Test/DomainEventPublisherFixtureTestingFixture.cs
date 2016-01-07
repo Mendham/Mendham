@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Mendham.Testing.Domain.Test
 {
-    public class DomainEventPublisherFixtureTestingFixture : FixtureFixture<DomainEventPublisherFixture>
+    public class DomainEventPublisherFixtureTestingFixture : Fixture<DomainEventPublisherFixture>
     {
         private DomainEventPublisherFixture sut;
         private IDomainEventPublisher domainEventPublisher;

@@ -14,7 +14,7 @@ using IDbConnection = global::System.Data.Common.DbConnection;
 
 namespace Mendham.Infrastructure.Dapper.Test.Fixtures
 {
-    public class DatabaseFixture : FixtureFixture<Func<IDbConnection>>, IDisposable
+    public class DatabaseFixture : Fixture<Func<IDbConnection>>, IDisposable
     {
         private const string INITIAL_CATALOG = "master";
         private const string TEST_DATABASE = "MendhamDapperTest";

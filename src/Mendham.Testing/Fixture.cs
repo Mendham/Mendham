@@ -3,9 +3,9 @@
     /// <summary>
     /// A base class for creating a fixture for unit testing 
     /// </summary>
-	public abstract class FixtureFixture<T> : IFixture<T>
+	public abstract class Fixture<T> : IFixture<T>
 	{
-		public FixtureFixture()
+		public Fixture()
 		{ }
 
         /// <summary>
