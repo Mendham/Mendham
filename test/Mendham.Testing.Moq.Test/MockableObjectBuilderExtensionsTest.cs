@@ -11,7 +11,7 @@ namespace Mendham.Testing.Moq.Test
     public class MockableObjectBuilderExtensionsTest
     {
         [Fact]
-        public void SetupMockTest_ApplyRule_ResultFromRule()
+        public void SetupMock_ApplyRule_ResultFromRule()
         {
             int expected = 19;
             var sut = new BuildableObjectBuilder()
