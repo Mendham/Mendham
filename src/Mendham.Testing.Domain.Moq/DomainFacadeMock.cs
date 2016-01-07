@@ -13,42 +13,42 @@ namespace Mendham.Testing.Moq
         /// <summary>
         /// Generates a mockable implementation of the domain facade
         /// </summary>
-        /// <typeparam name="TFacade">Type of the domain facade</typeparam>
+        /// <typeparam name="TDomainFacade">Type of the domain facade</typeparam>
         /// <returns>Mockable implementation of the domain facade</returns>
-        public static TFacade Of<TFacade>()
-            where TFacade : class, IDomainFacade
+        public static TDomainFacade Of<TDomainFacade>()
+            where TDomainFacade : class, IDomainFacade
         {
             var emptyProvider = Mock.Of<IDomainEventPublisherProvider>(
                 ctx => ctx.GetPublisher() == new EmptyDomainEventPublisher());
 
-            return Of<TFacade>(emptyProvider);
+            return Of<TDomainFacade>(emptyProvider);
         }
 
         /// <summary>
         /// Generates a mockable implementation of the domain facade that utlizes a domain event publisher
         /// </summary>
-        /// <typeparam name="TFacade">Type of the domain facade</typeparam>
+        /// <typeparam name="TDomainFacade">Type of the domain facade</typeparam>
         /// <param name="domainEventPublisherProvider">A IDomainEventPublisherProvider that is implemented to include an IDomainEventPublisher</param>
         /// <returns>Mockable implementation of the domain facade</returns>
-        public static TFacade Of<TFacade>(IDomainEventPublisherProvider domainEventPublisherProvider)
-            where TFacade : class, IDomainFacade
+        public static TDomainFacade Of<TDomainFacade>(IDomainEventPublisherProvider domainEventPublisherProvider)
+            where TDomainFacade : class, IDomainFacade
         {
             return new DomainFacadeMockBase(domainEventPublisherProvider)
-                .As<TFacade>()
+                .As<TDomainFacade>()
                 .Object;
         }
 
         /// <summary>
         /// Generates a mockable implementation of the domain facade that utlizes a domain event publisher defined in a fixture
         /// </summary>
-        /// <typeparam name="TFacade">Type of the domain facade</typeparam>
+        /// <typeparam name="TDomainFacade">Type of the domain facade</typeparam>
         /// <param name="domainEventPublisherFixture">A DomainEventPublisherFixture that is used for tracking domain events with raised within the fixture</param>
         /// <returns>Mockable implementation of the domain facade</returns>
-        public static TFacade Of<TFacade>(DomainEventPublisherFixture domainEventPublisherFixture)
-            where TFacade : class, IDomainFacade
+        public static TDomainFacade Of<TDomainFacade>(DomainEventPublisherFixture domainEventPublisherFixture)
+            where TDomainFacade : class, IDomainFacade
         {
             var provider = domainEventPublisherFixture.GetDomainEventPublisherProvider();
-            return Of<TFacade>(provider);
+            return Of<TDomainFacade>(provider);
         }
 
         private class EmptyDomainEventPublisher : IDomainEventPublisher

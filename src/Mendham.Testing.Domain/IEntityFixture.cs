@@ -13,18 +13,18 @@ namespace Mendham.Testing
         TBuilder GetSutBuilder();
     }
 
-    public interface IEntityFixture<TEntity, TFacade, TBuilder> : IEntityFixture<TEntity, TBuilder>
+    public interface IEntityFixture<TEntity, TDomainFacade, TBuilder> : IEntityFixture<TEntity, TBuilder>
         where TEntity : class, IEntity
-        where TFacade : class, IDomainFacade
-        where TBuilder : IEntityBuilder<TEntity, TFacade, TBuilder>, new()
+        where TDomainFacade : class, IDomainFacade
+        where TBuilder : IEntityBuilder<TEntity, TDomainFacade, TBuilder>, new()
     {
         DomainEventPublisherFixture DomainEventPublisherFixture { get; set; }
-        TFacade Facade { get; set; }
+        TDomainFacade DomainFacade { get; set; }
 
         /// <summary>
         /// Creates a default domain facade for the entity being tested
         /// </summary>
         /// <returns></returns>
-        TFacade BuildFacade();
+        TDomainFacade BuildFacade();
     }
 }
