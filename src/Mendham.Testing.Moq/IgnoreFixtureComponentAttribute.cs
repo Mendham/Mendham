@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Mendham.Testing.Moq
 {
     [AttributeUsage(AttributeTargets.Property, AllowMultiple =false)]
-    public class FixtureComponentAttribute : Attribute
+    public class IgnoreFixtureComponentAttribute : Attribute
     {
     }
 }

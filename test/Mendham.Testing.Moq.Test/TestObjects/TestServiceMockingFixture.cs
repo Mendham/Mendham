@@ -7,15 +7,26 @@ namespace Mendham.Testing.Moq.Test.TestObjects
 {
     public class TestServiceMockingFixture : MockingFixture<TestService>
     {
-        [FixtureComponent]
         public IDependency1 Dependency1 { get; set; }
 
-        [FixtureComponent]
         public IDependency2 Dependency2 { get; set; }
         
         // Does not have attribute
-        public INonDependency NonDependency { get; set; } 
+        [IgnoreFixtureComponent]
+        public INonDependency IgnoredDependency { get; set; } 
 
+        public INonDependency DependencyNoSet
+        {
+            get { throw new InvalidOperationException(); }
+        }
+
+        public INonDependency DependencyNoGet
+        {
+            set { throw new InvalidOperationException(); }
+        }
+
+        public INonDependency DependencyPrivateSet { get; private set; }
+        public INonDependency DependencyPrivateGet { private get; set; }
 
         public override TestService CreateSut()
         {

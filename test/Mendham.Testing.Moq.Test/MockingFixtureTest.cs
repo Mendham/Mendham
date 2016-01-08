@@ -41,13 +41,24 @@ namespace Mendham.Testing.Moq.Test
         }
 
         [Fact]
-        public void ResetFixture_NonDependency_IsNull()
+        public void ResetFixture_IgnoreDependency_IsNull()
         {
             var sut = new TestServiceMockingFixture();
 
             sut.ResetFixture();
 
-            sut.NonDependency.Should()
+            sut.IgnoredDependency.Should()
+                .BeNull();
+        }
+
+        [Fact]
+        public void ResetFixture_DependencyPrivateSetter_IsNull()
+        {
+            var sut = new TestServiceMockingFixture();
+
+            sut.ResetFixture();
+
+            sut.IgnoredDependency.Should()
                 .BeNull();
         }
 

@@ -31,11 +31,20 @@ namespace Mendham.Testing.Moq
                 properties = this.GetType()
                     .GetTypeInfo()
                     .GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                    .Where(prop => prop.IsDefined(typeof(FixtureComponentAttribute), false))
+                    .Where(IsComponentToMock)
                     .ToList();
             }
 
             return properties;
+        }
+
+        private static bool IsComponentToMock(PropertyInfo property)
+        {
+            return property.CanRead
+                && property.CanWrite
+                && property.GetGetMethod(false) != null
+                && property.GetSetMethod(false) != null
+                && !property.IsDefined(typeof(IgnoreFixtureComponentAttribute), false);
         }
 
     }
