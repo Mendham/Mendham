@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using FluentAssertions;
 using Xunit;
 using Mendham.Testing;
@@ -11,22 +9,31 @@ namespace Mendham.Test.BaseExtensions
     public class ArgumentVerificationExtensionsTest
     {
         [Theory]
-        [MendhamData]
-        public void VerifyArgumentNotNull_NullString_Throws(string msg)
+        [InlineMendhamData(null)]
+        public void VerifyArgumentNotNull_NullString_ThrowsArgumentNullException(string nullStr)
         {
-            string str = null;
+            Action act = () => nullStr.VerifyArgumentNotNull(nameof(nullStr));
 
-            Action act = () => str.VerifyArgumentNotNull(msg);
+            act.ShouldThrow<ArgumentNullException>()
+                .And.ParamName.ShouldBeEquivalentTo("nullStr");
+        }
 
-            act.ShouldThrow<ArgumentException>()
-                .WithMessage(msg);
+        [Theory]
+        [InlineMendhamData(null)]
+        public void VerifyArgumentNotNull_NullStringWithMessage_ThrowsArgumentNullException(string nullStr, string msg)
+        {
+            Action act = () => nullStr.VerifyArgumentNotNull(nameof(nullStr), msg);
+
+            act.ShouldThrow<ArgumentNullException>()
+                .Where(a => a.Message.StartsWith(msg))
+                .And.ParamName.ShouldBeEquivalentTo(nameof(nullStr));
         }
 
         [Theory]
         [MendhamData]
         public void VerifyArgumentNotNull_Int_Passes(int? obj, string msg)
         {
-            var result = obj.VerifyArgumentNotNull(msg);
+            var result = obj.VerifyArgumentNotNull(nameof(obj), msg);
 
             result.Should().Be(obj);
         }

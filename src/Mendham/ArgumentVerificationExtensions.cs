@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Mendham
 {
@@ -13,12 +12,24 @@ namespace Mendham
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <param name="obj">Value to test</param>
-		/// <param name="message">Message to display if value is null</param>
+        /// <param name="paramName">Name of parameter</param>
+		/// <param name="message">Message to display if value is null (optional)</param>
 		/// <returns></returns>
 		[DebuggerStepThrough]
-		public static T VerifyArgumentNotNull<T>(this T obj, string message)
+		public static T VerifyArgumentNotNull<T>(this T obj, string paramName, string message = null)
 		{
-			return obj.VerifyArgumentMeetsCriteria(a => a != null, message);
+            if (obj != null)
+            {
+                return obj;
+            }
+            else if (message == null)
+            {
+                throw new ArgumentNullException(paramName);
+            }
+            else
+            {
+                throw new ArgumentNullException(paramName, message);
+            }
 		}
 
 		/// <summary>
