@@ -1,13 +1,19 @@
-﻿using System;
-using System.Diagnostics;
-using System.Linq.Expressions;
-using System.Reflection;
+﻿using Mendham.Testing.Builder;
 using Mendham.Testing.Helpers;
 using Ploeh.AutoFixture;
-using Mendham.Testing.Builder;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 
 namespace Mendham.Testing
 {
+    /// <summary>
+    /// Base class for a builder
+    /// </summary>
+    /// <typeparam name="T">Object to build</typeparam>
 	public abstract class Builder<T> : IBuilder<T>
     {
 		private static IObjectCreationContext _objectCreationContext;
@@ -67,4 +73,19 @@ namespace Mendham.Testing
 			obj.CallNonPublicMethod(methodName, parameters);
 		}
 	}
+
+    /// <summary>
+    /// Base class for a builder. This version of the builder has additional support to get a builder factory
+    /// that can be used to build collections of the object
+    /// </summary>
+    /// <typeparam name="TObject">Object to build</typeparam>
+    /// <typeparam name="TBuilder">The builder being used (should be the same as the derived class)</typeparam>
+    public abstract class Builder<TObject, TBuilder> : Builder<TObject>
+        where TBuilder : IBuilder<TObject>, new()
+    {
+        public static Func<IBuilder<TObject>> GetFactory(Func<TBuilder, TBuilder> builder)
+        {
+            return () => builder(new TBuilder());
+        }
+    }
 }

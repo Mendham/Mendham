@@ -8,20 +8,20 @@ namespace Mendham.Testing
     public static class BuilderExtensions
     {
         /// <summary>
-        /// Builds multiple objects using builder based on the criteria passed. This can be used to do things
-        /// such as build multiple children that have the same parent
+        /// Builds a collection of the object built by the builder factory
         /// </summary>
-        /// <typeparam name="T">Type being built</typeparam>
-        /// <param name="builder">Builder</param>
-        /// <param name="count">Items to be built</param>
-        /// <returns>A list of T items built.</returns>
-        public static List<T> BuildMultiple<T>(this IBuilder<T> builder, int count)
+        /// <typeparam name="T">Object to be built</typeparam>
+        /// <param name="builderFactory">Delegate to create builder</param>
+        /// <param name="count">Number of items to build</param>
+        /// <returns>An enumerable of the items</returns>
+        public static IEnumerable<T> BuildMultiple<T>(this Func<IBuilder<T>> builderFactory, int count)
         {
-            count.VerifyArgumentMeetsCriteria(a => a >= 1, "Count to build multiple must be at least one");
+            count.VerifyArgumentMeetsCriteria(a => a >= 1,
+                "Count to build multiple must be at least one");
 
             return Enumerable.Range(0, count)
-                .Select(a => builder.Build())
-                .ToList();
+                .Select(a => builderFactory().Build())
+                .ToArray();
         }
     }
 }
