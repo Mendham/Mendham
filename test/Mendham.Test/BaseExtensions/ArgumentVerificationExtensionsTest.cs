@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using FluentAssertions;
-using Xunit;
+﻿using FluentAssertions;
 using Mendham.Testing;
+using System;
+using System.Collections.Generic;
+using Xunit;
 
 namespace Mendham.Test.BaseExtensions
 {
@@ -31,7 +31,16 @@ namespace Mendham.Test.BaseExtensions
 
         [Theory]
         [MendhamData]
-        public void VerifyArgumentNotNull_Int_Passes(int? obj, string msg)
+        public void VerifyArgumentNotNull_Int_Passes(int? obj)
+        {
+            var result = obj.VerifyArgumentNotNull(nameof(obj));
+
+            result.Should().Be(obj);
+        }
+
+        [Theory]
+        [MendhamData]
+        public void VerifyArgumentNotNull_IntWithMessage_Passes(int? obj, string msg)
         {
             var result = obj.VerifyArgumentNotNull(nameof(obj), msg);
 
@@ -39,46 +48,82 @@ namespace Mendham.Test.BaseExtensions
         }
 
         [Theory]
-        [MendhamData]
-        public void VerifyArguementNotDefault_NullInt_Throws(string msg)
+        [InlineMendhamData(null)]
+        public void VerifyArguementNotDefault_NullInt_ThrowsArgumentNullException(int? nullVal)
         {
-            int? val = null;
+            Action act = () => nullVal.VerifyArgumentNotDefaultValue(nameof(nullVal));
 
-            Action act = () => val.VerifyArgumentNotDefaultValue(msg);
+            act.ShouldThrow<ArgumentNullException>()
+                .And.ParamName.ShouldBeEquivalentTo("nullVal");
+        }
+
+        [Theory]
+        [InlineMendhamData(null)]
+        public void VerifyArguementNotDefault_NullIntWithMessage_ThrowsArgumentNullException(int? nullVal, string msg)
+        {
+            Action act = () => nullVal.VerifyArgumentNotDefaultValue(nameof(nullVal), msg);
+
+            act.ShouldThrow<ArgumentNullException>()
+                .Where(a => a.Message.StartsWith(msg))
+                .And.ParamName.ShouldBeEquivalentTo(nameof(nullVal));
+        }
+
+        [Theory]
+        [InlineMendhamData(default(int))]
+        public void VerifyArguementNotDefault_DefaultInt_ThrowsArgumentException(int defaultInt)
+        {
+            Action act = () => defaultInt.VerifyArgumentNotDefaultValue(nameof(defaultInt));
 
             act.ShouldThrow<ArgumentException>()
-                .WithMessage(msg);
+                .And.ParamName.ShouldBeEquivalentTo(nameof(defaultInt));
+        }
+
+        [Theory]
+        [InlineMendhamData(default(int))]
+        public void VerifyArguementNotDefault_DefaultIntWithMessage_ThrowsArgumentException(int defaultInt, string msg)
+        {
+            Action act = () => defaultInt.VerifyArgumentNotDefaultValue(nameof(defaultInt), msg);
+
+            act.ShouldThrow<ArgumentException>()
+                .Where(a => a.Message.StartsWith(msg))
+                .And.ParamName.ShouldBeEquivalentTo(nameof(defaultInt));
+        }
+
+        [Theory]
+        [InlineMendhamData(default(string))]
+        public void VerifyArguementNotDefault_DefaultString_ThrowsArgumentNullException(string defaultStr)
+        {
+            Action act = () => defaultStr.VerifyArgumentNotDefaultValue(nameof(defaultStr));
+
+            act.ShouldThrow<ArgumentNullException>()
+                .And.ParamName.ShouldBeEquivalentTo(nameof(defaultStr));
+        }
+
+        [Theory]
+        [InlineMendhamData(default(string))]
+        public void VerifyArguementNotDefault_DefaultStringWithMessage_ThrowsArgumentNullException(string defaultStr, string msg)
+        {
+            Action act = () => defaultStr.VerifyArgumentNotDefaultValue(nameof(defaultStr), msg);
+
+            act.ShouldThrow<ArgumentNullException>()
+                .Where(a => a.Message.StartsWith(msg))
+                .And.ParamName.ShouldBeEquivalentTo(nameof(defaultStr));
         }
 
         [Theory]
         [MendhamData]
-        public void VerifyArguementNotDefault_DefaultInt_Throws(string msg)
+        public void VerifyArguementNotDefault_String_Passes(string val)
         {
-            int val = default(int);
+            var result = val.VerifyArgumentNotDefaultValue(nameof(val));
 
-            Action act = () => val.VerifyArgumentNotDefaultValue(msg);
-
-            act.ShouldThrow<ArgumentException>()
-                .WithMessage(msg);
+            result.Should().Be(val);
         }
 
         [Theory]
         [MendhamData]
-        public void VerifyArguementNotDefault_DefaultString_Throws(string msg)
+        public void VerifyArguementNotDefault_StringWithMessage_Passes(string val, string msg)
         {
-            string val = default(string);
-
-            Action act = () => val.VerifyArgumentNotDefaultValue(msg);
-
-            act.ShouldThrow<ArgumentException>()
-                .WithMessage(msg);
-        }
-
-        [Theory]
-        [MendhamData]
-        public void VerifyArguementNotDefault_String_Passes(string val, string msg)
-        {
-            var result = val.VerifyArgumentNotDefaultValue(msg);
+            var result = val.VerifyArgumentNotDefaultValue(nameof(val), msg);
 
             result.Should().Be(val);
         }

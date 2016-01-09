@@ -22,28 +22,50 @@ namespace Mendham
             {
                 return obj;
             }
-            else if (message == null)
+            else 
             {
-                throw new ArgumentNullException(paramName);
-            }
-            else
-            {
-                throw new ArgumentNullException(paramName, message);
+                throw ProcessNullArguementException(paramName, message);
             }
 		}
 
-		/// <summary>
-		/// Throws an ArgumentException if object is null or default value.
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="tObj">Value to test</param>
-		/// <param name="message">Message to display if value is null or default value</param>
-		/// <returns></returns>
-		[DebuggerStepThrough]
-		public static T VerifyArgumentNotDefaultValue<T>(this T tObj, string message)
+        /// <summary>
+        /// Throws an ArgumentException if object is null or default value.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="tObj">Value to test</param>
+        /// <param name="paramName">Name of parameter</param>
+        /// <param name="message">Message to display if value is null or default value (optional)</param>
+        /// <returns></returns>
+        [DebuggerStepThrough]
+		public static T VerifyArgumentNotDefaultValue<T>(this T tObj, string paramName, string message = null)
 		{
-			return tObj.VerifyArgumentMeetsCriteria(a => a != null && !a.Equals(default(T)), message);
-		}
+            if (!Equals(tObj, default(T)))
+            {
+                return tObj;
+            }
+            else if (Equals(default(T), null))
+            {
+                throw ProcessNullArguementException(paramName, message);
+            }
+            else if (message == null)
+            {
+                message = $"Parameter '{paramName}' cannot be the default value for type {typeof(T).FullName} ({default(T)}).";
+            }
+
+            throw new ArgumentException(message, paramName);
+        }
+
+        private static ArgumentNullException ProcessNullArguementException(string paramName, string message = null)
+        {
+            if (message == null)
+            {
+                return new ArgumentNullException(paramName);
+            }
+            else
+            {
+                return new ArgumentNullException(paramName, message);
+            }
+        }
 
 		/// <summary>
 		/// Throws an ArgumentException if enumerable is null or empty
