@@ -67,5 +67,13 @@ namespace Mendham.Testing.Builder.Test1
             sut.Should()
                 .NotBe(obj2);
         }
+
+        [Theory]
+        [MendhamData]
+        public void MendhamData_StringParameter_SeededWithVariableName(string variable1)
+        {
+            variable1.Should()
+                .StartWith(nameof(variable1));
+        }
     }
 }
