@@ -128,35 +128,68 @@ namespace Mendham.Test.BaseExtensions
             result.Should().Be(val);
         }
 
-        [Theory]
-        [MendhamData]
-        public void VerifyArgumentNotNullOrEmpty_NullCollection_Throws(string msg)
+        [Fact]
+        public void VerifyArgumentNotNullOrEmpty_NullCollection_ThrowsArgumentNullException()
         {
-            List<int> val = null;
+            List<int> vals = null;
 
-            Action act = () => val.VerifyArgumentNotNullOrEmpty(msg);
+            Action act = () => vals.VerifyArgumentNotNullOrEmpty(nameof(vals));
 
-            act.ShouldThrow<ArgumentException>()
-                .WithMessage(msg);
+            act.ShouldThrow<ArgumentNullException>()
+                .And.ParamName.ShouldBeEquivalentTo(nameof(vals));
         }
 
         [Theory]
         [MendhamData]
-        public void VerifyArgumentNotNullOrEmpty_EmptyCollection_Throws(string msg)
+        public void VerifyArgumentNotNullOrEmpty_NullCollectionWithMessage_ThrowsArgumentNullException(string msg)
         {
-            List<int> val = new List<int>();
+            List<int> vals = null;
 
-            Action act = () => val.VerifyArgumentNotNullOrEmpty(msg);
+            Action act = () => vals.VerifyArgumentNotNullOrEmpty(nameof(vals), msg);
+
+            act.ShouldThrow<ArgumentNullException>()
+                .Where(a => a.Message.StartsWith(msg))
+                .And.ParamName.ShouldBeEquivalentTo(nameof(vals));
+        }
+
+        [Fact]
+        public void VerifyArgumentNotNullOrEmpty_EmptyCollection_ThrowsArgumentException()
+        {
+            List<int> vals = new List<int>();
+
+            Action act = () => vals.VerifyArgumentNotNullOrEmpty(nameof(vals));
 
             act.ShouldThrow<ArgumentException>()
-                .WithMessage(msg);
+                .And.ParamName.ShouldBeEquivalentTo(nameof(vals));
         }
 
         [Theory]
         [MendhamData]
-        public void VerifyArgumentNotNullOrEmpty_NonEmptyCollection_Passes(List<int> vals, string msg)
+        public void VerifyArgumentNotNullOrEmpty_EmptyCollectionWithMessage_ThrowsArgumentException(string msg)
         {
-            var result = vals.VerifyArgumentNotNullOrEmpty(msg);
+            List<int> vals = new List<int>();
+
+            Action act = () => vals.VerifyArgumentNotNullOrEmpty(nameof(vals), msg);
+
+            act.ShouldThrow<ArgumentException>()
+                .Where(a => a.Message.StartsWith(msg))
+                .And.ParamName.ShouldBeEquivalentTo(nameof(vals));
+        }
+
+        [Theory]
+        [MendhamData]
+        public void VerifyArgumentNotNullOrEmpty_NonEmptyCollection_Passes(List<int> vals)
+        {
+            var result = vals.VerifyArgumentNotNullOrEmpty(nameof(vals));
+
+            result.Should().ContainInOrder(vals);
+        }
+
+        [Theory]
+        [MendhamData]
+        public void VerifyArgumentNotNullOrEmpty_NonEmptyCollectionWithMessage_Passes(List<int> vals, string msg)
+        {
+            var result = vals.VerifyArgumentNotNullOrEmpty(nameof(vals), msg);
 
             result.Should().ContainInOrder(vals);
         }

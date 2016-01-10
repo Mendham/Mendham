@@ -55,29 +55,31 @@ namespace Mendham
             throw new ArgumentException(message, paramName);
         }
 
-        private static ArgumentNullException ProcessNullArguementException(string paramName, string message = null)
-        {
-            if (message == null)
-            {
-                return new ArgumentNullException(paramName);
-            }
-            else
-            {
-                return new ArgumentNullException(paramName, message);
-            }
-        }
-
-		/// <summary>
-		/// Throws an ArgumentException if enumerable is null or empty
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="tEnumerable">Enumerable to test</param>
-		/// <param name="message">Message to display if enumerable is null or empty</param>
-		/// <returns></returns>
-		[DebuggerStepThrough]
-		public static IEnumerable<T> VerifyArgumentNotNullOrEmpty<T>(this IEnumerable<T> tEnumerable, string message)
+        /// <summary>
+        /// Throws an ArgumentException if enumerable is null or empty
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="tEnumerable">Enumerable to test</param>
+        /// <param name="paramName">Name of parameter</param>
+        /// <param name="message">Message to display if enumerable is null or empty (optional)</param>
+        /// <returns></returns>
+        [DebuggerStepThrough]
+		public static IEnumerable<T> VerifyArgumentNotNullOrEmpty<T>(this IEnumerable<T> tEnumerable, string paramName, string message = null)
 		{
-			return tEnumerable.VerifyArgumentMeetsCriteria(a => a != null && tEnumerable.Any(), message);
+            if (Equals(tEnumerable, null))
+            {
+                throw ProcessNullArguementException(paramName, message);
+            }
+            else if (tEnumerable.Any())
+            {
+                return tEnumerable;
+            }
+            else if (message == null)
+            {
+                message = $"Parameter '{paramName}' cannot be empty.";
+            }
+
+            throw new ArgumentException(message, paramName);
 		}
 
 		/// <summary>
@@ -174,5 +176,17 @@ namespace Mendham
 
 			return obj;
 		}
-	}
+
+        private static ArgumentNullException ProcessNullArguementException(string paramName, string message = null)
+        {
+            if (message == null)
+            {
+                return new ArgumentNullException(paramName);
+            }
+            else
+            {
+                return new ArgumentNullException(paramName, message);
+            }
+        }
+    }
 }
