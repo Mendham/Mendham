@@ -176,7 +176,7 @@ namespace Mendham.Domain.Events
 
 			public DomainEventHandlerWrapper(IDomainEventHandler<TBaseDomainEvent> domainEventHandler)
 			{
-				domainEventHandler.VerifyArgumentNotDefaultValue("Domain Event handler is required");
+				domainEventHandler.VerifyArgumentNotDefaultValue(nameof(domainEventHandler));
 
 				this.domainEventHandler = domainEventHandler;
 			}

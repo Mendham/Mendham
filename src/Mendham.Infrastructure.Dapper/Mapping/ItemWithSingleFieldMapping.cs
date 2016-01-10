@@ -16,9 +16,11 @@ namespace Mendham.Infrastructure.Dapper.Mapping
 
         public ItemWithSingleFieldMapping(string tableName, string columnName)
         {
-            tableName.VerifyArgumentNotNullOrWhiteSpace("Table name is required")
-                .VerifyArgumentMeetsCriteria(a => TableNameRegex.IsMatch(a), "Table name must be a valid temporary table name");
-            columnName.VerifyArgumentNotNullOrWhiteSpace("Column name is required");
+            tableName.VerifyArgumentNotNullOrWhiteSpace(nameof(tableName), "Table name is required")
+                .VerifyArgumentMeetsCriteria(nameof(tableName), 
+                    a => TableNameRegex.IsMatch(a), 
+                    "Table name must be a valid temporary table name");
+            columnName.VerifyArgumentNotNullOrWhiteSpace(nameof(columnName), "Column name is required");
 
             this._tableName = tableName;
             this._columnName = columnName;

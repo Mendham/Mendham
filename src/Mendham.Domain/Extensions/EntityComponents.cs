@@ -12,7 +12,7 @@ namespace Mendham.Domain.Extensions
 
         internal EntityComponents(IEnumerable<object> components)
         {
-            components.VerifyArgumentNotNullOrEmpty("Components for entity are not defined.");
+            components.VerifyArgumentNotNullOrEmpty(nameof(components), "Components for entity are not defined.");
 
             this.components = components;
         }

@@ -14,7 +14,7 @@ namespace Mendham.Domain.Events
 
 		public DomainEvent(DateTime timeOccured)
 		{
-			timeOccured.VerifyArgumentNotDefaultValue("Event time is required");
+			timeOccured.VerifyArgumentNotDefaultValue(nameof(timeOccured), "Event time is required");
 			this.TimeOccurred = timeOccured;
 		}
 

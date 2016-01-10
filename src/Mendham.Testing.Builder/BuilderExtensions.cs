@@ -16,7 +16,7 @@ namespace Mendham.Testing
         /// <returns>An enumerable of the items</returns>
         public static IEnumerable<T> BuildMultiple<T>(this Func<IBuilder<T>> builderFactory, int count)
         {
-            count.VerifyArgumentMeetsCriteria(a => a >= 1,
+            count.VerifyArgumentMeetsCriteria(nameof(count), a => a >= 1,
                 "Count to build multiple must be at least one");
 
             return Enumerable.Range(0, count)

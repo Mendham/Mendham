@@ -12,7 +12,7 @@ namespace Mendham.Domain
 
         public SingleFieldValueObject(TSingleField value)
         {
-            value.VerifyArgumentNotDefaultValue("Value is required");
+            value.VerifyArgumentNotDefaultValue(nameof(value), "Value is required");
             this.Value = value;
         }
 

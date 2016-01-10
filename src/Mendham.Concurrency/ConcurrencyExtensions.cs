@@ -7,42 +7,65 @@ namespace Mendham.Concurrency
 {
     public static class ConcurrencyExtensions
     {
-		public static T VerifyConcurrencyTokenIsSet<T>(this T obj, string message = null)
+		public static T VerifyConcurrencyTokenIsApplied<T>(this T obj, string message = null)
 			where T : IHasConcurrencyToken
 		{
-			return obj.VerifyTokenObjectIsNotNull()
-				.VerifyArgumentMeetsCriteria(a => a.Token != null, message ?? "Concurrency Token is not set");
+            obj.VerifyObjectWithTokenIsNotNull("VerifyConcurrencyTokenIsApplied failed.");
+
+            if (obj.Token != null)
+            {
+                throw new ConcurrencyTokenAlreadyAppliedException(obj, obj.Token, message);
+            }
+
+            return obj;
 		}
 
-		public static T VerifyConcurrencyTokenIsNotSet<T>(this T obj, string message = null)
+		public static T VerifyConcurrencyTokenIsNotApplied<T>(this T obj, string message = null)
 			where T : IHasConcurrencyToken
 		{
-			return obj.VerifyArgumentMeetsCriteria(a => a.Token == null, message ?? "Concurrency Token is already set");
+            obj.VerifyObjectWithTokenIsNotNull("VerifyConcurrencyTokenIsNotApplied failed.");
+
+            if (obj.Token == null)
+            {
+                throw new ConcurrencyTokenNotAppliedException(obj, message);
+            }
+
+            return obj;
 		}
 
 		public static T ValidateConcurrencyToken<T>(this T obj, IConcurrencyToken serverToken, string message = null)
 			where T : IHasConcurrencyToken
 		{
-			obj.VerifyConcurrencyTokenIsSet();
+			obj.VerifyObjectWithTokenIsNotNull("ValidateConcurrencyToken failed")
+                .VerifyConcurrencyTokenIsApplied();
 
 			if (!obj.Token.Equals(serverToken))
-				throw new ConcurrencyException(obj.Token, serverToken, message);
+            {
+                throw new InvaildConcurrencyTokenException(obj, obj.Token, serverToken, message);
+            }
 
-			return obj;
+            return obj;
 		}
 
 		public static T SetConcurrencyToken<T>(this T obj, IConcurrencyToken newToken)
 		   where T : IHasConcurrencyToken
 		{
-            newToken.VerifyArgumentNotDefaultValue("Token is required");
+            obj.VerifyObjectWithTokenIsNotNull("SetConcurrencyToken failed");
+            newToken.VerifyArgumentNotDefaultValue(nameof(newToken));
 
             obj.Token = newToken;
 			return obj;
 		}
 
-		private static T VerifyTokenObjectIsNotNull<T>(this T obj)
+		private static T VerifyObjectWithTokenIsNotNull<T>(this T obj, string message)
+            where T : IHasConcurrencyToken
 		{
-			return obj.VerifyArgumentNotNull("Object containing token is null");
+            if (obj == null)
+            {
+                throw new NullReferenceException($"Object containing token is null. {message}");
+            }
+
+            return obj;
 		}
 	}
 }

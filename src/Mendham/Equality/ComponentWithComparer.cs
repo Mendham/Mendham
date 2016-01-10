@@ -14,7 +14,7 @@ namespace Mendham.Equality
         {
             this._component = component;
             this._comparer = comparer
-                .VerifyArgumentNotDefaultValue("Comparer is required");
+                .VerifyArgumentNotDefaultValue(nameof(comparer));
         }
 
         public T Component { get { return _component; } }

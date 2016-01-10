@@ -15,7 +15,7 @@ namespace Mendham.Domain
         public Entity(TIdentity id)
         {
             _id = id
-                .VerifyArgumentNotDefaultValue("Entity id is required");
+                .VerifyArgumentNotDefaultValue(nameof(id), "Entity ID is required");
         }
 
         public TIdentity Id { get { return _id; } }

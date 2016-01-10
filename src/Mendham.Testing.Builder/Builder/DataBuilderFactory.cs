@@ -13,8 +13,8 @@ namespace Mendham.Testing.Builder
 
         public DataBuilderFactory(Type builderType)
         {
-            builderType.VerifyArgumentNotDefaultValue("Builder Type is required and cannot default(type)")
-                .VerifyArgumentMeetsCriteria(a => a.ImplementsIBuilder(), "Type passed to data factory is not of type IBuilder<>");
+            builderType.VerifyArgumentNotDefaultValue(nameof(builderType), "Builder Type is required and cannot default(type)")
+                .VerifyArgumentMeetsCriteria(nameof(builderType), a => a.ImplementsIBuilder(), "Type passed to data factory is not of type IBuilder<>");
 
             this.BuilderType = builderType;
         }

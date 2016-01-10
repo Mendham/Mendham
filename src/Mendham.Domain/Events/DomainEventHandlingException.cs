@@ -32,8 +32,8 @@ namespace Mendham.Domain.Events
 		internal DomainEventHandlingException(Type domainEventHandler, IDomainEvent domainEvent, Exception exception)
 			:base(DEFAULT_MESSAGE, exception)
 		{
-			domainEvent.VerifyArgumentNotDefaultValue("Domain event is required");
-			domainEventHandler.VerifyArgumentNotDefaultValue("Domain event handler type is required");
+			domainEvent.VerifyArgumentNotDefaultValue(nameof(domainEvent));
+			domainEventHandler.VerifyArgumentNotDefaultValue(nameof(domainEventHandler));
 
 			this.DomainEvent = domainEvent;
 			this.DomainEventHandlerType = domainEventHandler;
@@ -63,9 +63,10 @@ namespace Mendham.Domain.Events
 			:base(firstException)
 		{
 			domainEventHandlingExceptions
-				.VerifyArgumentNotNullOrEmpty("The exceptions passed cannot be null or empty")
-				.VerifyArgumentMeetsCriteria(a => a.Count() > 1, "AggregateDomainEventHandlingException more than one exception")
-				.VerifyArgumentMeetsCriteria(a => a
+				.VerifyArgumentNotNullOrEmpty(nameof(domainEventHandlingExceptions), "The exceptions passed cannot be null or empty")
+				.VerifyArgumentMeetsCriteria(nameof(domainEventHandlingExceptions), 
+                    a => a.Count() > 1, "AggregateDomainEventHandlingException more than one exception")
+				.VerifyArgumentMeetsCriteria(nameof(domainEventHandlingExceptions), a => a
 					.Select(b => b.DomainEvent)
 					.Distinct()
 					.Count() == 1, "The exceptions passed do not all have a matching domain event");

@@ -10,7 +10,7 @@ namespace Mendham.Concurrency
     {
 		public ByteConcurrencyToken(byte[] tokenValue)
 		{
-			tokenValue.VerifyArgumentNotNullOrEmpty("Token value must be provided");
+			tokenValue.VerifyArgumentNotNullOrEmpty(nameof(tokenValue), "Token value must be provided");
 
 			this.Value = tokenValue;
 		}
