@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 
 namespace Mendham
 {
@@ -83,82 +84,168 @@ namespace Mendham
             throw new ArgumentException(message, paramName);
 		}
 
-		/// <summary>
-		/// Throws an ArgumentException if string is null or empty
-		/// </summary>
-		/// <param name="str">String to test</param>
-		/// <param name="message">Message to display if string is null or empty</param>
-		/// <returns></returns>
-		[DebuggerStepThrough]
-		public static string VerifyArgumentNotNullOrEmpty(this string str, string message)
+        /// <summary>
+        /// Throws an ArgumentException if string is null or empty
+        /// </summary>
+        /// <param name="str">String to test</param>
+        /// <param name="paramName">Name of parameter</param>
+        /// <param name="message">Message to display if string is null or empty (optional)</param>
+        /// <returns></returns>
+        [DebuggerStepThrough]
+		public static string VerifyArgumentNotNullOrEmpty(this string str, string paramName, string message = null)
 		{
-			return str.VerifyArgumentMeetsCriteria(a => !string.IsNullOrEmpty(a), message);
+            str.VerifyArgumentNotNull(paramName, message);
+
+            if (!string.IsNullOrEmpty(str))
+            {
+                return str;
+            }
+            else if (message == null)
+            {
+                message = $"Parameter '{paramName}' cannot be an empty string.";
+            }
+
+            throw new ArgumentException(message, paramName);
 		}
 
-		/// <summary>
-		/// Throws an ArgumentException if string is null or whitespace
-		/// </summary>
-		/// <param name="str">String to test</param>
-		/// <param name="message">Message to display if string is null or whitespace</param>
-		/// <returns></returns>
-		[DebuggerStepThrough]
-		public static string VerifyArgumentNotNullOrWhiteSpace(this string str, string message)
+        /// <summary>
+        /// Throws an ArgumentException if string is null or white-space
+        /// </summary>
+        /// <param name="str">String to test</param>
+        /// <param name="paramName">Name of parameter</param>
+        /// <param name="message">Message to display if string is null or white-space (optional)</param>
+        /// <returns></returns>
+        [DebuggerStepThrough]
+		public static string VerifyArgumentNotNullOrWhiteSpace(this string str, string paramName, string message = null)
 		{
-			return str.VerifyArgumentMeetsCriteria(a => !string.IsNullOrWhiteSpace(a), message);
+            str.VerifyArgumentNotNull(paramName, message);
+
+            if (!string.IsNullOrWhiteSpace(str))
+            {
+                return str;
+            }
+            else if (message == null)
+            {
+                message = $"Parameter '{paramName}' cannot be an empty string or white-space.";
+            }
+
+            throw new ArgumentException(message, paramName);
 		}
 
-		/// <summary>
-		/// Throws an ArgumentException if string is not within the correct minimum and/or maximum length or if string is null
-		/// </summary>
-		/// <param name="str">String to test</param>
-		/// <param name="minimum">Minimum length (if null, there is no minimum)</param>
-		/// <param name="maximum">Maximum length (if null, there is no maximum)</param>
-		/// <param name="message">Message to display if string is not within the correct minimum and/or maximum length or if string is null</param>
-		/// <returns></returns>
-		[DebuggerStepThrough]
-		public static string VerifyArgumentLength(this string str, int? minimum, int? maximum, string message)
+        /// <summary>
+        /// Throws an ArgumentException if string is not within the correct minimum and/or maximum length or if string is null
+        /// </summary>
+        /// <param name="str">String to test</param>
+        /// <param name="paramName">Name of parameter</param>
+        /// <param name="minimum">Minimum length (if null, there is no minimum)</param>
+        /// <param name="maximum">Maximum length (if null, there is no maximum)</param>
+        /// <param name="message">Message to display if string is not within the correct minimum and/or maximum length or if string is null</param>
+        /// <returns></returns>
+        [DebuggerStepThrough]
+		public static string VerifyArgumentLength(this string str, string paramName, int? minimum, int? maximum, string message = null)
 		{
-            return str.VerifyArgumentLength(minimum, maximum, false, message);
+            return str.VerifyArgumentLength(paramName, minimum, maximum, false, message);
 		}
 
         /// <summary>
 		/// Throws an ArgumentException if string is not within the correct minimum and/or maximum length or if string is null
 		/// </summary>
 		/// <param name="str">String to test</param>
+        /// <param name="paramName">Name of parameter</param>
 		/// <param name="minimum">Minimum length (if null, there is no minimum)</param>
 		/// <param name="maximum">Maximum length (if null, there is no maximum)</param>
 		/// <param name="trimStringFirst">Trim string prior to checking minimum and maximum (default = true)</param>
 		/// <param name="message">Message to display if string is not within the correct minimum and/or maximum length or if string is null</param>
 		/// <returns></returns>
 		[DebuggerStepThrough]
-        public static string VerifyArgumentLength(this string str, int? minimum, int? maximum, bool trimStringFirst, string message)
+        public static string VerifyArgumentLength(this string str, string paramName, int? minimum, int? maximum, bool trimStringFirst, string message = null)
         {
-            var localStr = str;
+            var localStr = str.VerifyArgumentNotNull(paramName, message);
 
             if (trimStringFirst && str != null)
+            {
                 localStr = str.Trim();
+            }
 
-            Func<string, bool> condition = a => a != null && (!minimum.HasValue || a.Length >= minimum) && (!maximum.HasValue || a.Length <= maximum);
-            localStr.VerifyArgumentMeetsCriteria(condition, message);
+            if ((!minimum.HasValue || localStr.Length >= minimum) && (!maximum.HasValue || localStr.Length <= maximum))
+            {
+                return str;
+            }
 
-            return str;
+            var msg = BuildStringArgumentLengthMessage(str, paramName, minimum, maximum, trimStringFirst, message);
+            throw new ArgumentException(msg, paramName);
+        }
+
+        private static string BuildStringArgumentLengthMessage(string str, string paramName, int? minimum, int? maximum, bool trimStringFirst, string message)
+        {
+            var msgSb = new StringBuilder("The length of the string was not within the permitted range.");
+            msgSb.AppendLine();
+            msgSb.AppendLine($"String value: '{str}'");
+
+            if (trimStringFirst)
+            {
+                str = str.Trim();
+            }
+
+            msgSb.AppendLine($"Actual length: {str.Length}");
+            
+            if (minimum.HasValue)
+            {
+                msgSb.AppendLine($"Minimum valid length: {minimum.Value}");
+            }
+            if (maximum.HasValue)
+            {
+                msgSb.AppendLine($"Maximum valid length: {maximum.Value}");
+            }
+            if (trimStringFirst)
+            {
+                msgSb.AppendLine("Leading or trailing white-space is not considered when determining the length of the string");
+            }
+            if (!string.IsNullOrWhiteSpace(message))
+            {
+                msgSb.AppendLine();
+                msgSb.AppendLine($"Additional Information: {message}");
+            }
+
+            return msgSb.ToString();
         }
 
         /// <summary>
 		/// Throws an ArgumentException if int is not within the correct range
 		/// </summary>
 		/// <param name="num">Int to test</param>
+        /// <param name="paramName">Name of parameter</param>
 		/// <param name="minimum">Minimum value (if null, there is no minimum)</param>
 		/// <param name="maximum">Maximum value (if null, there is no maximum)</param>
-		/// <param name="message">Message to display if int is not within the correct range</param>
+		/// <param name="message">Message to display if int is not within the correct range (optional)</param>
 		/// <returns></returns>
 		[DebuggerStepThrough]
-        public static int VerifyArgumentRange(this int num, int? minimum, int? maximum, string message)
+        public static int VerifyArgumentRange(this int num, string paramName, int? minimum, int? maximum, string message = null)
         {
-            Func<int, bool> condition = a => (!minimum.HasValue || a >= minimum) && (!maximum.HasValue || a <= maximum);
-            num.VerifyArgumentMeetsCriteria(condition, message);
+            if ((!minimum.HasValue || num >= minimum) && (!maximum.HasValue || num <= maximum))
+            {
+                return num;
+            }
 
-            return num;
+            var msgSb = new StringBuilder("The value is not within the permitted range");
+            msgSb.AppendLine();
+            msgSb.AppendLine($"Value: '{num}'");
+
+            if (minimum.HasValue)
+            {
+                msgSb.AppendLine($"Minimum value: {minimum.Value}");
+            }
+            if (maximum.HasValue)
+            {
+                msgSb.AppendLine($"Maximum value: {maximum.Value}");
+            }
+            if (!string.IsNullOrWhiteSpace(message))
+            {
+                msgSb.AppendLine();
+                msgSb.AppendLine($"ADDITIONAL INFORMATION: {message}");
+            }
+
+            throw new ArgumentOutOfRangeException(paramName, num, msgSb.ToString());
         }
 
         /// <summary>
@@ -166,16 +253,19 @@ namespace Mendham
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="obj">Value to test</param>
+        /// <param name="paramName">Name of parameter</param>
         /// <param name="acceptanceCriteria">Criteria for the value to be valid</param>
         /// <param name="message">Message to display if acceptance criteria is not met</param>
         /// <returns></returns>
         [DebuggerStepThrough]
-		public static T VerifyArgumentMeetsCriteria<T>(this T obj, Func<T, bool> acceptanceCriteria, string message)
+		public static T VerifyArgumentMeetsCriteria<T>(this T obj, string paramName, Func<T, bool> acceptanceCriteria, string message)
 		{
-			if (!acceptanceCriteria(obj))
-				throw new ArgumentException(message);
+            if(!acceptanceCriteria(obj))
+            {
+                throw new ArgumentException(message, paramName);
+            }
 
-			return obj;
-		}
+            return obj;
+        }
     }
 }

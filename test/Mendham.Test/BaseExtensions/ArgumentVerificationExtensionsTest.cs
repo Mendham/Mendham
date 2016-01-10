@@ -194,80 +194,158 @@ namespace Mendham.Test.BaseExtensions
             result.Should().ContainInOrder(vals);
         }
 
-        [Theory]
-        [MendhamData]
-        public void VerifyArgumentNotNullOrEmpty_NullString_Throws(string msg)
+        [Fact]
+        public void VerifyArgumentNotNullOrEmpty_NullString_ThrowsArgumentNullException()
         {
             string val = null;
 
-            Action act = () => val.VerifyArgumentNotNullOrEmpty(msg);
+            Action act = () => val.VerifyArgumentNotNullOrEmpty(nameof(val));
 
-            act.ShouldThrow<ArgumentException>()
-                .WithMessage(msg);
+            act.ShouldThrow<ArgumentNullException>()
+                .And.ParamName.ShouldBeEquivalentTo(nameof(val));
         }
 
         [Theory]
         [MendhamData]
-        public void VerifyArgumentNotNullOrEmpty_EmptyString_Throws(string msg)
+        public void VerifyArgumentNotNullOrEmpty_NullStringWithMessage_ThrowsArgumentNullException(string msg)
+        {
+            string val = null;
+
+            Action act = () => val.VerifyArgumentNotNullOrEmpty(nameof(val), msg);
+
+            act.ShouldThrow<ArgumentNullException>()
+                .Where(a => a.Message.StartsWith(msg))
+                .And.ParamName.ShouldBeEquivalentTo(nameof(val));
+        }
+
+        [Fact]
+        public void VerifyArgumentNotNullOrEmpty_EmptyStringWith_ThrowsArgumentException()
         {
             string val = string.Empty;
 
-            Action act = () => val.VerifyArgumentNotNullOrEmpty(msg);
+            Action act = () => val.VerifyArgumentNotNullOrEmpty(nameof(val));
 
             act.ShouldThrow<ArgumentException>()
-                .WithMessage(msg);
+                .And.ParamName.ShouldBeEquivalentTo(nameof(val));
         }
 
         [Theory]
         [MendhamData]
-        public void VerifyArgumentNotNullOrEmpty_NonEmptyString_Passes(string val, string msg)
+        public void VerifyArgumentNotNullOrEmpty_EmptyStringWithMessage_ThrowsArgumentException(string msg)
         {
-            var result = val.VerifyArgumentNotNullOrEmpty(msg);
+            string val = string.Empty;
+
+            Action act = () => val.VerifyArgumentNotNullOrEmpty(nameof(val), msg);
+
+            act.ShouldThrow<ArgumentException>()
+                .Where(a => a.Message.StartsWith(msg))
+                .And.ParamName.ShouldBeEquivalentTo(nameof(val));
+        }
+
+        [Theory]
+        [MendhamData]
+        public void VerifyArgumentNotNullOrEmpty_NonEmptyString_Passes(string val)
+        {
+            var result = val.VerifyArgumentNotNullOrEmpty(nameof(val));
 
             result.Should().Be(val);
         }
 
         [Theory]
         [MendhamData]
-        public void VerifyArgumentNotNullOrWhiteSpace_NullString_Throws(string msg)
+        public void VerifyArgumentNotNullOrEmpty_NonEmptyStringWithMessage_Passes(string val, string msg)
+        {
+            var result = val.VerifyArgumentNotNullOrEmpty(nameof(val), msg);
+
+            result.Should().Be(val);
+        }
+
+        [Fact]
+        public void VerifyArgumentNotNullOrWhiteSpace_NullString_ThrowsArgumentNullException()
         {
             string val = null;
 
-            Action act = () => val.VerifyArgumentNotNullOrWhiteSpace(msg);
+            Action act = () => val.VerifyArgumentNotNullOrWhiteSpace(nameof(val));
 
-            act.ShouldThrow<ArgumentException>()
-                .WithMessage(msg);
+            act.ShouldThrow<ArgumentNullException>()
+                .And.ParamName.ShouldBeEquivalentTo(nameof(val));
         }
 
         [Theory]
         [MendhamData]
-        public void VerifyArgumentNotNullOrWhiteSpac_EmptyString_Throws(string msg)
+        public void VerifyArgumentNotNullOrWhiteSpace_NullStringWithMessage_ThrowsArgumentNullException(string msg)
+        {
+            string val = null;
+
+            Action act = () => val.VerifyArgumentNotNullOrWhiteSpace(nameof(val), msg);
+
+            act.ShouldThrow<ArgumentNullException>()
+                .Where(a => a.Message.StartsWith(msg))
+                .And.ParamName.ShouldBeEquivalentTo(nameof(val));
+        }
+
+        [Fact]
+        public void VerifyArgumentNotNullOrWhiteSpace_EmptyString_ThrowsArgumentException()
         {
             string val = string.Empty;
 
-            Action act = () => val.VerifyArgumentNotNullOrWhiteSpace(msg);
+            Action act = () => val.VerifyArgumentNotNullOrWhiteSpace(nameof(val));
 
             act.ShouldThrow<ArgumentException>()
-                .WithMessage(msg);
+                .And.ParamName.ShouldBeEquivalentTo(nameof(val));
         }
 
         [Theory]
         [MendhamData]
-        public void VerifyArgumentNotNullOrWhiteSpace_WhiteSpaceString_Throws(string msg)
+        public void VerifyArgumentNotNullOrWhiteSpace_EmptyStringWithMessage_ThrowsArgumentException(string msg)
+        {
+            string val = string.Empty;
+
+            Action act = () => val.VerifyArgumentNotNullOrWhiteSpace(nameof(val), msg);
+
+            act.ShouldThrow<ArgumentException>()
+                .Where(a => a.Message.StartsWith(msg))
+                .And.ParamName.ShouldBeEquivalentTo(nameof(val));
+        }
+
+        [Fact]
+        public void VerifyArgumentNotNullOrWhiteSpace_WhiteSpaceString_ThrowsArgumentException()
         {
             string val = "   ";
 
-            Action act = () => val.VerifyArgumentNotNullOrWhiteSpace(msg);
+            Action act = () => val.VerifyArgumentNotNullOrWhiteSpace(nameof(val));
 
             act.ShouldThrow<ArgumentException>()
-                .WithMessage(msg);
+                .And.ParamName.ShouldBeEquivalentTo(nameof(val));
         }
 
         [Theory]
         [MendhamData]
-        public void VerifyArgumentNotNullOrWhiteSpace_ValidString_Passes(string val, string msg)
+        public void VerifyArgumentNotNullOrWhiteSpace_WhiteSpaceStringWithMessage_ThrowsArgumentException(string msg)
         {
-            var result = val.VerifyArgumentNotNullOrWhiteSpace(msg);
+            string val = "   ";
+
+            Action act = () => val.VerifyArgumentNotNullOrWhiteSpace(nameof(val), msg);
+
+            act.ShouldThrow<ArgumentException>()
+                .Where(a => a.Message.StartsWith(msg))
+                .And.ParamName.ShouldBeEquivalentTo(nameof(val));
+        }
+
+        [Theory]
+        [MendhamData]
+        public void VerifyArgumentNotNullOrWhiteSpace_ValidString_Passes(string val)
+        {
+            var result = val.VerifyArgumentNotNullOrWhiteSpace(nameof(val));
+
+            result.Should().Be(val);
+        }
+
+        [Theory]
+        [MendhamData]
+        public void VerifyArgumentNotNullOrWhiteSpace_ValidStringWithMessage_Passes(string val, string msg)
+        {
+            var result = val.VerifyArgumentNotNullOrWhiteSpace(nameof(val), msg);
 
             result.Should().Be(val);
         }
@@ -277,11 +355,54 @@ namespace Mendham.Test.BaseExtensions
         [InlineMendhamData("test", null, 5, false)]
         [InlineMendhamData("test", 1, null, false)]
         [InlineMendhamData(" test  ", 1, 5, true)]
-        public void VerifyArgumentLength_ValidCase_Passes(string val, int? minimum, int? maximum, bool trimFirst, string msg)
+        public void VerifyArgumentLength_ValidCase_Passes(string val, int? minimum, int? maximum, bool trimFirst)
         {
-            var result = val.VerifyArgumentLength(minimum, maximum, trimFirst, msg);
+            var result = val.VerifyArgumentLength(nameof(val), minimum, maximum, trimFirst);
 
             result.Should().Be(val);
+        }
+
+        [Theory]
+        [InlineMendhamData("test", 1, 5, false)]
+        [InlineMendhamData("test", null, 5, false)]
+        [InlineMendhamData("test", 1, null, false)]
+        [InlineMendhamData(" test  ", 1, 5, true)]
+        public void VerifyArgumentLength_ValidCaseWithMessage_Passes(string val, int? minimum, int? maximum, bool trimFirst, string msg)
+        {
+            var result = val.VerifyArgumentLength(nameof(val), minimum, maximum, trimFirst, msg);
+
+            result.Should().Be(val);
+        }
+
+        [Theory]
+        [InlineMendhamData(5, 10, false)]
+        [InlineMendhamData(null, 3, false)]
+        [InlineMendhamData(5, null, false)]
+        [InlineMendhamData(5, 10, true)]
+        public void VerifyArgumentLength_NullInvalidCase_ThrowsArgumentNullException(int? minimum, int? maximum, bool trimFirst)
+        {
+            string val = null;
+
+            Action act = () => val.VerifyArgumentLength(nameof(val), minimum, maximum, trimFirst);
+
+            act.ShouldThrow<ArgumentNullException>()
+                .And.ParamName.ShouldBeEquivalentTo(nameof(val));
+        }
+
+        [Theory]
+        [InlineMendhamData(5, 10, false)]
+        [InlineMendhamData(null, 3, false)]
+        [InlineMendhamData(5, null, false)]
+        [InlineMendhamData(5, 10, true)]
+        public void VerifyArgumentLength_NullInvalidCaseWithMessage_ThrowsArgumentNullException(int? minimum, int? maximum, bool trimFirst, string msg)
+        {
+            string val = null;
+
+            Action act = () => val.VerifyArgumentLength(nameof(val), minimum, maximum, trimFirst, msg);
+
+            act.ShouldThrow<ArgumentNullException>()
+                .Where(a => a.Message.StartsWith(msg))
+                .And.ParamName.ShouldBeEquivalentTo(nameof(val));
         }
 
         [Theory]
@@ -289,12 +410,26 @@ namespace Mendham.Test.BaseExtensions
         [InlineMendhamData("test", null, 3, false)]
         [InlineMendhamData("test", 5, null, false)]
         [InlineMendhamData(" test  ", 5, 10, true)]
-        public void VerifyArgumentLength_InvalidCase_Throws(string val, int? minimum, int? maximum, bool trimFirst, string msg)
+        public void VerifyArgumentLength_InvalidCase_ThrowsArgumentException(string val, int? minimum, int? maximum, bool trimFirst)
         {
-            Action act = () => val.VerifyArgumentLength(minimum, maximum, trimFirst, msg);
+            Action act = () => val.VerifyArgumentLength(nameof(val), minimum, maximum, trimFirst);
 
             act.ShouldThrow<ArgumentException>()
-                .WithMessage(msg);
+                .And.ParamName.ShouldBeEquivalentTo(nameof(val));
+        }
+
+        [Theory]
+        [InlineMendhamData("test", 5, 10, false)]
+        [InlineMendhamData("test", null, 3, false)]
+        [InlineMendhamData("test", 5, null, false)]
+        [InlineMendhamData(" test  ", 5, 10, true)]
+        public void VerifyArgumentLength_InvalidCaseWithMessage_ThrowsArgumentException(string val, int? minimum, int? maximum, bool trimFirst, string msg)
+        {
+            Action act = () => val.VerifyArgumentLength(nameof(val), minimum, maximum, trimFirst, msg);
+
+            act.ShouldThrow<ArgumentException>()
+                .Where(a => a.Message.Contains(msg))
+                .And.ParamName.ShouldBeEquivalentTo(nameof(val));
         }
 
         [Theory]
@@ -306,9 +441,25 @@ namespace Mendham.Test.BaseExtensions
         [InlineMendhamData(5, null, 5)]
         [InlineMendhamData(4, 1, null)]
         [InlineMendhamData(1, 1, null)]
-        public void VerifyArgumentRange_ValidCase_Passes(int val, int? minimum, int? maximum, string msg)
+        public void VerifyArgumentRange_ValidCase_Passes(int val, int? minimum, int? maximum)
         {
-            var result = val.VerifyArgumentRange(minimum, maximum, msg);
+            var result = val.VerifyArgumentRange(nameof(val), minimum, maximum);
+
+            result.Should().Be(val);
+        }
+
+        [Theory]
+        [InlineMendhamData(4, 1, 5)]
+        [InlineMendhamData(1, 1, 5)]
+        [InlineMendhamData(5, 1, 5)]
+        [InlineMendhamData(-1, -2, 5)]
+        [InlineMendhamData(-1, null, 5)]
+        [InlineMendhamData(5, null, 5)]
+        [InlineMendhamData(4, 1, null)]
+        [InlineMendhamData(1, 1, null)]
+        public void VerifyArgumentRange_ValidCaseWithMessage_Passes(int val, int? minimum, int? maximum, string msg)
+        {
+            var result = val.VerifyArgumentRange(nameof(val), minimum, maximum, msg);
 
             result.Should().Be(val);
         }
@@ -320,31 +471,50 @@ namespace Mendham.Test.BaseExtensions
         [InlineMendhamData(10, null, 5)]
         [InlineMendhamData(0, 1, null)]
         [InlineMendhamData(-1, 1, null)]
-        public void VerifyArgumentRange_InvalidCase_Throws(int val, int? minimum, int? maximum, string msg)
+        public void VerifyArgumentRange_InvalidCase_ThrowsArgumentOutOfRangeException(int val, int? minimum, int? maximum)
         {
-            Action act = () => val.VerifyArgumentRange(minimum, maximum, msg);
+            Action act = () => val.VerifyArgumentRange(nameof(val), minimum, maximum);
 
-            act.ShouldThrow<ArgumentException>()
-                .WithMessage(msg);
+            act.ShouldThrow<ArgumentOutOfRangeException>()
+                .Where(a => Equals(a.ActualValue, val))
+                .And.ParamName.ShouldBeEquivalentTo(nameof(val));
+        }
+
+        [Theory]
+        [InlineMendhamData(0, 1, 5)]
+        [InlineMendhamData(6, 1, 5)]
+        [InlineMendhamData(6, null, 5)]
+        [InlineMendhamData(10, null, 5)]
+        [InlineMendhamData(0, 1, null)]
+        [InlineMendhamData(-1, 1, null)]
+        public void VerifyArgumentRange_InvalidCaseWithMessage_ThrowsArgumentOutOfRangeException(int val, int? minimum, int? maximum, string msg)
+        {
+            Action act = () => val.VerifyArgumentRange(nameof(val), minimum, maximum, msg);
+
+            act.ShouldThrow<ArgumentOutOfRangeException>()
+                .Where(a => Equals(a.ActualValue, val))
+                .Where(a => a.Message.Contains(msg))
+                .And.ParamName.ShouldBeEquivalentTo(nameof(val));
         }
 
         [Theory]
         [MendhamData]
         public void VerifyArgumentMeetsCriteria_ValidCriteria_Passes(int val, string msg)
         {
-            var result = val.VerifyArgumentMeetsCriteria(a => true, msg);
+            var result = val.VerifyArgumentMeetsCriteria(nameof(val), a => true, msg);
 
             result.Should().Be(val);
         }
 
         [Theory]
         [MendhamData]
-        public void VerifyArgumentMeetsCriteria_InvalidCriteria_Throws(string val, string msg)
+        public void VerifyArgumentMeetsCriteria_InvalidCriteria_ThrowsArgumentException(string val, string msg)
         {
-            Action act = () => val.VerifyArgumentMeetsCriteria(a => false, msg);
+            Action act = () => val.VerifyArgumentMeetsCriteria(nameof(val), a => false, msg);
 
             act.ShouldThrow<ArgumentException>()
-                .WithMessage(msg);
+                .Where(a => a.Message.Contains(msg))
+                .And.ParamName.ShouldBeEquivalentTo(nameof(val));
         }
     }
 }
