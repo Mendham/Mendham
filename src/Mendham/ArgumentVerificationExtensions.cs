@@ -22,9 +22,13 @@ namespace Mendham
             {
                 return obj;
             }
-            else 
+            else if (message == null)
             {
-                throw ProcessNullArguementException(paramName, message);
+                throw new ArgumentNullException(paramName);
+            }
+            else
+            {
+                throw new ArgumentNullException(paramName, message);
             }
 		}
 
@@ -43,11 +47,10 @@ namespace Mendham
             {
                 return tObj;
             }
-            else if (Equals(default(T), null))
-            {
-                throw ProcessNullArguementException(paramName, message);
-            }
-            else if (message == null)
+
+            tObj.VerifyArgumentNotNull(paramName, message);
+
+            if (message == null)
             {
                 message = $"Parameter '{paramName}' cannot be the default value for type {typeof(T).FullName} ({default(T)}).";
             }
@@ -66,11 +69,9 @@ namespace Mendham
         [DebuggerStepThrough]
 		public static IEnumerable<T> VerifyArgumentNotNullOrEmpty<T>(this IEnumerable<T> tEnumerable, string paramName, string message = null)
 		{
-            if (Equals(tEnumerable, null))
-            {
-                throw ProcessNullArguementException(paramName, message);
-            }
-            else if (tEnumerable.Any())
+            tEnumerable.VerifyArgumentNotNull(paramName, message);
+
+            if (tEnumerable.Any())
             {
                 return tEnumerable;
             }
@@ -176,17 +177,5 @@ namespace Mendham
 
 			return obj;
 		}
-
-        private static ArgumentNullException ProcessNullArguementException(string paramName, string message = null)
-        {
-            if (message == null)
-            {
-                return new ArgumentNullException(paramName);
-            }
-            else
-            {
-                return new ArgumentNullException(paramName, message);
-            }
-        }
     }
 }
