@@ -45,15 +45,15 @@ namespace Mendham.Testing.Builder
             }
         }
 
-        public object Create(Type type)
+        public object CreateByParameter(ParameterInfo parameterInfo)
         {
-            if (builderRegistration.IsTypeRegistered(type))
+            if (builderRegistration.IsTypeRegistered(parameterInfo.ParameterType))
             {
-                return builderRegistration.Build(type);
+                return builderRegistration.Build(parameterInfo.ParameterType);
             }
             else
             {
-                return anonymousBuilder.Create(type);
+                return anonymousBuilder.Create(parameterInfo);
             }
         }
 

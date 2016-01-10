@@ -23,7 +23,7 @@ namespace Mendham.Testing
             var objCreationCtx = new ObjectCreationContext(methodAssembly);
 
             var parameters = testMethod.GetParameters()
-                .Select(a => objCreationCtx.Create(a.ParameterType))
+                .Select(a => objCreationCtx.CreateByParameter(a))
                 .ToArray();
 
             return parameters.AsSingleItemEnumerable();

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Mendham.Testing.Builder
@@ -10,7 +11,7 @@ namespace Mendham.Testing.Builder
         T Create<T>();
         T Create<T>(T seed);
 
-        object Create(Type type);
+        object Create(ParameterInfo parameterInfo);
 
         IEnumerable<T> CreateMany<T>();
         IEnumerable<T> CreateMany<T>(T seed);

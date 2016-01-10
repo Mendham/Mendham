@@ -43,5 +43,13 @@ namespace Mendham.Testing.Builder.Test
             intFromMendhamData.Should()
                 .NotBe(default(int));
         }
+
+        [Theory]
+        [InlineMendhamData(4)]
+        public void MendhamData_StringParameter_SeededWithVariableName(int fixedVal, string variable1)
+        {
+            variable1.Should()
+                .StartWith(nameof(variable1));
+        }
     }
 }

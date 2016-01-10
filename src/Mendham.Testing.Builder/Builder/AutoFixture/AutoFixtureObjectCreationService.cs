@@ -3,6 +3,7 @@ using Ploeh.AutoFixture.Kernel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Mendham.Testing.Builder.AutoFixture
@@ -27,10 +28,10 @@ namespace Mendham.Testing.Builder.AutoFixture
             return _fixture.Create(seed);
         }
 
-        public object Create(Type type)
+        public object Create(ParameterInfo parameterInfo)
         {
             var context = new SpecimenContext(_fixture);
-            return context.Resolve(type);
+            return context.Resolve(parameterInfo);
         }
 
         public IEnumerable<T> CreateMany<T>()
