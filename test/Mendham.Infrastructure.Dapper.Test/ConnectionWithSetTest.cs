@@ -18,10 +18,9 @@ namespace Mendham.Infrastructure.Dapper.Test
 
 
         [Fact]
-        public async Task ConnectionWithSet_IntDefaultMapping_AllSelectedValues()
+        public async Task ConnectionWithSet_IntSet_AllSelectedValues()
         {
-            var mapping = DefaultConnectionWithSetMapping.Get<int>();
-            using (var conn = new ConnectionWithSet<int>(Fixture.CreateSut(), mapping))
+            using (var conn = new ConnectionWithSet(Fixture.CreateSut()))
             {
                 await conn.OpenAsync(Fixture.KnownInts);
 
@@ -40,10 +39,9 @@ namespace Mendham.Infrastructure.Dapper.Test
         }
 
         [Fact]
-        public async Task ConnectionWithSet_GuidDefaultMapping_AllSelectedValues()
+        public async Task ConnectionWithSet_GuidSet_AllSelectedValues()
         {
-            var mapping = DefaultConnectionWithSetMapping.Get<Guid>();
-            using (var conn = new ConnectionWithSet<Guid>(Fixture.CreateSut(), mapping))
+            using (var conn = new ConnectionWithSet(Fixture.CreateSut()))
             {
                 await conn.OpenAsync(Fixture.KnownGuids);
 
@@ -62,10 +60,9 @@ namespace Mendham.Infrastructure.Dapper.Test
         }
 
         [Fact]
-        public async Task ConnectionWithSet_StringDefaultMapping_AllSelectedValues()
+        public async Task ConnectionWithSet_StringSet_AllSelectedValues()
         {
-            var mapping = DefaultConnectionWithSetMapping.Get<string>();
-            using (var conn = new ConnectionWithSet<string>(Fixture.CreateSut(), mapping))
+            using (var conn = new ConnectionWithSet(Fixture.CreateSut()))
             {
                 await conn.OpenAsync(Fixture.KnownStrings);
 
@@ -87,9 +84,9 @@ namespace Mendham.Infrastructure.Dapper.Test
         public async Task ConnectionWithSet_CompositeIdMapping_AllSelectedValues()
         {
             var mapping = Fixture.GetCompositeIdMapping();
-            using (var conn = new ConnectionWithSet<CompositeId>(Fixture.CreateSut(), mapping))
+            using (var conn = new ConnectionWithSet(Fixture.CreateSut()))
             {
-                await conn.OpenAsync(Fixture.KnownCompositeIds);
+                await conn.OpenAsync(Fixture.KnownCompositeIds, mapping);
 
                 var q = await conn.QueryAsync<CompositeId>(@"
                     SELECT tcit.GuidVal, tcit.IntVal

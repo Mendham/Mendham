@@ -5,15 +5,8 @@ using System.Threading.Tasks;
 
 namespace Mendham.Infrastructure.Dapper
 {
-    public interface IConnectionWithSetMapping<T>
+    public interface IConnectionWithSetMapping
     {
-        /// <summary>
-        /// Test to make sure an item in a set is valid (for example not the default value)
-        /// </summary>
-        /// <param name="item"></param>
-        /// <returns>True if valid, false if not</returns>
-        bool ItemIsValidPredicate(T item);
-
         /// <summary>
         /// Message to be returned when a set is invalid
         /// </summary>
@@ -33,6 +26,16 @@ namespace Mendham.Infrastructure.Dapper
         /// Parameterized statement to insert item into temporary table
         /// </summary>
         string InsertItemSql { get; }
+    }
+
+    public interface IConnectionWithSetMapping<T> : IConnectionWithSetMapping
+    {
+        /// <summary>
+        /// Test to make sure an item in a set is valid (for example not the default value)
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns>True if valid, false if not</returns>
+        bool ItemIsValidPredicate(T item);
 
         /// <summary>
         /// Generates value to be passed in param field for insert statement for a given item

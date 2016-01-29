@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Mendham.Infrastructure.Dapper.Mapping;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -13,55 +14,92 @@ using IDbTransaction = global::System.Data.Common.DbTransaction;
 
 namespace Mendham.Infrastructure.Dapper
 {
-    public class ConnectionWithSet<T> : IDisposable
+    public class ConnectionWithSet : IDisposable
     {
         private readonly IDbConnection _conn;
-        private readonly IConnectionWithSetMapping<T> _mapping;
+        private IConnectionWithSetMapping _mapping;
 
-        public ConnectionWithSet(Func<IDbConnection> connectionFactory, IConnectionWithSetMapping<T> mapping)
-            : this(connectionFactory(), mapping)
+        private const string DEFAULT_TABLE_NAME = "#Items";
+        private const string DEFAULT_COLUMN_NAME = "Value";
+
+        public ConnectionWithSet(Func<IDbConnection> connectionFactory)
+            : this(connectionFactory())
         { }
 
-        public ConnectionWithSet(IDbConnection connection, IConnectionWithSetMapping<T> mapping)
+        public ConnectionWithSet(IDbConnection connection)
         {
             connection.VerifyArgumentNotNull(nameof(connection))
-                .VerifyArgumentMeetsCriteria(nameof(connection), a => a.State == ConnectionState.Closed, "Connection must not be closed before wrapping");
-            mapping.VerifyArgumentNotDefaultValue(nameof(mapping));
+                .VerifyArgumentMeetsCriteria(nameof(connection), 
+                    a => a.State == ConnectionState.Closed,  "Connection must not be closed before wrapping");
 
             this._conn = connection;
-            this._mapping = mapping;
         }
 
-        public async Task<ConnectionWithSet<T>> OpenAsync(IEnumerable<T> set)
+        public async Task<ConnectionWithSet> OpenAsync<T>(IEnumerable<T> set, IConnectionWithSetMapping<T> mapping)
         {
+            mapping.VerifyArgumentNotDefaultValue(nameof(mapping));
             set.VerifyArgumentMeetsCriteria(nameof(set), a => 
-                a.All(_mapping.ItemIsValidPredicate), _mapping.InvalidSetErrorMessage);
+                a.All(mapping.ItemIsValidPredicate), mapping.InvalidSetErrorMessage);
+
+            // Validate connection is in a valid state to be opened
+            if (_conn.State != ConnectionState.Closed)
+            {
+                throw new AttemptedToOpenNonClosedConnectionWithSetException(_conn.State);
+            }
+
+            _mapping = mapping;
 
             await OpenConnectionAsync();
-            await _conn.ExecuteAsync(_mapping.CreateTableSql);
+            await _conn.ExecuteAsync(mapping.CreateTableSql);
 
             foreach (var item in set)
-                await SqlMapper.ExecuteAsync(_conn, _mapping.InsertItemSql, _mapping.GetParamForInsert(item));
+                await SqlMapper.ExecuteAsync(_conn, mapping.InsertItemSql, mapping.GetParamForInsert(item));
 
             return this;
         }
 
-        private Task OpenConnectionAsync()
+        public Task<ConnectionWithSet> OpenAsync(IEnumerable<int> set, string intTableName = DEFAULT_TABLE_NAME, 
+            string intColName = DEFAULT_COLUMN_NAME)
         {
-#if DOTNET5_4
-            return _conn.OpenAsync();
-#else
-            DbConnection dbConnection = _conn as DbConnection;
+            return OpenAsync(set, new IntSetMapping(intTableName, intColName));
+        }
 
-            if (dbConnection != default(DbConnection))
-                return dbConnection.OpenAsync();
-            else
+        public Task<ConnectionWithSet> OpenAsync(IEnumerable<Guid> set, string guidTableName = DEFAULT_TABLE_NAME,
+            string guidColName = DEFAULT_COLUMN_NAME)
+        {
+            return OpenAsync(set, new GuidSetMapping(guidTableName, guidColName));
+        }
+
+        public Task<ConnectionWithSet> OpenAsync(IEnumerable<string> set, string stringTableName = DEFAULT_TABLE_NAME,
+            string stringColName = DEFAULT_COLUMN_NAME)
+        {
+            return OpenAsync(set, new StringSetMapping(stringTableName, stringColName));
+        }
+
+        private async Task OpenConnectionAsync()
+        {
+            try
             {
-                // No known async opening support, use non async open
-                _conn.Open();
-                return Task.FromResult(0);
-            }
+#if DOTNET5_4
+                await _conn.OpenAsync();
+#else
+                DbConnection dbConnection = _conn as DbConnection;
+
+                if (dbConnection != default(DbConnection))
+                {
+                    await dbConnection.OpenAsync();
+                }
+                else
+                {
+                    // No known async opening support, use non async open
+                    _conn.Open();
+                }
 #endif
+            }
+            catch (Exception ex)
+            {
+                throw new FailureToOpenConnectionWithSetException(ex);
+            }
         }
 
         public Task<IEnumerable<TResult>> QueryAsync<TResult>(string sql, dynamic param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null)
