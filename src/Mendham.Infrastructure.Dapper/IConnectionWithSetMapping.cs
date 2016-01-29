@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Mendham.Infrastructure.Dapper
 {
-    public interface IConnectionWithSetMapping
+    public interface IConnectionWithSetMapping<T>
     {
         /// <summary>
         /// Message to be returned when a set is invalid
@@ -26,10 +26,7 @@ namespace Mendham.Infrastructure.Dapper
         /// Parameterized statement to insert item into temporary table
         /// </summary>
         string InsertItemSql { get; }
-    }
 
-    public interface IConnectionWithSetMapping<T> : IConnectionWithSetMapping
-    {
         /// <summary>
         /// Test to make sure an item in a set is valid (for example not the default value)
         /// </summary>

@@ -17,10 +17,11 @@ namespace Mendham.Infrastructure.Dapper
     public class ConnectionWithSet : IDisposable
     {
         private readonly IDbConnection _conn;
-        private IConnectionWithSetMapping _mapping;
 
         private const string DEFAULT_TABLE_NAME = "#Items";
         private const string DEFAULT_COLUMN_NAME = "Value";
+
+        private string setTableName;
 
         public ConnectionWithSet(Func<IDbConnection> connectionFactory)
             : this(connectionFactory())
@@ -47,7 +48,7 @@ namespace Mendham.Infrastructure.Dapper
                 throw new AttemptedToOpenNonClosedConnectionWithSetException(_conn.State);
             }
 
-            _mapping = mapping;
+            setTableName = mapping.TableName;
 
             await OpenConnectionAsync();
             await _conn.ExecuteAsync(mapping.CreateTableSql);
@@ -128,12 +129,12 @@ namespace Mendham.Infrastructure.Dapper
             {
                 if (_conn.State == ConnectionState.Open)
                 {
-                    var dropSql = string.Format("IF OBJECT_ID('tempdb..{0}') IS NOT NULL DROP TABLE {0}", _mapping.TableName);
+                    var dropSql = $"IF OBJECT_ID('tempdb..{setTableName}') IS NOT NULL DROP TABLE {setTableName}";
                     _conn.Execute(dropSql);
                 }
                 else if (_conn.State != ConnectionState.Closed)
                 {
-                    var error = string.Format("Attempted to dispose connection in an invalid open state ({0}).", _conn.State);
+                    var error = $"Attempted to dispose connection in an invalid open state ({_conn.State}).";
                     throw new InvalidOperationException(error);
                 }
             }
