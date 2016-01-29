@@ -11,7 +11,7 @@ namespace Mendham.Testing
     /// </summary>
     /// <typeparam name="TEntity">Entity being built</typeparam>
     public interface IEntityBuilder<TEntity> : IBuilder<TEntity>
-        where TEntity : class, IEntity
+        where TEntity : IEntity
     {
     }
 
@@ -22,7 +22,7 @@ namespace Mendham.Testing
     /// <typeparam name="TDomainFacade">Domain facade of entity being built</typeparam>
     /// <typeparam name="TBuilder">Builder that creates the entity</typeparam>
     public interface IEntityBuilder<TEntity, TDomainFacade, TBuilder> : IEntityBuilder<TEntity>
-        where TEntity : class, IEntity
+        where TEntity : IEntity
         where TDomainFacade : class, IDomainFacade
         where TBuilder : IBuilder<TEntity>
     {

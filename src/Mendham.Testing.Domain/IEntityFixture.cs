@@ -3,7 +3,7 @@
 namespace Mendham.Testing
 {
     public interface IEntityFixture<TEntity, TBuilder> : IFixture
-        where TEntity : class, IEntity
+        where TEntity : IEntity
         where TBuilder : IBuilder<TEntity>, new()
     {
         /// <summary>
@@ -14,7 +14,7 @@ namespace Mendham.Testing
     }
 
     public interface IEntityFixture<TEntity, TDomainFacade, TBuilder> : IEntityFixture<TEntity, TBuilder>
-        where TEntity : class, IEntity
+        where TEntity : IEntity
         where TDomainFacade : class, IDomainFacade
         where TBuilder : IEntityBuilder<TEntity, TDomainFacade, TBuilder>, new()
     {

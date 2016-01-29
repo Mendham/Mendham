@@ -10,7 +10,6 @@ namespace Mendham.Testing
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public interface IMockableObjectBuilder<T> : IBuilder<T>
-        where T : class
     {
         T BuildAsMock();
     }

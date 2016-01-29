@@ -13,7 +13,7 @@ namespace Mendham.Testing.Moq
     /// <typeparam name="TDomainFacade">Domain facade used by the entity under test</typeparam>
     /// <typeparam name="TBuilder">Builder that creates the entity to be tested</typeparam>
     public class EntityFixture<TEntity, TDomainFacade, TBuilder> : EntityFixture<TEntity, TBuilder>, IEntityFixture<TEntity, TDomainFacade, TBuilder>
-        where TEntity : class, IEntity
+        where TEntity : IEntity
         where TDomainFacade : class, IDomainFacade
         where TBuilder : IEntityBuilder<TEntity, TDomainFacade, TBuilder>, new()
     {
