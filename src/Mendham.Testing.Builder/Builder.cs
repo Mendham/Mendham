@@ -16,23 +16,9 @@ namespace Mendham.Testing
     /// <typeparam name="T">Object to build</typeparam>
 	public abstract class Builder<T> : IBuilder<T>
     {
-		private static IObjectCreationContext _objectCreationContext;
-		protected static IObjectCreationContext ObjectCreationContext
-		{
-			get
-			{
-                if (_objectCreationContext == default(IObjectCreationContext))
-                {
-                    _objectCreationContext = ObjectCreationContextFactory.Create(typeof(Builder<T>).Assembly);
-                }
-
-                return _objectCreationContext;
-			}
-		}
-
-		[DebuggerStepThrough]
-		public Builder()
-		{ }
+        [DebuggerStepThrough]
+        public Builder()
+        { }
 
 		[DebuggerStepThrough()]
 		public T Build()
@@ -43,19 +29,18 @@ namespace Mendham.Testing
 
 		protected abstract T BuildObject();
 
-		protected TResult CreateAnonymous<TResult>()
-		{
-			return ObjectCreationContext.Create<TResult>();
-		}
-
-		protected TResult CreateAnonymous<TResult>(TResult seed)
-		{
-			return ObjectCreationContext.Create(seed);
-		}
-
-        protected IEnumerable<TResult> CreateManyAnonymous<TResult>(int count)
+        private IObjectCreationContext _objectCreationContext;
+        protected IObjectCreationContext ObjectCreationContext
         {
-            return ObjectCreationContext.CreateMany<TResult>(count);
+            get
+            {
+                if (_objectCreationContext == null)
+                {
+                    _objectCreationContext = ObjectCreationContextFactory.Create(this.GetType().Assembly);
+                }
+
+                return _objectCreationContext;
+            }
         }
 
         public static implicit operator T(Builder<T> builder)

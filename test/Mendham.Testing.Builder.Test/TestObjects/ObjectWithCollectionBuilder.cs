@@ -24,7 +24,7 @@ namespace Mendham.Testing.Builder.Test.TestObjects
         {
             return new ObjectWithCollection
             {
-                Collection = CreateManyAnonymous<int>(itemCount)
+                Collection = ObjectCreationContext.CreateMany<int>(itemCount)
             };
         }
     }

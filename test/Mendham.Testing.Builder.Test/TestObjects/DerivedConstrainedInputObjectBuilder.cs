@@ -14,9 +14,9 @@ namespace Mendham.Testing.Builder.Test.TestObjects
 
         public DerivedConstrainedInputObjectBuilder()
         {
-            this.value = CreateAnonymous<string>()
+            this.value = ObjectCreationContext.Create<string>()
                 .Substring(0, 3);
-            this.derivedValue = CreateAnonymous<int>();
+            this.derivedValue = ObjectCreationContext.Create<int>();
         }
 
         public DerivedConstrainedInputObjectBuilder WithValue(string value)
