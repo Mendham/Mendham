@@ -12,8 +12,8 @@ namespace Mendham.Testing.Builder.Test.TestObjects
 
         public BasicObjectFullBuilder()
         {
-            this.intVal = CreateAnonymous<int>();
-            this.stringVal = CreateAnonymous("str");
+            this.intVal = ObjectCreationContext.Create<int>();
+            this.stringVal = ObjectCreationContext.Create("str");
         }
 
         public BasicObjectFullBuilder WithIntVal(int intVal)
