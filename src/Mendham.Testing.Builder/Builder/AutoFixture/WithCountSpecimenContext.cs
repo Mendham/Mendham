@@ -1,13 +1,9 @@
 ﻿using Ploeh.AutoFixture.Kernel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace Mendham.Testing.Builder.AutoFixture
 {
-    public class WithCountSpecimenContext : MendhamSpecimenContext
+    internal class WithCountSpecimenContext : MendhamSpecimenContext
     {
         private readonly int repeatCount;
         private bool isApplied;

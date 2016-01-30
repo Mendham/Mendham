@@ -1,13 +1,9 @@
 ﻿using Ploeh.AutoFixture.Kernel;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
 
 namespace Mendham.Testing.Builder.AutoFixture
 {
-    public class BuilderRegistrationSpecimenBuilder : ISpecimenBuilder
+    internal class BuilderRegistrationSpecimenBuilder : ISpecimenBuilder
     {
         private readonly static BuilderRegistrationManager builderRegistrationManager =
             new BuilderRegistrationManager();

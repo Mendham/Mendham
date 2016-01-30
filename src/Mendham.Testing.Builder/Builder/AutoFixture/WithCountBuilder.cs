@@ -1,13 +1,8 @@
-﻿using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.Kernel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Ploeh.AutoFixture.Kernel;
 
 namespace Mendham.Testing.Builder.AutoFixture
 {
-    public class WithCountBuilder : ISpecimenBuilder
+    internal class WithCountBuilder : ISpecimenBuilder
     {
         public object Create(object request, ISpecimenContext context)
         {

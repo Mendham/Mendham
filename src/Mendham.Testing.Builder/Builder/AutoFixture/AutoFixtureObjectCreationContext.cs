@@ -1,14 +1,10 @@
 ﻿using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.Kernel;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace Mendham.Testing.Builder.AutoFixture
 {
-    public class AutoFixtureObjectCreationContext : IObjectCreationContext, IParameterInfoCreation
+    internal class AutoFixtureObjectCreationContext : IObjectCreationContext, IParameterInfoCreation
     {
         private static readonly Fixture _fixture;
 
