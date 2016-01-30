@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace Mendham.Testing.Builder.AutoFixture
 {
-    public class AutoFixtureObjectCreationService : IObjectCreationContext
+    public class AutoFixtureObjectCreationContext : IFullObjectCreationContext
     {
         private readonly Fixture _fixture;
 
         private readonly static BuilderRegistrationManager builderRegistrationManager =
             new BuilderRegistrationManager();
 
-        public AutoFixtureObjectCreationService(Assembly callerAssembly)
+        public AutoFixtureObjectCreationContext(Assembly callerAssembly)
         {
             var builderRegistration = builderRegistrationManager.GetBuilderRegistration(callerAssembly);
 

@@ -11,10 +11,13 @@ namespace Mendham.Testing.Builder
         T Create<T>();
         T Create<T>(T seed);
 
-        object Create(ParameterInfo parameterInfo);
-        object Create(ParameterInfo parameterInfo, int countForMultiple);
-
         IEnumerable<T> CreateMany<T>();
         IEnumerable<T> CreateMany<T>(T seed);
+    }
+
+    public interface IFullObjectCreationContext : IObjectCreationContext
+    {
+        object Create(ParameterInfo parameterInfo);
+        object Create(ParameterInfo parameterInfo, int countForMultiple);
     }
 }

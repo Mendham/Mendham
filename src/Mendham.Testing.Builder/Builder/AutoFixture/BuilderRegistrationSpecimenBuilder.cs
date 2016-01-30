@@ -20,24 +20,19 @@ namespace Mendham.Testing.Builder.AutoFixture
 
         public object Create(object request, ISpecimenContext context)
         {
+            // If the type belongs to a known builder, then build it
             var type = request as Type;
-            if (type != default(Type) && builderRegistration.IsTypeRegistered(type))
+
+            if (type == default(Type))
+            {
+                return new NoSpecimen();
+            }
+            else if (builderRegistration.IsTypeRegistered(type))
             {
                 return builderRegistration.Build(type);
             }
 
-            var pi = request as ParameterInfo;
-            if (pi == default(ParameterInfo))
-            {
-                return new NoSpecimen(request);
-            }
-
-            if (!builderRegistration.IsTypeRegistered(pi.ParameterType))
-            {
-                return new NoSpecimen(request);
-            }
-
-            return builderRegistration.Build(pi.ParameterType);
+            return new NoSpecimen();
         }
     }
 }

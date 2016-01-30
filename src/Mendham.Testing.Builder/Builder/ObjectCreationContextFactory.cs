@@ -13,7 +13,7 @@ namespace Mendham.Testing.Builder
 
         public static IObjectCreationContext Create(Assembly assembly)
         {
-            return new AutoFixtureObjectCreationService(assembly);
+            return new AutoFixtureObjectCreationContext(assembly);
         }
     }
 }
