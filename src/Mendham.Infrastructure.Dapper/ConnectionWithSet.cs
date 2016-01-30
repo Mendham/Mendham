@@ -10,18 +10,19 @@ using System.Threading.Tasks;
 #if DOTNET5_4
 using IDbConnection = global::System.Data.Common.DbConnection;
 using IDbTransaction = global::System.Data.Common.DbTransaction;
+using IDbCommand = global::System.Data.Common.DbCommand;
 #endif
 
 namespace Mendham.Infrastructure.Dapper
 {
-    public class ConnectionWithSet : IDisposable
+    public class ConnectionWithSet : IDbConnection, IDisposable
     {
         private readonly IDbConnection _conn;
 
         private const string DEFAULT_TABLE_NAME = "#Items";
         private const string DEFAULT_COLUMN_NAME = "Value";
 
-        private string setTableName;
+        private string _setTableName;
 
         public ConnectionWithSet(Func<IDbConnection> connectionFactory)
             : this(connectionFactory())
@@ -48,7 +49,7 @@ namespace Mendham.Infrastructure.Dapper
                 throw new AttemptedToOpenNonClosedConnectionWithSetException(_conn.State);
             }
 
-            setTableName = mapping.TableName;
+            _setTableName = mapping.TableName;
 
             await OpenConnectionAsync();
             await _conn.ExecuteAsync(mapping.CreateTableSql);
@@ -103,41 +104,200 @@ namespace Mendham.Infrastructure.Dapper
             }
         }
 
-        public Task<IEnumerable<TResult>> QueryAsync<TResult>(string sql, dynamic param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null)
+#if DOTNET5_4
+        protected override void Dispose(bool disposing)
         {
-            return SqlMapper.QueryAsync<TResult>(_conn, sql, param, transaction, commandTimeout, commandType);
+            DisposeConnection(disposing);
         }
-
-        public Task<IEnumerable<dynamic>> QueryAsync(string sql, dynamic param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null)
-        {
-            return SqlMapper.QueryAsync<dynamic>(_conn, sql, param, transaction, commandTimeout, commandType);
-        }
-
-        public Task<TResult> ExecuteScalarAsync<TResult>(string sql, dynamic param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null)
-        {
-            return SqlMapper.ExecuteScalarAsync<TResult>(_conn, sql, param, transaction, commandTimeout, commandType);
-        }
-
-        public Task<dynamic> ExecuteScalarAsync(string sql, dynamic param = null, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null)
-        {
-            return SqlMapper.ExecuteScalarAsync<dynamic>(_conn, sql, param, transaction, commandTimeout, commandType);
-        }
-
+#else
         public void Dispose()
         {
-            if (_conn != null)
+            DisposeConnection();
+        }
+#endif
+        private void DisposeConnection(bool disposing = false)
+        {
+            if (_conn != null && !disposing)
             {
-                if (_conn.State == ConnectionState.Open)
-                {
-                    var dropSql = $"IF OBJECT_ID('tempdb..{setTableName}') IS NOT NULL DROP TABLE {setTableName}";
-                    _conn.Execute(dropSql);
-                }
-                else if (_conn.State != ConnectionState.Closed)
+                var dropped = DropSetTable();
+
+                if (!dropped && _conn.State != ConnectionState.Closed)
                 {
                     var error = $"Attempted to dispose connection in an invalid open state ({_conn.State}).";
                     throw new InvalidOperationException(error);
                 }
             }
         }
+
+        private bool DropSetTable()
+        {
+            if (_conn.State == ConnectionState.Open)
+            {
+                if (_setTableName != null)
+                {
+                    var dropSql = $"IF OBJECT_ID('tempdb..{_setTableName}') IS NOT NULL DROP TABLE {_setTableName}";
+                    _conn.Execute(dropSql);
+                    _setTableName = null;
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
+        #region IDBConnection Connection Wrapper
+
+#if DOTNET5_4
+        public override string ConnectionString
+        {
+            get
+            {
+                return _conn.ConnectionString;
+            }
+
+            set
+            {
+                _conn.ConnectionString = value;
+            }
+        }
+
+        public override string Database
+        {
+            get
+            {
+                return _conn.Database;
+            }
+        }
+
+        public override string DataSource
+        {
+            get
+            {
+                return _conn.DataSource;
+            }
+        }
+
+        public override string ServerVersion
+        {
+            get
+            {
+                return _conn.ServerVersion;
+            }
+        }
+
+        public override ConnectionState State
+        {
+            get
+            {
+                return _conn.State;
+            }
+        }
+
+        protected override IDbTransaction BeginDbTransaction(IsolationLevel isolationLevel)
+        {
+            return _conn.BeginTransaction(isolationLevel);
+        }
+
+        public override void ChangeDatabase(string databaseName)
+        {
+            DropSetTable();
+            _conn.ChangeDatabase(databaseName);
+        }
+
+        public override void Close()
+        {
+            DropSetTable();
+            _conn.Close();
+        }
+
+        protected override IDbCommand CreateDbCommand()
+        {
+            return _conn.CreateCommand();
+        }
+
+        public override void Open()
+        {
+            _conn.Open();
+        }
+
+#else
+        string IDbConnection.ConnectionString
+        {
+            get
+            {
+                return _conn.ConnectionString;
+            }
+
+            set
+            {
+                _conn.ConnectionString = value;
+            }
+        }
+
+        public int ConnectionTimeout
+        {
+            get
+            {
+                return _conn.ConnectionTimeout;
+            }
+        }
+
+        public string Database
+        {
+            get
+            {
+                return _conn.Database;
+            }
+        }
+
+        public ConnectionState State
+        {
+            get
+            {
+                return _conn.State;
+            }
+        }
+
+        IDbTransaction IDbConnection.BeginTransaction()
+        {
+            return _conn.BeginTransaction();
+        }
+
+        IDbTransaction IDbConnection.BeginTransaction(IsolationLevel il)
+        {
+            return _conn.BeginTransaction(il);
+        }
+
+        void IDbConnection.Close()
+        {
+            DropSetTable();
+            _conn.Close();
+        }
+
+        void IDbConnection.ChangeDatabase(string databaseName)
+        {
+            DropSetTable();
+            _conn.ChangeDatabase(databaseName);
+        }
+
+        IDbCommand IDbConnection.CreateCommand()
+        {
+            return _conn.CreateCommand();
+        }
+
+        void IDbConnection.Open()
+        {
+            try
+            {
+                _conn.Open();
+            }
+            catch (Exception ex)
+            {
+                throw new FailureToOpenConnectionWithSetException(ex);
+            }
+        }
+#endif 
+        #endregion
     }
 }
