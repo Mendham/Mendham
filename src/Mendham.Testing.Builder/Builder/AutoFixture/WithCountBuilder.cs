@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace Mendham.Testing.Builder.AutoFixture
 {
-    public class CreateWithCountBuilder : ISpecimenBuilder
+    public class WithCountBuilder : ISpecimenBuilder
     {
         public object Create(object request, ISpecimenContext context)
         {
-            var countWithCreateCtx = context as CreateWithCountSpecimenContext;
+            var countWithCreateCtx = context as WithCountSpecimenContext;
 
-            if (countWithCreateCtx == default(CreateWithCountSpecimenContext))
+            if (countWithCreateCtx == default(WithCountSpecimenContext))
                 return new NoSpecimen();
 
             var manyRequest = request as MultipleRequest;

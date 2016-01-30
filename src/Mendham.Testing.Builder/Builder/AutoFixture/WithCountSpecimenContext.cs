@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Mendham.Testing.Builder.AutoFixture
 {
-    public class CreateWithCountSpecimenContext : ISpecimenContext
+    public class WithCountSpecimenContext : ISpecimenContext
     {
         private readonly ISpecimenBuilder builder;
         private readonly int repeatCount;
         private bool isApplied;
 
-        public CreateWithCountSpecimenContext(ISpecimenBuilder builder, int repeatCount)
+        public WithCountSpecimenContext(ISpecimenBuilder builder, int repeatCount)
         {
             this.builder = builder
                 .VerifyArgumentNotDefaultValue(nameof(builder));

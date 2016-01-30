@@ -1,5 +1,6 @@
 ﻿using Mendham.Testing.Builder.AutoFixture;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -9,11 +10,13 @@ namespace Mendham.Testing.Builder
 {
     public static class ObjectCreationContextFactory
     {
-        // TODO Add concurrent factory to share object context within calling assembly
+        private static readonly ConcurrentDictionary<AssemblyName, IObjectCreationContext> occDictionary = 
+            new ConcurrentDictionary<AssemblyName, IObjectCreationContext>();
 
         public static IObjectCreationContext Create(Assembly assembly)
         {
-            return new AutoFixtureObjectCreationContext(assembly);
+            return occDictionary
+                .GetOrAdd(assembly.GetName(),  new AutoFixtureObjectCreationContext(assembly));
         }
     }
 }

@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 namespace Mendham.Testing
 {
     [AttributeUsage(AttributeTargets.Parameter, AllowMultiple = false)]
-    public class CreateWithCountAttribute : Attribute
+    public class WithCountAttribute : Attribute
     {
         private readonly int _count;
 
-        public CreateWithCountAttribute(int count)
+        public WithCountAttribute(int count)
         {
             _count = count
-                .VerifyArgumentRange(nameof(count), 0, null, "CreateWithCountAttribute count cannot be negative");
+                .VerifyArgumentRange(nameof(count), 0, null, "WithCountAttribute count cannot be negative");
         }
 
         internal object CreateObject(ParameterInfo parameterInfo, IFullObjectCreationContext objCreationCtx)

@@ -20,7 +20,7 @@ namespace Mendham.Testing.Builder.AutoFixture
             var builderRegistration = builderRegistrationManager.GetBuilderRegistration(callerAssembly);
 
             _fixture = new Fixture();
-            _fixture.Customizations.Add(new CreateWithCountBuilder());
+            _fixture.Customizations.Add(new WithCountBuilder());
             _fixture.Customizations.Add(new BuilderRegistrationSpecimenBuilder(builderRegistration));
         }
 
@@ -42,7 +42,7 @@ namespace Mendham.Testing.Builder.AutoFixture
 
         public object Create(ParameterInfo parameterInfo, int countForMultiple)
         {
-            var context = new CreateWithCountSpecimenContext(_fixture, countForMultiple);
+            var context = new WithCountSpecimenContext(_fixture, countForMultiple);
             return context.Resolve(parameterInfo);
         }
 

@@ -31,11 +31,11 @@ namespace Mendham.Testing
 
         private static object CreateObject(ParameterInfo parameterInfo, IFullObjectCreationContext objCreationCtx)
         {
-            var createWithCountAttribute = parameterInfo.GetCustomAttribute<CreateWithCountAttribute>();
+            var withCountAttribute = parameterInfo.GetCustomAttribute<WithCountAttribute>();
 
-            if (createWithCountAttribute != default(CreateWithCountAttribute))
+            if (withCountAttribute != default(WithCountAttribute))
             {
-                return createWithCountAttribute.CreateObject(parameterInfo, objCreationCtx);
+                return withCountAttribute.CreateObject(parameterInfo, objCreationCtx);
             }
             else
             {
