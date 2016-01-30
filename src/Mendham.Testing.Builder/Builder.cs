@@ -23,7 +23,7 @@ namespace Mendham.Testing
 			{
                 if (_objectCreationContext == default(IObjectCreationContext))
                 {
-                    _objectCreationContext = new ObjectCreationContext(typeof(Builder<T>).Assembly);
+                    _objectCreationContext = ObjectCreationContextFactory.Create(typeof(Builder<T>).Assembly);
                 }
 
                 return _objectCreationContext;

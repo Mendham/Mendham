@@ -8,13 +8,19 @@ using System.Threading.Tasks;
 
 namespace Mendham.Testing.Builder.AutoFixture
 {
-    public class AutoFixtureObjectCreationService : IUnregisteredObjectCreationService
+    public class AutoFixtureObjectCreationService : IObjectCreationContext
     {
         private readonly Fixture _fixture;
 
-        public AutoFixtureObjectCreationService(IBuilderRegistration builderRegistration)
+        private readonly static BuilderRegistrationManager builderRegistrationManager =
+            new BuilderRegistrationManager();
+
+        public AutoFixtureObjectCreationService(Assembly callerAssembly)
         {
+            var builderRegistration = builderRegistrationManager.GetBuilderRegistration(callerAssembly);
+
             _fixture = new Fixture();
+            _fixture.Customizations.Add(new CreateWithCountBuilder());
             _fixture.Customizations.Add(new BuilderRegistrationSpecimenBuilder(builderRegistration));
         }
 
@@ -31,6 +37,12 @@ namespace Mendham.Testing.Builder.AutoFixture
         public object Create(ParameterInfo parameterInfo)
         {
             var context = new SpecimenContext(_fixture);
+            return context.Resolve(parameterInfo);
+        }
+
+        public object Create(ParameterInfo parameterInfo, int countForMultiple)
+        {
+            var context = new CreateWithCountSpecimenContext(_fixture, countForMultiple);
             return context.Resolve(parameterInfo);
         }
 
