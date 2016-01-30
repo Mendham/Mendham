@@ -10,13 +10,9 @@ namespace Mendham.Testing.Builder
 {
     public static class ObjectCreationContextFactory
     {
-        private static readonly ConcurrentDictionary<AssemblyName, IObjectCreationContext> occDictionary = 
-            new ConcurrentDictionary<AssemblyName, IObjectCreationContext>();
-
         public static IObjectCreationContext Create(Assembly assembly)
         {
-            return occDictionary
-                .GetOrAdd(assembly.GetName(),  new AutoFixtureObjectCreationContext(assembly));
+            return new AutoFixtureObjectCreationContext(assembly);
         }
     }
 }

@@ -8,57 +8,71 @@ using System.Threading.Tasks;
 
 namespace Mendham.Testing.Builder.AutoFixture
 {
-    public class AutoFixtureObjectCreationContext : IFullObjectCreationContext
+    public class AutoFixtureObjectCreationContext : IObjectCreationContext
     {
-        private readonly Fixture _fixture;
+        private static readonly Fixture _fixture;
 
-        private readonly static BuilderRegistrationManager builderRegistrationManager =
-            new BuilderRegistrationManager();
-
-        public AutoFixtureObjectCreationContext(Assembly callerAssembly)
+        static AutoFixtureObjectCreationContext()
         {
-            var builderRegistration = builderRegistrationManager.GetBuilderRegistration(callerAssembly);
-
             _fixture = new Fixture();
             _fixture.Customizations.Add(new WithCountBuilder());
-            _fixture.Customizations.Add(new BuilderRegistrationSpecimenBuilder(builderRegistration));
+            _fixture.Customizations.Add(new BuilderRegistrationSpecimenBuilder());
+        }
+
+        private readonly Assembly callingAssembly;
+
+        public AutoFixtureObjectCreationContext(Assembly callingAssembly)
+        {
+            this.callingAssembly = callingAssembly
+                .VerifyArgumentNotDefaultValue(nameof(callingAssembly));
         }
 
         public T Create<T>()
         {
-            return _fixture.Create<T>();
+            return _fixture
+                .CreateContext(callingAssembly)
+                .Create<T>();
         }
 
         public T Create<T>(T seed)
         {
-            return _fixture.Create(seed);
+            return _fixture
+                .CreateContext(callingAssembly)
+                .Create(seed);
         }
 
         public object Create(ParameterInfo parameterInfo)
         {
-            var context = new SpecimenContext(_fixture);
-            return context.Resolve(parameterInfo);
+            return _fixture
+                .CreateContext(callingAssembly)
+                .Resolve(parameterInfo);
         }
 
         public object Create(ParameterInfo parameterInfo, int countForMultiple)
         {
-            var context = new WithCountSpecimenContext(_fixture, countForMultiple);
+            var context = new WithCountSpecimenContext(_fixture, callingAssembly, countForMultiple);
             return context.Resolve(parameterInfo);
         }
 
         public IEnumerable<T> CreateMany<T>()
         {
-            return _fixture.CreateMany<T>();
+            return _fixture
+                .CreateContext(callingAssembly)
+                .CreateMany<T>();
         }
 
         public IEnumerable<T> CreateMany<T>(T seed)
         {
-            return _fixture.CreateMany(seed);
+            return _fixture
+                .CreateContext(callingAssembly)
+                .CreateMany(seed);
         }
 
         public IEnumerable<T> CreateMany<T>(int count)
         {
-            return _fixture.CreateMany<T>(count);
+            return _fixture
+                .CreateContext(callingAssembly)
+                .CreateMany<T>(count);
         }
     }
 }

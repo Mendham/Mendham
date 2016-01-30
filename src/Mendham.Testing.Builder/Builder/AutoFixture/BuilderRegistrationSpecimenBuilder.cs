@@ -9,17 +9,22 @@ namespace Mendham.Testing.Builder.AutoFixture
 {
     public class BuilderRegistrationSpecimenBuilder : ISpecimenBuilder
     {
-        private readonly IBuilderRegistration builderRegistration;
-
-        public BuilderRegistrationSpecimenBuilder(IBuilderRegistration builderRegistration)
-        {
-            builderRegistration.VerifyArgumentNotDefaultValue("Builder Registration is required");
-
-            this.builderRegistration = builderRegistration;
-        }
+        private readonly static BuilderRegistrationManager builderRegistrationManager =
+            new BuilderRegistrationManager();
 
         public object Create(object request, ISpecimenContext context)
         {
+            return Create(request, context as IMendhamSpecimenContext);
+        }
+
+        private object Create(object request, IMendhamSpecimenContext context)
+        {
+            if (context == default(IMendhamSpecimenContext))
+            {
+                var errorMsg = $"{nameof(ISpecimenContext)} not of type {nameof(IMendhamSpecimenContext)} passed to {nameof(BuilderRegistrationSpecimenBuilder)}";
+                throw new InvalidOperationException(errorMsg);
+            }
+
             // If the type belongs to a known builder, then build it
             var type = request as Type;
 
@@ -27,7 +32,11 @@ namespace Mendham.Testing.Builder.AutoFixture
             {
                 return new NoSpecimen();
             }
-            else if (builderRegistration.IsTypeRegistered(type))
+
+            var builderRegistration = builderRegistrationManager
+                .GetBuilderRegistration(context.CallingAssembly);
+
+            if (builderRegistration.IsTypeRegistered(type))
             {
                 return builderRegistration.Build(type);
             }

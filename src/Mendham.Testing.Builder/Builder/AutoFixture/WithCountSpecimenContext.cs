@@ -2,20 +2,19 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Mendham.Testing.Builder.AutoFixture
 {
-    public class WithCountSpecimenContext : ISpecimenContext
+    public class WithCountSpecimenContext : MendhamSpecimenContext
     {
-        private readonly ISpecimenBuilder builder;
         private readonly int repeatCount;
         private bool isApplied;
 
-        public WithCountSpecimenContext(ISpecimenBuilder builder, int repeatCount)
+        public WithCountSpecimenContext(ISpecimenBuilder builder, Assembly callingAssembly, int repeatCount)
+            :base(builder, callingAssembly)
         {
-            this.builder = builder
-                .VerifyArgumentNotDefaultValue(nameof(builder));
             this.repeatCount = repeatCount
                 .VerifyArgumentRange(nameof(repeatCount), 0, null, "Repeat count cannot be negative");
 
@@ -24,17 +23,12 @@ namespace Mendham.Testing.Builder.AutoFixture
 
         public ISpecimenBuilder Builder
         {
-            get { return this.builder; }
+            get { return builder; }
         }
 
         public int RepeatCount
         {
-            get { return this.repeatCount; }
-        }
-
-        public object Resolve(object request)
-        {
-            return this.builder.Create(request, this);
+            get { return repeatCount; }
         }
 
         internal bool TryApply()
