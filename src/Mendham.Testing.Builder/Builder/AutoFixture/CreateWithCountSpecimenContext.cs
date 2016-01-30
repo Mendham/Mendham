@@ -10,6 +10,7 @@ namespace Mendham.Testing.Builder.AutoFixture
     {
         private readonly ISpecimenBuilder builder;
         private readonly int repeatCount;
+        private bool isApplied;
 
         public CreateWithCountSpecimenContext(ISpecimenBuilder builder, int repeatCount)
         {
@@ -17,6 +18,8 @@ namespace Mendham.Testing.Builder.AutoFixture
                 .VerifyArgumentNotDefaultValue(nameof(builder));
             this.repeatCount = repeatCount
                 .VerifyArgumentRange(nameof(repeatCount), 0, null, "Repeat count cannot be negative");
+
+            isApplied = false;
         }
 
         public ISpecimenBuilder Builder
@@ -32,6 +35,19 @@ namespace Mendham.Testing.Builder.AutoFixture
         public object Resolve(object request)
         {
             return this.builder.Create(request, this);
+        }
+
+        internal bool TryApply()
+        {
+            if (isApplied)
+            {
+                return false;
+            }
+            else
+            {
+                isApplied = true;
+                return true;
+            }
         }
     }
 }

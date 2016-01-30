@@ -1,4 +1,5 @@
-﻿using Ploeh.AutoFixture.Kernel;
+﻿using Ploeh.AutoFixture;
+using Ploeh.AutoFixture.Kernel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,9 @@ namespace Mendham.Testing.Builder.AutoFixture
             if (manyRequest == default(MultipleRequest))
                 return new NoSpecimen();
 
-            // TODO Check depth
+            // Only the first level should apply the count. The rest should use default
+            if (!countWithCreateCtx.TryApply())
+                return new NoSpecimen();
 
             return context.Resolve(new FiniteSequenceRequest(manyRequest.Request,
                 countWithCreateCtx.RepeatCount));
