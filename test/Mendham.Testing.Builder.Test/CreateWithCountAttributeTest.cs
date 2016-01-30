@@ -40,8 +40,8 @@ namespace Mendham.Testing.Builder.Test
         }
 
         [Theory, MendhamData]
-        public void CreateWithCount_ObjectContainingCollection_CollectionCountNotImpacted(
-            [CreateWithCount(15)]IEnumerable<ObjectNoBuilderWithCollection> values)
+        public void CreateWithCount_ClassThatDoesNotImplementIBuilder_CollectionCountNotImpacted(
+            [CreateWithCount(15)]IEnumerable<ClassThatDoesNotImplementIBuilder> values)
         {
             var sut = values.First();
 
