@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Mendham;
 using System.Text.RegularExpressions;
 
-namespace Mendham.Infrastructure.Dapper.Mapping
+namespace Mendham.Infrastructure.Connection.Mapping
 {
     internal abstract class ItemWithSingleFieldMapping<T> : SetMapping<T>
     {

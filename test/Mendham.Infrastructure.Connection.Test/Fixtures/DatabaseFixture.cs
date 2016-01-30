@@ -1,4 +1,4 @@
-﻿using Mendham.Infrastructure.Dapper.Test.Helpers;
+﻿using Mendham.Infrastructure.Connection.Test.Helpers;
 using Mendham.Testing;
 using System;
 using System.Collections.Generic;
@@ -12,12 +12,12 @@ using System.Threading.Tasks;
 using IDbConnection = global::System.Data.Common.DbConnection;
 #endif
 
-namespace Mendham.Infrastructure.Dapper.Test.Fixtures
+namespace Mendham.Infrastructure.Connection.Test.Fixtures
 {
     public class DatabaseFixture : Fixture<Func<IDbConnection>>, IDisposable
     {
         private const string INITIAL_CATALOG = "master";
-        private const string TEST_DATABASE = "MendhamDapperTest";
+        private const string TEST_DATABASE = "MendhamConnectionTest";
 
         public DatabaseFixture()
         {

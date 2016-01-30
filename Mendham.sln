@@ -34,13 +34,13 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Domain.Autofac.Test
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "infrastructure", "infrastructure", "{1EAA64F8-EA81-4CE2-96CE-0A6D02304E52}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Infrastructure.Dapper", "src\Mendham.Infrastructure.Dapper\Mendham.Infrastructure.Dapper.xproj", "{0FAA8D88-B43E-463A-9274-C0797ACAE8FF}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Infrastructure.Connection", "src\Mendham.Infrastructure.Connection\Mendham.Infrastructure.Connection.xproj", "{0FAA8D88-B43E-463A-9274-C0797ACAE8FF}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Testing.Domain", "src\Mendham.Testing.Domain\Mendham.Testing.Domain.xproj", "{9186B9F0-2691-412B-B3AA-2089A35DFC15}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Testing.Domain.Moq", "src\Mendham.Testing.Domain.Moq\Mendham.Testing.Domain.Moq.xproj", "{7F80A9E6-9490-4643-AF96-4A227B275810}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Infrastructure.Dapper.Test", "test\Mendham.Infrastructure.Dapper.Test\Mendham.Infrastructure.Dapper.Test.xproj", "{948AA4D9-D0FB-4700-8E0F-6E8D95FDA333}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Infrastructure.Connection.Test", "test\Mendham.Infrastructure.Connection.Test\Mendham.Infrastructure.Connection.Test.xproj", "{948AA4D9-D0FB-4700-8E0F-6E8D95FDA333}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "concurrency", "concurrency", "{BC1DD0E7-3123-4701-A68D-F6C1E9F015CD}"
 EndProject

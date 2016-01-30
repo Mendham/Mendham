@@ -1,5 +1,5 @@
 ﻿using Dapper;
-using Mendham.Infrastructure.Dapper.Mapping;
+using Mendham.Infrastructure.Connection.Mapping;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -13,7 +13,7 @@ using IDbTransaction = global::System.Data.Common.DbTransaction;
 using IDbCommand = global::System.Data.Common.DbCommand;
 #endif
 
-namespace Mendham.Infrastructure.Dapper
+namespace Mendham.Infrastructure.Connection
 {
     public class ConnectionWithSet : IDbConnection, IDisposable
     {

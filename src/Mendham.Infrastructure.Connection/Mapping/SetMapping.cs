@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Mendham.Infrastructure.Dapper.Mapping
+namespace Mendham.Infrastructure.Connection.Mapping
 {
     public abstract class SetMapping<T> : IConnectionWithSetMapping<T>
     {
@@ -25,7 +25,5 @@ namespace Mendham.Infrastructure.Dapper.Mapping
         public abstract string InsertItemSql { get; }
 
         public abstract dynamic GetParamForInsert(T item);
-
-       
     }
 }

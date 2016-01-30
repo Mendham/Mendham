@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 
-namespace Mendham.Infrastructure.Dapper
+namespace Mendham.Infrastructure.Connection
 {
     public abstract class ConnectionWithSetException : Exception
     {
