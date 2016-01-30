@@ -20,8 +20,13 @@ namespace Mendham.Testing.Builder.AutoFixture
 
         public object Create(object request, ISpecimenContext context)
         {
-            var pi = request as ParameterInfo;
+            var type = request as Type;
+            if (type != default(Type) && builderRegistration.IsTypeRegistered(type))
+            {
+                return builderRegistration.Build(type);
+            }
 
+            var pi = request as ParameterInfo;
             if (pi == default(ParameterInfo))
             {
                 return new NoSpecimen(request);
