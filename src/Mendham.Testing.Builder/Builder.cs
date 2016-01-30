@@ -36,7 +36,7 @@ namespace Mendham.Testing
             {
                 if (_objectCreationContext == null)
                 {
-                    _objectCreationContext = ObjectCreationContextFactory.Create(this.GetType().Assembly);
+                    _objectCreationContext = ObjectCreationContextFactory.CreateObjectCreationContext(this.GetType().Assembly);
                 }
 
                 return _objectCreationContext;

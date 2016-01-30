@@ -8,9 +8,14 @@ using System.Threading.Tasks;
 
 namespace Mendham.Testing.Builder
 {
-    public static class ObjectCreationContextFactory
+    internal static class ObjectCreationContextFactory
     {
-        public static IObjectCreationContext Create(Assembly assembly)
+        internal static IObjectCreationContext CreateObjectCreationContext(Assembly assembly)
+        {
+            return new AutoFixtureObjectCreationContext(assembly);
+        }
+
+        internal static IParameterInfoCreation CreateParameterInfoCreation(Assembly assembly)
         {
             return new AutoFixtureObjectCreationContext(assembly);
         }

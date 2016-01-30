@@ -14,8 +14,7 @@ namespace Mendham.Testing.Builder
         IEnumerable<T> CreateMany<T>();
         IEnumerable<T> CreateMany<T>(T seed);
         IEnumerable<T> CreateMany<T>(int count);
-
-        object Create(ParameterInfo parameterInfo);
-        object Create(ParameterInfo parameterInfo, int countForMultiple);
+        IEnumerable<T> CreateMany<T>(T seed, int count);
     }
+
 }

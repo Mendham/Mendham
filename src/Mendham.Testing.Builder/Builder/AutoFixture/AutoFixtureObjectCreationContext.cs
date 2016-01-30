@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Mendham.Testing.Builder.AutoFixture
 {
-    public class AutoFixtureObjectCreationContext : IObjectCreationContext
+    public class AutoFixtureObjectCreationContext : IObjectCreationContext, IParameterInfoCreation
     {
         private static readonly Fixture _fixture;
 
@@ -73,6 +73,13 @@ namespace Mendham.Testing.Builder.AutoFixture
             return _fixture
                 .CreateContext(callingAssembly)
                 .CreateMany<T>(count);
+        }
+
+        public IEnumerable<T> CreateMany<T>(T seed, int count)
+        {
+            return _fixture
+                .CreateContext(callingAssembly)
+                .CreateMany(seed, count);
         }
     }
 }

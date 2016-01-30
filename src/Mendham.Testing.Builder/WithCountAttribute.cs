@@ -18,9 +18,9 @@ namespace Mendham.Testing
                 .VerifyArgumentRange(nameof(count), 0, null, "WithCountAttribute count cannot be negative");
         }
 
-        internal object CreateObject(ParameterInfo parameterInfo, IObjectCreationContext objCreationCtx)
+        internal object CreateObject(ParameterInfo parameterInfo, IParameterInfoCreation parameterInfoCreation)
         {
-            return objCreationCtx.Create(parameterInfo, _count);
+            return parameterInfoCreation.Create(parameterInfo, _count);
         }
     }
 }

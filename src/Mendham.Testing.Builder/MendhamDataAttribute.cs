@@ -20,26 +20,26 @@ namespace Mendham.Testing
             testMethod.VerifyArgumentNotDefaultValue("Test method is required");
 
             var methodAssembly = testMethod.DeclaringType.Assembly;
-            var objCreationCtx = ObjectCreationContextFactory.Create(methodAssembly);
+            var parameterInfoCreation = ObjectCreationContextFactory.CreateParameterInfoCreation(methodAssembly);
 
             var parameters = testMethod.GetParameters()
-                .Select(a => CreateObject(a, objCreationCtx))
+                .Select(a => CreateObject(a, parameterInfoCreation))
                 .ToArray();
 
             return parameters.AsSingleItemEnumerable();
         }
 
-        private static object CreateObject(ParameterInfo parameterInfo, IObjectCreationContext objCreationCtx)
+        private static object CreateObject(ParameterInfo parameterInfo, IParameterInfoCreation parameterInfoCreation)
         {
             var withCountAttribute = parameterInfo.GetCustomAttribute<WithCountAttribute>();
 
             if (withCountAttribute != default(WithCountAttribute))
             {
-                return withCountAttribute.CreateObject(parameterInfo, objCreationCtx);
+                return withCountAttribute.CreateObject(parameterInfo, parameterInfoCreation);
             }
             else
             {
-                return objCreationCtx.Create(parameterInfo);
+                return parameterInfoCreation.Create(parameterInfo);
             }
         }
     }
