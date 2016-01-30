@@ -30,7 +30,7 @@ namespace Mendham.Infrastructure.Connection.Test.Helpers
         }
     }
 
-    public class CompositeIdMapping : SetMapping<CompositeId>
+    public class CompositeIdMapping : MendhamCollectionConnectionMapping<CompositeId>
     {
         public override string CreateTableSql
         {

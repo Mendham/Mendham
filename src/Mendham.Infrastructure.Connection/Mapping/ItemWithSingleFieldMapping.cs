@@ -7,7 +7,7 @@ using System.Text.RegularExpressions;
 
 namespace Mendham.Infrastructure.Connection.Mapping
 {
-    internal abstract class ItemWithSingleFieldMapping<T> : SetMapping<T>
+    internal abstract class ItemWithSingleFieldMapping<T> : MendhamCollectionConnectionMapping<T>
     {
         private readonly string _tableName;
         private readonly string _columnName;

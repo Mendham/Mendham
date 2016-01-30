@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Mendham.Infrastructure.Connection.Mapping
+﻿namespace Mendham.Infrastructure.Connection
 {
-    public abstract class SetMapping<T> : IConnectionWithSetMapping<T>
+    public abstract class MendhamCollectionConnectionMapping<T> : IMendhamCollectionConnectionMapping<T>
     {
         public virtual bool ItemIsValidPredicate(T item)
         {
@@ -16,7 +11,7 @@ namespace Mendham.Infrastructure.Connection.Mapping
         {
             get
             {
-                return "One or more items in set are qual to the default value of the type";
+                return "One or more items in set are equal to the default value of the type";
             }
         }
 

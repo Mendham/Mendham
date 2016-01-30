@@ -20,7 +20,7 @@ namespace Mendham.Infrastructure.Connection.Test
         [Fact]
         public async Task ConnectionWithSet_IntSet_AllSelectedValues()
         {
-            using (var conn = new ConnectionWithSet(Fixture.CreateSut()))
+            using (var conn = new MendhamCollectionConnection(Fixture.CreateSut()))
             {
                 await conn.OpenAsync(Fixture.KnownInts);
 
@@ -41,7 +41,7 @@ namespace Mendham.Infrastructure.Connection.Test
         [Fact]
         public async Task ConnectionWithSet_GuidSet_AllSelectedValues()
         {
-            using (var conn = new ConnectionWithSet(Fixture.CreateSut()))
+            using (var conn = new MendhamCollectionConnection(Fixture.CreateSut()))
             {
                 await conn.OpenAsync(Fixture.KnownGuids);
 
@@ -62,7 +62,7 @@ namespace Mendham.Infrastructure.Connection.Test
         [Fact]
         public async Task ConnectionWithSet_StringSet_AllSelectedValues()
         {
-            using (var conn = new ConnectionWithSet(Fixture.CreateSut()))
+            using (var conn = new MendhamCollectionConnection(Fixture.CreateSut()))
             {
                 await conn.OpenAsync(Fixture.KnownStrings);
 
@@ -84,7 +84,7 @@ namespace Mendham.Infrastructure.Connection.Test
         public async Task ConnectionWithSet_CompositeIdMapping_AllSelectedValues()
         {
             var mapping = Fixture.GetCompositeIdMapping();
-            using (var conn = new ConnectionWithSet(Fixture.CreateSut()))
+            using (var conn = new MendhamCollectionConnection(Fixture.CreateSut()))
             {
                 await conn.OpenAsync(Fixture.KnownCompositeIds, mapping);
 

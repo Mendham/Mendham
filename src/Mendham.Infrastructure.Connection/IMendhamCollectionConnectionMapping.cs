@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Mendham.Infrastructure.Connection
 {
-    public interface IConnectionWithSetMapping<T>
+    public interface IMendhamCollectionConnectionMapping<T>
     {
         /// <summary>
         /// Message to be returned when a set is invalid

@@ -15,7 +15,7 @@ using IDbCommand = global::System.Data.Common.DbCommand;
 
 namespace Mendham.Infrastructure.Connection
 {
-    public class ConnectionWithSet : IDbConnection, IDisposable
+    public class MendhamCollectionConnection : IDbConnection, IDisposable
     {
         private readonly IDbConnection _conn;
 
@@ -24,11 +24,11 @@ namespace Mendham.Infrastructure.Connection
 
         private string _setTableName;
 
-        public ConnectionWithSet(Func<IDbConnection> connectionFactory)
+        public MendhamCollectionConnection(Func<IDbConnection> connectionFactory)
             : this(connectionFactory())
         { }
 
-        public ConnectionWithSet(IDbConnection connection)
+        public MendhamCollectionConnection(IDbConnection connection)
         {
             connection.VerifyArgumentNotNull(nameof(connection))
                 .VerifyArgumentMeetsCriteria(nameof(connection), 
@@ -37,7 +37,7 @@ namespace Mendham.Infrastructure.Connection
             this._conn = connection;
         }
 
-        public async Task<ConnectionWithSet> OpenAsync<T>(IEnumerable<T> set, IConnectionWithSetMapping<T> mapping)
+        public async Task<MendhamCollectionConnection> OpenAsync<T>(IEnumerable<T> set, IMendhamCollectionConnectionMapping<T> mapping)
         {
             mapping.VerifyArgumentNotDefaultValue(nameof(mapping));
             set.VerifyArgumentMeetsCriteria(nameof(set), a => 
@@ -60,19 +60,19 @@ namespace Mendham.Infrastructure.Connection
             return this;
         }
 
-        public Task<ConnectionWithSet> OpenAsync(IEnumerable<int> set, string intTableName = DEFAULT_TABLE_NAME, 
+        public Task<MendhamCollectionConnection> OpenAsync(IEnumerable<int> set, string intTableName = DEFAULT_TABLE_NAME, 
             string intColName = DEFAULT_COLUMN_NAME)
         {
             return OpenAsync(set, new IntSetMapping(intTableName, intColName));
         }
 
-        public Task<ConnectionWithSet> OpenAsync(IEnumerable<Guid> set, string guidTableName = DEFAULT_TABLE_NAME,
+        public Task<MendhamCollectionConnection> OpenAsync(IEnumerable<Guid> set, string guidTableName = DEFAULT_TABLE_NAME,
             string guidColName = DEFAULT_COLUMN_NAME)
         {
             return OpenAsync(set, new GuidSetMapping(guidTableName, guidColName));
         }
 
-        public Task<ConnectionWithSet> OpenAsync(IEnumerable<string> set, string stringTableName = DEFAULT_TABLE_NAME,
+        public Task<MendhamCollectionConnection> OpenAsync(IEnumerable<string> set, string stringTableName = DEFAULT_TABLE_NAME,
             string stringColName = DEFAULT_COLUMN_NAME)
         {
             return OpenAsync(set, new StringSetMapping(stringTableName, stringColName));
