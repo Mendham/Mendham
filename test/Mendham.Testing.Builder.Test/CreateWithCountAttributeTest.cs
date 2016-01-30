@@ -49,13 +49,5 @@ namespace Mendham.Testing.Builder.Test
                 .NotBeEmpty("the anonymous builder should have populated it")
                 .And.Match(a => a.Count() != 15, "child collections should not be impacted by CreateWithCount");
         }
-
-        [Theory, MendhamData]
-        public void GarbageTest([CreateWithCount(100000)]IEnumerable<int> set1, [CreateWithCount(100000)]IEnumerable<int> set2)
-        {
-            var question = set1.Any(a => set2.Contains(a));
-
-            Assert.False(question);
-        }
     }
 }
