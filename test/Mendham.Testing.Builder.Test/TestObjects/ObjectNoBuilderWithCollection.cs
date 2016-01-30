@@ -5,9 +5,12 @@ using System.Threading.Tasks;
 
 namespace Mendham.Testing.Builder.Test.TestObjects
 {
-    public class ObjectContainingCollection
+    /// <summary>
+    /// This class does not have a builder associated with it
+    /// </summary>
+    public class ObjectNoBuilderWithCollection
     {
-        public ObjectContainingCollection()
+        public ObjectNoBuilderWithCollection()
         { }
 
         public IEnumerable<int> Collection {get; set;}

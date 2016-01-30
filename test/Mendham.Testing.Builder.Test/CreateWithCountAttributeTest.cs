@@ -18,7 +18,7 @@ namespace Mendham.Testing.Builder.Test
         }
 
         [Theory, MendhamData]
-        public void CreateWithCount_OthersNotUsing_OnlyImpactWhenApplied(IEnumerable<Guid> beforeVals, 
+        public void CreateWithCount_OthersNotUsing_OnlyImpactWhenApplied(IEnumerable<Guid> beforeVals,
             [CreateWithCount(13)]IEnumerable<Guid> values, IEnumerable<Guid> afterVals)
         {
             var beforeSutCount = beforeVals.Count();
@@ -41,13 +41,21 @@ namespace Mendham.Testing.Builder.Test
 
         [Theory, MendhamData]
         public void CreateWithCount_ObjectContainingCollection_CollectionCountNotImpacted(
-            [CreateWithCount(15)]IEnumerable<ObjectContainingCollection> values)
+            [CreateWithCount(15)]IEnumerable<ObjectNoBuilderWithCollection> values)
         {
             var sut = values.First();
 
             sut.Collection.Should()
                 .NotBeEmpty("the anonymous builder should have populated it")
                 .And.Match(a => a.Count() != 15, "child collections should not be impacted by CreateWithCount");
+        }
+
+        [Theory, MendhamData]
+        public void GarbageTest([CreateWithCount(100000)]IEnumerable<int> set1, [CreateWithCount(100000)]IEnumerable<int> set2)
+        {
+            var question = set1.Any(a => set2.Contains(a));
+
+            Assert.False(question);
         }
     }
 }

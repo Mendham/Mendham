@@ -55,5 +55,10 @@ namespace Mendham.Testing.Builder.AutoFixture
         {
             return _fixture.CreateMany(seed);
         }
+
+        public IEnumerable<T> CreateMany<T>(int count)
+        {
+            return _fixture.CreateMany<T>(count);
+        }
     }
 }

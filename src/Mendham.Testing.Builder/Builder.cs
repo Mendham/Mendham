@@ -53,7 +53,12 @@ namespace Mendham.Testing
 			return ObjectCreationContext.Create(seed);
 		}
 
-		public static implicit operator T(Builder<T> builder)
+        protected IEnumerable<TResult> CreateManyAnonymous<TResult>(int count)
+        {
+            return ObjectCreationContext.CreateMany<TResult>(count);
+        }
+
+        public static implicit operator T(Builder<T> builder)
 		{
 			return builder.Build();
 		}
