@@ -9,7 +9,7 @@ namespace Mendham.Testing
     /// Equality Comparer used to determine if two collections contain the same elements regardless of order
     /// </summary>
     /// <typeparam name="T">Type within collection to be evaluated</typeparam>
-	public class CollectionEquivalenceComparer<T> : IEqualityComparer<IEnumerable<T>>
+	public class OrderAgnosticComparer<T> : IEqualityComparer<IEnumerable<T>>
 		where T : IEquatable<T>
 	{
 		public bool Equals(IEnumerable<T> x, IEnumerable<T> y)
@@ -45,11 +45,11 @@ namespace Mendham.Testing
         /// <summary>
         /// Returns a CollectionEquivalenceComparer for use in comparing sets
         /// </summary>
-		public static CollectionEquivalenceComparer<T> Default
+		public static OrderAgnosticComparer<T> Default
 		{ 
 			get
 			{
-				return new CollectionEquivalenceComparer<T>();
+				return new OrderAgnosticComparer<T>();
 			}
 		}
 	}
