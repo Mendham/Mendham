@@ -25,7 +25,7 @@ namespace Mendham.Infrastructure.Dapper
         public ConnectionWithSet(IDbConnection connection, IConnectionWithSetMapping<T> mapping)
         {
             connection.VerifyArgumentNotNull(nameof(connection))
-                .VerifyArgumentMeetsCriteria(nameof(connection), a => a.State == ConnectionState.Closed, "Connection must not be closed before wrapping");
+                .VerifyArgumentMeetsCriteria(a => a.State == ConnectionState.Closed, nameof(connection), "Connection must not be closed before wrapping");
             mapping.VerifyArgumentNotDefaultValue(nameof(mapping));
 
             this._conn = connection;
@@ -34,8 +34,8 @@ namespace Mendham.Infrastructure.Dapper
 
         public async Task<ConnectionWithSet<T>> OpenAsync(IEnumerable<T> set)
         {
-            set.VerifyArgumentMeetsCriteria(nameof(set), a => 
-                a.All(_mapping.ItemIsValidPredicate), _mapping.InvalidSetErrorMessage);
+            set.VerifyArgumentMeetsCriteria(a =>
+                a.All(_mapping.ItemIsValidPredicate), nameof(set), _mapping.InvalidSetErrorMessage);
 
             await OpenConnectionAsync();
             await _conn.ExecuteAsync(_mapping.CreateTableSql);

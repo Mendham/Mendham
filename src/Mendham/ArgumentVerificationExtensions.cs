@@ -136,29 +136,30 @@ namespace Mendham
         /// Throws an ArgumentException if string is not within the correct minimum and/or maximum length or if string is null
         /// </summary>
         /// <param name="str">String to test</param>
-        /// <param name="paramName">Name of parameter</param>
         /// <param name="minimum">Minimum length (if null, there is no minimum)</param>
         /// <param name="maximum">Maximum length (if null, there is no maximum)</param>
+        /// <param name="paramName">Name of parameter</param>
         /// <param name="message">Message to display if string is not within the correct minimum and/or maximum length or if string is null</param>
         /// <returns></returns>
         [DebuggerStepThrough]
-		public static string VerifyArgumentLength(this string str, string paramName, int? minimum, int? maximum, string message = null)
-		{
-            return str.VerifyArgumentLength(paramName, minimum, maximum, false, message);
+		public static string VerifyArgumentLength(this string str, int? minimum, int? maximum, string paramName, string message = null)
+        {
+            return str.VerifyArgumentLength(minimum, maximum, false, paramName, message);
 		}
 
         /// <summary>
 		/// Throws an ArgumentException if string is not within the correct minimum and/or maximum length or if string is null
 		/// </summary>
 		/// <param name="str">String to test</param>
-        /// <param name="paramName">Name of parameter</param>
-		/// <param name="minimum">Minimum length (if null, there is no minimum)</param>
+        /// <param name="minimum">Minimum length (if null, there is no minimum)</param>
 		/// <param name="maximum">Maximum length (if null, there is no maximum)</param>
 		/// <param name="trimStringFirst">Trim string prior to checking minimum and maximum (default = true)</param>
+		/// <param name="paramName">Name of parameter</param>
+		/// <param name="paramName">Name of parameter</param>
 		/// <param name="message">Message to display if string is not within the correct minimum and/or maximum length or if string is null</param>
 		/// <returns></returns>
 		[DebuggerStepThrough]
-        public static string VerifyArgumentLength(this string str, string paramName, int? minimum, int? maximum, bool trimStringFirst, string message = null)
+        public static string VerifyArgumentLength(this string str, int? minimum, int? maximum, bool trimStringFirst, string paramName, string message = null)
         {
             var localStr = str.VerifyArgumentNotNull(paramName, message);
 
@@ -172,11 +173,11 @@ namespace Mendham
                 return str;
             }
 
-            var msg = BuildStringArgumentLengthMessage(str, paramName, minimum, maximum, trimStringFirst, message);
+            var msg = BuildStringArgumentLengthMessage(str, minimum, maximum, trimStringFirst, paramName, message);
             throw new ArgumentException(msg, paramName);
         }
 
-        private static string BuildStringArgumentLengthMessage(string str, string paramName, int? minimum, int? maximum, bool trimStringFirst, string message)
+        private static string BuildStringArgumentLengthMessage(string str, int? minimum, int? maximum, bool trimStringFirst, string paramName, string message)
         {
             var msgSb = new StringBuilder("The length of the string was not within the permitted range.");
             msgSb.AppendLine();
@@ -214,13 +215,13 @@ namespace Mendham
 		/// Throws an ArgumentException if int is not within the correct range
 		/// </summary>
 		/// <param name="num">Int to test</param>
-        /// <param name="paramName">Name of parameter</param>
-		/// <param name="minimum">Minimum value (if null, there is no minimum)</param>
+        /// <param name="minimum">Minimum value (if null, there is no minimum)</param>
 		/// <param name="maximum">Maximum value (if null, there is no maximum)</param>
+		/// <param name="paramName">Name of parameter</param>
 		/// <param name="message">Message to display if int is not within the correct range (optional)</param>
 		/// <returns></returns>
 		[DebuggerStepThrough]
-        public static int VerifyArgumentRange(this int num, string paramName, int? minimum, int? maximum, string message = null)
+        public static int VerifyArgumentRange(this int num, int? minimum, int? maximum, string paramName, string message = null)
         {
             if ((!minimum.HasValue || num >= minimum) && (!maximum.HasValue || num <= maximum))
             {
@@ -253,13 +254,13 @@ namespace Mendham
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="obj">Value to test</param>
-        /// <param name="paramName">Name of parameter</param>
         /// <param name="acceptanceCriteria">Criteria for the value to be valid</param>
+        /// <param name="paramName">Name of parameter</param>
         /// <param name="message">Message to display if acceptance criteria is not met</param>
         /// <returns></returns>
         [DebuggerStepThrough]
-		public static T VerifyArgumentMeetsCriteria<T>(this T obj, string paramName, Func<T, bool> acceptanceCriteria, string message)
-		{
+		public static T VerifyArgumentMeetsCriteria<T>(this T obj, Func<T, bool> acceptanceCriteria, string paramName, string message)
+        {
             if(!acceptanceCriteria(obj))
             {
                 throw new ArgumentException(message, paramName);

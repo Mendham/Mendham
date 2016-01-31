@@ -15,7 +15,7 @@ namespace Mendham.Testing
         public WithCountAttribute(int count)
         {
             _count = count
-                .VerifyArgumentRange(nameof(count), 0, null, "WithCountAttribute count cannot be negative");
+                .VerifyArgumentRange(0, null, nameof(count), "WithCountAttribute count cannot be negative");
         }
 
         internal object CreateObject(ParameterInfo parameterInfo, IParameterInfoCreation parameterInfoCreation)

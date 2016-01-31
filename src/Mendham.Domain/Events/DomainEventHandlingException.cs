@@ -64,12 +64,12 @@ namespace Mendham.Domain.Events
 		{
 			domainEventHandlingExceptions
 				.VerifyArgumentNotNullOrEmpty(nameof(domainEventHandlingExceptions), "The exceptions passed cannot be null or empty")
-				.VerifyArgumentMeetsCriteria(nameof(domainEventHandlingExceptions), 
-                    a => a.Count() > 1, "AggregateDomainEventHandlingException more than one exception")
-				.VerifyArgumentMeetsCriteria(nameof(domainEventHandlingExceptions), a => a
-					.Select(b => b.DomainEvent)
-					.Distinct()
-					.Count() == 1, "The exceptions passed do not all have a matching domain event");
+				.VerifyArgumentMeetsCriteria(a => a.Count() > 1,
+                nameof(domainEventHandlingExceptions), "AggregateDomainEventHandlingException more than one exception")
+                .VerifyArgumentMeetsCriteria(a => a
+                    .Select(b => b.DomainEvent)
+                    .Distinct()
+                    .Count() == 1, nameof(domainEventHandlingExceptions), "The exceptions passed do not all have a matching domain event");
 
 			this.DomainEvent = firstException.DomainEvent;
 			this.DomainEventHandlerType = firstException.DomainEventHandlerType;

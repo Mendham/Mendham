@@ -13,8 +13,8 @@ namespace Mendham.Testing
         internal DomainEventVerificationException(int timesCalled, TimesRaised timesExpected, string userMessage= null)
 			: base(MessageText(typeof(TDomainEvent), timesCalled, timesExpected, userMessage))
 		{
-            timesCalled.VerifyArgumentMeetsCriteria(nameof(timesCalled),
-                a => a >= 0, "Times called must be a positive value");
+            timesCalled.VerifyArgumentMeetsCriteria(a => a >= 0,
+                nameof(timesCalled), "Times called must be a positive value");
             timesExpected.VerifyArgumentNotDefaultValue(nameof(timesExpected));
 
             this.TimesCalled = timesCalled;

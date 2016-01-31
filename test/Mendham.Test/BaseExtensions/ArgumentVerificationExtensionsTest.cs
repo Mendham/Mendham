@@ -357,7 +357,7 @@ namespace Mendham.Test.BaseExtensions
         [InlineMendhamData(" test  ", 1, 5, true)]
         public void VerifyArgumentLength_ValidCase_Passes(string val, int? minimum, int? maximum, bool trimFirst)
         {
-            var result = val.VerifyArgumentLength(nameof(val), minimum, maximum, trimFirst);
+            var result = val.VerifyArgumentLength(minimum, maximum, trimFirst, nameof(val));
 
             result.Should().Be(val);
         }
@@ -369,7 +369,7 @@ namespace Mendham.Test.BaseExtensions
         [InlineMendhamData(" test  ", 1, 5, true)]
         public void VerifyArgumentLength_ValidCaseWithMessage_Passes(string val, int? minimum, int? maximum, bool trimFirst, string msg)
         {
-            var result = val.VerifyArgumentLength(nameof(val), minimum, maximum, trimFirst, msg);
+            var result = val.VerifyArgumentLength(minimum, maximum, trimFirst, nameof(val));
 
             result.Should().Be(val);
         }
@@ -383,7 +383,7 @@ namespace Mendham.Test.BaseExtensions
         {
             string val = null;
 
-            Action act = () => val.VerifyArgumentLength(nameof(val), minimum, maximum, trimFirst);
+            Action act = () => val.VerifyArgumentLength(minimum, maximum, trimFirst, nameof(val));
 
             act.ShouldThrow<ArgumentNullException>()
                 .And.ParamName.ShouldBeEquivalentTo(nameof(val));
@@ -398,7 +398,7 @@ namespace Mendham.Test.BaseExtensions
         {
             string val = null;
 
-            Action act = () => val.VerifyArgumentLength(nameof(val), minimum, maximum, trimFirst, msg);
+            Action act = () => val.VerifyArgumentLength(minimum, maximum, trimFirst, nameof(val), msg);
 
             act.ShouldThrow<ArgumentNullException>()
                 .Where(a => a.Message.StartsWith(msg))
@@ -412,7 +412,7 @@ namespace Mendham.Test.BaseExtensions
         [InlineMendhamData(" test  ", 5, 10, true)]
         public void VerifyArgumentLength_InvalidCase_ThrowsArgumentException(string val, int? minimum, int? maximum, bool trimFirst)
         {
-            Action act = () => val.VerifyArgumentLength(nameof(val), minimum, maximum, trimFirst);
+            Action act = () => val.VerifyArgumentLength(minimum, maximum, trimFirst, nameof(val));
 
             act.ShouldThrow<ArgumentException>()
                 .And.ParamName.ShouldBeEquivalentTo(nameof(val));
@@ -425,7 +425,7 @@ namespace Mendham.Test.BaseExtensions
         [InlineMendhamData(" test  ", 5, 10, true)]
         public void VerifyArgumentLength_InvalidCaseWithMessage_ThrowsArgumentException(string val, int? minimum, int? maximum, bool trimFirst, string msg)
         {
-            Action act = () => val.VerifyArgumentLength(nameof(val), minimum, maximum, trimFirst, msg);
+            Action act = () => val.VerifyArgumentLength(minimum, maximum, trimFirst, nameof(val), msg);
 
             act.ShouldThrow<ArgumentException>()
                 .Where(a => a.Message.Contains(msg))
@@ -443,7 +443,7 @@ namespace Mendham.Test.BaseExtensions
         [InlineMendhamData(1, 1, null)]
         public void VerifyArgumentRange_ValidCase_Passes(int val, int? minimum, int? maximum)
         {
-            var result = val.VerifyArgumentRange(nameof(val), minimum, maximum);
+            var result = val.VerifyArgumentRange(minimum, maximum, nameof(val));
 
             result.Should().Be(val);
         }
@@ -459,7 +459,7 @@ namespace Mendham.Test.BaseExtensions
         [InlineMendhamData(1, 1, null)]
         public void VerifyArgumentRange_ValidCaseWithMessage_Passes(int val, int? minimum, int? maximum, string msg)
         {
-            var result = val.VerifyArgumentRange(nameof(val), minimum, maximum, msg);
+            var result = val.VerifyArgumentRange(minimum, maximum, nameof(val), msg);
 
             result.Should().Be(val);
         }
@@ -473,7 +473,7 @@ namespace Mendham.Test.BaseExtensions
         [InlineMendhamData(-1, 1, null)]
         public void VerifyArgumentRange_InvalidCase_ThrowsArgumentOutOfRangeException(int val, int? minimum, int? maximum)
         {
-            Action act = () => val.VerifyArgumentRange(nameof(val), minimum, maximum);
+            Action act = () => val.VerifyArgumentRange(minimum, maximum, nameof(val));
 
             act.ShouldThrow<ArgumentOutOfRangeException>()
                 .Where(a => Equals(a.ActualValue, val))
@@ -489,7 +489,7 @@ namespace Mendham.Test.BaseExtensions
         [InlineMendhamData(-1, 1, null)]
         public void VerifyArgumentRange_InvalidCaseWithMessage_ThrowsArgumentOutOfRangeException(int val, int? minimum, int? maximum, string msg)
         {
-            Action act = () => val.VerifyArgumentRange(nameof(val), minimum, maximum, msg);
+            Action act = () => val.VerifyArgumentRange(minimum, maximum, nameof(val), msg);
 
             act.ShouldThrow<ArgumentOutOfRangeException>()
                 .Where(a => Equals(a.ActualValue, val))
@@ -501,7 +501,7 @@ namespace Mendham.Test.BaseExtensions
         [MendhamData]
         public void VerifyArgumentMeetsCriteria_ValidCriteria_Passes(int val, string msg)
         {
-            var result = val.VerifyArgumentMeetsCriteria(nameof(val), a => true, msg);
+            var result = val.VerifyArgumentMeetsCriteria(a => true, nameof(val), msg);
 
             result.Should().Be(val);
         }
@@ -510,7 +510,7 @@ namespace Mendham.Test.BaseExtensions
         [MendhamData]
         public void VerifyArgumentMeetsCriteria_InvalidCriteria_ThrowsArgumentException(string val, string msg)
         {
-            Action act = () => val.VerifyArgumentMeetsCriteria(nameof(val), a => false, msg);
+            Action act = () => val.VerifyArgumentMeetsCriteria(a => false, nameof(val), msg);
 
             act.ShouldThrow<ArgumentException>()
                 .Where(a => a.Message.Contains(msg))
