@@ -31,7 +31,27 @@ namespace Mendham
             {
                 throw new ArgumentNullException(paramName, message);
             }
-		}
+        }
+
+        /// <summary>
+		/// Throws an ArgumentException if value is null
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="obj">Value to test</param>
+        /// <param name="customException">Exception to throw when verification fails</param>
+		/// <returns></returns>
+		[DebuggerStepThrough]
+        public static T VerifyArgumentNotNull<T>(this T obj, Func<Exception> customException)
+        {
+            if (obj != null)
+            {
+                return obj;
+            }
+            else
+            {
+                throw customException();
+            }
+        }
 
         /// <summary>
         /// Throws an ArgumentException if object is null or default value.
@@ -60,6 +80,24 @@ namespace Mendham
         }
 
         /// <summary>
+        /// Throws an ArgumentException if object is null or default value.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="tObj">Value to test</param>
+        /// <param name="customException">Exception to throw when verification fails</param>
+        /// <returns></returns>
+        [DebuggerStepThrough]
+        public static T VerifyArgumentNotDefaultValue<T>(this T tObj, Func<Exception> customException)
+        {
+            if (!Equals(tObj, default(T)))
+            {
+                return tObj;
+            }
+
+            throw customException();
+        }
+
+        /// <summary>
         /// Throws an ArgumentException if enumerable is null or empty
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -83,6 +121,28 @@ namespace Mendham
 
             throw new ArgumentException(message, paramName);
 		}
+
+        /// <summary>
+        /// Throws an ArgumentException if enumerable is null or empty
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="tEnumerable">Enumerable to test</param>
+        /// <param name="customException">Exception to throw when verification fails</param>
+        /// <returns></returns>
+        [DebuggerStepThrough]
+        public static IEnumerable<T> VerifyArgumentNotNullOrEmpty<T>(this IEnumerable<T> tEnumerable, Func<Exception> customException)
+        {
+            tEnumerable.VerifyArgumentNotNull(customException);
+
+            if (tEnumerable.Any())
+            {
+                return tEnumerable;
+            }
+            else 
+            {
+                throw customException();
+            }
+        }
 
         /// <summary>
         /// Throws an ArgumentException if string is null or empty
@@ -109,6 +169,23 @@ namespace Mendham
 		}
 
         /// <summary>
+        /// Throws an ArgumentException if string is null or empty
+        /// </summary>
+        /// <param name="str">String to test</param>
+        /// <param name="customException">Exception to throw when verification fails</param>
+        /// <returns></returns>
+        [DebuggerStepThrough]
+        public static string VerifyArgumentNotNullOrEmpty(this string str, Func<Exception> customException)
+        {
+            if (string.IsNullOrEmpty(str))
+            {
+                throw customException();
+            }
+
+            return str;
+        }
+
+        /// <summary>
         /// Throws an ArgumentException if string is null or white-space
         /// </summary>
         /// <param name="str">String to test</param>
@@ -133,34 +210,87 @@ namespace Mendham
 		}
 
         /// <summary>
+        /// Throws an ArgumentException if string is null or white-space
+        /// </summary>
+        /// <param name="str">String to test</param>
+        /// <param name="customException">Exception to throw when verification fails</param>
+        /// <returns></returns>
+        [DebuggerStepThrough]
+        public static string VerifyArgumentNotNullOrWhiteSpace(this string str, Func<Exception> customException)
+        {
+            if (string.IsNullOrWhiteSpace(str))
+            {
+                throw customException();
+            }
+
+            return str;
+        }
+
+        /// <summary>
         /// Throws an ArgumentException if string is not within the correct minimum and/or maximum length or if string is null
         /// </summary>
         /// <param name="str">String to test</param>
-        /// <param name="paramName">Name of parameter</param>
         /// <param name="minimum">Minimum length (if null, there is no minimum)</param>
         /// <param name="maximum">Maximum length (if null, there is no maximum)</param>
+        /// <param name="paramName">Name of parameter</param>
         /// <param name="message">Message to display if string is not within the correct minimum and/or maximum length or if string is null</param>
         /// <returns></returns>
         [DebuggerStepThrough]
-		public static string VerifyArgumentLength(this string str, string paramName, int? minimum, int? maximum, string message = null)
-		{
-            return str.VerifyArgumentLength(paramName, minimum, maximum, false, message);
+		public static string VerifyArgumentLength(this string str, int? minimum, int? maximum, string paramName, string message = null)
+        {
+            return str.VerifyArgumentLength(minimum, maximum, false, paramName, message);
 		}
+
+        /// <summary>
+        /// Throws an ArgumentException if string is not within the correct minimum and/or maximum length or if string is null
+        /// </summary>
+        /// <param name="str">String to test</param>
+        /// <param name="minimum">Minimum length (if null, there is no minimum)</param>
+        /// <param name="maximum">Maximum length (if null, there is no maximum)</param>
+        /// <param name="customException">Exception to throw when verification fails</param>
+        /// <returns></returns>
+        [DebuggerStepThrough]
+        public static string VerifyArgumentLength(this string str, int? minimum, int? maximum, Func<Exception> customException)
+        {
+            return str.VerifyArgumentLength(minimum, maximum, false, customException);
+        }
 
         /// <summary>
 		/// Throws an ArgumentException if string is not within the correct minimum and/or maximum length or if string is null
 		/// </summary>
 		/// <param name="str">String to test</param>
-        /// <param name="paramName">Name of parameter</param>
-		/// <param name="minimum">Minimum length (if null, there is no minimum)</param>
+        /// <param name="minimum">Minimum length (if null, there is no minimum)</param>
 		/// <param name="maximum">Maximum length (if null, there is no maximum)</param>
 		/// <param name="trimStringFirst">Trim string prior to checking minimum and maximum (default = true)</param>
+		/// <param name="paramName">Name of parameter</param>
 		/// <param name="message">Message to display if string is not within the correct minimum and/or maximum length or if string is null</param>
 		/// <returns></returns>
 		[DebuggerStepThrough]
-        public static string VerifyArgumentLength(this string str, string paramName, int? minimum, int? maximum, bool trimStringFirst, string message = null)
+        public static string VerifyArgumentLength(this string str, int? minimum, int? maximum, bool trimStringFirst, string paramName, string message = null)
         {
-            var localStr = str.VerifyArgumentNotNull(paramName, message);
+            Func<Exception> exBuilder = () =>
+            {
+                var msg = BuildStringArgumentLengthMessage(str, minimum, maximum, trimStringFirst, paramName, message);
+                throw new ArgumentException(msg, paramName);
+            };
+
+            return str.VerifyArgumentNotNull(paramName, message)
+                .VerifyArgumentLength(minimum, maximum, trimStringFirst, exBuilder);
+        }
+
+        /// <summary>
+        /// Throws an ArgumentException if string is not within the correct minimum and/or maximum length or if string is null
+        /// </summary>
+        /// <param name="str">String to test</param>
+        /// <param name="minimum">Minimum length (if null, there is no minimum)</param>
+        /// <param name="maximum">Maximum length (if null, there is no maximum)</param>
+        /// <param name="trimStringFirst">Trim string prior to checking minimum and maximum (default = true)</param>
+        /// <param name="customException">Exception to throw when verification fails</param>length or if string is null</param>
+        /// <returns></returns>
+        [DebuggerStepThrough]
+        public static string VerifyArgumentLength(this string str, int? minimum, int? maximum, bool trimStringFirst, Func<Exception> customException)
+        {
+            var localStr = str.VerifyArgumentNotNull(customException);
 
             if (trimStringFirst && str != null)
             {
@@ -172,11 +302,10 @@ namespace Mendham
                 return str;
             }
 
-            var msg = BuildStringArgumentLengthMessage(str, paramName, minimum, maximum, trimStringFirst, message);
-            throw new ArgumentException(msg, paramName);
+            throw customException();
         }
 
-        private static string BuildStringArgumentLengthMessage(string str, string paramName, int? minimum, int? maximum, bool trimStringFirst, string message)
+        private static string BuildStringArgumentLengthMessage(string str, int? minimum, int? maximum, bool trimStringFirst, string paramName, string message)
         {
             var msgSb = new StringBuilder("The length of the string was not within the permitted range.");
             msgSb.AppendLine();
@@ -214,38 +343,57 @@ namespace Mendham
 		/// Throws an ArgumentException if int is not within the correct range
 		/// </summary>
 		/// <param name="num">Int to test</param>
-        /// <param name="paramName">Name of parameter</param>
-		/// <param name="minimum">Minimum value (if null, there is no minimum)</param>
+        /// <param name="minimum">Minimum value (if null, there is no minimum)</param>
 		/// <param name="maximum">Maximum value (if null, there is no maximum)</param>
+		/// <param name="paramName">Name of parameter</param>
 		/// <param name="message">Message to display if int is not within the correct range (optional)</param>
 		/// <returns></returns>
 		[DebuggerStepThrough]
-        public static int VerifyArgumentRange(this int num, string paramName, int? minimum, int? maximum, string message = null)
+        public static int VerifyArgumentRange(this int num, int? minimum, int? maximum, string paramName, string message = null)
+        {
+            Func<ArgumentOutOfRangeException> exBuilder = () =>
+            {
+                var msgSb = new StringBuilder("The value is not within the permitted range");
+                msgSb.AppendLine();
+                msgSb.AppendLine($"Value: '{num}'");
+
+                if (minimum.HasValue)
+                {
+                    msgSb.AppendLine($"Minimum value: {minimum.Value}");
+                }
+                if (maximum.HasValue)
+                {
+                    msgSb.AppendLine($"Maximum value: {maximum.Value}");
+                }
+                if (!string.IsNullOrWhiteSpace(message))
+                {
+                    msgSb.AppendLine();
+                    msgSb.AppendLine($"ADDITIONAL INFORMATION: {message}");
+                }
+
+                throw new ArgumentOutOfRangeException(paramName, num, msgSb.ToString());
+            };
+
+            return num.VerifyArgumentRange(minimum, maximum, exBuilder);
+        }
+
+        /// <summary>
+        /// Throws an ArgumentException if int is not within the correct range
+        /// </summary>
+        /// <param name="num">Int to test</param>
+        /// <param name="minimum">Minimum value (if null, there is no minimum)</param>
+        /// <param name="maximum">Maximum value (if null, there is no maximum)</param>
+        /// <param name="customException">Exception to throw when verification fails</param>length or if string is null</param>
+        /// <returns></returns>
+        [DebuggerStepThrough]
+        public static int VerifyArgumentRange(this int num, int? minimum, int? maximum, Func<Exception> customException)
         {
             if ((!minimum.HasValue || num >= minimum) && (!maximum.HasValue || num <= maximum))
             {
                 return num;
             }
 
-            var msgSb = new StringBuilder("The value is not within the permitted range");
-            msgSb.AppendLine();
-            msgSb.AppendLine($"Value: '{num}'");
-
-            if (minimum.HasValue)
-            {
-                msgSb.AppendLine($"Minimum value: {minimum.Value}");
-            }
-            if (maximum.HasValue)
-            {
-                msgSb.AppendLine($"Maximum value: {maximum.Value}");
-            }
-            if (!string.IsNullOrWhiteSpace(message))
-            {
-                msgSb.AppendLine();
-                msgSb.AppendLine($"ADDITIONAL INFORMATION: {message}");
-            }
-
-            throw new ArgumentOutOfRangeException(paramName, num, msgSb.ToString());
+            throw customException();
         }
 
         /// <summary>
@@ -253,16 +401,30 @@ namespace Mendham
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="obj">Value to test</param>
-        /// <param name="paramName">Name of parameter</param>
         /// <param name="acceptanceCriteria">Criteria for the value to be valid</param>
+        /// <param name="paramName">Name of parameter</param>
         /// <param name="message">Message to display if acceptance criteria is not met</param>
         /// <returns></returns>
         [DebuggerStepThrough]
-		public static T VerifyArgumentMeetsCriteria<T>(this T obj, string paramName, Func<T, bool> acceptanceCriteria, string message)
-		{
-            if(!acceptanceCriteria(obj))
+		public static T VerifyArgumentMeetsCriteria<T>(this T obj, Func<T, bool> acceptanceCriteria, string paramName, string message)
+        {
+            return obj.VerifyArgumentMeetsCriteria(acceptanceCriteria, () => new ArgumentException(message, paramName));
+        }
+
+        /// <summary>
+        /// Throws an ArgumentException if acceptance criteria is not met
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj">Value to test</param>
+        /// <param name="acceptanceCriteria">Criteria for the value to be valid</param>
+        /// <param name="customException">Exception to throw when verification fails</param>length or if string is null</param>
+        /// <returns></returns>
+        [DebuggerStepThrough]
+        public static T VerifyArgumentMeetsCriteria<T>(this T obj, Func<T, bool> acceptanceCriteria, Func<Exception> customException)
+        {
+            if (!acceptanceCriteria(obj))
             {
-                throw new ArgumentException(message, paramName);
+                throw customException();
             }
 
             return obj;

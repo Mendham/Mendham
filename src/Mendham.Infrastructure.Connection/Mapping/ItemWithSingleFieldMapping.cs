@@ -17,9 +17,9 @@ namespace Mendham.Infrastructure.Connection.Mapping
         public ItemWithSingleFieldMapping(string tableName, string columnName)
         {
             tableName.VerifyArgumentNotNullOrWhiteSpace(nameof(tableName), "Table name is required")
-                .VerifyArgumentMeetsCriteria(nameof(tableName), 
-                    a => TableNameRegex.IsMatch(a), 
-                    "Table name must be a valid temporary table name");
+                .VerifyArgumentMeetsCriteria(a => TableNameRegex.IsMatch(a),
+                nameof(tableName),
+                "Table name must be a valid temporary table name");
             columnName.VerifyArgumentNotNullOrWhiteSpace(nameof(columnName), "Column name is required");
 
             this._tableName = tableName;

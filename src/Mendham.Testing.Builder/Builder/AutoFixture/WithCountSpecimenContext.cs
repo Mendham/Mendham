@@ -12,7 +12,7 @@ namespace Mendham.Testing.Builder.AutoFixture
             :base(builder, callingAssembly)
         {
             this.repeatCount = repeatCount
-                .VerifyArgumentRange(nameof(repeatCount), 0, null, "Repeat count cannot be negative");
+                .VerifyArgumentRange(0, null, nameof(repeatCount), "Repeat count cannot be negative");
 
             isApplied = false;
         }

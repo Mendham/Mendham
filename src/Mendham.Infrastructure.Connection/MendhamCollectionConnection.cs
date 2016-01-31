@@ -31,8 +31,8 @@ namespace Mendham.Infrastructure.Connection
         public MendhamCollectionConnection(IDbConnection connection)
         {
             connection.VerifyArgumentNotNull(nameof(connection))
-                .VerifyArgumentMeetsCriteria(nameof(connection), 
-                    a => a.State == ConnectionState.Closed,  "Connection must not be closed before wrapping");
+                .VerifyArgumentMeetsCriteria(a => a.State == ConnectionState.Closed, nameof(connection),
+                    "Connection must not be closed before wrapping");
 
             this._conn = connection;
         }
@@ -40,8 +40,8 @@ namespace Mendham.Infrastructure.Connection
         public async Task<MendhamCollectionConnection> OpenAsync<T>(IEnumerable<T> set, IMendhamCollectionConnectionMapping<T> mapping)
         {
             mapping.VerifyArgumentNotDefaultValue(nameof(mapping));
-            set.VerifyArgumentMeetsCriteria(nameof(set), a => 
-                a.All(mapping.ItemIsValidPredicate), mapping.InvalidSetErrorMessage);
+            set.VerifyArgumentMeetsCriteria(a => a.All(mapping.ItemIsValidPredicate), nameof(set), 
+                mapping.InvalidSetErrorMessage);
 
             // Validate connection is in a valid state to be opened
             if (_conn.State != ConnectionState.Closed)

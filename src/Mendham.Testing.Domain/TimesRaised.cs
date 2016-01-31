@@ -70,7 +70,7 @@ namespace Mendham.Testing
 
         public static TimesRaised AtLeast(int timesRaised)
         {
-            timesRaised.VerifyArgumentMeetsCriteria(nameof(timesRaised), a => a > 0, "Times raised must be at least 1");
+            timesRaised.VerifyArgumentMeetsCriteria(a => a > 0, nameof(timesRaised), "Times raised must be at least 1");
 
             if (timesRaised == 1)
                 return AtLeastOnce;
@@ -80,7 +80,7 @@ namespace Mendham.Testing
 
         public static TimesRaised AtMost(int timesRaised)
         {
-            timesRaised.VerifyArgumentMeetsCriteria(nameof(timesRaised), a => a >= 0, "Times raised must not be a negative number");
+            timesRaised.VerifyArgumentMeetsCriteria(a => a >= 0, nameof(timesRaised), "Times raised must not be a negative number");
 
             if (timesRaised == 0)
                 return Never;
@@ -93,10 +93,10 @@ namespace Mendham.Testing
 
         public static TimesRaised Between(int minTimesRaised, int maxTimesRaised)
         {
-            minTimesRaised.VerifyArgumentMeetsCriteria(nameof(minTimesRaised), a => a >= 0,
+            minTimesRaised.VerifyArgumentMeetsCriteria(a => a >= 0, nameof(minTimesRaised),
                 "Minimum times raised must be at least 0");
-            maxTimesRaised.VerifyArgumentMeetsCriteria(nameof(maxTimesRaised), a => a >= minTimesRaised,
-                    "Maximum time raised cannot be less than minimum times raised");
+            maxTimesRaised.VerifyArgumentMeetsCriteria(a => a >= minTimesRaised, nameof(maxTimesRaised),
+                "Maximum time raised cannot be less than minimum times raised");
 
             if (minTimesRaised == maxTimesRaised)
                 return Exactly(minTimesRaised);
@@ -106,7 +106,7 @@ namespace Mendham.Testing
 
         public static TimesRaised Exactly(int timesRaised)
         {
-            timesRaised.VerifyArgumentMeetsCriteria(nameof(timesRaised), a => a >= 0, 
+            timesRaised.VerifyArgumentMeetsCriteria(a => a >= 0, nameof(timesRaised),
                 "Times raised cannot be a negative number");
 
             switch (timesRaised)

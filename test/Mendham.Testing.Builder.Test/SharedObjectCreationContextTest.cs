@@ -12,7 +12,7 @@ namespace Mendham.Testing.Builder.Test
     {
         // The purpose of this test is to verify that that the values from MendhamData
         // and the values created by builders share the same context and will not have
-        // numbers that repeat when the builder and test are in the same project
+        // numbers that repeat
         [Theory, MendhamData]
         public void SharedContext_ParamterAndInMethod_NoSharedValues
             ([WithCount(250)]IEnumerable<int> setFromParameter)
