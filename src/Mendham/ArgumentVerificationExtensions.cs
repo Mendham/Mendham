@@ -31,7 +31,7 @@ namespace Mendham
             {
                 throw new ArgumentNullException(paramName, message);
             }
-		}
+        }
 
         /// <summary>
 		/// Throws an ArgumentException if value is null
@@ -43,7 +43,14 @@ namespace Mendham
 		[DebuggerStepThrough]
         public static T VerifyArgumentNotNull<T>(this T obj, Func<Exception> customException)
         {
-            throw new NotImplementedException();
+            if (obj != null)
+            {
+                return obj;
+            }
+            else
+            {
+                throw customException();
+            }
         }
 
         /// <summary>
@@ -82,7 +89,12 @@ namespace Mendham
         [DebuggerStepThrough]
         public static T VerifyArgumentNotDefaultValue<T>(this T tObj, Func<Exception> customException)
         {
-            throw new NotImplementedException();
+            if (!Equals(tObj, default(T)))
+            {
+                return tObj;
+            }
+
+            throw customException();
         }
 
         /// <summary>
@@ -120,9 +132,17 @@ namespace Mendham
         [DebuggerStepThrough]
         public static IEnumerable<T> VerifyArgumentNotNullOrEmpty<T>(this IEnumerable<T> tEnumerable, Func<Exception> customException)
         {
-            throw new NotImplementedException();
-        }
+            tEnumerable.VerifyArgumentNotNull(customException);
 
+            if (tEnumerable.Any())
+            {
+                return tEnumerable;
+            }
+            else 
+            {
+                throw customException();
+            }
+        }
 
         /// <summary>
         /// Throws an ArgumentException if string is null or empty
@@ -157,7 +177,12 @@ namespace Mendham
         [DebuggerStepThrough]
         public static string VerifyArgumentNotNullOrEmpty(this string str, Func<Exception> customException)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrEmpty(str))
+            {
+                throw customException();
+            }
+
+            return str;
         }
 
         /// <summary>
@@ -193,7 +218,12 @@ namespace Mendham
         [DebuggerStepThrough]
         public static string VerifyArgumentNotNullOrWhiteSpace(this string str, Func<Exception> customException)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(str))
+            {
+                throw customException();
+            }
+
+            return str;
         }
 
         /// <summary>
@@ -222,7 +252,7 @@ namespace Mendham
         [DebuggerStepThrough]
         public static string VerifyArgumentLength(this string str, int? minimum, int? maximum, Func<Exception> customException)
         {
-            throw new NotImplementedException();
+            return str.VerifyArgumentLength(minimum, maximum, false, customException);
         }
 
         /// <summary>
@@ -238,20 +268,14 @@ namespace Mendham
 		[DebuggerStepThrough]
         public static string VerifyArgumentLength(this string str, int? minimum, int? maximum, bool trimStringFirst, string paramName, string message = null)
         {
-            var localStr = str.VerifyArgumentNotNull(paramName, message);
-
-            if (trimStringFirst && str != null)
+            Func<Exception> exBuilder = () =>
             {
-                localStr = str.Trim();
-            }
+                var msg = BuildStringArgumentLengthMessage(str, minimum, maximum, trimStringFirst, paramName, message);
+                throw new ArgumentException(msg, paramName);
+            };
 
-            if ((!minimum.HasValue || localStr.Length >= minimum) && (!maximum.HasValue || localStr.Length <= maximum))
-            {
-                return str;
-            }
-
-            var msg = BuildStringArgumentLengthMessage(str, minimum, maximum, trimStringFirst, paramName, message);
-            throw new ArgumentException(msg, paramName);
+            return str.VerifyArgumentNotNull(paramName, message)
+                .VerifyArgumentLength(minimum, maximum, trimStringFirst, exBuilder);
         }
 
         /// <summary>
@@ -266,7 +290,19 @@ namespace Mendham
         [DebuggerStepThrough]
         public static string VerifyArgumentLength(this string str, int? minimum, int? maximum, bool trimStringFirst, Func<Exception> customException)
         {
-            throw new NotImplementedException();
+            var localStr = str.VerifyArgumentNotNull(customException);
+
+            if (trimStringFirst && str != null)
+            {
+                localStr = str.Trim();
+            }
+
+            if ((!minimum.HasValue || localStr.Length >= minimum) && (!maximum.HasValue || localStr.Length <= maximum))
+            {
+                return str;
+            }
+
+            throw customException();
         }
 
         private static string BuildStringArgumentLengthMessage(string str, int? minimum, int? maximum, bool trimStringFirst, string paramName, string message)
@@ -315,30 +351,30 @@ namespace Mendham
 		[DebuggerStepThrough]
         public static int VerifyArgumentRange(this int num, int? minimum, int? maximum, string paramName, string message = null)
         {
-            if ((!minimum.HasValue || num >= minimum) && (!maximum.HasValue || num <= maximum))
+            Func<ArgumentOutOfRangeException> exBuilder = () =>
             {
-                return num;
-            }
-
-            var msgSb = new StringBuilder("The value is not within the permitted range");
-            msgSb.AppendLine();
-            msgSb.AppendLine($"Value: '{num}'");
-
-            if (minimum.HasValue)
-            {
-                msgSb.AppendLine($"Minimum value: {minimum.Value}");
-            }
-            if (maximum.HasValue)
-            {
-                msgSb.AppendLine($"Maximum value: {maximum.Value}");
-            }
-            if (!string.IsNullOrWhiteSpace(message))
-            {
+                var msgSb = new StringBuilder("The value is not within the permitted range");
                 msgSb.AppendLine();
-                msgSb.AppendLine($"ADDITIONAL INFORMATION: {message}");
-            }
+                msgSb.AppendLine($"Value: '{num}'");
 
-            throw new ArgumentOutOfRangeException(paramName, num, msgSb.ToString());
+                if (minimum.HasValue)
+                {
+                    msgSb.AppendLine($"Minimum value: {minimum.Value}");
+                }
+                if (maximum.HasValue)
+                {
+                    msgSb.AppendLine($"Maximum value: {maximum.Value}");
+                }
+                if (!string.IsNullOrWhiteSpace(message))
+                {
+                    msgSb.AppendLine();
+                    msgSb.AppendLine($"ADDITIONAL INFORMATION: {message}");
+                }
+
+                throw new ArgumentOutOfRangeException(paramName, num, msgSb.ToString());
+            };
+
+            return num.VerifyArgumentRange(minimum, maximum, exBuilder);
         }
 
         /// <summary>
@@ -352,7 +388,12 @@ namespace Mendham
         [DebuggerStepThrough]
         public static int VerifyArgumentRange(this int num, int? minimum, int? maximum, Func<Exception> customException)
         {
-            throw new NotImplementedException();
+            if ((!minimum.HasValue || num >= minimum) && (!maximum.HasValue || num <= maximum))
+            {
+                return num;
+            }
+
+            throw customException();
         }
 
         /// <summary>
@@ -367,12 +408,7 @@ namespace Mendham
         [DebuggerStepThrough]
 		public static T VerifyArgumentMeetsCriteria<T>(this T obj, Func<T, bool> acceptanceCriteria, string paramName, string message)
         {
-            if(!acceptanceCriteria(obj))
-            {
-                throw new ArgumentException(message, paramName);
-            }
-
-            return obj;
+            return obj.VerifyArgumentMeetsCriteria(acceptanceCriteria, () => new ArgumentException(message, paramName));
         }
 
         /// <summary>
@@ -386,7 +422,12 @@ namespace Mendham
         [DebuggerStepThrough]
         public static T VerifyArgumentMeetsCriteria<T>(this T obj, Func<T, bool> acceptanceCriteria, Func<Exception> customException)
         {
-            throw new NotImplementedException();
+            if (!acceptanceCriteria(obj))
+            {
+                throw customException();
+            }
+
+            return obj;
         }
     }
 }
