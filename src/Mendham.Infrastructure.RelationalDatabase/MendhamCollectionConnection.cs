@@ -1,5 +1,5 @@
 ﻿using Dapper;
-using Mendham.Infrastructure.RelationalDatabase.Mapping;
+using Mendham.Infrastructure.RelationalDatabase.SqlServer.BuiltInMapping;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -37,7 +37,7 @@ namespace Mendham.Infrastructure.RelationalDatabase
             this._conn = connection;
         }
 
-        public async Task<MendhamCollectionConnection> OpenAsync<T>(IEnumerable<T> set, IMendhamCollectionConnectionMapping<T> mapping)
+        public async Task<MendhamCollectionConnection> OpenAsync<T>(IEnumerable<T> set, IItemLoaderMapping<T> mapping)
         {
             mapping.VerifyArgumentNotDefaultValue(nameof(mapping));
             set.VerifyArgumentMeetsCriteria(a => a.All(mapping.ItemIsValidPredicate), nameof(set), 
@@ -63,19 +63,19 @@ namespace Mendham.Infrastructure.RelationalDatabase
         public Task<MendhamCollectionConnection> OpenAsync(IEnumerable<int> set, string intTableName = DEFAULT_TABLE_NAME, 
             string intColName = DEFAULT_COLUMN_NAME)
         {
-            return OpenAsync(set, new IntSetMapping(intTableName, intColName));
+            return OpenAsync(set, new IntMapping(intTableName, intColName));
         }
 
         public Task<MendhamCollectionConnection> OpenAsync(IEnumerable<Guid> set, string guidTableName = DEFAULT_TABLE_NAME,
             string guidColName = DEFAULT_COLUMN_NAME)
         {
-            return OpenAsync(set, new GuidSetMapping(guidTableName, guidColName));
+            return OpenAsync(set, new GuidMapping(guidTableName, guidColName));
         }
 
         public Task<MendhamCollectionConnection> OpenAsync(IEnumerable<string> set, string stringTableName = DEFAULT_TABLE_NAME,
             string stringColName = DEFAULT_COLUMN_NAME)
         {
-            return OpenAsync(set, new StringSetMapping(stringTableName, stringColName));
+            return OpenAsync(set, new NVarchar100Mapping(stringTableName, stringColName));
         }
 
         private async Task OpenConnectionAsync()

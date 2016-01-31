@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Mendham.Infrastructure.RelationalDatabase.Mapping
+namespace Mendham.Infrastructure.RelationalDatabase.SqlServer.BuiltInMapping
 {
-    internal class GuidSetMapping : ItemWithSingleFieldMapping<Guid>
+    public class GuidMapping : TSqlSingleFieldMapping<Guid>
     {
         private const string GUID_TYPE = "UNIQUEIDENTIFIER";
 
-        public GuidSetMapping(string tableName, string columnName)
-            : base(tableName, columnName)
+        public GuidMapping(string tableName, string columnName) : base(tableName, columnName)
         { }
 
         protected override string TSqlType

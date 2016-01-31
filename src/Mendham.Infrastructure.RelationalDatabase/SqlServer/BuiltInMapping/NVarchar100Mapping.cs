@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Mendham.Infrastructure.RelationalDatabase.Mapping
+namespace Mendham.Infrastructure.RelationalDatabase.SqlServer.BuiltInMapping
 {
-    internal class StringSetMapping : ItemWithSingleFieldMapping<string>
+    public class NVarchar100Mapping : TSqlSingleFieldMapping<string>
     {
         private const int MAX_STRING_LENGTH = 100;
-        private readonly string STRING_TYPE = "NVARCHAR(" + MAX_STRING_LENGTH + ")";
+        private readonly string STRING_TYPE = $"NVARCHAR({MAX_STRING_LENGTH})";
 
-        public StringSetMapping(string tableName, string columnName)
-            : base(tableName, columnName)
+        public NVarchar100Mapping(string tableName, string columnName) : base(tableName, columnName)
         { }
 
         protected override string TSqlType
@@ -28,7 +27,7 @@ namespace Mendham.Infrastructure.RelationalDatabase.Mapping
         {
             get
             {
-                return string.Format("One or more string in set is either null or exceeds the max length of {0}.", MAX_STRING_LENGTH);
+                return $"One or more string in set is either null or exceeds the max length of {MAX_STRING_LENGTH}.";
             }
         }
     }

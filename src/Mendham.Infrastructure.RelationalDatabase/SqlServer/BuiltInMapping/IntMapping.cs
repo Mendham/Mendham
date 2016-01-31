@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Mendham.Infrastructure.RelationalDatabase.Mapping
+namespace Mendham.Infrastructure.RelationalDatabase.SqlServer.BuiltInMapping
 {
-    internal class IntSetMapping : ItemWithSingleFieldMapping<int>
+    public class IntMapping : TSqlSingleFieldMapping<int>
     {
         private const string INT_TYPE = "INT";
 
-        public IntSetMapping(string tableName, string columnName)
-            : base(tableName, columnName)
+        public IntMapping(string tableName, string columnName) : base(tableName, columnName)
         { }
 
         protected override string TSqlType

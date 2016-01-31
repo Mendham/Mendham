@@ -1,4 +1,4 @@
-﻿using Mendham.Infrastructure.RelationalDatabase.Mapping;
+﻿using Mendham.Infrastructure.RelationalDatabase.SqlServer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +30,7 @@ namespace Mendham.Infrastructure.RelationalDatabase.Test.Helpers
         }
     }
 
-    public class CompositeIdMapping : MendhamCollectionConnectionMapping<CompositeId>
+    public class CompositeIdMapping : SqlServerItemLoaderMapping<CompositeId>
     {
         public override string CreateTableSql
         {

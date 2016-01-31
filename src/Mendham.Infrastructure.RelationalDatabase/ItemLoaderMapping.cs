@@ -1,6 +1,6 @@
 ﻿namespace Mendham.Infrastructure.RelationalDatabase
 {
-    public abstract class MendhamCollectionConnectionMapping<T> : IMendhamCollectionConnectionMapping<T>
+    public abstract class ItemLoaderMapping<T> : IItemLoaderMapping<T>
     {
         public virtual bool ItemIsValidPredicate(T item)
         {
@@ -18,6 +18,7 @@
         public abstract string CreateTableSql { get; }
         public abstract string TableName { get; }
         public abstract string InsertItemSql { get; }
+        public abstract string DropTableSql { get; }
 
         public abstract dynamic GetParamForInsert(T item);
     }

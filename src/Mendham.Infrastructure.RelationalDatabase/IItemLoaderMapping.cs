@@ -5,15 +5,15 @@ using System.Threading.Tasks;
 
 namespace Mendham.Infrastructure.RelationalDatabase
 {
-    public interface IMendhamCollectionConnectionMapping<T>
+    public interface IItemLoaderMapping<T>
     {
         /// <summary>
-        /// Message to be returned when a set is invalid
+        /// Message to be returned when a items are invalid
         /// </summary>
         string InvalidSetErrorMessage { get; }
 
         /// <summary>
-        /// Sql statement to create temporary table that holds set values
+        /// Sql statement to create temporary table that holds values
         /// </summary>
         string CreateTableSql { get; }
 
@@ -26,6 +26,11 @@ namespace Mendham.Infrastructure.RelationalDatabase
         /// Parameterized statement to insert item into temporary table
         /// </summary>
         string InsertItemSql { get; }
+
+        /// <summary>
+        /// Sql statement to drop temporary table that holds values
+        /// </summary>
+        string DropTableSql { get; }
 
         /// <summary>
         /// Test to make sure an item in a set is valid (for example not the default value)

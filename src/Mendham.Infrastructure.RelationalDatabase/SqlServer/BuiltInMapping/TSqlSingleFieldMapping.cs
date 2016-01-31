@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Mendham;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
-namespace Mendham.Infrastructure.RelationalDatabase.Mapping
+namespace Mendham.Infrastructure.RelationalDatabase.SqlServer.BuiltInMapping
 {
-    internal abstract class ItemWithSingleFieldMapping<T> : MendhamCollectionConnectionMapping<T>
+    public abstract class TSqlSingleFieldMapping<T> : SqlServerItemLoaderMapping<T>
     {
         private readonly string _tableName;
         private readonly string _columnName;
 
         private static readonly Regex TableNameRegex = new Regex("^(#|@)[^#@].*", RegexOptions.Compiled);
 
-        public ItemWithSingleFieldMapping(string tableName, string columnName)
+        internal TSqlSingleFieldMapping(string tableName, string columnName)
         {
             tableName.VerifyArgumentNotNullOrWhiteSpace(nameof(tableName), "Table name is required")
                 .VerifyArgumentMeetsCriteria(a => TableNameRegex.IsMatch(a),
@@ -32,8 +27,7 @@ namespace Mendham.Infrastructure.RelationalDatabase.Mapping
         {
             get
             {
-                return string.Format("CREATE TABLE {0} ({1} {2})",
-                    _tableName, _columnName, TSqlType);
+                return $"CREATE TABLE {_tableName} ({_columnName} {TSqlType})";
             }
         }
 
@@ -49,7 +43,7 @@ namespace Mendham.Infrastructure.RelationalDatabase.Mapping
         {
             get
             {
-                return string.Format("INSERT INTO {0} VALUES (@value)", _tableName);
+                return $"INSERT INTO {_tableName} VALUES (@value)";
             }
         }
 
