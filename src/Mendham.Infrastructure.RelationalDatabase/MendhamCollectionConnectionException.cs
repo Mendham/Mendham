@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 
-namespace Mendham.Infrastructure.Connection
+namespace Mendham.Infrastructure.RelationalDatabase
 {
     public abstract class MendhamCollectionConnectionException : Exception
     {

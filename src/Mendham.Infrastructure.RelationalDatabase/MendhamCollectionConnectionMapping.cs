@@ -1,4 +1,4 @@
-﻿namespace Mendham.Infrastructure.Connection
+﻿namespace Mendham.Infrastructure.RelationalDatabase
 {
     public abstract class MendhamCollectionConnectionMapping<T> : IMendhamCollectionConnectionMapping<T>
     {

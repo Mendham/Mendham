@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Mendham.Infrastructure.Connection.Mapping
+namespace Mendham.Infrastructure.RelationalDatabase.Mapping
 {
     internal class GuidSetMapping : ItemWithSingleFieldMapping<Guid>
     {

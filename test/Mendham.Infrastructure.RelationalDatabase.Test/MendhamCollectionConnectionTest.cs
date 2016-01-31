@@ -1,6 +1,6 @@
 ﻿using Dapper;
-using Mendham.Infrastructure.Connection.Test.Fixtures;
-using Mendham.Infrastructure.Connection.Test.Helpers;
+using Mendham.Infrastructure.RelationalDatabase.Test.Fixtures;
+using Mendham.Infrastructure.RelationalDatabase.Test.Helpers;
 using Mendham.Testing;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Mendham.Infrastructure.Connection.Test
+namespace Mendham.Infrastructure.RelationalDatabase.Test
 {
     public class ConnectionWithSetTest : UnitTest<DatabaseFixture>
     {

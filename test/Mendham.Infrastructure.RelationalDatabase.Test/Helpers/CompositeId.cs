@@ -1,10 +1,10 @@
-﻿using Mendham.Infrastructure.Connection.Mapping;
+﻿using Mendham.Infrastructure.RelationalDatabase.Mapping;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Mendham.Infrastructure.Connection.Test.Helpers
+namespace Mendham.Infrastructure.RelationalDatabase.Test.Helpers
 {
     public class CompositeId : IEquatable<CompositeId>
     {

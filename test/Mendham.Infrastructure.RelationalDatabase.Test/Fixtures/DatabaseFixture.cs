@@ -1,4 +1,4 @@
-﻿using Mendham.Infrastructure.Connection.Test.Helpers;
+﻿using Mendham.Infrastructure.RelationalDatabase.Test.Helpers;
 using Mendham.Testing;
 using System;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using IDbConnection = global::System.Data.Common.DbConnection;
 #endif
 
-namespace Mendham.Infrastructure.Connection.Test.Fixtures
+namespace Mendham.Infrastructure.RelationalDatabase.Test.Fixtures
 {
     public class DatabaseFixture : Fixture<Func<IDbConnection>>, IDisposable
     {

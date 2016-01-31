@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Mendham;
 using System.Text.RegularExpressions;
 
-namespace Mendham.Infrastructure.Connection.Mapping
+namespace Mendham.Infrastructure.RelationalDatabase.Mapping
 {
     internal abstract class ItemWithSingleFieldMapping<T> : MendhamCollectionConnectionMapping<T>
     {
