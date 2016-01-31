@@ -34,6 +34,19 @@ namespace Mendham
 		}
 
         /// <summary>
+		/// Throws an ArgumentException if value is null
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="obj">Value to test</param>
+        /// <param name="customException">Exception to throw when verification fails</param>
+		/// <returns></returns>
+		[DebuggerStepThrough]
+        public static T VerifyArgumentNotNull<T>(this T obj, Func<Exception> customException)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         /// Throws an ArgumentException if object is null or default value.
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -57,6 +70,19 @@ namespace Mendham
             }
 
             throw new ArgumentException(message, paramName);
+        }
+
+        /// <summary>
+        /// Throws an ArgumentException if object is null or default value.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="tObj">Value to test</param>
+        /// <param name="customException">Exception to throw when verification fails</param>
+        /// <returns></returns>
+        [DebuggerStepThrough]
+        public static T VerifyArgumentNotDefaultValue<T>(this T tObj, Func<Exception> customException)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -85,6 +111,20 @@ namespace Mendham
 		}
 
         /// <summary>
+        /// Throws an ArgumentException if enumerable is null or empty
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="tEnumerable">Enumerable to test</param>
+        /// <param name="customException">Exception to throw when verification fails</param>
+        /// <returns></returns>
+        [DebuggerStepThrough]
+        public static IEnumerable<T> VerifyArgumentNotNullOrEmpty<T>(this IEnumerable<T> tEnumerable, Func<Exception> customException)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        /// <summary>
         /// Throws an ArgumentException if string is null or empty
         /// </summary>
         /// <param name="str">String to test</param>
@@ -107,6 +147,18 @@ namespace Mendham
 
             throw new ArgumentException(message, paramName);
 		}
+
+        /// <summary>
+        /// Throws an ArgumentException if string is null or empty
+        /// </summary>
+        /// <param name="str">String to test</param>
+        /// <param name="customException">Exception to throw when verification fails</param>
+        /// <returns></returns>
+        [DebuggerStepThrough]
+        public static string VerifyArgumentNotNullOrEmpty(this string str, Func<Exception> customException)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Throws an ArgumentException if string is null or white-space
@@ -133,6 +185,18 @@ namespace Mendham
 		}
 
         /// <summary>
+        /// Throws an ArgumentException if string is null or white-space
+        /// </summary>
+        /// <param name="str">String to test</param>
+        /// <param name="customException">Exception to throw when verification fails</param>
+        /// <returns></returns>
+        [DebuggerStepThrough]
+        public static string VerifyArgumentNotNullOrWhiteSpace(this string str, Func<Exception> customException)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         /// Throws an ArgumentException if string is not within the correct minimum and/or maximum length or if string is null
         /// </summary>
         /// <param name="str">String to test</param>
@@ -148,13 +212,26 @@ namespace Mendham
 		}
 
         /// <summary>
+        /// Throws an ArgumentException if string is not within the correct minimum and/or maximum length or if string is null
+        /// </summary>
+        /// <param name="str">String to test</param>
+        /// <param name="minimum">Minimum length (if null, there is no minimum)</param>
+        /// <param name="maximum">Maximum length (if null, there is no maximum)</param>
+        /// <param name="customException">Exception to throw when verification fails</param>
+        /// <returns></returns>
+        [DebuggerStepThrough]
+        public static string VerifyArgumentLength(this string str, int? minimum, int? maximum, Func<Exception> customException)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
 		/// Throws an ArgumentException if string is not within the correct minimum and/or maximum length or if string is null
 		/// </summary>
 		/// <param name="str">String to test</param>
         /// <param name="minimum">Minimum length (if null, there is no minimum)</param>
 		/// <param name="maximum">Maximum length (if null, there is no maximum)</param>
 		/// <param name="trimStringFirst">Trim string prior to checking minimum and maximum (default = true)</param>
-		/// <param name="paramName">Name of parameter</param>
 		/// <param name="paramName">Name of parameter</param>
 		/// <param name="message">Message to display if string is not within the correct minimum and/or maximum length or if string is null</param>
 		/// <returns></returns>
@@ -175,6 +252,21 @@ namespace Mendham
 
             var msg = BuildStringArgumentLengthMessage(str, minimum, maximum, trimStringFirst, paramName, message);
             throw new ArgumentException(msg, paramName);
+        }
+
+        /// <summary>
+        /// Throws an ArgumentException if string is not within the correct minimum and/or maximum length or if string is null
+        /// </summary>
+        /// <param name="str">String to test</param>
+        /// <param name="minimum">Minimum length (if null, there is no minimum)</param>
+        /// <param name="maximum">Maximum length (if null, there is no maximum)</param>
+        /// <param name="trimStringFirst">Trim string prior to checking minimum and maximum (default = true)</param>
+        /// <param name="customException">Exception to throw when verification fails</param>length or if string is null</param>
+        /// <returns></returns>
+        [DebuggerStepThrough]
+        public static string VerifyArgumentLength(this string str, int? minimum, int? maximum, bool trimStringFirst, Func<Exception> customException)
+        {
+            throw new NotImplementedException();
         }
 
         private static string BuildStringArgumentLengthMessage(string str, int? minimum, int? maximum, bool trimStringFirst, string paramName, string message)
@@ -250,6 +342,20 @@ namespace Mendham
         }
 
         /// <summary>
+        /// Throws an ArgumentException if int is not within the correct range
+        /// </summary>
+        /// <param name="num">Int to test</param>
+        /// <param name="minimum">Minimum value (if null, there is no minimum)</param>
+        /// <param name="maximum">Maximum value (if null, there is no maximum)</param>
+        /// <param name="customException">Exception to throw when verification fails</param>length or if string is null</param>
+        /// <returns></returns>
+        [DebuggerStepThrough]
+        public static int VerifyArgumentRange(this int num, int? minimum, int? maximum, Func<Exception> customException)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         /// Throws an ArgumentException if acceptance criteria is not met
         /// </summary>
         /// <typeparam name="T"></typeparam>
@@ -267,6 +373,20 @@ namespace Mendham
             }
 
             return obj;
+        }
+
+        /// <summary>
+        /// Throws an ArgumentException if acceptance criteria is not met
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj">Value to test</param>
+        /// <param name="acceptanceCriteria">Criteria for the value to be valid</param>
+        /// <param name="customException">Exception to throw when verification fails</param>length or if string is null</param>
+        /// <returns></returns>
+        [DebuggerStepThrough]
+        public static T VerifyArgumentMeetsCriteria<T>(this T obj, Func<T, bool> acceptanceCriteria, Func<Exception> customException)
+        {
+            throw new NotImplementedException();
         }
     }
 }
