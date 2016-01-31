@@ -15,7 +15,7 @@ namespace Mendham.Testing.Moq
         /// <typeparam name="TResult">Type of results returned by setup</typeparam>
         /// <param name="setup">Setup of mock</param>
         /// <param name="results">Additional items to be returned</param>
-		public static void ReturnItems<T, TResult>(this ISetup<T, IEnumerable<TResult>> setup, params TResult[] results)
+		public static void ReturnsItems<T, TResult>(this ISetup<T, IEnumerable<TResult>> setup, params TResult[] results)
             where T : class
         {
             setup.Returns(results);
@@ -28,7 +28,7 @@ namespace Mendham.Testing.Moq
         /// <typeparam name="TResult">Type of results returned by setup</typeparam>
         /// <param name="setup">Setup of mock</param>
         /// <param name="results">Additional items to be returned</param>
-		public static void ReturnItemsAsync<T, TResult>(this ISetup<T, Task<IEnumerable<TResult>>> setup, params TResult[] results)
+		public static void ReturnsItemsAsync<T, TResult>(this ISetup<T, Task<IEnumerable<TResult>>> setup, params TResult[] results)
             where T : class
         {
             setup.Returns(Task.FromResult<IEnumerable<TResult>>(results));

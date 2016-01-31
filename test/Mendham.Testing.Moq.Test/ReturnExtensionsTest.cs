@@ -16,7 +16,7 @@ namespace Mendham.Testing.Moq.Test
             var items = new int[] { 4, 5, 6 };
 
             mock.Setup(a => a.GetValuesAsync())
-                .ReturnItemsAsync(items);
+                .ReturnsItemsAsync(items);
 
             var sut = mock.Object;
 

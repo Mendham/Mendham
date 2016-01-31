@@ -21,7 +21,7 @@ namespace Mendham.Testing.Builder.Test
 
             Fixture.BuilderAssemblyQueryService.AsMock()
                 .Setup(a => a.GetAssembliesWithBuilders(thisAssembly))
-                .ReturnItems(thisAssembly, typeof(IBuilder<>).Assembly);
+                .ReturnsItems(thisAssembly, typeof(IBuilder<>).Assembly);
 
             var sut = Fixture.CreateSut();
 
