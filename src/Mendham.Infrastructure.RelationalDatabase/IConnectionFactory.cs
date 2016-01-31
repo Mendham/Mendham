@@ -4,10 +4,14 @@
 using IDbConnection = global::System.Data.Common.DbConnection;
 #endif
 
-namespace Mendham.Infrastructure.DBConnection
+namespace Mendham.Infrastructure.RelationalDatabase
 {
     public interface IConnectionFactory
     {
+        /// <summary>
+        /// Generates a new IDbConnection
+        /// </summary>
+        /// <returns></returns>
         IDbConnection GetConnection();
     }
 }

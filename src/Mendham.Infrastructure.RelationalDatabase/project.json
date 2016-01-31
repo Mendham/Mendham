@@ -1,8 +1,8 @@
 {
   "version": "1.0.0-beta2-*",
-  "description": "Tools to help manage connections when building domain infrastructure with a micro ORM",
+  "description": "Tools to help build a relational database infrastructure with a micro ORM",
   "authors": [ "Craig Beall" ],
-  "tags": [ "mendham ddd domain dapper dbconnection" ],
+  "tags": [ "mendham ddd domain dapper relationaldatabase dbconnection" ],
   "projectUrl": "https://cbeall.github.io/Mendham",
   "licenseUrl": "https://raw.githubusercontent.com/cbeall/Mendham/master/LICENSE",
 

@@ -5,8 +5,6 @@ using System.Threading.Tasks;
 
 #if DOTNET5_4
 using IDbConnection = global::System.Data.Common.DbConnection;
-using IDbTransaction = global::System.Data.Common.DbTransaction;
-using IDbCommand = global::System.Data.Common.DbCommand;
 #endif
 
 namespace Mendham.Infrastructure.RelationalDatabase

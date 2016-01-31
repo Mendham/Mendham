@@ -14,7 +14,7 @@ using IDbConnection = global::System.Data.Common.DbConnection;
 
 namespace Mendham.Infrastructure.RelationalDatabase.Test.Fixtures
 {
-    public class DatabaseFixture : Fixture<Func<IDbConnection>>, IDisposable
+    public class DatabaseFixture : Fixture<IConnectionFactory>, IDisposable
     {
         private const string INITIAL_CATALOG = "master";
         private const string TEST_DATABASE = "MendhamConnectionTest";
@@ -25,16 +25,30 @@ namespace Mendham.Infrastructure.RelationalDatabase.Test.Fixtures
             CreateAndSeedTables();
         }
 
-        public override Func<IDbConnection> CreateSut()
+        public override IConnectionFactory CreateSut()
         {
-            return () => GetConnection(TEST_DATABASE);
+            return new TestConnectionFactory(() => GetConnection(TEST_DATABASE));
+        }
+
+        private class TestConnectionFactory : IConnectionFactory
+        {
+            private readonly Func<IDbConnection> _connectionFactory;
+
+            public TestConnectionFactory(Func<IDbConnection> connectionFactory)
+            {
+                _connectionFactory = connectionFactory;
+            }
+
+            public IDbConnection GetConnection()
+            {
+                return _connectionFactory();
+            }
         }
 
         public override void ResetFixture()
         {
             base.ResetFixture();
         }
-
 
         public void Dispose()
         {

@@ -28,7 +28,8 @@ namespace Mendham.Infrastructure.RelationalDatabase
         string InsertItemSql { get; }
 
         /// <summary>
-        /// Sql statement to drop temporary table that holds values
+        /// Sql statement to drop temporary table that holds values. The statement should return a 1
+        /// if the drop was successful or a 0 if it was not
         /// </summary>
         string DropTableSql { get; }
 

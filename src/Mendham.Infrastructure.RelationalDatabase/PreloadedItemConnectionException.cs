@@ -3,19 +3,19 @@ using System.Data;
 
 namespace Mendham.Infrastructure.RelationalDatabase
 {
-    public abstract class MendhamCollectionConnectionException : Exception
+    public abstract class PreloadedItemConnectionException : Exception
     {
         private const string DEFAULT_MSG = "There was an exception within ConnectionWithSet. See INNER EXCEPTION for details.";
 
-        public MendhamCollectionConnectionException()
+        public PreloadedItemConnectionException()
         { }
 
-        public MendhamCollectionConnectionException(Exception innerException)
+        public PreloadedItemConnectionException(Exception innerException)
             : base(DEFAULT_MSG, innerException)
         { }
     }
 
-    public class FailureToOpenConnectionWithSetException : MendhamCollectionConnectionException
+    public class FailureToOpenConnectionWithSetException : PreloadedItemConnectionException
     {
         protected FailureToOpenConnectionWithSetException()
         { }

@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using Mendham.Infrastructure.RelationalDatabase.SqlServer;
 using Mendham.Infrastructure.RelationalDatabase.Test.Fixtures;
 using Mendham.Infrastructure.RelationalDatabase.Test.Helpers;
 using Mendham.Testing;
@@ -20,10 +21,10 @@ namespace Mendham.Infrastructure.RelationalDatabase.Test
         [Fact]
         public async Task ConnectionWithSet_IntSet_AllSelectedValues()
         {
-            using (var conn = new MendhamCollectionConnection(Fixture.CreateSut()))
-            {
-                await conn.OpenAsync(Fixture.KnownInts);
+            var sut = Fixture.CreateSut();
 
+            using (var conn = await sut.GetOpenPreloadedItemConnectionAsync(Fixture.KnownInts))
+            {
                 var q = await conn.QueryAsync<int>(@"
                     SELECT Id
                     FROM IntTable it
@@ -41,10 +42,10 @@ namespace Mendham.Infrastructure.RelationalDatabase.Test
         [Fact]
         public async Task ConnectionWithSet_GuidSet_AllSelectedValues()
         {
-            using (var conn = new MendhamCollectionConnection(Fixture.CreateSut()))
-            {
-                await conn.OpenAsync(Fixture.KnownGuids);
+            var sut = Fixture.CreateSut();
 
+            using (var conn = await sut.GetOpenPreloadedItemConnectionAsync(Fixture.KnownGuids))
+            {
                 var q = await conn.QueryAsync<Guid>(@"
                     SELECT Id
                     FROM GuidTable gt
@@ -62,10 +63,10 @@ namespace Mendham.Infrastructure.RelationalDatabase.Test
         [Fact]
         public async Task ConnectionWithSet_StringSet_AllSelectedValues()
         {
-            using (var conn = new MendhamCollectionConnection(Fixture.CreateSut()))
-            {
-                await conn.OpenAsync(Fixture.KnownStrings);
+            var sut = Fixture.CreateSut();
 
+            using (var conn = await sut.GetOpenPreloadedItemConnectionAsync(Fixture.KnownStrings))
+            {
                 var q = await conn.QueryAsync<string>(@"
                     SELECT Id
                     FROM StrTable st
@@ -83,11 +84,10 @@ namespace Mendham.Infrastructure.RelationalDatabase.Test
         [Fact]
         public async Task ConnectionWithSet_CompositeIdMapping_AllSelectedValues()
         {
+            var sut = Fixture.CreateSut();
             var mapping = Fixture.GetCompositeIdMapping();
-            using (var conn = new MendhamCollectionConnection(Fixture.CreateSut()))
+            using (var conn = await sut.GetOpenPreloadedItemConnectionAsync(Fixture.KnownCompositeIds, mapping))
             {
-                await conn.OpenAsync(Fixture.KnownCompositeIds, mapping);
-
                 var q = await conn.QueryAsync<CompositeId>(@"
                     SELECT tcit.GuidVal, tcit.IntVal
                     FROM CompositeIdTable tcit
