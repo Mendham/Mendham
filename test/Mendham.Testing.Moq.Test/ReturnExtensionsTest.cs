@@ -1,45 +1,14 @@
 ﻿using FluentAssertions;
 using Mendham.Testing.Moq.Test.TestObjects;
 using Moq;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace Mendham.Testing.Moq.Test
 {
-    public class MoqExtensionsTest
+    public class ReturnExtensionsTest
     {
-        [Fact]
-        public void AsMock_ObjectFromMoq_Mock()
-        {
-            var sut = Mock.Of<IMockableContract>();
-
-            var result = sut.AsMock();
-
-            result.Should()
-                .NotBeNull()
-                .And.BeOfType<Mock<IMockableContract>>();
-        }
-
-        [Fact]
-        public void ReturnItmes_Ints_AllInts()
-        {
-            var mock = new Mock<IMockableContract>();
-            var items = new int[] { 4, 5, 6 };
-
-            mock.Setup(a => a.GetValues())
-                .ReturnItems(items);
-
-            var sut = mock.Object;
-
-            var result = sut.GetValues();
-
-            result.Should()
-                .Equal(items);
-        }
-
         [Fact]
         public async Task ReturnItmesAsync_Ints_AllInts()
         {

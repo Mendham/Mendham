@@ -18,7 +18,7 @@ namespace Mendham.Testing.Builder
 
         public BuilderRegistrationManager(IBuilderRegistrationFactory builderRegistrationFactory)
         {
-            builderRegistrationFactory.VerifyArgumentNotDefaultValue("IBuilderRegistrationFactory is required");
+            builderRegistrationFactory.VerifyArgumentNotDefaultValue(nameof(builderRegistrationFactory));
 
             this.builderRegistrationFactory = builderRegistrationFactory;
             this.assemblyRegistrations = new ConcurrentDictionary<AssemblyName, IBuilderRegistration>();

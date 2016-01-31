@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace Mendham.Testing.Builder.Test.TestObjects
 {
-    public class ClassThatDoesNotImplementIBuilder
+    public class ObjectWithCollection
     {
-        public ClassThatDoesNotImplementIBuilder()
+        public ObjectWithCollection()
         { }
 
         public IEnumerable<int> Collection { get; set; }

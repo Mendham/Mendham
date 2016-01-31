@@ -1,6 +1,6 @@
 ﻿{
   "version": "1.0.0-beta2-*",
-  "description": "Testing Project For Mendham.Testing.Moq",
+  "description": "Testing Project For Mendham.Testing",
   "authors": [ "Craig Beall" ],
   "projectUrl": "https://cbeall.github.io/Mendham",
   "licenseUrl": "https://raw.githubusercontent.com/cbeall/Mendham/master/LICENSE",
@@ -28,8 +28,6 @@
     "Mendham": "1.0.0-*",
     "Mendham.Testing": "1.0.0-*",
     "Mendham.Testing.Builder": "1.0.0-*",
-    "Mendham.Testing.Moq": "1.0.0-*",
-    "xunit": "2.1.0",
-    "Moq": "4.2.1510.2205"
+    "xunit": "2.1.0"
   }
 }

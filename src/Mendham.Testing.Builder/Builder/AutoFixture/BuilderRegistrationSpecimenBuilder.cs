@@ -1,38 +1,43 @@
 ﻿using Ploeh.AutoFixture.Kernel;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
 
 namespace Mendham.Testing.Builder.AutoFixture
 {
-    public class BuilderRegistrationSpecimenBuilder : ISpecimenBuilder
+    internal class BuilderRegistrationSpecimenBuilder : ISpecimenBuilder
     {
-        private readonly IBuilderRegistration builderRegistration;
-
-        public BuilderRegistrationSpecimenBuilder(IBuilderRegistration builderRegistration)
-        {
-            builderRegistration.VerifyArgumentNotDefaultValue("Builder Registration is required");
-
-            this.builderRegistration = builderRegistration;
-        }
+        private readonly static BuilderRegistrationManager builderRegistrationManager =
+            new BuilderRegistrationManager();
 
         public object Create(object request, ISpecimenContext context)
         {
-            var pi = request as ParameterInfo;
+            return Create(request, context as IMendhamSpecimenContext);
+        }
 
-            if (pi == default(ParameterInfo))
+        private object Create(object request, IMendhamSpecimenContext context)
+        {
+            if (context == default(IMendhamSpecimenContext))
             {
-                return new NoSpecimen(request);
+                var errorMsg = $"{nameof(ISpecimenContext)} not of type {nameof(IMendhamSpecimenContext)} passed to {nameof(BuilderRegistrationSpecimenBuilder)}";
+                throw new InvalidOperationException(errorMsg);
             }
 
-            if (!builderRegistration.IsTypeRegistered(pi.ParameterType))
+            // If the type belongs to a known builder, then build it
+            var type = request as Type;
+
+            if (type == default(Type))
             {
-                return new NoSpecimen(request);
+                return new NoSpecimen();
             }
 
-            return builderRegistration.Build(pi.ParameterType);
+            var builderRegistration = builderRegistrationManager
+                .GetBuilderRegistration(context.CallingAssembly);
+
+            if (builderRegistration.IsTypeRegistered(type))
+            {
+                return builderRegistration.Build(type);
+            }
+
+            return new NoSpecimen();
         }
     }
 }
