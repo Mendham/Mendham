@@ -27,6 +27,7 @@
     "FluentAssertions": "4.0.1",
     "Mendham": "1.0.0-*",
     "Mendham.Testing": "1.0.0-*",
+    "Mendham.Testing.Builder": "1.0.0-*",
     "xunit": "2.1.0"
   }
 }

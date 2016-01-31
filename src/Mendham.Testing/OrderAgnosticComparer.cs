@@ -14,33 +14,53 @@ namespace Mendham.Testing
 	{
 		public bool Equals(IEnumerable<T> x, IEnumerable<T> y)
 		{
-			List<T> leftList = new List<T>(x);
-			List<T> rightList = new List<T>(y);
-			leftList.Sort();
-			rightList.Sort();
+            if (ReferenceEquals(x, y))
+            {
+                return true;
+            }
+            else if (x.Count() != y.Count())
+            {
+                return false;
+            }
+            else if (x.SequenceEqual(y))
+            {
+                return true;
+            }
+            else
+            {
+                var yHash = y.Select(a => a.GetHashCode())
+                    .OrderBy(a => a);
 
-			IEnumerator<T> enumeratorX = leftList.GetEnumerator();
-			IEnumerator<T> enumeratorY = rightList.GetEnumerator();
-
-			while (true)
-			{
-				bool hasNextX = enumeratorX.MoveNext();
-				bool hasNextY = enumeratorY.MoveNext();
-
-				if (!hasNextX || !hasNextY)
-					return (hasNextX == hasNextY);
-
-				if (!enumeratorX.Current.Equals(enumeratorY.Current))
-					return false;
-			}
+                return x.Select(a => a.GetHashCode())
+                    .OrderBy(a => a)
+                    .SequenceEqual(yHash);
+            }
 		}
 
 		public int GetHashCode(IEnumerable<T> obj)
 		{
-			return obj
-				.Cast<object>()
-				.GetHashCodeForObjects();
+            return obj
+                .Select(a => a.GetHashCode())
+                .OrderByDescending(a => a)
+                .Select(GetIndexBasedHash)
+                .Aggregate(GetLengthHashCode(obj), (prev, next) => prev ^ next);
 		}
+
+        private static int GetIndexBasedHash(int val, int index)
+        {
+            unchecked
+            {
+                return ((index + 739) * val) ^ index;
+            }
+        }
+
+        private static int GetLengthHashCode(IEnumerable<T> obj)
+        {
+            unchecked
+            {
+                return obj.Count() * 997;
+            }
+        }
 
         /// <summary>
         /// Returns a CollectionEquivalenceComparer for use in comparing sets
