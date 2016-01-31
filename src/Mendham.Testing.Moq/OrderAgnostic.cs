@@ -8,7 +8,7 @@ namespace Mendham.Testing.Moq
 {
     public static class OrderAgnostic
     {
-        public static TEnumerable Match<TEnumerable, TValue>(TEnumerable items)
+        public static TEnumerable Match<TEnumerable, TValue>(IEnumerable<TValue> items)
             where TEnumerable : IEnumerable<TValue>
             where TValue : IEquatable<TValue>
         {
