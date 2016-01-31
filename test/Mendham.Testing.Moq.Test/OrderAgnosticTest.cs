@@ -8,10 +8,10 @@ using Xunit;
 
 namespace Mendham.Testing.Moq.Test
 {
-    public class OrderAgnosticMatchTest
+    public class OrderAgnosticTest
     {
         [Theory, MendhamData]
-        public void OrderAgnosticMatch_SameList_IsCalled([WithCount(20)]List<int> firstSet)
+        public void Match_SameList_IsCalled([WithCount(20)]List<int> firstSet)
         {
             var secondSet = firstSet;
 
@@ -20,11 +20,11 @@ namespace Mendham.Testing.Moq.Test
             sut.MethodWithEnumerableParameter(firstSet);
 
             sut.AsMock()
-                .Verify(a => a.MethodWithEnumerableParameter(Items.OrderAgnosticMatch(secondSet)), Times.Once);
+                .Verify(a => a.MethodWithEnumerableParameter(OrderAgnostic.Match(secondSet)), Times.Once);
         }
 
         [Theory, MendhamData]
-        public void OrderAgnosticMatch_TwoIdenetialIntSets_IsCalled([WithCount(20)]List<int> firstSet)
+        public void Match_TwoIdenetialIntSets_IsCalled([WithCount(20)]List<int> firstSet)
         {
             var secondSet = firstSet.ToList();
 
@@ -33,11 +33,11 @@ namespace Mendham.Testing.Moq.Test
             sut.MethodWithEnumerableParameter(firstSet);
 
             sut.AsMock()
-                .Verify(a => a.MethodWithEnumerableParameter(Items.OrderAgnosticMatch(secondSet)), Times.Once);
+                .Verify(a => a.MethodWithEnumerableParameter(OrderAgnostic.Match(secondSet)), Times.Once);
         }
 
         [Theory, MendhamData]
-        public void OrderAgnosticMatch_SameValuesDifferentOrder_IsCalled([WithCount(20)]List<int> firstSet)
+        public void Match_SameValuesDifferentOrder_IsCalled([WithCount(20)]List<int> firstSet)
         {
             var secondSet = firstSet
                 .OrderBy(a => Guid.NewGuid())
@@ -48,11 +48,11 @@ namespace Mendham.Testing.Moq.Test
             sut.MethodWithEnumerableParameter(firstSet);
 
             sut.AsMock()
-                .Verify(a => a.MethodWithEnumerableParameter(Items.OrderAgnosticMatch(secondSet)), Times.Once);
+                .Verify(a => a.MethodWithEnumerableParameter(OrderAgnostic.Match(secondSet)), Times.Once);
         }
 
         [Theory, MendhamData]
-        public void OrderAgnosticMatch_SameLengthDifferentValues_IsNotCalled([WithCount(20)]List<int> firstSet,
+        public void Match_SameLengthDifferentValues_IsNotCalled([WithCount(20)]List<int> firstSet,
             [WithCount(20)]List<int> secondSet)
         {
             var sut = Mock.Of<IMethodWithEnumerableParameter>();
@@ -60,11 +60,11 @@ namespace Mendham.Testing.Moq.Test
             sut.MethodWithEnumerableParameter(firstSet);
 
             sut.AsMock()
-                .Verify(a => a.MethodWithEnumerableParameter(Items.OrderAgnosticMatch(secondSet)), Times.Never);
+                .Verify(a => a.MethodWithEnumerableParameter(OrderAgnostic.Match(secondSet)), Times.Never);
         }
 
         [Theory, MendhamData]
-        public void OrderAgnosticMatch_DifferentLengthDifferentValues_IsNotCalled([WithCount(20)]List<int> firstSet,
+        public void Match_DifferentLengthDifferentValues_IsNotCalled([WithCount(20)]List<int> firstSet,
             [WithCount(19)]List<int> secondSet)
         {
             var sut = Mock.Of<IMethodWithEnumerableParameter>();
@@ -72,11 +72,11 @@ namespace Mendham.Testing.Moq.Test
             sut.MethodWithEnumerableParameter(firstSet);
 
             sut.AsMock()
-                .Verify(a => a.MethodWithEnumerableParameter(Items.OrderAgnosticMatch(secondSet)), Times.Never);
+                .Verify(a => a.MethodWithEnumerableParameter(OrderAgnostic.Match(secondSet)), Times.Never);
         }
 
         [Theory, MendhamData]
-        public void OrderAgnosticMatch_ListSameValuesDifferentOrder_IsCalled([WithCount(20)]List<int> firstSet)
+        public void Match_ListSameValuesDifferentOrder_IsCalled([WithCount(20)]List<int> firstSet)
         {
             var secondSet = firstSet
                 .OrderBy(a => Guid.NewGuid())
@@ -87,11 +87,11 @@ namespace Mendham.Testing.Moq.Test
             sut.MethodWithListParameter(firstSet);
 
             sut.AsMock()
-                .Verify(a => a.MethodWithListParameter(Items.OrderAgnosticMatch<List<int>, int>(secondSet)), Times.Once);
+                .Verify(a => a.MethodWithListParameter(OrderAgnostic.Match<List<int>, int>(secondSet)), Times.Once);
         }
 
         [Theory, MendhamData]
-        public void OrderAgnosticMatch_ArraySameValuesDifferentOrder_IsCalled([WithCount(20)]int[] firstSet)
+        public void Match_ArraySameValuesDifferentOrder_IsCalled([WithCount(20)]int[] firstSet)
         {
             var secondSet = firstSet
                 .OrderBy(a => Guid.NewGuid())
@@ -102,7 +102,7 @@ namespace Mendham.Testing.Moq.Test
             sut.MethodWithArrayParameter(firstSet);
 
             sut.AsMock()
-                .Verify(a => a.MethodWithArrayParameter(Items.OrderAgnosticMatch<int[], int>(secondSet)), Times.Once);
+                .Verify(a => a.MethodWithArrayParameter(OrderAgnostic.Match<int[], int>(secondSet)), Times.Once);
         }
     }
 }

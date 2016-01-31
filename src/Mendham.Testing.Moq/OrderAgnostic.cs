@@ -6,20 +6,20 @@ using System.Threading.Tasks;
 
 namespace Mendham.Testing.Moq
 {
-    public static class Items
+    public static class OrderAgnostic
     {
-        public static TEnumerable OrderAgnosticMatch<TEnumerable, TValue>(TEnumerable items)
+        public static TEnumerable Match<TEnumerable, TValue>(TEnumerable items)
             where TEnumerable : IEnumerable<TValue>
             where TValue : IEquatable<TValue>
         {
             var orderAgnosticComparer = OrderAgnosticComparer<TValue>.Default;
-            return Match.Create<TEnumerable>(a => orderAgnosticComparer.Equals(a, items));
+            return global::Moq.Match.Create<TEnumerable>(a => orderAgnosticComparer.Equals(a, items));
         }
 
-        public static IEnumerable<TValue> OrderAgnosticMatch<TValue>(IEnumerable<TValue> items)
+        public static IEnumerable<TValue> Match<TValue>(IEnumerable<TValue> items)
             where TValue : IEquatable<TValue>
         {
-            return OrderAgnosticMatch<IEnumerable<TValue>, TValue>(items);
+            return Match<IEnumerable<TValue>, TValue>(items);
         }
     }
 }
