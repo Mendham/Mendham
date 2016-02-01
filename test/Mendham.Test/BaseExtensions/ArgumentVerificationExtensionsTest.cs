@@ -628,6 +628,7 @@ namespace Mendham.Test.BaseExtensions
             Action act = () => val.VerifyArgumentLength(minimum, maximum, trimFirst, nameof(val));
 
             act.ShouldThrow<ArgumentException>()
+                .Where(a => a.Message.Contains(val))
                 .And.ParamName.ShouldBeEquivalentTo(nameof(val));
         }
 
@@ -642,6 +643,7 @@ namespace Mendham.Test.BaseExtensions
 
             act.ShouldThrow<ArgumentException>()
                 .Where(a => a.Message.Contains(msg))
+                .Where(a => a.Message.Contains(val))
                 .And.ParamName.ShouldBeEquivalentTo(nameof(val));
         }
 
