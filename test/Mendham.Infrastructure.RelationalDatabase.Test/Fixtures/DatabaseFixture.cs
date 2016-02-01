@@ -1,8 +1,8 @@
 ﻿using Mendham.Infrastructure.RelationalDatabase.Test.Helpers;
-using Mendham.Testing;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -14,7 +14,7 @@ using IDbConnection = global::System.Data.Common.DbConnection;
 
 namespace Mendham.Infrastructure.RelationalDatabase.Test.Fixtures
 {
-    public class DatabaseFixture : Fixture<IConnectionFactory>, IDisposable
+    public class DatabaseFixture : IDisposable
     {
         private const string INITIAL_CATALOG = "master";
         private const string TEST_DATABASE = "MendhamConnectionTest";
@@ -25,7 +25,7 @@ namespace Mendham.Infrastructure.RelationalDatabase.Test.Fixtures
             CreateAndSeedTables();
         }
 
-        public override IConnectionFactory CreateSut()
+        public IConnectionFactory GetConnectionFactory()
         {
             return new TestConnectionFactory(() => GetConnection(TEST_DATABASE));
         }
@@ -43,11 +43,6 @@ namespace Mendham.Infrastructure.RelationalDatabase.Test.Fixtures
             {
                 return _connectionFactory();
             }
-        }
-
-        public override void ResetFixture()
-        {
-            base.ResetFixture();
         }
 
         public void Dispose()
@@ -121,6 +116,15 @@ namespace Mendham.Infrastructure.RelationalDatabase.Test.Fixtures
             var connStr =  string.Format(connFormatStr, databaseName);
 
             return new SqlConnection(connStr);
+        }
+
+        public async Task<IDbConnection> GetOpenConnectionAsync()
+        {
+            var conn = GetConnectionFactory().GetConnection() as DbConnection;
+
+            await conn.OpenAsync();
+
+            return conn;
         }
 
         private void CreateDatabase()

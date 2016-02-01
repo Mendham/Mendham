@@ -2,7 +2,6 @@
 using Mendham.Infrastructure.RelationalDatabase.SqlServer;
 using Mendham.Infrastructure.RelationalDatabase.Test.Fixtures;
 using Mendham.Infrastructure.RelationalDatabase.Test.Helpers;
-using Mendham.Testing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,17 +10,16 @@ using Xunit;
 
 namespace Mendham.Infrastructure.RelationalDatabase.Test
 {
-    public class ConnectionWithSetTest : UnitTest<DatabaseFixture>
+    public class PreloatedItemCollectionTest : MendhamDatabaseTest
     {
-        public ConnectionWithSetTest(DatabaseFixture fixture) : base(fixture)
+        public PreloatedItemCollectionTest(DatabaseFixture fixture) : base(fixture)
         {
         }
-
 
         [Fact]
         public async Task ConnectionWithSet_IntSet_AllSelectedValues()
         {
-            var sut = Fixture.CreateSut();
+            var sut = Fixture.GetConnectionFactory();
 
             using (var conn = await sut.GetOpenPreloadedItemConnectionAsync(Fixture.KnownInts))
             {
@@ -42,7 +40,7 @@ namespace Mendham.Infrastructure.RelationalDatabase.Test
         [Fact]
         public async Task ConnectionWithSet_GuidSet_AllSelectedValues()
         {
-            var sut = Fixture.CreateSut();
+            var sut = Fixture.GetConnectionFactory();
 
             using (var conn = await sut.GetOpenPreloadedItemConnectionAsync(Fixture.KnownGuids))
             {
@@ -63,7 +61,7 @@ namespace Mendham.Infrastructure.RelationalDatabase.Test
         [Fact]
         public async Task ConnectionWithSet_StringSet_AllSelectedValues()
         {
-            var sut = Fixture.CreateSut();
+            var sut = Fixture.GetConnectionFactory();
 
             using (var conn = await sut.GetOpenPreloadedItemConnectionAsync(Fixture.KnownStrings))
             {
@@ -84,8 +82,9 @@ namespace Mendham.Infrastructure.RelationalDatabase.Test
         [Fact]
         public async Task ConnectionWithSet_CompositeIdMapping_AllSelectedValues()
         {
-            var sut = Fixture.CreateSut();
+            var sut = Fixture.GetConnectionFactory();
             var mapping = Fixture.GetCompositeIdMapping();
+
             using (var conn = await sut.GetOpenPreloadedItemConnectionAsync(Fixture.KnownCompositeIds, mapping))
             {
                 var q = await conn.QueryAsync<CompositeId>(@"
