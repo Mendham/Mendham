@@ -5,6 +5,7 @@ using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Threading;
+using System.Collections.ObjectModel;
 
 #if DOTNET5_4
 using IDbConnection = global::System.Data.Common.DbConnection;
@@ -17,7 +18,7 @@ namespace Mendham.Infrastructure.RelationalDatabase
     public class PreloadedItemConnection<T> : IDbConnection, IDisposable
     {
         private readonly IDbConnection _conn;
-        private readonly IEnumerable<T> _items;
+        private readonly ReadOnlyCollection<T> _items;
         private readonly IItemLoaderMapping<T> _mapping;
 
         private bool _preLoadedTableExists;
@@ -30,10 +31,17 @@ namespace Mendham.Infrastructure.RelationalDatabase
 
             _mapping = mapping.VerifyArgumentNotDefaultValue(nameof(mapping));
 
-            _items = items.VerifyArgumentMeetsCriteria(a => a.All(mapping.ItemIsValidPredicate), nameof(items),
+            items.VerifyArgumentMeetsCriteria(a => a.All(mapping.ItemIsValidPredicate), nameof(items),
                 mapping.InvalidSetErrorMessage);
 
+            _items = new ReadOnlyCollection<T>(items.ToList());
+
             _preLoadedTableExists = false;
+        }
+
+        public IEnumerable<T> Items
+        {
+            get { return _items; }
         }
 
 #if DOTNET5_4
