@@ -7,8 +7,12 @@ namespace Mendham.Test.TestObjects
 {
     public class CustomException : Exception
     {
-        public CustomException(string message)
-            :base(message)
-        { }
+        public object Value { get; private set; }
+
+        public CustomException(string message, object value)
+            : base(message)
+        {
+            this.Value = value;
+        }
     }
 }

@@ -34,10 +34,11 @@ namespace Mendham.Test.BaseExtensions
         [InlineMendhamData(null)]
         public void VerifyArgumentNotNull_NullStringWithCustomException_ThrowsCustomException(string nullStr, string msg)
         {
-            Action act = () => nullStr.VerifyArgumentNotNull(() => new CustomException(msg));
+            Action act = () => nullStr.VerifyArgumentNotNull(a => new CustomException(msg, a));
 
             act.ShouldThrow<CustomException>()
-                .WithMessage(msg);
+                .WithMessage(msg)
+                .Where(a => Equals(a.Value, nullStr));
 
         }
 
@@ -63,7 +64,7 @@ namespace Mendham.Test.BaseExtensions
         [MendhamData]
         public void VerifyArgumentNotNull_IntWithCustomException_Passes(int? obj, string msg)
         {
-            var result = obj.VerifyArgumentNotNull(() => new CustomException(msg));
+            var result = obj.VerifyArgumentNotNull(a => new CustomException(msg, a));
 
             result.Should().Be(obj);
         }
@@ -93,10 +94,11 @@ namespace Mendham.Test.BaseExtensions
         [InlineMendhamData(null)]
         public void VerifyArgumentNotDefault_NullIntWithCustomException_ThrowsCustomException(int? nullVal, string msg)
         {
-            Action act = () => nullVal.VerifyArgumentNotDefaultValue(() => new CustomException(msg));
+            Action act = () => nullVal.VerifyArgumentNotDefaultValue(a => new CustomException(msg, a));
 
             act.ShouldThrow<CustomException>()
-                .WithMessage(msg);
+                .WithMessage(msg)
+                .Where(a => Equals(a.Value, nullVal));
         }
 
         [Theory]
@@ -124,10 +126,11 @@ namespace Mendham.Test.BaseExtensions
         [InlineMendhamData(default(int))]
         public void VerifyArgumentNotDefault_DefaultIntWithCustomException_ThrowsCustomException(int defaultInt, string msg)
         {
-            Action act = () => defaultInt.VerifyArgumentNotDefaultValue(() => new CustomException(msg));
+            Action act = () => defaultInt.VerifyArgumentNotDefaultValue(a => new CustomException(msg, a));
 
             act.ShouldThrow<CustomException>()
-                .WithMessage(msg);
+                .WithMessage(msg)
+                .Where(a => Equals(a.Value, defaultInt));
         }
 
         [Theory]
@@ -143,7 +146,7 @@ namespace Mendham.Test.BaseExtensions
         [MendhamData]
         public void VerifyArgumentNotDefault_IntWithCustomException_Passes(int val, string msg)
         {
-            var result = val.VerifyArgumentNotDefaultValue(() => new CustomException(msg));
+            var result = val.VerifyArgumentNotDefaultValue(a => new CustomException(msg, a));
 
             result.Should().Be(val);
         }
@@ -173,10 +176,11 @@ namespace Mendham.Test.BaseExtensions
         [InlineMendhamData(default(string))]
         public void VerifyArgumentNotDefault_DefaultStringWithCustomException_ThrowsCustomException(string defaultStr, string msg)
         {
-            Action act = () => defaultStr.VerifyArgumentNotDefaultValue(() => new CustomException(msg));
+            Action act = () => defaultStr.VerifyArgumentNotDefaultValue(a => new CustomException(msg, a));
 
             act.ShouldThrow<CustomException>()
-                .WithMessage(msg);
+                .WithMessage(msg)
+                .Where(a => Equals(a.Value, defaultStr));
         }
 
         [Theory]
@@ -201,7 +205,7 @@ namespace Mendham.Test.BaseExtensions
         [MendhamData]
         public void VerifyArgumentNotDefault_StringWithCustomException_Passes(string val, string msg)
         {
-            var result = val.VerifyArgumentNotDefaultValue(() => new CustomException(msg));
+            var result = val.VerifyArgumentNotDefaultValue(a => new CustomException(msg, a));
 
             result.Should().Be(val);
         }
@@ -235,10 +239,11 @@ namespace Mendham.Test.BaseExtensions
         {
             List<int> vals = null;
 
-            Action act = () => vals.VerifyArgumentNotNullOrEmpty(() => new CustomException(msg));
+            Action act = () => vals.VerifyArgumentNotNullOrEmpty(a => new CustomException(msg, a));
 
             act.ShouldThrow<CustomException>()
-                .WithMessage(msg);
+                .WithMessage(msg)
+                .Where(a => Equals(a.Value, vals));
         }
 
         [Fact]
@@ -270,10 +275,11 @@ namespace Mendham.Test.BaseExtensions
         {
             List<int> vals = new List<int>();
 
-            Action act = () => vals.VerifyArgumentNotNullOrEmpty(() => new CustomException(msg));
+            Action act = () => vals.VerifyArgumentNotNullOrEmpty(a => new CustomException(msg, a));
 
             act.ShouldThrow<CustomException>()
-                .WithMessage(msg);
+                .WithMessage(msg)
+                .Where(a => Equals(a.Value, vals));
         }
 
         [Theory]
@@ -298,7 +304,7 @@ namespace Mendham.Test.BaseExtensions
         [MendhamData]
         public void VerifyArgumentNotNullOrEmpty_NonEmptyCollectionWithCustomException_Passes(List<int> vals, string msg)
         {
-            var result = vals.VerifyArgumentNotNullOrEmpty(() => new CustomException(msg));
+            var result = vals.VerifyArgumentNotNullOrEmpty(a => new CustomException(msg, a));
 
             result.Should().ContainInOrder(vals);
         }
@@ -333,10 +339,11 @@ namespace Mendham.Test.BaseExtensions
         {
             string val = null;
 
-            Action act = () => val.VerifyArgumentNotNullOrEmpty(() => new CustomException(msg));
+            Action act = () => val.VerifyArgumentNotNullOrEmpty(a => new CustomException(msg, a));
 
             act.ShouldThrow<CustomException>()
-                .WithMessage(msg);
+                .WithMessage(msg)
+                .Where(a => Equals(a.Value, val));
         }
 
         [Fact]
@@ -369,7 +376,7 @@ namespace Mendham.Test.BaseExtensions
         {
             string val = string.Empty;
 
-            Action act = () => val.VerifyArgumentNotNullOrEmpty(() => new CustomException(msg));
+            Action act = () => val.VerifyArgumentNotNullOrEmpty(a => new CustomException(msg, a));
 
             act.ShouldThrow<CustomException>()
                 .WithMessage(msg);
@@ -397,7 +404,7 @@ namespace Mendham.Test.BaseExtensions
         [MendhamData]
         public void VerifyArgumentNotNullOrEmpty_NonEmptyStringWithCustomException_Passes(string val, string msg)
         {
-            var result = val.VerifyArgumentNotNullOrEmpty(() => new CustomException(msg));
+            var result = val.VerifyArgumentNotNullOrEmpty(a => new CustomException(msg, a));
 
             result.Should().Be(val);
         }
@@ -432,10 +439,11 @@ namespace Mendham.Test.BaseExtensions
         {
             string val = null;
 
-            Action act = () => val.VerifyArgumentNotNullOrWhiteSpace(() => new CustomException(msg));
+            Action act = () => val.VerifyArgumentNotNullOrWhiteSpace(a => new CustomException(msg, a));
 
             act.ShouldThrow<CustomException>()
-                .WithMessage(msg);
+                .WithMessage(msg)
+                .Where(a => Equals(a.Value, val));
         }
 
         [Fact]
@@ -468,10 +476,11 @@ namespace Mendham.Test.BaseExtensions
         {
             string val = string.Empty;
 
-            Action act = () => val.VerifyArgumentNotNullOrWhiteSpace(() => new CustomException(msg));
+            Action act = () => val.VerifyArgumentNotNullOrWhiteSpace(a => new CustomException(msg, a));
 
             act.ShouldThrow<CustomException>()
-                .WithMessage(msg);
+                .WithMessage(msg)
+                .Where(a => Equals(a.Value, val));
         }
 
         [Fact]
@@ -504,10 +513,11 @@ namespace Mendham.Test.BaseExtensions
         {
             string val = "   ";
 
-            Action act = () => val.VerifyArgumentNotNullOrWhiteSpace(() => new CustomException(msg));
+            Action act = () => val.VerifyArgumentNotNullOrWhiteSpace(a => new CustomException(msg, a));
 
             act.ShouldThrow<CustomException>()
-                .WithMessage(msg);
+                .WithMessage(msg)
+                .Where(a => Equals(a.Value, val));
         }
 
         [Theory]
@@ -532,7 +542,7 @@ namespace Mendham.Test.BaseExtensions
         [MendhamData]
         public void VerifyArgumentNotNullOrWhiteSpace_ValidStringWithCustomException_Passes(string val, string msg)
         {
-            var result = val.VerifyArgumentNotNullOrWhiteSpace(() => new CustomException(msg));
+            var result = val.VerifyArgumentNotNullOrWhiteSpace(a => new CustomException(msg, a));
 
             result.Should().Be(val);
         }
@@ -601,10 +611,11 @@ namespace Mendham.Test.BaseExtensions
         {
             string val = null;
 
-            Action act = () => val.VerifyArgumentLength(minimum, maximum, trimFirst, () => new CustomException(msg));
+            Action act = () => val.VerifyArgumentLength(minimum, maximum, trimFirst, a => new CustomException(msg, a));
 
             act.ShouldThrow<CustomException>()
-                .WithMessage(msg);
+                .WithMessage(msg)
+                .Where(a => Equals(a.Value, val));
         }
 
         [Theory]
@@ -641,10 +652,11 @@ namespace Mendham.Test.BaseExtensions
         [InlineMendhamData(" test  ", 5, 10, true)]
         public void VerifyArgumentLength_InvalidCaseWithCustomException_ThrowsCustomException(string val, int? minimum, int? maximum, bool trimFirst, string msg)
         {
-            Action act = () => val.VerifyArgumentLength(minimum, maximum, trimFirst, () => new CustomException(msg));
+            Action act = () => val.VerifyArgumentLength(minimum, maximum, trimFirst, a => new CustomException(msg, a));
 
             act.ShouldThrow<CustomException>()
-                .WithMessage(msg);
+                .WithMessage(msg)
+                .Where(a => Equals(a.Value, val));
         }
 
         [Theory]
@@ -690,7 +702,7 @@ namespace Mendham.Test.BaseExtensions
         [InlineMendhamData(1, 1, null)]
         public void VerifyArgumentRange_ValidCaseWithCustomException_Passes(int val, int? minimum, int? maximum, string msg)
         {
-            var result = val.VerifyArgumentRange(minimum, maximum, () => new CustomException(msg));
+            var result = val.VerifyArgumentRange(minimum, maximum, a => new CustomException(msg, a));
 
             result.Should().Be(val);
         }
@@ -737,10 +749,11 @@ namespace Mendham.Test.BaseExtensions
         [InlineMendhamData(-1, 1, null)]
         public void VerifyArgumentRange_InvalidCaseWithCustomException_ThrowsCustomException(int val, int? minimum, int? maximum, string msg)
         {
-            Action act = () => val.VerifyArgumentRange(minimum, maximum, () => new CustomException(msg));
+            Action act = () => val.VerifyArgumentRange(minimum, maximum, a => new CustomException(msg, a));
 
             act.ShouldThrow<CustomException>()
-                .WithMessage(msg);
+                .WithMessage(msg)
+                .Where(a => Equals(a.Value, val));
         }
 
         [Theory]
@@ -767,10 +780,11 @@ namespace Mendham.Test.BaseExtensions
         [MendhamData]
         public void VerifyArgumentMeetsCriteria_InvalidCriteriaWithCustomException_ThrowsCustomException(string val, string msg)
         {
-            Action act = () => val.VerifyArgumentMeetsCriteria(a => false, () => new CustomException(msg));
+            Action act = () => val.VerifyArgumentMeetsCriteria(a => false, a => new CustomException(msg, a));
 
             act.ShouldThrow<CustomException>()
-                .WithMessage(msg);
+                .WithMessage(msg)
+                .Where(a => Equals(a.Value, val));
         }
     }
 }

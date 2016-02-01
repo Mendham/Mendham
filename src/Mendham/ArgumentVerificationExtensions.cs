@@ -41,7 +41,7 @@ namespace Mendham
         /// <param name="customException">Exception to throw when verification fails</param>
 		/// <returns></returns>
 		[DebuggerStepThrough]
-        public static T VerifyArgumentNotNull<T>(this T obj, Func<Exception> customException)
+        public static T VerifyArgumentNotNull<T>(this T obj, Func<T, Exception> customException)
         {
             if (obj != null)
             {
@@ -49,7 +49,7 @@ namespace Mendham
             }
             else
             {
-                throw customException();
+                throw customException(obj);
             }
         }
 
@@ -87,14 +87,14 @@ namespace Mendham
         /// <param name="customException">Exception to throw when verification fails</param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public static T VerifyArgumentNotDefaultValue<T>(this T tObj, Func<Exception> customException)
+        public static T VerifyArgumentNotDefaultValue<T>(this T tObj, Func<T, Exception> customException)
         {
             if (!Equals(tObj, default(T)))
             {
                 return tObj;
             }
 
-            throw customException();
+            throw customException(tObj);
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace Mendham
         /// <param name="customException">Exception to throw when verification fails</param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public static IEnumerable<T> VerifyArgumentNotNullOrEmpty<T>(this IEnumerable<T> tEnumerable, Func<Exception> customException)
+        public static IEnumerable<T> VerifyArgumentNotNullOrEmpty<T>(this IEnumerable<T> tEnumerable, Func<IEnumerable<T>, Exception> customException)
         {
             tEnumerable.VerifyArgumentNotNull(customException);
 
@@ -140,7 +140,7 @@ namespace Mendham
             }
             else 
             {
-                throw customException();
+                throw customException(tEnumerable);
             }
         }
 
@@ -175,11 +175,11 @@ namespace Mendham
         /// <param name="customException">Exception to throw when verification fails</param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public static string VerifyArgumentNotNullOrEmpty(this string str, Func<Exception> customException)
+        public static string VerifyArgumentNotNullOrEmpty(this string str, Func<string, Exception> customException)
         {
             if (string.IsNullOrEmpty(str))
             {
-                throw customException();
+                throw customException(str);
             }
 
             return str;
@@ -216,11 +216,11 @@ namespace Mendham
         /// <param name="customException">Exception to throw when verification fails</param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public static string VerifyArgumentNotNullOrWhiteSpace(this string str, Func<Exception> customException)
+        public static string VerifyArgumentNotNullOrWhiteSpace(this string str, Func<string, Exception> customException)
         {
             if (string.IsNullOrWhiteSpace(str))
             {
-                throw customException();
+                throw customException(str);
             }
 
             return str;
@@ -250,7 +250,7 @@ namespace Mendham
         /// <param name="customException">Exception to throw when verification fails</param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public static string VerifyArgumentLength(this string str, int? minimum, int? maximum, Func<Exception> customException)
+        public static string VerifyArgumentLength(this string str, int? minimum, int? maximum, Func<string, Exception> customException)
         {
             return str.VerifyArgumentLength(minimum, maximum, false, customException);
         }
@@ -268,7 +268,7 @@ namespace Mendham
 		[DebuggerStepThrough]
         public static string VerifyArgumentLength(this string str, int? minimum, int? maximum, bool trimStringFirst, string paramName, string message = null)
         {
-            Func<Exception> exBuilder = () =>
+            Func<string, Exception> exBuilder = s =>
             {
                 var msg = BuildStringArgumentLengthMessage(str, minimum, maximum, trimStringFirst, paramName, message);
                 throw new ArgumentException(msg, paramName);
@@ -288,7 +288,7 @@ namespace Mendham
         /// <param name="customException">Exception to throw when verification fails</param>length or if string is null</param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public static string VerifyArgumentLength(this string str, int? minimum, int? maximum, bool trimStringFirst, Func<Exception> customException)
+        public static string VerifyArgumentLength(this string str, int? minimum, int? maximum, bool trimStringFirst, Func<string, Exception> customException)
         {
             var localStr = str.VerifyArgumentNotNull(customException);
 
@@ -302,7 +302,7 @@ namespace Mendham
                 return str;
             }
 
-            throw customException();
+            throw customException(str);
         }
 
         private static string BuildStringArgumentLengthMessage(string str, int? minimum, int? maximum, bool trimStringFirst, string paramName, string message)
@@ -351,7 +351,7 @@ namespace Mendham
 		[DebuggerStepThrough]
         public static int VerifyArgumentRange(this int num, int? minimum, int? maximum, string paramName, string message = null)
         {
-            Func<ArgumentOutOfRangeException> exBuilder = () =>
+            Func<int, ArgumentOutOfRangeException> exBuilder = n =>
             {
                 var msgSb = new StringBuilder("The value is not within the permitted range");
                 msgSb.AppendLine();
@@ -386,14 +386,14 @@ namespace Mendham
         /// <param name="customException">Exception to throw when verification fails</param>length or if string is null</param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public static int VerifyArgumentRange(this int num, int? minimum, int? maximum, Func<Exception> customException)
+        public static int VerifyArgumentRange(this int num, int? minimum, int? maximum, Func<int, Exception> customException)
         {
             if ((!minimum.HasValue || num >= minimum) && (!maximum.HasValue || num <= maximum))
             {
                 return num;
             }
 
-            throw customException();
+            throw customException(num);
         }
 
         /// <summary>
@@ -408,7 +408,7 @@ namespace Mendham
         [DebuggerStepThrough]
 		public static T VerifyArgumentMeetsCriteria<T>(this T obj, Func<T, bool> acceptanceCriteria, string paramName, string message)
         {
-            return obj.VerifyArgumentMeetsCriteria(acceptanceCriteria, () => new ArgumentException(message, paramName));
+            return obj.VerifyArgumentMeetsCriteria(acceptanceCriteria, n => new ArgumentException(message, paramName));
         }
 
         /// <summary>
@@ -420,11 +420,11 @@ namespace Mendham
         /// <param name="customException">Exception to throw when verification fails</param>length or if string is null</param>
         /// <returns></returns>
         [DebuggerStepThrough]
-        public static T VerifyArgumentMeetsCriteria<T>(this T obj, Func<T, bool> acceptanceCriteria, Func<Exception> customException)
+        public static T VerifyArgumentMeetsCriteria<T>(this T obj, Func<T, bool> acceptanceCriteria, Func<T, Exception> customException)
         {
             if (!acceptanceCriteria(obj))
             {
-                throw customException();
+                throw customException(obj);
             }
 
             return obj;
