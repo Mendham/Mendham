@@ -15,12 +15,30 @@ namespace Mendham.Infrastructure.RelationalDatabase
         { }
     }
 
-    public class FailureToOpenConnectionWithSetException : PreloadedItemConnectionException
+    public class FailedToDropPreloadedDataException : PreloadedItemConnectionException
     {
-        protected FailureToOpenConnectionWithSetException()
+        public ConnectionState CurrentState { get; private set; }
+
+        public FailedToDropPreloadedDataException(ConnectionState currentState)
+        {
+            CurrentState = currentState;
+        }
+
+        public override string Message
+        {
+            get
+            {
+                return "PreloadedItemConnection failed to drop preloaded table. Was it dropped prior to closing the connection?";
+            }
+        }
+    }
+
+    public class FailedToOpenPreloadedItemsConnectionException : PreloadedItemConnectionException
+    {
+        protected FailedToOpenPreloadedItemsConnectionException()
         { }
 
-        public FailureToOpenConnectionWithSetException(Exception innerException)
+        public FailedToOpenPreloadedItemsConnectionException(Exception innerException)
             : base(innerException)
         { }
 
@@ -28,33 +46,7 @@ namespace Mendham.Infrastructure.RelationalDatabase
         {
             get
             {
-                return "ConnectionWithSet failed to open. See INNER EXCEPTION for details.";
-            }
-        }
-    }
-
-    public class AttemptedToOpenNonClosedConnectionWithSetException : FailureToOpenConnectionWithSetException
-    {
-        private readonly ConnectionState _connectionState;
-
-        public AttemptedToOpenNonClosedConnectionWithSetException(ConnectionState connectionState)
-        {
-            this._connectionState = connectionState;
-        }
-
-        public ConnectionState CurrentConnectionState
-        {
-            get
-            {
-                return _connectionState;
-            }
-        }
-
-        public override string Message
-        {
-            get
-            {
-                return $"Attempt to open ConnectionWithState while it was in an invalid state ({_connectionState.ToString()}).";
+                return "PreloadedItemConnection failed to open. See INNER EXCEPTION for details.";
             }
         }
     }

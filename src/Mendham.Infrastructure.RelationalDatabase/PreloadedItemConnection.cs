@@ -20,6 +20,8 @@ namespace Mendham.Infrastructure.RelationalDatabase
         private readonly IEnumerable<T> _items;
         private readonly IItemLoaderMapping<T> _mapping;
 
+        private bool _preLoadedTableExists;
+
         public PreloadedItemConnection(IDbConnection connection, IEnumerable<T> items, IItemLoaderMapping<T> mapping)
         {
             _conn  = connection.VerifyArgumentNotNull(nameof(connection))
@@ -30,24 +32,43 @@ namespace Mendham.Infrastructure.RelationalDatabase
 
             _items = items.VerifyArgumentMeetsCriteria(a => a.All(mapping.ItemIsValidPredicate), nameof(items),
                 mapping.InvalidSetErrorMessage);
+
+            _preLoadedTableExists = false;
         }
 
 #if DOTNET5_4
         public override async Task OpenAsync(CancellationToken cancellationToken)
         {
-            await _conn.OpenAsync(cancellationToken);
-            await _conn.LoadDataAsync(_items, _mapping);
+            try
+            {
+                await _conn.OpenAsync(cancellationToken);
+                await _conn.LoadDataAsync(_items, _mapping);
+                _preLoadedTableExists = true;
+            }
+            catch (Exception ex)
+            {
+                throw new FailedToOpenPreloadedItemsConnectionException(ex);
+            }
         }
 
         public override void Open()
         {
-            _conn.Open();
-            _conn.LoadData(_items, _mapping);
+            try
+            {
+                _conn.Open();
+                _conn.LoadData(_items, _mapping);
+                _preLoadedTableExists = true;
+            }
+            catch (Exception ex)
+            {
+                throw new FailedToOpenPreloadedItemsConnectionException(ex);
+            }
         }
 
         public override void Close()
         {
-            _conn.DropDataAsync(_mapping);
+            var dropped =_conn.DropData(_mapping);
+            EvaluateDataDrop(dropped);
             _conn.Close();
         }
 
@@ -63,30 +84,47 @@ namespace Mendham.Infrastructure.RelationalDatabase
 #else
         public async Task OpenAsync()
         {
-            DbConnection dbConnection = _conn as DbConnection;
-
-            if (dbConnection != default(DbConnection))
+            try
             {
-                await dbConnection.OpenAsync();
-            }
-            else
-            {
-                // No known async opening support, use non async open
-                _conn.Open();
-            }
+                DbConnection dbConnection = _conn as DbConnection;
 
-            await _conn.LoadDataAsync(_items, _mapping);
+                if (dbConnection != default(DbConnection))
+                {
+                    await dbConnection.OpenAsync();
+                }
+                else
+                {
+                    // No known async opening support, use non async open
+                    _conn.Open();
+                }
+
+                await _conn.LoadDataAsync(_items, _mapping);
+                _preLoadedTableExists = true;
+            }
+            catch (Exception ex)
+            {
+                throw new FailedToOpenPreloadedItemsConnectionException(ex);
+            }
         }
 
         public void Open()
         {
-            _conn.Open();
-            _conn.LoadData(_items, _mapping);
+            try
+            {
+                _conn.Open();
+                _conn.LoadData(_items, _mapping);
+                _preLoadedTableExists = true;
+            }
+            catch (Exception ex)
+            {
+                throw new FailedToOpenPreloadedItemsConnectionException(ex);
+            }
         }
 
         public void Close()
         {
-            _conn.DropDataAsync(_mapping);
+            var dropped =_conn.DropData(_mapping);
+            EvaluateDataDrop(dropped);
             _conn.Close();
         }
 
@@ -113,10 +151,17 @@ namespace Mendham.Infrastructure.RelationalDatabase
 
         private void EvaluateDataDrop(bool successful)
         {
-            if (!successful && _conn.State != ConnectionState.Closed)
+            if (successful)
             {
-                var error = $"Attempted to dispose connection in an invalid open state ({_conn.State}).";
-                throw new InvalidOperationException(error);
+                _preLoadedTableExists = false;
+            }
+
+            if (_preLoadedTableExists)
+            {
+                // Prevents from rethrowing on an dispose
+                _preLoadedTableExists = false;
+
+                throw new FailedToDropPreloadedDataException(_conn.State);
             }
         }
 
@@ -175,9 +220,14 @@ namespace Mendham.Infrastructure.RelationalDatabase
 
         public override void ChangeDatabase(string databaseName)
         {
-            DropData();
+            if (_conn.State == ConnectionState.Open)
+            {
+                DropData();
+            }
+
             _conn.ChangeDatabase(databaseName);
             _conn.LoadData(_items, _mapping);
+            _preLoadedTableExists = true;
         }
 
         protected override IDbCommand CreateDbCommand()
@@ -235,9 +285,14 @@ namespace Mendham.Infrastructure.RelationalDatabase
 
         void IDbConnection.ChangeDatabase(string databaseName)
         {
-            DropData();
+            if (_conn.State == ConnectionState.Open)
+            {
+                DropData();
+            }
+
             _conn.ChangeDatabase(databaseName);
             _conn.LoadData(_items, _mapping);
+            _preLoadedTableExists = true;
         }
 
         IDbCommand IDbConnection.CreateCommand()

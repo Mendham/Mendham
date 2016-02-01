@@ -41,7 +41,10 @@ namespace Mendham.Infrastructure.RelationalDatabase.Test.SqlServer
             {
                 await conn.LoadDataAsync(Fixture.KnownStrings, sut);
 
-                var result = await conn.ExecuteScalarAsync<int>(@"SELECT COUNT(1) FROM #Items");
+                var result = await conn.ExecuteScalarAsync<int>(@"
+                    SELECT COUNT(1)
+                    FROM StrTable st
+                        INNER JOIN #Items items ON st.Id = items.Value");
 
                 result.Should()
                     .Be(Fixture.KnownStrings.Count());

@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using FluentAssertions;
 using Mendham.Infrastructure.RelationalDatabase.SqlServer;
 using Mendham.Infrastructure.RelationalDatabase.Test.Fixtures;
 using Mendham.Infrastructure.RelationalDatabase.Test.Helpers;
@@ -17,70 +18,30 @@ namespace Mendham.Infrastructure.RelationalDatabase.Test
         }
 
         [Fact]
-        public async Task ConnectionWithSet_IntSet_AllSelectedValues()
+        public void ConnectionWithSet_CompositeIdMapping_AllSelectedValues()
         {
             var sut = Fixture.GetConnectionFactory();
+            var mapping = Fixture.GetCompositeIdMapping();
 
-            using (var conn = await sut.GetOpenPreloadedItemConnectionAsync(Fixture.KnownInts))
+            using (var conn = sut.GetOpenPreloadedItemConnection(Fixture.KnownCompositeIds, mapping))
             {
-                var q = await conn.QueryAsync<int>(@"
-                    SELECT Id
-                    FROM IntTable it
-                        INNER JOIN #Items items ON it.Id = items.Value
+                var q = conn.Query<CompositeId>(@"
+                    SELECT tcit.GuidVal, tcit.IntVal
+                    FROM CompositeIdTable tcit
+                        INNER JOIN #TestCompositeIdSet items ON tcit.GuidVal = items.GuidVal
+                            AND tcit.IntVal= items.IntVal
                 ");
 
                 var result = q.ToList();
 
                 Assert.NotEmpty(result);
-                Assert.Equal(Fixture.KnownInts.Count(), result.Count());
-                Assert.Equal(Fixture.KnownInts.OrderBy(a => a), result.OrderBy(a => a));
+                Assert.Equal(Fixture.KnownCompositeIds.Count(), result.Count());
+                Assert.Equal(Fixture.KnownCompositeIds.OrderBy(a => a.GuidVal), result.OrderBy(a => a.GuidVal));
             }
         }
 
         [Fact]
-        public async Task ConnectionWithSet_GuidSet_AllSelectedValues()
-        {
-            var sut = Fixture.GetConnectionFactory();
-
-            using (var conn = await sut.GetOpenPreloadedItemConnectionAsync(Fixture.KnownGuids))
-            {
-                var q = await conn.QueryAsync<Guid>(@"
-                    SELECT Id
-                    FROM GuidTable gt
-                        INNER JOIN #Items items ON gt.Id = items.Value
-                ");
-
-                var result = q.ToList();
-
-                Assert.NotEmpty(result);
-                Assert.Equal(Fixture.KnownGuids.Count(), result.Count());
-                Assert.Equal(Fixture.KnownGuids.OrderBy(a => a), result.OrderBy(a => a));
-            }
-        }
-
-        [Fact]
-        public async Task ConnectionWithSet_StringSet_AllSelectedValues()
-        {
-            var sut = Fixture.GetConnectionFactory();
-
-            using (var conn = await sut.GetOpenPreloadedItemConnectionAsync(Fixture.KnownStrings))
-            {
-                var q = await conn.QueryAsync<string>(@"
-                    SELECT Id
-                    FROM StrTable st
-                        INNER JOIN #Items items ON st.Id = items.Value
-                ");
-
-                var result = q.ToList();
-
-                Assert.NotEmpty(result);
-                Assert.Equal(Fixture.KnownStrings.Count(), result.Count());
-                Assert.Equal(Fixture.KnownStrings.OrderBy(a => a), result.OrderBy(a => a));
-            }
-        }
-
-        [Fact]
-        public async Task ConnectionWithSet_CompositeIdMapping_AllSelectedValues()
+        public async Task ConnectionWithSetAsync_CompositeIdMapping_AllSelectedValues()
         {
             var sut = Fixture.GetConnectionFactory();
             var mapping = Fixture.GetCompositeIdMapping();
@@ -99,6 +60,70 @@ namespace Mendham.Infrastructure.RelationalDatabase.Test
                 Assert.NotEmpty(result);
                 Assert.Equal(Fixture.KnownCompositeIds.Count(), result.Count());
                 Assert.Equal(Fixture.KnownCompositeIds.OrderBy(a => a.GuidVal), result.OrderBy(a => a.GuidVal));
+            }
+        }
+
+        [Fact]
+        public async Task OpenAsync_CalledTwice_ThrowsFailedToOpenPreloadedItemsConnectionException()
+        {
+            var factory = Fixture.GetConnectionFactory();
+
+            using (var conn = factory.GetPreloadedItemConnection(Fixture.KnownInts))
+            {
+                await conn.OpenAsync();
+
+                Func<Task> act = async () => await conn.OpenAsync();
+
+                act.ShouldThrow<FailedToOpenPreloadedItemsConnectionException>();
+            }
+        }
+
+        [Fact]
+        public void Open_CalledTwice_ThrowsFailedToOpenPreloadedItemsConnectionException()
+        {
+            var factory = Fixture.GetConnectionFactory();
+
+            using (var conn = factory.GetPreloadedItemConnection(Fixture.KnownInts))
+            {
+                conn.Open();
+
+                Action act = () => conn.Open();
+
+                act.ShouldThrow<FailedToOpenPreloadedItemsConnectionException>();
+            }
+        }
+
+        [Fact]
+        public async Task CloseAsync_AlreadyDropedPreloadedTable_ThrowsFailedToDropPreloadedDataException()
+        {
+            var factory = Fixture.GetConnectionFactory();
+
+            using (var conn = factory.GetPreloadedItemConnection(Fixture.KnownInts, "#TestItems"))
+            {
+                await conn.OpenAsync();
+
+                await conn.ExecuteAsync("DROP TABLE #TestItems");
+
+                Func<Task> act = async () => await conn.CloseAsync();
+
+                act.ShouldThrow<FailedToDropPreloadedDataException>();
+            }
+        }
+
+        [Fact]
+        public void Close_AlreadyDropedPreloadedTable_ThrowsFailedToDropPreloadedDataException()
+        {
+            var factory = Fixture.GetConnectionFactory();
+
+            using (var conn = factory.GetPreloadedItemConnection(Fixture.KnownInts, "#TestItems"))
+            {
+                conn.Open();
+
+                conn.Execute("DROP TABLE #TestItems");
+
+                Action act = () => conn.Close();
+
+                act.ShouldThrow<FailedToDropPreloadedDataException>();
             }
         }
     }
