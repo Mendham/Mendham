@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data;
 
-namespace Mendham.Infrastructure.RelationalDatabase
+namespace Mendham.Infrastructure.RelationalDatabase.Exceptions
 {
     public abstract class PreloadedItemConnectionException : Exception
     {

@@ -1,6 +1,8 @@
 ﻿using Dapper;
+using Mendham.Infrastructure.RelationalDatabase.Exceptions;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Threading.Tasks;
 
 #if DOTNET5_4
@@ -14,6 +16,10 @@ namespace Mendham.Infrastructure.RelationalDatabase
         public async static Task<IItemLoaderMapping<T>> LoadDataAsync<T>(this IDbConnection connection, 
             IEnumerable<T> items, IItemLoaderMapping<T> mapping)
         {
+            items.VerifyArgumentNotNull(nameof(items))
+                .VerifyArgumentMeetsCriteria(a => a.All(mapping.ItemIsValidPredicate),
+                    a => AttemptedToLoadInvalidItemException.BuildException(items, mapping));
+
             await connection.ExecuteAsync(mapping.CreateTableSql);
 
             foreach (var item in items)
@@ -27,6 +33,10 @@ namespace Mendham.Infrastructure.RelationalDatabase
         public static IItemLoaderMapping<T> LoadData<T>(this IDbConnection connection, IEnumerable<T> items,
             IItemLoaderMapping<T> mapping)
         {
+            items.VerifyArgumentNotNull(nameof(items))
+                .VerifyArgumentMeetsCriteria(a => a.All(mapping.ItemIsValidPredicate),
+                    a => AttemptedToLoadInvalidItemException.BuildException(items, mapping));
+
             connection.Execute(mapping.CreateTableSql);
 
             foreach (var item in items)
@@ -36,6 +46,7 @@ namespace Mendham.Infrastructure.RelationalDatabase
 
             return mapping;
         }
+
 
         public static Task<bool> DropDataAsync<T>(this IDbConnection connection, IItemLoaderMapping<T> mapping)
         {

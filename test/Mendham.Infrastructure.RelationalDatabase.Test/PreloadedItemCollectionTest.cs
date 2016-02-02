@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using FluentAssertions;
+using Mendham.Infrastructure.RelationalDatabase.Exceptions;
 using Mendham.Infrastructure.RelationalDatabase.SqlServer;
 using Mendham.Infrastructure.RelationalDatabase.Test.Fixtures;
 using Mendham.Infrastructure.RelationalDatabase.Test.Helpers;

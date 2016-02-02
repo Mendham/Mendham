@@ -9,6 +9,7 @@ namespace Mendham.Infrastructure.RelationalDatabase.SqlServer
     {
         private const string DEFAULT_TABLE_NAME = "#Items";
         private const string DEFAULT_COLUMN_NAME = "Value";
+        private const int MAX_STRING_LENGTH = 10;
 
         public static PreloadedItemConnection<int> GetPreloadedItemConnection(
             this IConnectionFactory connectionFactory, IEnumerable<int> items, 
@@ -66,27 +67,30 @@ namespace Mendham.Infrastructure.RelationalDatabase.SqlServer
 
         public static PreloadedItemConnection<string> GetPreloadedItemConnection(
             this IConnectionFactory connectionFactory, IEnumerable<string> items,
-            string stringTableName = DEFAULT_TABLE_NAME, string stringColName = DEFAULT_COLUMN_NAME)
+            string stringTableName = DEFAULT_TABLE_NAME, string stringColName = DEFAULT_COLUMN_NAME,
+            int maxStringLength = MAX_STRING_LENGTH)
         {
-            var mapping = new NVarchar100Mapping(stringTableName, stringColName);
+            var mapping = new NVarcharMapping(stringTableName, stringColName, maxStringLength);
 
             return connectionFactory.GetPreloadedItemConnection(items, mapping);
         }
 
         public static Task<PreloadedItemConnection<string>> GetOpenPreloadedItemConnectionAsync(
             this IConnectionFactory connectionFactory, IEnumerable<string> items,
-            string stringTableName = DEFAULT_TABLE_NAME, string stringColName = DEFAULT_COLUMN_NAME)
+            string stringTableName = DEFAULT_TABLE_NAME, string stringColName = DEFAULT_COLUMN_NAME,
+            int maxStringLength = MAX_STRING_LENGTH)
         {
-            var mapping = new NVarchar100Mapping(stringTableName, stringColName);
+            var mapping = new NVarcharMapping(stringTableName, stringColName, maxStringLength);
 
             return connectionFactory.GetOpenPreloadedItemConnectionAsync(items, mapping);
         }
 
         public static PreloadedItemConnection<string> GetOpenPreloadedItemConnection(
             this IConnectionFactory connectionFactory, IEnumerable<string> items,
-            string stringTableName = DEFAULT_TABLE_NAME, string stringColName = DEFAULT_COLUMN_NAME)
+            string stringTableName = DEFAULT_TABLE_NAME, string stringColName = DEFAULT_COLUMN_NAME,
+            int maxStringLength = MAX_STRING_LENGTH)
         {
-            var mapping = new NVarchar100Mapping(stringTableName, stringColName);
+            var mapping = new NVarcharMapping(stringTableName, stringColName, maxStringLength);
 
             return connectionFactory.GetOpenPreloadedItemConnection(items, mapping);
         }

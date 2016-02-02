@@ -1,4 +1,6 @@
-﻿namespace Mendham.Infrastructure.RelationalDatabase.SqlServer
+﻿using Mendham.Infrastructure.RelationalDatabase.ItemLoader;
+
+namespace Mendham.Infrastructure.RelationalDatabase.SqlServer
 {
     public abstract class SqlServerItemLoaderMapping<T> : ItemLoaderMapping<T>
     {

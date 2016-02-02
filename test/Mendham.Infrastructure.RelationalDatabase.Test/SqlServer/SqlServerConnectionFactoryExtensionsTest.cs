@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using FluentAssertions;
+using Mendham.Infrastructure.RelationalDatabase.Exceptions;
 using Mendham.Infrastructure.RelationalDatabase.SqlServer;
 using Mendham.Infrastructure.RelationalDatabase.Test.Fixtures;
 using System;
@@ -170,7 +171,6 @@ namespace Mendham.Infrastructure.RelationalDatabase.Test.SqlServer
             }
         }
 
-
         [Fact]
         public void GetPreloadedItemConnection_String_ClosedConnection()
         {
@@ -244,6 +244,32 @@ namespace Mendham.Infrastructure.RelationalDatabase.Test.SqlServer
                 result.Should()
                     .Be(Fixture.KnownStrings.Count());
             }
+        }
+
+        [Fact]
+        public void GetPreloadedItemConnection_StringInvalidLength_ThrowsArguementOutOfRangeException()
+        {
+            var factory = Fixture.GetConnectionFactory();
+            int maxCharacters = 9;
+
+            // Over 10 characters 
+            var invalidValue = "12345678_0";
+
+            var valuesToPass = new List<string>
+                {
+                    "ABC",
+                    "123",
+                    invalidValue,
+                    "XYZ"
+                };
+
+            Action act = () => factory.GetOpenPreloadedItemConnection(valuesToPass, CUSTOM_TABLE,
+                CUSTOM_COLUMN, maxCharacters);
+
+            act.ShouldThrow<AttemptedToLoadInvalidItemException>()
+                    .Where(a => Equals(a.FirstInvalidItem, invalidValue))
+                    .Where(a => a.Message.Contains(invalidValue))
+                    .Where(a => a.Message.Contains("9"));
         }
     }
 }

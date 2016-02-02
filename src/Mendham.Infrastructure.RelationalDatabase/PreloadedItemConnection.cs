@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Collections.ObjectModel;
+using Mendham.Infrastructure.RelationalDatabase.Exceptions;
 
 #if DOTNET5_4
 using IDbConnection = global::System.Data.Common.DbConnection;
@@ -31,8 +32,9 @@ namespace Mendham.Infrastructure.RelationalDatabase
 
             _mapping = mapping.VerifyArgumentNotDefaultValue(nameof(mapping));
 
-            items.VerifyArgumentMeetsCriteria(a => a.All(mapping.ItemIsValidPredicate), nameof(items),
-                mapping.InvalidSetErrorMessage);
+            items.VerifyArgumentNotNull(nameof(items))
+                .VerifyArgumentMeetsCriteria(a => a.All(mapping.ItemIsValidPredicate), 
+                    a => AttemptedToLoadInvalidItemException.BuildException(items, mapping));
 
             _items = new ReadOnlyCollection<T>(items.ToList());
 

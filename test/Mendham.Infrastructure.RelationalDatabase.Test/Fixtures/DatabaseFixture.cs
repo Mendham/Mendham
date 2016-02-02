@@ -66,7 +66,6 @@ namespace Mendham.Infrastructure.RelationalDatabase.Test.Fixtures
                 yield return new Guid("{2333F59D-C9B0-4E85-B851-D8A2DB67725E}");
                 yield return new Guid("{4FF4427F-0D57-4DBD-A2FE-31B40E04F3AB}");
                 yield return new Guid("{B726DF11-4ACA-4C5F-9E2E-16E715715234}");
-                yield return new Guid("{B726DF11-4ACA-4C5F-9E2E-16E715715234}");
                 yield return new Guid("{8E87D4E5-22CB-4DCA-8563-7CCA1FA72AEE}");
                 yield return new Guid("{1320CCC3-2CA0-49EE-B6B8-6C6B75493EF0}");
             }
@@ -76,7 +75,8 @@ namespace Mendham.Infrastructure.RelationalDatabase.Test.Fixtures
         {
             get
             {
-                return KnownGuids.Select(a => a.ToString());
+                return KnownGuids
+                    .Select(a => a.ToString().Substring(0, 9));
             }
         }
 
@@ -192,11 +192,11 @@ namespace Mendham.Infrastructure.RelationalDatabase.Test.Fixtures
                 .Union(Enumerable.Range(1, 100).Select(a => Guid.NewGuid()))
                 .OrderBy(a => Guid.NewGuid());
 
-            foreach (var guid in guids)
+            foreach (var guid in KnownGuids)
                 cmdTestSb.AppendFormat("INSERT INTO GuidTable (Id) VALUES ('{0}') \n", guid);
 
-            foreach (var guidStr in guids.Select(a => a.ToString()))
-                cmdTestSb.AppendFormat("INSERT INTO StrTable (Id) VALUES ('{0}') \n", guidStr);
+            foreach (var knownStr in KnownStrings)
+                cmdTestSb.AppendFormat("INSERT INTO StrTable (Id) VALUES ('{0}') \n", knownStr);
 
             var compositeIds = KnownCompositeIds
                 .Union(Enumerable.Range(100, 100)

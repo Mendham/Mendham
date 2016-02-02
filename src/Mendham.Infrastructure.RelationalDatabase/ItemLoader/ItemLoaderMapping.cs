@@ -1,4 +1,4 @@
-﻿namespace Mendham.Infrastructure.RelationalDatabase
+﻿namespace Mendham.Infrastructure.RelationalDatabase.ItemLoader
 {
     public abstract class ItemLoaderMapping<T> : IItemLoaderMapping<T>
     {
