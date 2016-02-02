@@ -105,9 +105,7 @@ namespace Mendham.Infrastructure.RelationalDatabase.Test
 
                 await conn.ExecuteAsync("DROP TABLE #TestItems");
 
-                Func<Task> act = async () => await conn.CloseAsync();
-
-                act.ShouldThrow<FailedToDropPreloadedDataException>();
+                await Assert.ThrowsAsync<FailedToDropPreloadedDataException>(() => conn.CloseAsync());
             }
         }
 
