@@ -10,13 +10,13 @@ using FluentAssertions;
 
 namespace Mendham.Infrastructure.RelationalDatabase.Test.SqlServer
 {
-    public class GuidMappingTest : MendhamDatabaseTest
+    public class UniqueIdentifierMappingTest : MendhamDatabaseTest
     {
-        private readonly GuidMapping sut;
+        private readonly UniqueIdentifierMapping sut;
 
-        public GuidMappingTest(DatabaseFixture fixture) : base(fixture)
+        public UniqueIdentifierMappingTest(DatabaseFixture fixture) : base(fixture)
         {
-            sut = new GuidMapping("#Items", "Value");
+            sut = new UniqueIdentifierMapping("#Items", "Value");
         }
 
         [Fact]
