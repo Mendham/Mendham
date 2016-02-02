@@ -42,7 +42,7 @@ namespace Mendham.Infrastructure.RelationalDatabase.SqlServer
             this IConnectionFactory connectionFactory, IEnumerable<Guid> items,
             string guidTableName = DEFAULT_TABLE_NAME, string guidColName = DEFAULT_COLUMN_NAME)
         {
-            var mapping = new GuidMapping(guidTableName, guidColName);
+            var mapping = new UniqueIdentifierMapping(guidTableName, guidColName);
 
             return connectionFactory.GetPreloadedItemConnection(items, mapping);
         }
@@ -51,7 +51,7 @@ namespace Mendham.Infrastructure.RelationalDatabase.SqlServer
             this IConnectionFactory connectionFactory, IEnumerable<Guid> items,
             string guidTableName = DEFAULT_TABLE_NAME, string guidColName = DEFAULT_COLUMN_NAME)
         {
-            var mapping = new GuidMapping(guidTableName, guidColName);
+            var mapping = new UniqueIdentifierMapping(guidTableName, guidColName);
 
             return connectionFactory.GetOpenPreloadedItemConnectionAsync(items, mapping);
         }
@@ -60,7 +60,7 @@ namespace Mendham.Infrastructure.RelationalDatabase.SqlServer
             this IConnectionFactory connectionFactory, IEnumerable<Guid> items,
             string guidTableName = DEFAULT_TABLE_NAME, string guidColName = DEFAULT_COLUMN_NAME)
         {
-            var mapping = new GuidMapping(guidTableName, guidColName);
+            var mapping = new UniqueIdentifierMapping(guidTableName, guidColName);
 
             return connectionFactory.GetOpenPreloadedItemConnection(items, mapping);
         }

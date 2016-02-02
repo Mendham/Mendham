@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace Mendham.Infrastructure.RelationalDatabase.SqlServer.BuiltInMapping
 {
-    public class GuidMapping : TSqlSingleFieldMapping<Guid>
+    public class UniqueIdentifierMapping : TSqlSingleFieldMapping<Guid>
     {
         private const string GUID_TYPE = "UNIQUEIDENTIFIER";
 
-        public GuidMapping(string tableName, string columnName) : base(tableName, columnName)
+        public UniqueIdentifierMapping(string tableName, string columnName) : base(tableName, columnName)
         { }
 
         protected override string TSqlType
