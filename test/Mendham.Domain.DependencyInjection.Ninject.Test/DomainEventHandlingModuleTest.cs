@@ -8,7 +8,7 @@ using Ninject;
 using Mendham.Domain.Events;
 using FluentAssertions;
 
-namespace Mendham.Domain.Ninject.Test
+namespace Mendham.Domain.DependencyInjection.Ninject.Test
 {
     public class DomainEventHandlingModuleTest : IDisposable
     {

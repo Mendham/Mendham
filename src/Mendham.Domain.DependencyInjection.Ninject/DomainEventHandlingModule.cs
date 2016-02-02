@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Mendham.Domain.Ninject
+namespace Mendham.Domain.DependencyInjection.Ninject
 {
     public class DomainEventHandlingModule : NinjectModule
     {

@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 using Mendham.Domain.Events;
-using Mendham.Domain.Ninject.Test.TestObjects;
+using Mendham.Domain.DependencyInjection.Ninject.Test.TestObjects;
 using Ninject;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Mendham.Domain.Ninject.Test
+namespace Mendham.Domain.DependencyInjection.Ninject.Test
 {
     public class RegistrationExtensionsTest : IDisposable
     {

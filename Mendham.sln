@@ -28,9 +28,9 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Testing.Moq", "src\
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Testing.Builder", "src\Mendham.Testing.Builder\Mendham.Testing.Builder.xproj", "{A9BE8EB4-E1D5-4D22-BF6D-825D5114C7C2}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Domain.Autofac", "src\Mendham.Domain.Autofac\Mendham.Domain.Autofac.xproj", "{FC64AECA-9F32-4401-875B-500BC389B874}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Domain.DependencyInjection.Autofac", "src\Mendham.Domain.DependencyInjection.Autofac\Mendham.Domain.DependencyInjection.Autofac.xproj", "{FC64AECA-9F32-4401-875B-500BC389B874}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Domain.Autofac.Test", "test\Mendham.Domain.Autofac.Test\Mendham.Domain.Autofac.Test.xproj", "{67C61F14-5068-4B9D-9AA2-091B56F23A72}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Domain.DependencyInjection.Autofac.Test", "test\Mendham.Domain.DependencyInjection.Autofac.Test\Mendham.Domain.DependencyInjection.Autofac.Test.xproj", "{67C61F14-5068-4B9D-9AA2-091B56F23A72}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "infrastructure", "infrastructure", "{1EAA64F8-EA81-4CE2-96CE-0A6D02304E52}"
 EndProject
@@ -52,9 +52,9 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Testing.Domain.Test
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Testing.Builder.Test", "test\Mendham.Testing.Builder.Test\Mendham.Testing.Builder.Test.xproj", "{8EB28DFC-41DF-4B88-ADB5-3E511584896F}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Domain.Ninject", "src\Mendham.Domain.Ninject\Mendham.Domain.Ninject.xproj", "{5CD630F8-7DAE-434C-BE75-690EC8457A38}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Domain.DependencyInjection.Ninject", "src\Mendham.Domain.DependencyInjection.Ninject\Mendham.Domain.DependencyInjection.Ninject.xproj", "{5CD630F8-7DAE-434C-BE75-690EC8457A38}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Domain.Ninject.Test", "test\Mendham.Domain.Ninject.Test\Mendham.Domain.Ninject.Test.xproj", "{2BFFA3F0-BD9B-431D-B237-22BB88D71175}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Domain.DependencyInjection.Ninject.Test", "test\Mendham.Domain.DependencyInjection.Ninject.Test\Mendham.Domain.DependencyInjection.Ninject.Test.xproj", "{2BFFA3F0-BD9B-431D-B237-22BB88D71175}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Testing.Moq.Test", "test\Mendham.Testing.Moq.Test\Mendham.Testing.Moq.Test.xproj", "{40266C37-16FC-49E3-AFB5-DDA4DC45711E}"
 EndProject

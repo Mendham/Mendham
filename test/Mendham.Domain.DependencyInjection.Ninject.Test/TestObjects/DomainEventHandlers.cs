@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Mendham.Domain.Ninject.Test.TestObjects
+namespace Mendham.Domain.DependencyInjection.Ninject.Test.TestObjects
 {
     public sealed class Test1DomainEventHandler : DomainEventHandler<Test1DomainEvent>
     {

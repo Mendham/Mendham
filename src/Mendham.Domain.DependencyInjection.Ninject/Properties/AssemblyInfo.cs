@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Mendham.Domain.Ninject.Test")]
+[assembly: AssemblyTitle("Mendham.Domain.DependencyInjection.Ninject")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Mendham.Domain.Ninject.Test")]
+[assembly: AssemblyProduct("Mendham.Domain.DependencyInjection.Ninject")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,4 +20,4 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("2bffa3f0-bd9b-431d-b237-22bb88d71175")]
+[assembly: Guid("5cd630f8-7dae-434c-be75-690ec8457a38")]

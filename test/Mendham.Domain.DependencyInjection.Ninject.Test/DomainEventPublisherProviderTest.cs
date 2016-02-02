@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Mendham.Domain.Ninject.Test
+namespace Mendham.Domain.DependencyInjection.Ninject.Test
 {
     public class DomainEventPublisherProviderTest : IDisposable
     {

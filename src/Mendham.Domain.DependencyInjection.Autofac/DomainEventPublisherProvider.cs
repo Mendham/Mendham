@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Mendham.Domain.Autofac
+namespace Mendham.Domain.DependencyInjection.Autofac
 {
     internal class DomainEventPublisherProvider : IDomainEventPublisherProvider
     {

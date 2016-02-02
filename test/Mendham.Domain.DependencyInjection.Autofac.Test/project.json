@@ -1,6 +1,6 @@
 {
   "version": "1.0.0-beta2-*",
-  "description": "Unit tests for Mendham.Domain.Autofac",
+  "description": "Unit tests for Mendham.Domain.DependencyInjection.Autofac",
   "authors": [ "Craig Beall" ],
   "projectUrl": "https://cbeall.github.io/Mendham",
   "licenseUrl": "https://raw.githubusercontent.com/cbeall/Mendham/master/LICENSE",
@@ -11,7 +11,7 @@
     "Moq": "4.2.1510.2205",
     "FluentAssertions": "4.0.1",
     "Mendham.Domain": "1.0.0-*",
-    "Mendham.Domain.Autofac": "1.0.0-*",
+    "Mendham.Domain.DependencyInjection.Autofac": "1.0.0-*",
     "Mendham.Testing": "1.0.0-*",
     "Mendham.Testing.Builder": "1.0.0-*",
     "Mendham.Testing.Moq": "1.0.0-*"

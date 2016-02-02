@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using FluentAssertions;
-using Mendham.Domain.Autofac.Test.Data;
+using Mendham.Domain.DependencyInjection.Autofac.Test.Data;
 using Mendham.Domain.Events;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Mendham.Domain.Autofac.Test
+namespace Mendham.Domain.DependencyInjection.Autofac.Test
 {
 	public class RegistrationExtensionsTest
 	{

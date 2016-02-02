@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
-namespace Mendham.Domain.Autofac
+namespace Mendham.Domain.DependencyInjection.Autofac
 {
 	public static class RegistrationExtensions
 	{

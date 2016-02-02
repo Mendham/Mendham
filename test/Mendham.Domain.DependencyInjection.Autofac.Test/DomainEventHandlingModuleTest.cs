@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Mendham.Domain.Autofac.Test
+namespace Mendham.Domain.DependencyInjection.Autofac.Test
 {
 	public class DomainEventHandlingModuleTest
 	{

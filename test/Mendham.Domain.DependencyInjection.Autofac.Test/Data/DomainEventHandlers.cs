@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Mendham.Domain.Events;
 
-namespace Mendham.Domain.Autofac.Test.Data
+namespace Mendham.Domain.DependencyInjection.Autofac.Test.Data
 {
 	public sealed class Test1DomainEventHandler : DomainEventHandler<Test1DomainEvent>
 	{
