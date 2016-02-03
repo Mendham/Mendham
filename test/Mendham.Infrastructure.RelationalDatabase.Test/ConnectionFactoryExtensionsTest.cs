@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using Dapper;
+using FluentAssertions;
 using Mendham.Infrastructure.RelationalDatabase.Test.Fixtures;
 using System;
 using System.Collections.Generic;
@@ -20,9 +21,9 @@ namespace Mendham.Infrastructure.RelationalDatabase.Test
         {
             var connectionFactory = Fixture.GetConnectionFactory();
 
-            using (var sut = await connectionFactory.GetOpenConnectionAsync())
+            using (var connection = await connectionFactory.GetOpenConnectionAsync())
             {
-                sut.State.Should().Be(ConnectionState.Open);
+                connection.State.Should().Be(ConnectionState.Open);
             }
         }
 
@@ -31,10 +32,32 @@ namespace Mendham.Infrastructure.RelationalDatabase.Test
         {
             var connectionFactory = Fixture.GetConnectionFactory();
 
-            using (var sut = connectionFactory.GetOpenConnection())
+            using (var connection = connectionFactory.GetOpenConnection())
             {
-                sut.State.Should().Be(ConnectionState.Open);
+                connection.State.Should().Be(ConnectionState.Open);
             }
+        }
+
+        [Fact]
+        public async Task ExecuteAsync_ScalerAction_Runs()
+        {
+            var connectionFactory = Fixture.GetConnectionFactory();
+
+            var result = await connectionFactory.ExecuteAsync(conn =>
+                conn.ExecuteScalarAsync<bool>("SELECT TOP 1 1 FROM GuidTable"));
+
+            result.Should().BeTrue();
+        }
+
+        [Fact]
+        public void Execute_ScalerAction_Runs()
+        {
+            var connectionFactory = Fixture.GetConnectionFactory();
+
+            var result = connectionFactory.Execute(conn =>
+                conn.ExecuteScalar<bool>("SELECT TOP 1 1 FROM GuidTable"));
+
+            result.Should().BeTrue();
         }
     }
 }
