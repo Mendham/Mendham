@@ -118,13 +118,10 @@ namespace Mendham.Infrastructure.RelationalDatabase.Test.Fixtures
             return new SqlConnection(connStr);
         }
 
-        public async Task<IDbConnection> GetOpenConnectionAsync()
+        public Task<IDbConnection> GetOpenConnectionAsync()
         {
-            var conn = GetConnectionFactory().GetConnection() as DbConnection;
-
-            await conn.OpenAsync();
-
-            return conn;
+            return GetConnectionFactory()
+                .GetOpenConnectionAsync();
         }
 
         private void CreateDatabase()
