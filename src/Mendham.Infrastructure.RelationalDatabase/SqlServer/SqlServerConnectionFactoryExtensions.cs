@@ -1,7 +1,12 @@
 ﻿using Mendham.Infrastructure.RelationalDatabase.SqlServer.BuiltInMapping;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Threading.Tasks;
+
+#if DOTNET5_4
+using IDbConnection = global::System.Data.Common.DbConnection;
+#endif
 
 namespace Mendham.Infrastructure.RelationalDatabase.SqlServer
 {
@@ -93,6 +98,72 @@ namespace Mendham.Infrastructure.RelationalDatabase.SqlServer
             var mapping = new NVarcharMapping(stringTableName, stringColName, maxStringLength);
 
             return connectionFactory.GetOpenPreloadedItemConnection(items, mapping);
+        }
+
+        public async static Task<T> GetPreloadedAndExecuteAsync<T>(this IConnectionFactory connectionFactory,
+            IEnumerable<int> items, Func<IDbConnection, Task<T>> action, string intTableName = DEFAULT_TABLE_NAME, 
+            string intColName = DEFAULT_COLUMN_NAME)
+        {
+            var connTask = connectionFactory.GetOpenPreloadedItemConnectionAsync(items, intTableName, intColName);
+
+            using (var conn = await connTask)
+            {
+                return await action(conn);
+            }
+        }
+
+        public static T GetPreloadedAndExecute<T>(this IConnectionFactory connectionFactory, 
+            IEnumerable<int> items, Func<IDbConnection, T> action, string intTableName = DEFAULT_TABLE_NAME,
+            string intColName = DEFAULT_COLUMN_NAME)
+        {
+            using (var conn = connectionFactory.GetOpenPreloadedItemConnection(items, intTableName, intColName))
+            {
+                return action(conn);
+            }
+        }
+
+        public async static Task<T> GetPreloadedAndExecuteAsync<T>(this IConnectionFactory connectionFactory,
+            IEnumerable<Guid> items, Func<IDbConnection, Task<T>> action, string guidTableName = DEFAULT_TABLE_NAME,
+            string guidColName = DEFAULT_COLUMN_NAME)
+        {
+            var connTask = connectionFactory.GetOpenPreloadedItemConnectionAsync(items, guidTableName, guidColName);
+
+            using (var conn = await connTask)
+            {
+                return await action(conn);
+            }
+        }
+
+        public static T GetPreloadedAndExecute<T>(this IConnectionFactory connectionFactory,
+            IEnumerable<Guid> items, Func<IDbConnection, T> action, string guidTableName = DEFAULT_TABLE_NAME,
+            string guidColName = DEFAULT_COLUMN_NAME)
+        {
+            using (var conn = connectionFactory.GetOpenPreloadedItemConnection(items, guidTableName, guidColName))
+            {
+                return action(conn);
+            }
+        }
+
+        public async static Task<T> GetPreloadedAndExecuteAsync<T>(this IConnectionFactory connectionFactory,
+            IEnumerable<string> items, Func<IDbConnection, Task<T>> action, string stringTableName = DEFAULT_TABLE_NAME,
+            string stringColName = DEFAULT_COLUMN_NAME, int maxStringLength = MAX_STRING_LENGTH)
+        {
+            var connTask = connectionFactory.GetOpenPreloadedItemConnectionAsync(items, stringTableName, stringColName);
+
+            using (var conn = await connTask)
+            {
+                return await action(conn);
+            }
+        }
+
+        public static T GetPreloadedAndExecute<T>(this IConnectionFactory connectionFactory,
+            IEnumerable<string> items, Func<IDbConnection, T> action, string stringTableName = DEFAULT_TABLE_NAME,
+            string stringColName = DEFAULT_COLUMN_NAME, int maxStringLength = MAX_STRING_LENGTH)
+        {
+            using (var conn = connectionFactory.GetOpenPreloadedItemConnection(items, stringTableName, stringColName))
+            {
+                return action(conn);
+            }
         }
     }
 }
