@@ -19,5 +19,18 @@ namespace Mendham
 		{
             yield return obj;
 		}
-	}
+
+        /// <summary>
+		/// Converts T into an List<T> that has the original object as its only item
+		/// </summary>
+		/// <typeparam name="T">Type of List</typeparam>
+		/// <param name="obj">Object to add to collection</param>
+		/// <returns></returns>
+		[DebuggerStepThrough]
+        public static List<T> AsSingleItemList<T>(this T obj)
+        {
+            return obj.AsSingleItemEnumerable()
+                .ToList();
+        }
+    }
 }

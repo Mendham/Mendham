@@ -13,13 +13,26 @@ namespace Mendham.Test.BaseExtensions
 	{
 		[Theory]
 		[MendhamData]
-		public void AsSingleItemEnumerable_Int_SingleItemCollection(int val)
+		public void AsSingleItemEnumerable_Int_SingleItemEnumerable(int val)
 		{
 			var result = val.AsSingleItemEnumerable();
 
-			result.Should().BeAssignableTo<IEnumerable<int>>();
-			result.Should().Equal(val);
-			result.Should().HaveCount(1);
+            result.Should()
+                .BeAssignableTo<IEnumerable<int>>()
+                .And.Contain(val)
+                .And.HaveCount(1);
 		}
-	}
+
+        [Theory]
+        [MendhamData]
+        public void AsSingleItemList_Int_SingleItemList(int val)
+        {
+            var result = val.AsSingleItemList();
+
+            result.Should()
+                .BeAssignableTo<List<int>>()
+                .And.Contain(val)
+                .And.HaveCount(1);
+        }
+    }
 }
