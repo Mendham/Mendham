@@ -245,14 +245,13 @@ namespace Mendham.Infrastructure.RelationalDatabase.Test.SqlServer
                     .Be(Fixture.KnownStrings.Count());
             }
         }
-
         [Fact]
-        public void GetPreloadedItemConnection_StringInvalidLength_ThrowsArguementOutOfRangeException()
+        public void GetPreloadedItemConnection_StringInvalidLength_AttemptedToLoadInvalidItemException()
         {
             var factory = Fixture.GetConnectionFactory();
             int maxCharacters = 9;
 
-            // Over 10 characters 
+            // Over 9 characters 
             var invalidValue = "12345678_0";
 
             var valuesToPass = new List<string>
@@ -270,6 +269,152 @@ namespace Mendham.Infrastructure.RelationalDatabase.Test.SqlServer
                     .Where(a => Equals(a.FirstInvalidItem, invalidValue))
                     .Where(a => a.Message.Contains(invalidValue))
                     .Where(a => a.Message.Contains("9"));
+        }
+
+        [Fact]
+        public async Task ExecuteWithPreloadedItemsAsync_Int_ResultFromAction()
+        {
+            var factory = Fixture.GetConnectionFactory();
+            var items = Fixture.KnownInts;
+            var query = @"  SELECT COUNT(1)
+                            FROM IntTable it
+                                INNER JOIN #CustomItems items ON it.Id = items.CustomColumn";
+
+            var result = await factory.ExecuteWithPreloadedItemsAsync(items,
+                conn => conn.ExecuteScalarAsync<int>(query), CUSTOM_TABLE, CUSTOM_COLUMN);
+
+            result.Should()
+                .Be(items.Count());
+        }
+
+        [Fact]
+        public void ExecuteWithPreloadedItems_Int_ResultFromAction()
+        {
+            var factory = Fixture.GetConnectionFactory();
+            var items = Fixture.KnownInts;
+            var query = @"  SELECT COUNT(1)
+                            FROM IntTable it
+                                INNER JOIN #CustomItems items ON it.Id = items.CustomColumn";
+
+            var result = factory.ExecuteWithPreloadedItems(items,
+                conn => conn.ExecuteScalar<int>(query), CUSTOM_TABLE, CUSTOM_COLUMN);
+
+            result.Should()
+                .Be(items.Count());
+        }
+
+        [Fact]
+        public async Task ExecuteWithPreloadedItemsAsync_Guid_ResultFromAction()
+        {
+            var factory = Fixture.GetConnectionFactory();
+            var items = Fixture.KnownGuids;
+            var query = @"  SELECT COUNT(1)
+                                FROM GuidTable it
+                                    INNER JOIN #CustomItems items ON it.Id = items.CustomColumn";
+
+            var result = await factory.ExecuteWithPreloadedItemsAsync(items,
+                conn => conn.ExecuteScalarAsync<int>(query), CUSTOM_TABLE, CUSTOM_COLUMN);
+
+            result.Should()
+                .Be(items.Count());
+        }
+
+        [Fact]
+        public void ExecuteWithPreloadedItems_Guid_ResultFromAction()
+        {
+            var factory = Fixture.GetConnectionFactory();
+            var items = Fixture.KnownGuids;
+            var query = @"  SELECT COUNT(1)
+                                FROM GuidTable it
+                                    INNER JOIN #CustomItems items ON it.Id = items.CustomColumn";
+
+            var result = factory.ExecuteWithPreloadedItems(items,
+                conn => conn.ExecuteScalar<int>(query), CUSTOM_TABLE, CUSTOM_COLUMN);
+
+            result.Should()
+                .Be(items.Count());
+        }
+
+        [Fact]
+        public async Task ExecuteWithPreloadedItemsAsync_String_ResultFromAction()
+        {
+            var factory = Fixture.GetConnectionFactory();
+            var items = Fixture.KnownStrings;
+            var query = @"  SELECT COUNT(1)
+                            FROM StrTable it
+                                INNER JOIN #CustomItems items ON it.Id = items.CustomColumn";
+
+            var result = await factory.ExecuteWithPreloadedItemsAsync(items,
+                conn => conn.ExecuteScalarAsync<int>(query), CUSTOM_TABLE, CUSTOM_COLUMN);
+
+            result.Should()
+                .Be(items.Count());
+        }
+
+        [Fact]
+        public void ExecuteWithPreloadedItems_String_ResultFromAction()
+        {
+            var factory = Fixture.GetConnectionFactory();
+            var items = Fixture.KnownStrings;
+            var query = @"  SELECT COUNT(1)
+                            FROM StrTable it
+                                INNER JOIN #CustomItems items ON it.Id = items.CustomColumn";
+
+            var result = factory.ExecuteWithPreloadedItems(items,
+                conn => conn.ExecuteScalar<int>(query), CUSTOM_TABLE, CUSTOM_COLUMN);
+
+            result.Should()
+                .Be(items.Count());
+        }
+
+        [Fact]
+        public async Task ExecuteWithPreloadedItemsAsync_StringInvalidLength_AttemptedToLoadInvalidItemException()
+        {
+            var factory = Fixture.GetConnectionFactory();
+            int maxCharacters = 9;
+
+            // Over 9 characters 
+            var invalidValue = "12345678_0";
+
+            var valuesToPass = new List<string>
+                {
+                    "ABC",
+                    "123",
+                    invalidValue,
+                    "XYZ"
+                };
+
+            Func<Task<object>> act = () => factory.ExecuteWithPreloadedItemsAsync(valuesToPass, 
+                conn => conn.ExecuteScalarAsync("SELECT 1"), CUSTOM_TABLE, CUSTOM_COLUMN, maxCharacters);
+
+            var ex = await Assert.ThrowsAsync<AttemptedToLoadInvalidItemException>(act);
+
+            Assert.True(ex.Message.Contains(invalidValue) && ex.Message.Contains("9"));
+        }
+
+        [Fact]
+        public void ExecuteWithPreloadedItems_StringInvalidLength_AttemptedToLoadInvalidItemException()
+        {
+            var factory = Fixture.GetConnectionFactory();
+            int maxCharacters = 9;
+
+            // Over 9 characters 
+            var invalidValue = "12345678_0";
+
+            var valuesToPass = new List<string>
+                {
+                    "ABC",
+                    "123",
+                    invalidValue,
+                    "XYZ"
+                };
+
+            Func<object> act = () => factory.ExecuteWithPreloadedItems(valuesToPass,
+                conn => conn.ExecuteScalar("SELECT 1"), CUSTOM_TABLE, CUSTOM_COLUMN, maxCharacters);
+
+            var ex = Assert.Throws<AttemptedToLoadInvalidItemException>(act);
+
+            Assert.True(ex.Message.Contains(invalidValue) && ex.Message.Contains("9"));
         }
     }
 }

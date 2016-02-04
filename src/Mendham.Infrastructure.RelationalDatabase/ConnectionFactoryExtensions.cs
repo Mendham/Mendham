@@ -84,7 +84,7 @@ namespace Mendham.Infrastructure.RelationalDatabase
             }
         }
 
-        public async static Task<T> GetPreloadedAndExecuteAsync<T>(this IConnectionFactory connectionFactory, 
+        public async static Task<T> ExecuteWithPreloadedItemsAsync<T>(this IConnectionFactory connectionFactory, 
             IEnumerable<T> items, IItemLoaderMapping<T> mapping, Func<IDbConnection, Task<T>> action)
         {
             using (var conn = await connectionFactory.GetOpenPreloadedItemConnectionAsync(items, mapping))
@@ -93,7 +93,7 @@ namespace Mendham.Infrastructure.RelationalDatabase
             }
         }
 
-        public static T GetPreloadedAndExecute<T>(this IConnectionFactory connectionFactory,
+        public static T ExecuteWithPreloadedItems<T>(this IConnectionFactory connectionFactory,
             IEnumerable<T> items, IItemLoaderMapping<T> mapping, Func<IDbConnection, T> action)
         {
             using (var conn = connectionFactory.GetOpenPreloadedItemConnection(items, mapping))
