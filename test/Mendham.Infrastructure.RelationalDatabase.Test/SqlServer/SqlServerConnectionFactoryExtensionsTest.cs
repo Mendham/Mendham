@@ -384,7 +384,7 @@ namespace Mendham.Infrastructure.RelationalDatabase.Test.SqlServer
                     "XYZ"
                 };
 
-            Func<Task<object>> act = () => factory.ExecuteWithPreloadedItemsAsync(valuesToPass, 
+            Func<Task> act = () => factory.ExecuteWithPreloadedItemsAsync(valuesToPass, 
                 conn => conn.ExecuteScalarAsync("SELECT 1"), CUSTOM_TABLE, CUSTOM_COLUMN, maxCharacters);
 
             var ex = await Assert.ThrowsAsync<AttemptedToLoadInvalidItemException>(act);
@@ -409,12 +409,12 @@ namespace Mendham.Infrastructure.RelationalDatabase.Test.SqlServer
                     "XYZ"
                 };
 
-            Func<object> act = () => factory.ExecuteWithPreloadedItems(valuesToPass,
+            Action act = () => factory.ExecuteWithPreloadedItems(valuesToPass,
                 conn => conn.ExecuteScalar("SELECT 1"), CUSTOM_TABLE, CUSTOM_COLUMN, maxCharacters);
 
-            var ex = Assert.Throws<AttemptedToLoadInvalidItemException>(act);
-
-            Assert.True(ex.Message.Contains(invalidValue) && ex.Message.Contains("9"));
+            act.ShouldThrow<AttemptedToLoadInvalidItemException>()
+                .Where(a => a.Message.Contains(invalidValue))
+                .Where(a => a.Message.Contains("9"));
         }
     }
 }
