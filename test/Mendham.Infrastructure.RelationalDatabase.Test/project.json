@@ -7,11 +7,11 @@
   "licenseUrl": "https://raw.githubusercontent.com/cbeall/Mendham/master/LICENSE",
 
   "dependencies": {
-    "FluentAssertions":  "4.2.0",
     "xunit": "2.1.0",
     "Mendham.Domain": "1.0.0-*",
     "Mendham.Infrastructure.RelationalDatabase": "1.0.0-*",
-    "Mendham.Testing": "1.0.0-*"
+    "Mendham.Testing": "1.0.0-*",
+    "FluentAssertions": "4.2.1"
   },
 
   "commands": {
