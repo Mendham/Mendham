@@ -13,8 +13,7 @@ namespace Mendham.Domain.Test
 {
     public class EntityExtensionForEntityWithIdentityTest
     {
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void IsEqualToEntity_SameReference_True(PocoWithIdentityEntity entity)
         {
             bool result = entity.IsEqualToEntity(entity);
@@ -23,8 +22,7 @@ namespace Mendham.Domain.Test
                 .BeTrue("it is the same reference to the entity");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void IsEqualToEntity_HasDifferentIdentity_False(TestingIdentity identity1, TestingIdentity identity2)
         {
             IEntity entity1 = new PocoWithIdentityEntity(identity1);
@@ -36,8 +34,7 @@ namespace Mendham.Domain.Test
                 .BeFalse("the entities do not have the same identity");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void IsEqualToEntity_HasSameIdentity_True(TestingIdentity identity)
         {
             IEntity entity1 = new PocoWithIdentityEntity(identity);
@@ -49,8 +46,7 @@ namespace Mendham.Domain.Test
                 .BeTrue("the two entities have the same identity");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void IsEqualToEntity_HasEqualIdentity_True(string identityStr, int identityInt)
         {
             var identity1 = new TestingIdentity(identityStr, identityInt);
@@ -65,8 +61,7 @@ namespace Mendham.Domain.Test
                 .BeTrue("the two entities have an equal identity");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsObjectHasUnequalIdentity_False(string identity1Str, string identity2Str, int commonInt)
         {
             var identity1 = new TestingIdentity(identity1Str, commonInt);
@@ -81,8 +76,7 @@ namespace Mendham.Domain.Test
                 .BeFalse("part of the identity of the two entities are not equal");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void IsEqualToEntity_OneIdentityContainsNull_False(string identity1Str, int commonInt)
         {
             var identity1 = new TestingIdentity(identity1Str, commonInt);
@@ -97,8 +91,7 @@ namespace Mendham.Domain.Test
                 .BeFalse("part of the identity of the two entities does not match");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void IsEqualToEntity_MatchingIdentityContainingNull_True(int commonInt)
         {
             var identity1 = new TestingIdentity(null, commonInt);
@@ -113,8 +106,7 @@ namespace Mendham.Domain.Test
                 .BeTrue("the two entities have the same identity");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void IsEqualToEntity_BaseByDerivedWithCommonSharedValues_True(TestingIdentity identity)
         {
             IEntity entity1 = new PocoWithIdentityEntity(identity);
@@ -126,8 +118,7 @@ namespace Mendham.Domain.Test
                 .BeTrue("base and derived entities with a common identity are equal when identity is equal");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void IsEqualToEntity_DerivedByBaseWithCommonSharedValues_True(TestingIdentity identity)
         {
             IEntity entity1 = new PocoWithIdentityDerivedEntity(identity);
@@ -139,8 +130,7 @@ namespace Mendham.Domain.Test
                 .BeTrue("base and derived entities with a common identity are equal when identity is equal");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void IsEqualToEntity_AltObjectWithSameIdentity_False(TestingIdentity identity)
         {
             IEntity entity1 = new PocoWithIdentityEntity(identity);
@@ -152,8 +142,7 @@ namespace Mendham.Domain.Test
                 .BeFalse("the second entity is not of the same type");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void GetEntityHashCode_SameReference_Equal(PocoWithIdentityEntity entity)
         {
             var altRefForentity = entity;
@@ -165,8 +154,7 @@ namespace Mendham.Domain.Test
                 .Be(expected, "they have the same reference");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void GetEntityHashCode_HasDifferentValues_NotEqual(PocoWithIdentityEntity entity1, PocoWithIdentityEntity entity2)
         {
             var expected = entity1.GetEntityHashCode();
@@ -176,8 +164,7 @@ namespace Mendham.Domain.Test
                 .NotBe(expected, "they have a different identity");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void GetEntityHashCode_HasEqualIdentity_Equal(string identityStr, int identityInt)
         {
             var identity1 = new TestingIdentity(identityStr, identityInt);
@@ -193,8 +180,7 @@ namespace Mendham.Domain.Test
                 .Be(expected, "they have an equal identity");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void GetEntityHashCode_AltObjectWithSameIdentity_NotEqual(TestingIdentity identity)
         {
             IEntity entity1 = new PocoWithIdentityEntity(identity);
@@ -207,8 +193,7 @@ namespace Mendham.Domain.Test
                 .NotBe(expected, "they are not of the same type of entity");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void GetEntityHashCode_PocoWithIdentityDerivedEntitySameIdentity_Equal(TestingIdentity identity)
         {
             IEntity entity1 = new PocoWithIdentityEntity(identity);

@@ -12,8 +12,7 @@ namespace Mendham.Domain.Test
 {
     public class EntityTest
     {
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsT_SameReference_True(TestEntity entity)
         {
             bool result = entity.Equals(entity);
@@ -22,8 +21,7 @@ namespace Mendham.Domain.Test
                 .BeTrue("it is the same reference to the entity");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsT_HasDifferentValues_False(TestEntity entity1, TestEntity entity2)
         {
             bool result = entity1.Equals(entity2);
@@ -32,8 +30,7 @@ namespace Mendham.Domain.Test
                 .BeFalse("the entities do not have the same identity");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsT_HasSameValues_True(string entityStr, int entityInt)
         {
             TestEntity entity1 = new TestEntity(entityStr, entityInt);
@@ -45,8 +42,7 @@ namespace Mendham.Domain.Test
                 .BeTrue("the two entities have the same identity");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsT_HasOneDifferentValue_False(string entity1Str, string entity2Str, int commonInt)
         {
             TestEntity entity1 = new TestEntity(entity1Str, commonInt);
@@ -58,8 +54,7 @@ namespace Mendham.Domain.Test
                 .BeFalse("part of the identity of the two entities does not match");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsT_FirstHasNull_False(string entity2Str, int commonInt)
         {
             TestEntity entity1 = new TestEntity(null, commonInt);
@@ -71,8 +66,7 @@ namespace Mendham.Domain.Test
                 .BeFalse("part of the identity of the two entities does not match");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsT_SecondHasNull_False(string entity1Str, int commonInt)
         {
             TestEntity entity1 = new TestEntity(entity1Str, commonInt);
@@ -84,8 +78,7 @@ namespace Mendham.Domain.Test
                 .BeFalse("part of the identity of the two entities does not match");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsT_MatchingValuesWithNull_True(int commonInt)
         {
             TestEntity entity1 = new TestEntity(null, commonInt);
@@ -97,8 +90,7 @@ namespace Mendham.Domain.Test
                 .BeTrue("the two entities have the same identity");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsT_BaseByDerivedWithCommonSharedValues_True(string entityStr, int entityInt)
         {
             TestEntity entity1 = new TestEntity(entityStr, entityInt);
@@ -110,8 +102,7 @@ namespace Mendham.Domain.Test
                 .BeTrue("both levels of the entity have identity defined at same level and are have equal identities");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsT_BaseByDerivedOverridenIdentityWithCommonSharedAndOverridenIdentityValues_False(string entityStr, int entityInt)
         {
             TestEntity entity1 = new TestEntity(entityStr, entityInt);
@@ -123,8 +114,7 @@ namespace Mendham.Domain.Test
                 .BeFalse("the second, derived entity overrides the identity definition used by the other");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsT_DerivedOverridenIdentityByBaseWithCommonSharedValues_False(string entityStr, int entityInt)
         {
             TestEntity entity1 = new DerivedOverridenIdentityTestEntity(entityStr, entityInt);
@@ -136,8 +126,7 @@ namespace Mendham.Domain.Test
                 .BeFalse("the first, derived entity overrides the identity definition used by the other");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsObject_SameReference_True(TestEntity entity)
         {
             bool result = entity.Equals(entity as object);
@@ -146,8 +135,7 @@ namespace Mendham.Domain.Test
                 .BeTrue("it is the same reference to the entity");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsObject_HasDifferentValues_False(TestEntity entity1, TestEntity entity2)
         {
             bool result = entity1.Equals(entity2 as object);
@@ -156,8 +144,7 @@ namespace Mendham.Domain.Test
                 .BeFalse("the entities do not have the same identity");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsObject_HasSameValues_True(string entityStr, int entityInt)
         {
             object entity1 = new TestEntity(entityStr, entityInt);
@@ -169,8 +156,7 @@ namespace Mendham.Domain.Test
                 .BeTrue("the two entities have the same identity");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsObject_HasOneDifferentValue_False(string entity1Str, string entity2Str, int commonInt)
         {
             object entity1 = new TestEntity(entity1Str, commonInt);
@@ -182,8 +168,7 @@ namespace Mendham.Domain.Test
                 .BeFalse("part of the identity of the two entities does not match");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsObject_FirstHasNull_False(string entity2Str, int commonInt)
         {
             object entity1 = new TestEntity(null, commonInt);
@@ -195,8 +180,7 @@ namespace Mendham.Domain.Test
                 .BeFalse("part of the identity of the two entities does not match");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsObject_SecondHasNull_False(string entity1Str, int commonInt)
         {
             object entity1 = new TestEntity(entity1Str, commonInt);
@@ -208,8 +192,7 @@ namespace Mendham.Domain.Test
                 .BeFalse("part of the identity of the two entities does not match");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsObject_MatchingValuesWithNull_True(int commonInt)
         {
             object entity1 = new TestEntity(null, commonInt);
@@ -221,8 +204,7 @@ namespace Mendham.Domain.Test
                 .BeTrue("the two entities have the same identity");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsObject_BaseByDerivedWithCommonSharedValues_True(string entityStr, int entityInt)
         {
             object entity1 = new TestEntity(entityStr, entityInt);
@@ -234,8 +216,7 @@ namespace Mendham.Domain.Test
                 .BeTrue("both levels of the entity have identity defined at same level and are have equal identities");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsObject_DerivedByBaseWithCommonSharedValues_True(string entityStr, int entityInt, string derivedentityStr)
         {
             object entity1 = new DerivedTestEntity(entityStr, entityInt);
@@ -247,8 +228,7 @@ namespace Mendham.Domain.Test
                 .BeTrue("both levels of the entity have identity defined at same level and are have equal identities");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsObject_BaseByDerivedOverridenIdentityWithCommonSharedAndOverridenIdentityValues_False(string entityStr, int entityInt)
         {
             object entity1 = new TestEntity(entityStr, entityInt);
@@ -260,8 +240,7 @@ namespace Mendham.Domain.Test
                 .BeFalse("the second, derived entity overrides the identity definition used by the other");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsObject_DerivedOverridenIdentityByBaseWithCommonSharedValues_False(string entityStr, int entityInt)
         {
             object entity1 = new DerivedOverridenIdentityTestEntity(entityStr, entityInt);
@@ -273,8 +252,7 @@ namespace Mendham.Domain.Test
                 .BeFalse("the first, derived entity overrides the identity definition used by the other");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsObject_AltObjectWithSameIdentity_False(string entityStr, int entityInt)
         {
             object entity1 = new TestEntity(entityStr, entityInt);
@@ -286,8 +264,7 @@ namespace Mendham.Domain.Test
                 .BeFalse("the second entity is not of the same type");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsObject_BaseByNonEntityCommonSharedAndOverridenIdentityValues_False(string entityStr, int entityInt)
         {
             TestEntity entity = new TestEntity(entityStr, entityInt);
@@ -299,8 +276,7 @@ namespace Mendham.Domain.Test
                 .BeFalse("the second object does not implement IEntity");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsObject_NonEntityByBaseCommonSharedAndOverridenIdentityValues_False(string entityStr, int entityInt)
         {
             object nonEntiy = new PlainObjectWithComponents(entityStr, entityInt);
@@ -312,8 +288,7 @@ namespace Mendham.Domain.Test
                 .BeFalse("Using the non entity default equals only compares by reference which is not the same");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualOperator_SameReference_True(TestEntity entity)
         {
             var altRefForentity = entity;
@@ -323,8 +298,7 @@ namespace Mendham.Domain.Test
             result.Should().BeTrue();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualOperator_HasDifferentValues_False(TestEntity entity1, TestEntity entity2)
         {
             bool result = entity1 == entity2;
@@ -332,8 +306,7 @@ namespace Mendham.Domain.Test
             result.Should().BeFalse();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualOperator_HasSameValues_True(string entityStr, int entityInt)
         {
             var entity1 = new TestEntity(entityStr, entityInt);
@@ -355,8 +328,7 @@ namespace Mendham.Domain.Test
             result.Should().BeTrue();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualOperator_FirstHasNull_False(string voStr, int voInt)
         {
             TestEntity entity1 = null;
@@ -367,8 +339,7 @@ namespace Mendham.Domain.Test
             result.Should().BeFalse();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualOperator_SecondHasNull_False(string voStr, int voInt)
         {
             TestEntity entity1 = new TestEntity(voStr, voInt);
@@ -379,8 +350,7 @@ namespace Mendham.Domain.Test
             result.Should().BeFalse();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void UnequalOperator_SameReference_False(TestEntity entity)
         {
             var altRefForentity = entity;
@@ -390,8 +360,7 @@ namespace Mendham.Domain.Test
             result.Should().BeFalse();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void UnequalOperator_HasDifferentValues_True(TestEntity entity1, TestEntity entity2)
         {
             bool result = entity1 != entity2;
@@ -399,8 +368,7 @@ namespace Mendham.Domain.Test
             result.Should().BeTrue();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void UnequalOperator_HasSameValues_False(string entityStr, int entityInt)
         {
             var entity1 = new TestEntity(entityStr, entityInt);
@@ -422,8 +390,7 @@ namespace Mendham.Domain.Test
             result.Should().BeFalse();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void UnequalOperator_FirstHasNull_True(string voStr, int voInt)
         {
             TestEntity entity1 = null;
@@ -434,8 +401,7 @@ namespace Mendham.Domain.Test
             result.Should().BeTrue();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void UnequalOperator_SecondHasNull_True(string voStr, int voInt)
         {
             TestEntity entity1 = new TestEntity(voStr, voInt);
@@ -446,8 +412,7 @@ namespace Mendham.Domain.Test
             result.Should().BeTrue();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void GetHashCode_SameReference_Equal(TestEntity entity)
         {
             var altRefForentity = entity;
@@ -459,8 +424,7 @@ namespace Mendham.Domain.Test
                 .Be(expected, "they have the same reference");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void GetHashCode_HasDifferentValues_NotEqual(TestEntity entity1, TestEntity entity2)
         {
             var expected = entity1.GetHashCode();
@@ -470,8 +434,7 @@ namespace Mendham.Domain.Test
                 .NotBe(expected, "they have a different identity");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void GetHashCode_HasSameValues_Equal(string entityStr, int entityInt)
         {
             var entity1 = new TestEntity(entityStr, entityInt);
@@ -484,8 +447,7 @@ namespace Mendham.Domain.Test
                 .Be(expected, "they have the same identity");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void GetHashCode_AltObjectWithSameIdentity_NotEqual(string entityStr, int entityInt)
         {
             var entity1 = new TestEntity(entityStr, entityInt);
@@ -498,8 +460,7 @@ namespace Mendham.Domain.Test
                 .NotBe(expected, "they are not of the same type of entity");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void GetHashCode_DerivedTestEntitySameIdentity_Equal(string entityStr, int entityInt)
         {
             var entity1 = new TestEntity(entityStr, entityInt);
@@ -512,8 +473,7 @@ namespace Mendham.Domain.Test
                 .Be(expected, "both levels of the entity have identity defined at same level and are have equal identities");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void GetHashCode_DerivedOverridenIdentityTestEntitySameIdentityFields_NotEqual(string entityStr, int entityInt)
         {
             var entity1 = new TestEntity(entityStr, entityInt);

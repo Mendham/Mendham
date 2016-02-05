@@ -39,8 +39,7 @@ namespace Mendham.Testing.Domain.Test
             act.ShouldNotThrow<DomainEventVerificationException<Fixture.TestDomainEvent1>>();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void VerifyDomainEventRaised_NotRaised_DomainEventVerificationException(string userMessage)
         {
             var sut = Fixture.CreateSut();
@@ -51,8 +50,7 @@ namespace Mendham.Testing.Domain.Test
                 .Where(a => a.Message.Contains(userMessage));
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public async Task VerifyDomainEventRaised_WrongEventRaised_DomainEventVerificationException(string userMessage)
         {
             var sut = Fixture.CreateSut();
@@ -76,8 +74,7 @@ namespace Mendham.Testing.Domain.Test
             act.ShouldNotThrow<DomainEventVerificationException<Fixture.TestDomainEvent1>>();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public async Task VerifyDomainEventRaisedTwice_RaiseOnce_DomainEventVerificationException(string userMessage)
         {
             var sut = Fixture.CreateSut();
@@ -89,8 +86,7 @@ namespace Mendham.Testing.Domain.Test
                 .Where(a => a.Message.Contains(userMessage));
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public async Task VerifyDomainEventRaisedWithCondition_Raised_NoException(string domainEventValue)
         {
             var sut = Fixture.CreateSut();
@@ -101,8 +97,7 @@ namespace Mendham.Testing.Domain.Test
             act.ShouldNotThrow<DomainEventVerificationException<Fixture.TestDomainEvent2>>();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public async Task VerifyDomainEventRaisedWithCondition_RaisedTwice_NoException(string domainEventValue)
         {
             var sut = Fixture.CreateSut();
@@ -114,8 +109,7 @@ namespace Mendham.Testing.Domain.Test
             act.ShouldNotThrow<DomainEventVerificationException<Fixture.TestDomainEvent2>>();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void VerifyDomainEventRaisedWithCondition_NotRaised_DomainEventVerificationException(string domainEventValue, string userMessage)
         {
             var sut = Fixture.CreateSut();
@@ -126,8 +120,7 @@ namespace Mendham.Testing.Domain.Test
                 .Where(a => a.Message.Contains(userMessage));
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public async Task VerifyDomainEventRaisedWithCondition_RaisedIncorrectionCondition_DomainEventVerificationException(
             string expectedDomainEventValue, string actualDomainEventValue, string userMessage)
         {
@@ -140,8 +133,7 @@ namespace Mendham.Testing.Domain.Test
                 .Where(a => a.Message.Contains(userMessage));
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public async Task VerifyDomainEventRaisedWithCondition_WrongEventRaised_DomainEventVerificationException(string domainEventValue, string userMessage)
         {
             var sut = Fixture.CreateSut();
@@ -153,8 +145,7 @@ namespace Mendham.Testing.Domain.Test
                 .Where(a => a.Message.Contains(userMessage));
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public async Task VerifyDomainEventRaisedWithConditionTwice_RaisedTwice_NoException(string domainEventValue)
         {
             var sut = Fixture.CreateSut();
@@ -167,8 +158,7 @@ namespace Mendham.Testing.Domain.Test
             act.ShouldNotThrow<DomainEventVerificationException<Fixture.TestDomainEvent2>>();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public async Task VerifyDomainEventRaisedWithConditionTwice_RaiseOnce_DomainEventVerificationException(string domainEventValue, string userMessage)
         {
             var sut = Fixture.CreateSut();
@@ -181,8 +171,7 @@ namespace Mendham.Testing.Domain.Test
                 .Where(a => a.Message.Contains(userMessage));
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public async Task VerifyDomainEventRaisedWithConditionTwice_NotAllMeetCondition_DomainEventVerificationException(
             string domainEventValue, string altDomainEventValue, string userMessage)
         {

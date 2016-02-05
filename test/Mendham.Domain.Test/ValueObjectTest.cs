@@ -13,8 +13,7 @@ namespace Mendham.Domain.Test
     public class ValueObjectTest
     {
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsT_SameReference_True(TestValueObject valueObject)
         {
             bool result = valueObject.Equals(valueObject);
@@ -22,8 +21,7 @@ namespace Mendham.Domain.Test
             result.Should().BeTrue();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsT_HasDifferentValues_False(TestValueObject valueObject1, TestValueObject valueObject2)
         {
             bool result = valueObject1.Equals(valueObject2);
@@ -31,8 +29,7 @@ namespace Mendham.Domain.Test
             result.Should().BeFalse();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsT_HasSameValues_True(string voStr, int voInt)
         {
             TestValueObject valueObject1 = new TestValueObject(voStr, voInt);
@@ -43,8 +40,7 @@ namespace Mendham.Domain.Test
             result.Should().BeTrue();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsT_HasOneDifferentValue_False(string vo1Str, string vo2Str, int commonInt)
         {
             TestValueObject valueObject1 = new TestValueObject(vo1Str, commonInt);
@@ -55,8 +51,7 @@ namespace Mendham.Domain.Test
             result.Should().BeFalse();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsT_FirstHasNull_False(string vo2Str, int commonInt)
         {
             TestValueObject valueObject1 = new TestValueObject(null, commonInt);
@@ -67,8 +62,7 @@ namespace Mendham.Domain.Test
             result.Should().BeFalse();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsT_SecondHasNull_False(string vo1Str, int commonInt)
         {
             TestValueObject valueObject1 = new TestValueObject(vo1Str, commonInt);
@@ -79,8 +73,7 @@ namespace Mendham.Domain.Test
             result.Should().BeFalse();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsT_MatchingValuesWithNull_True(int commonInt)
         {
             TestValueObject valueObject1 = new TestValueObject(null, commonInt);
@@ -91,8 +84,7 @@ namespace Mendham.Domain.Test
             result.Should().BeTrue();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsT_BaseByDerivedWithCommonSharedValues_False(string voStr, int voInt, string derivedVoStr)
         {
             TestValueObject valueObject1 = new TestValueObject(voStr, voInt);
@@ -103,8 +95,7 @@ namespace Mendham.Domain.Test
             result.Should().BeFalse();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsT_DerivedByBaseWithCommonSharedValues_False(string voStr, int voInt, string derivedVoStr)
         {
             TestValueObject valueObject1 = new DerivedTestValueObject(voStr, voInt, derivedVoStr);
@@ -115,8 +106,7 @@ namespace Mendham.Domain.Test
             result.Should().BeFalse();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsT_DerivedWithCommonSharedValuesOtherNull_False(string voStr, int voInt)
         {
             TestValueObject valueObject1 = new TestValueObject(voStr, voInt);
@@ -127,8 +117,7 @@ namespace Mendham.Domain.Test
             result.Should().BeFalse();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsT_DerivedNoDifferenceWithSameFields_False(string voStr, int voInt)
         {
             TestValueObject valueObject1 = new TestValueObject(voStr, voInt);
@@ -139,8 +128,7 @@ namespace Mendham.Domain.Test
             result.Should().BeFalse();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsObject_SameReference_True(TestValueObject valueObject)
         {
             bool result = valueObject.Equals(valueObject as object);
@@ -148,8 +136,7 @@ namespace Mendham.Domain.Test
             result.Should().BeTrue();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsObject_HasDifferentValues_False(TestValueObject valueObject1, TestValueObject valueObject2)
         {
             bool result = valueObject1.Equals(valueObject2 as object);
@@ -157,8 +144,7 @@ namespace Mendham.Domain.Test
             result.Should().BeFalse();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsObject_HasSameValues_True(string voStr, int voInt)
         {
             TestValueObject valueObject1 = new TestValueObject(voStr, voInt);
@@ -169,8 +155,7 @@ namespace Mendham.Domain.Test
             result.Should().BeTrue();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsObject_HasOneDifferentValue_False(string vo1Str, string vo2Str, int commonInt)
         {
             TestValueObject valueObject1 = new TestValueObject(vo1Str, commonInt);
@@ -181,8 +166,7 @@ namespace Mendham.Domain.Test
             result.Should().BeFalse();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsObject_FirstHasNull_False(string vo2Str, int commonInt)
         {
             TestValueObject valueObject1 = new TestValueObject(null, commonInt);
@@ -193,8 +177,7 @@ namespace Mendham.Domain.Test
             result.Should().BeFalse();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsObject_SecondHasNull_False(string vo1Str, int commonInt)
         {
             TestValueObject valueObject1 = new TestValueObject(vo1Str, commonInt);
@@ -205,8 +188,7 @@ namespace Mendham.Domain.Test
             result.Should().BeFalse();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsObject_MatchingValuesWithNull_True(int commonInt)
         {
             TestValueObject valueObject1 = new TestValueObject(null, commonInt);
@@ -217,8 +199,7 @@ namespace Mendham.Domain.Test
             result.Should().BeTrue();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsObject_BaseByDerivedWithCommonSharedValues_False(string voStr, int voInt, string derivedVoStr)
         {
             TestValueObject valueObject1 = new TestValueObject(voStr, voInt);
@@ -229,8 +210,7 @@ namespace Mendham.Domain.Test
             result.Should().BeFalse();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsObject_DerivedByBaseWithCommonSharedValues_False(string voStr, int voInt, string derivedVoStr)
         {
             TestValueObject valueObject1 = new DerivedTestValueObject(voStr, voInt, derivedVoStr);
@@ -241,8 +221,7 @@ namespace Mendham.Domain.Test
             result.Should().BeFalse();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsObject_DerivedWithCommonSharedValuesOtherNull_False(string voStr, int voInt)
         {
             TestValueObject valueObject1 = new TestValueObject(voStr, voInt);
@@ -253,8 +232,7 @@ namespace Mendham.Domain.Test
             result.Should().BeFalse();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsObject_AltObjectWithSameFields_False(string voStr, int voInt)
         {
             TestValueObject valueObject1 = new TestValueObject(voStr, voInt);
@@ -265,8 +243,7 @@ namespace Mendham.Domain.Test
             result.Should().BeFalse();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsObject_DerivedNoDifferenceWithSameFields_False(string voStr, int voInt)
         {
             TestValueObject valueObject1 = new TestValueObject(voStr, voInt);
@@ -277,8 +254,7 @@ namespace Mendham.Domain.Test
             result.Should().BeFalse();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualsObject_NonValueObjectWithSameFields_False(string voStr, int voInt)
         {
             TestValueObject valueObject = new TestValueObject(voStr, voInt);
@@ -289,8 +265,7 @@ namespace Mendham.Domain.Test
             result.Should().BeFalse();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualOperator_SameReference_True(TestValueObject valueObject)
         {
             var altRefForValueObject = valueObject;
@@ -300,8 +275,7 @@ namespace Mendham.Domain.Test
             result.Should().BeTrue();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualOperator_HasDifferentValues_False(TestValueObject valueObject1, TestValueObject valueObject2)
         {
             bool result = valueObject1 == valueObject2;
@@ -309,8 +283,7 @@ namespace Mendham.Domain.Test
             result.Should().BeFalse();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualOperator_HasSameValues_True(string voStr, int voInt)
         {
             var valueObject1 = new TestValueObject(voStr, voInt);
@@ -332,8 +305,7 @@ namespace Mendham.Domain.Test
             result.Should().BeTrue();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualOperator_FirstHasNull_True(string voStr, int voInt)
         {
             TestValueObject valueObject1 = null;
@@ -344,8 +316,7 @@ namespace Mendham.Domain.Test
             result.Should().BeFalse();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void EqualOperator_SecondHasNull_True(string voStr, int voInt)
         {
             TestValueObject valueObject1 = new TestValueObject(voStr, voInt);
@@ -356,8 +327,7 @@ namespace Mendham.Domain.Test
             result.Should().BeFalse();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void UnequalOperator_SameReference_False(TestValueObject valueObject)
         {
             var altRefForValueObject = valueObject;
@@ -367,8 +337,7 @@ namespace Mendham.Domain.Test
             result.Should().BeFalse();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void UnequalOperator_HasDifferentValues_True(TestValueObject valueObject1, TestValueObject valueObject2)
         {
             bool result = valueObject1 != valueObject2;
@@ -376,8 +345,7 @@ namespace Mendham.Domain.Test
             result.Should().BeTrue();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void UnequalOperator_HasSameValues_False(string voStr, int voInt)
         {
             var valueObject1 = new TestValueObject(voStr, voInt);
@@ -399,8 +367,7 @@ namespace Mendham.Domain.Test
             result.Should().BeFalse();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void UnequalOperator_FirstHasNull_True(string voStr, int voInt)
         {
             TestValueObject valueObject1 = null;
@@ -411,8 +378,7 @@ namespace Mendham.Domain.Test
             result.Should().BeTrue();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void UnequalOperator_SecondHasNull_True(string voStr, int voInt)
         {
             TestValueObject valueObject1 = new TestValueObject(voStr, voInt);
@@ -423,8 +389,7 @@ namespace Mendham.Domain.Test
             result.Should().BeTrue();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void GetHashCode_SameReference_Equal(TestValueObject valueObject)
         {
             var altRefForValueObject = valueObject;
@@ -435,8 +400,7 @@ namespace Mendham.Domain.Test
             result.Should().Be(expected);
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void GetHashCode_HasDifferentValues_NotEqual(TestValueObject valueObject1, TestValueObject valueObject2)
         {
             var expected = valueObject1.GetHashCode();
@@ -445,8 +409,7 @@ namespace Mendham.Domain.Test
             result.Should().NotBe(expected);
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void GetHashCode_HasSameValues_Equal(string voStr, int voInt)
         {
             var valueObject1 = new TestValueObject(voStr, voInt);
@@ -458,8 +421,7 @@ namespace Mendham.Domain.Test
             result.Should().Be(expected);
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void GetHashCode_AltObjectWithSameFields_NotEqual(string voStr, int voInt)
         {
             var valueObject1 = new TestValueObject(voStr, voInt);
@@ -471,8 +433,7 @@ namespace Mendham.Domain.Test
             result.Should().NotBe(expected);
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void GetHashCode_DerivedNoDifferenceWithSameFields_NotEqual(string voStr, int voInt)
         {
             var valueObject1 = new TestValueObject(voStr, voInt);

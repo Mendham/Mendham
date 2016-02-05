@@ -13,8 +13,7 @@ namespace Mendham.Test.Equality
 {
     public class HasEqualityComponentsComparerTest
     {
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void Equals_SameReferenceObject_True(object obj)
         {
             var altObjRef = obj;
@@ -27,8 +26,7 @@ namespace Mendham.Test.Equality
                 .BeTrue("objects are the same reference");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void Equals_TwoEqualObjecst_True(string part1, string part2)
         {
             // Done to generate two difference references
@@ -45,8 +43,7 @@ namespace Mendham.Test.Equality
                 .BeTrue("objects are equal");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void Equals_NotEqualObject_False(string str1, string str2)
         {
             var sut = HasEqualityComponentsComparer.Default;
@@ -77,8 +74,7 @@ namespace Mendham.Test.Equality
                 .Be(expected, "that is the result from the IComponentWithComparer");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void Equals_ObjectsHaveEqualComponents_True(string strVal, int intVal, object objVal)
         {
             var testObject1 = new BasicTestObject(strVal, intVal, objVal);
@@ -91,8 +87,7 @@ namespace Mendham.Test.Equality
                 .BeTrue("the components of the two objects are equal and are of the same type");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void Equals_ObjectsHaveEqualComponents_False(string strVal1, string strVal2, int intVal, object objVal)
         {
             var testObject1 = new BasicTestObject(strVal1, intVal, objVal);
@@ -105,8 +100,7 @@ namespace Mendham.Test.Equality
                 .BeFalse("the components of the two objects are not equal");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void Equals_ObjectsHaveEqualComponentsButDifferentTypes_False(string strVal, int intVal, object objVal)
         {
             var testObject1 = new BasicTestObject(strVal, intVal, objVal);
@@ -119,8 +113,7 @@ namespace Mendham.Test.Equality
                 .BeFalse("the components are not of the same type");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void GetHashCode_SameReferenceObject_Equal(object obj)
         {
             var altObjRef = obj;
@@ -134,8 +127,7 @@ namespace Mendham.Test.Equality
                 .Be(expected, "objects with the same reference have the same hash code");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void GetHashCode_TwoEqualObjecst_Equal(string part1, string part2)
         {
             // Done to generate two difference references
@@ -153,8 +145,7 @@ namespace Mendham.Test.Equality
                 .Be(expected, "objects are equal");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void GetHashCode_NotEqualObject_NotEqual(string str1, string str2)
         {
             var sut = HasEqualityComponentsComparer.Default;
@@ -182,8 +173,7 @@ namespace Mendham.Test.Equality
                 .And.NotBe(default(int), "it should not be the default int");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void GetHashCode_ComponentWithComparer_Expected(int expectedHashCode)
         {
             var cwc = Mock.Of<IComponentWithComparer>(ctx =>
@@ -197,8 +187,7 @@ namespace Mendham.Test.Equality
                 .Be(expectedHashCode, "that is the result return by the IComponentWithComparer");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void GetHashCode_ObjectsHaveEqualComponents_Equal(string strVal, int intVal, object objVal)
         {
             var testObject1 = new BasicTestObject(strVal, intVal, objVal);
@@ -213,8 +202,7 @@ namespace Mendham.Test.Equality
                 .Be(expected, "the components of the two objects are equal and are of the same type therefore hash code is equal");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void GetHashCode_ObjectsHaveEqualComponents_NotEqual(string strVal1, string strVal2, int intVal, object objVal)
         {
             var testObject1 = new BasicTestObject(strVal1, intVal, objVal);
@@ -229,8 +217,7 @@ namespace Mendham.Test.Equality
                 .NotBe(expected, "the components of the two objects are not equal and therefore the objects have different hash codes");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void GetHashCode_ObjectsHaveEqualComponentsButDifferentTypes_NotEqual(string strVal, int intVal, object objVal)
         {
             var testObject1 = new BasicTestObject(strVal, intVal, objVal);

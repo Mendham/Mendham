@@ -13,8 +13,7 @@ namespace Mendham.Domain.Test
 {
     public class ValueObjectExtensionTest
     {
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void IsEqualToValueObjectT_SameReference_True(StructValueObject valueObject)
         {
             bool result = valueObject.IsEqualToValueObject(valueObject);
@@ -23,8 +22,7 @@ namespace Mendham.Domain.Test
                 .BeTrue("it is the same reference to the value object");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void IsEqualToValueObjectT_HasDifferentValues_False(StructValueObject valueObject1, StructValueObject valueObject2)
         {
             bool result = valueObject1.IsEqualToValueObject(valueObject2);
@@ -33,8 +31,7 @@ namespace Mendham.Domain.Test
                 .BeFalse("the properties are not equal");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void IsEqualToValueObjectT_HasSameValues_True(string valueObjectStr, int valueObjectInt)
         {
             var valueObject1 = new StructValueObject(valueObjectStr, valueObjectInt);
@@ -46,8 +43,7 @@ namespace Mendham.Domain.Test
                 .BeTrue("the two value objects have the same properties");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void IsEqualToValueObjectT_HasOneDifferentValue_False(string valueObject1Str, string valueObject2Str, int commonInt)
         {
             var valueObject1 = new StructValueObject(valueObject1Str, commonInt);
@@ -59,8 +55,7 @@ namespace Mendham.Domain.Test
                 .BeFalse("one of the properties of the two value objects does not match");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void IsEqualToValueObjectT_FirstHasNull_False(string valueObject2Str, int commonInt)
         {
             var valueObject1 = new StructValueObject(null, commonInt);
@@ -72,8 +67,7 @@ namespace Mendham.Domain.Test
                 .BeFalse("one of the properties of the two value objects does not match");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void IsEqualToValueObjectT_SecondHasNull_False(string valueObject1Str, int commonInt)
         {
             var valueObject1 = new StructValueObject(valueObject1Str, commonInt);
@@ -85,8 +79,7 @@ namespace Mendham.Domain.Test
                 .BeFalse("one of the properties of the two value objects does not match");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void IsEqualToValueObjectT_MatchingValuesWithNull_True(int commonInt)
         {
             var valueObject1 = new StructValueObject(null, commonInt);
@@ -98,8 +91,7 @@ namespace Mendham.Domain.Test
                 .BeTrue("the properties of the two objects match");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void IsEqualToValueObjectT_SecondObjectIsDefault(StructValueObject valueObject1)
         {
             StructValueObject valueObject2 = default(StructValueObject);
@@ -109,8 +101,7 @@ namespace Mendham.Domain.Test
             result.Should()
                 .BeFalse("the first value object has a value and the second is null");
         }
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void IsEqualToValueObjectAsObject_SameReference_True(StructValueObject valueObject)
         {
             bool result = valueObject.IsEqualToValueObject((object)valueObject);
@@ -119,8 +110,7 @@ namespace Mendham.Domain.Test
                 .BeTrue("it is the same reference to the value object");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void IsEqualToValueObjectAsObject_HasDifferentValues_False(StructValueObject valueObject1, StructValueObject valueObject2)
         {
             bool result = valueObject1.IsEqualToValueObject((object)valueObject2);
@@ -129,8 +119,7 @@ namespace Mendham.Domain.Test
                 .BeFalse("the properties are not equal");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void IsEqualToValueObjectAsObject_HasSameValues_True(string valueObjectStr, int valueObjectInt)
         {
             var valueObject1 = new StructValueObject(valueObjectStr, valueObjectInt);
@@ -142,8 +131,7 @@ namespace Mendham.Domain.Test
                 .BeTrue("the two value objects have the same properties");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void IsEqualToValueObjectAsObject_HasOneDifferentValue_False(string valueObject1Str, string valueObject2Str, int commonInt)
         {
             var valueObject1 = new StructValueObject(valueObject1Str, commonInt);
@@ -155,8 +143,7 @@ namespace Mendham.Domain.Test
                 .BeFalse("one of the properties of the two value objects does not match");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void IsEqualToValueObjectAsObject_FirstHasNull_False(string valueObject2Str, int commonInt)
         {
             var valueObject1 = new StructValueObject(null, commonInt);
@@ -168,8 +155,7 @@ namespace Mendham.Domain.Test
                 .BeFalse("one of the properties of the two value objects does not match");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void IsEqualToValueObjectAsObject_SecondHasNull_False(string valueObject1Str, int commonInt)
         {
             var valueObject1 = new StructValueObject(valueObject1Str, commonInt);
@@ -181,8 +167,7 @@ namespace Mendham.Domain.Test
                 .BeFalse("one of the properties of the two value objects does not match");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void IsEqualToValueObjectAsObject_MatchingValuesWithNull_True(int commonInt)
         {
             var valueObject1 = new StructValueObject(null, commonInt);
@@ -194,8 +179,7 @@ namespace Mendham.Domain.Test
                 .BeTrue("the properties of the two objects match");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void IsEqualToValueObjectAsObject_SecondObjectIsDefault(StructValueObject valueObject1)
         {
             object valueObject2 = default(StructValueObject);
@@ -206,8 +190,7 @@ namespace Mendham.Domain.Test
                 .BeFalse("the first value object has a value and the second is null");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void IsEqualToValueObjectAsObject_DifferentValueObject_False(string valueObjectStr, int valueObjectInt)
         {
             var valueObject1 = new StructValueObject(valueObjectStr, valueObjectInt);
@@ -219,8 +202,7 @@ namespace Mendham.Domain.Test
                 .BeFalse("the two objects are not the same type of value object");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void IsEqualToValueObjectAsObject_NonValueObject_False(string valueObjectStr, int valueObjectInt)
         {
             var valueObject1 = new StructValueObject(valueObjectStr, valueObjectInt);
@@ -232,8 +214,7 @@ namespace Mendham.Domain.Test
                 .BeFalse("the second object is not a value object");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void GetValueObjectHashCode_SameReference_Equal(StructValueObject valueObject)
         {
             var altRefForvalueObject = valueObject;
@@ -245,8 +226,7 @@ namespace Mendham.Domain.Test
                 .Be(expected, "they have the same reference");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void GetValueObjectHashCode_HasDifferentValues_NotEqual(StructValueObject valueObject1, StructValueObject valueObject2)
         {
             int expected = valueObject1.GetValueObjectHashCode();
@@ -256,8 +236,7 @@ namespace Mendham.Domain.Test
                 .NotBe(expected, "they have a different properties");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void GetValueObjectHashCode_HasSameValues_Equal(string valueObjectStr, int valueObjectInt)
         {
             var valueObject1 = new StructValueObject(valueObjectStr, valueObjectInt);
@@ -270,8 +249,7 @@ namespace Mendham.Domain.Test
                 .Be(expected, "they have the same properties");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void GetValueObjectHashCode_HasSameValuesWithNull_Equal(int valueObjectInt)
         {
             var valueObject1 = new StructValueObject(null, valueObjectInt);
@@ -284,8 +262,7 @@ namespace Mendham.Domain.Test
                 .Be(expected, "they have the same properties");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void GetValueObjectHashCode_HasSameValues_NotEqual(string valueObjectStr, int valueObjectInt)
         {
             var valueObject1 = new StructValueObject(valueObjectStr, valueObjectInt);

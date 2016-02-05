@@ -47,8 +47,7 @@ namespace Mendham.Test.Equality
                 .BeTrue("they have the same components");
 		}
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void AreComponentsEqual_EquatableComponents_Equal(string strVal)
         {
             var testObj1 = new CaseInsensitiveTestObject(strVal.ToUpper());
@@ -98,8 +97,7 @@ namespace Mendham.Test.Equality
                 .Be(expected, "two objects with same components shoould have same hash code");
 		}
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void GetHashCodeForObjectWithComponents_EquatableComponents_Equal(string strVal)
         {
             var testObj1 = new CaseInsensitiveTestObject(strVal.ToUpper());

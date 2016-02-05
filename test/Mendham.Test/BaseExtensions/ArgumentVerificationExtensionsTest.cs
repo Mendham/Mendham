@@ -42,8 +42,7 @@ namespace Mendham.Test.BaseExtensions
 
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void VerifyArgumentNotNull_Int_Passes(int? obj)
         {
             var result = obj.VerifyArgumentNotNull(nameof(obj));
@@ -51,8 +50,7 @@ namespace Mendham.Test.BaseExtensions
             result.Should().Be(obj);
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void VerifyArgumentNotNull_IntWithMessage_Passes(int? obj, string msg)
         {
             var result = obj.VerifyArgumentNotNull(nameof(obj), msg);
@@ -60,8 +58,7 @@ namespace Mendham.Test.BaseExtensions
             result.Should().Be(obj);
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void VerifyArgumentNotNull_IntWithCustomException_Passes(int? obj, string msg)
         {
             var result = obj.VerifyArgumentNotNull(a => new CustomException(msg, a));
@@ -133,8 +130,7 @@ namespace Mendham.Test.BaseExtensions
                 .Where(a => Equals(a.Value, defaultInt));
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void VerifyArgumentNotDefault_Int_Passes(int val)
         {
             var result = val.VerifyArgumentNotDefaultValue(nameof(val));
@@ -142,8 +138,7 @@ namespace Mendham.Test.BaseExtensions
             result.Should().Be(val);
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void VerifyArgumentNotDefault_IntWithCustomException_Passes(int val, string msg)
         {
             var result = val.VerifyArgumentNotDefaultValue(a => new CustomException(msg, a));
@@ -183,8 +178,7 @@ namespace Mendham.Test.BaseExtensions
                 .Where(a => Equals(a.Value, defaultStr));
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void VerifyArgumentNotDefault_String_Passes(string val)
         {
             var result = val.VerifyArgumentNotDefaultValue(nameof(val));
@@ -192,8 +186,7 @@ namespace Mendham.Test.BaseExtensions
             result.Should().Be(val);
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void VerifyArgumentNotDefault_StringWithMessage_Passes(string val, string msg)
         {
             var result = val.VerifyArgumentNotDefaultValue(nameof(val), msg);
@@ -201,8 +194,7 @@ namespace Mendham.Test.BaseExtensions
             result.Should().Be(val);
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void VerifyArgumentNotDefault_StringWithCustomException_Passes(string val, string msg)
         {
             var result = val.VerifyArgumentNotDefaultValue(a => new CustomException(msg, a));
@@ -221,8 +213,7 @@ namespace Mendham.Test.BaseExtensions
                 .And.ParamName.ShouldBeEquivalentTo(nameof(vals));
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void VerifyArgumentNotNullOrEmpty_NullCollectionWithMessage_ThrowsArgumentNullException(string msg)
         {
             List<int> vals = null;
@@ -257,8 +248,7 @@ namespace Mendham.Test.BaseExtensions
                 .And.ParamName.ShouldBeEquivalentTo(nameof(vals));
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void VerifyArgumentNotNullOrEmpty_EmptyCollectionWithMessage_ThrowsArgumentException(string msg)
         {
             List<int> vals = new List<int>();
@@ -282,8 +272,7 @@ namespace Mendham.Test.BaseExtensions
                 .Where(a => Equals(a.Value, vals));
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void VerifyArgumentNotNullOrEmpty_NonEmptyCollection_Passes(List<int> vals)
         {
             var result = vals.VerifyArgumentNotNullOrEmpty(nameof(vals));
@@ -291,8 +280,7 @@ namespace Mendham.Test.BaseExtensions
             result.Should().ContainInOrder(vals);
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void VerifyArgumentNotNullOrEmpty_NonEmptyCollectionWithMessage_Passes(List<int> vals, string msg)
         {
             var result = vals.VerifyArgumentNotNullOrEmpty(nameof(vals), msg);
@@ -300,8 +288,7 @@ namespace Mendham.Test.BaseExtensions
             result.Should().ContainInOrder(vals);
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void VerifyArgumentNotNullOrEmpty_NonEmptyCollectionWithCustomException_Passes(List<int> vals, string msg)
         {
             var result = vals.VerifyArgumentNotNullOrEmpty(a => new CustomException(msg, a));
@@ -320,8 +307,7 @@ namespace Mendham.Test.BaseExtensions
                 .And.ParamName.ShouldBeEquivalentTo(nameof(val));
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void VerifyArgumentNotNullOrEmpty_NullStringWithMessage_ThrowsArgumentNullException(string msg)
         {
             string val = null;
@@ -333,8 +319,7 @@ namespace Mendham.Test.BaseExtensions
                 .And.ParamName.ShouldBeEquivalentTo(nameof(val));
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void VerifyArgumentNotNullOrEmpty_NullStringWithCustomException_ThrowsCustomException(string msg)
         {
             string val = null;
@@ -357,8 +342,7 @@ namespace Mendham.Test.BaseExtensions
                 .And.ParamName.ShouldBeEquivalentTo(nameof(val));
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void VerifyArgumentNotNullOrEmpty_EmptyStringWithMessage_ThrowsArgumentException(string msg)
         {
             string val = string.Empty;
@@ -370,8 +354,7 @@ namespace Mendham.Test.BaseExtensions
                 .And.ParamName.ShouldBeEquivalentTo(nameof(val));
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void VerifyArgumentNotNullOrEmpty_EmptyStringWithCustomException_ThrowsCustomException(string msg)
         {
             string val = string.Empty;
@@ -382,8 +365,7 @@ namespace Mendham.Test.BaseExtensions
                 .WithMessage(msg);
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void VerifyArgumentNotNullOrEmpty_NonEmptyString_Passes(string val)
         {
             var result = val.VerifyArgumentNotNullOrEmpty(nameof(val));
@@ -391,8 +373,7 @@ namespace Mendham.Test.BaseExtensions
             result.Should().Be(val);
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void VerifyArgumentNotNullOrEmpty_NonEmptyStringWithMessage_Passes(string val, string msg)
         {
             var result = val.VerifyArgumentNotNullOrEmpty(nameof(val), msg);
@@ -400,8 +381,7 @@ namespace Mendham.Test.BaseExtensions
             result.Should().Be(val);
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void VerifyArgumentNotNullOrEmpty_NonEmptyStringWithCustomException_Passes(string val, string msg)
         {
             var result = val.VerifyArgumentNotNullOrEmpty(a => new CustomException(msg, a));
@@ -420,8 +400,7 @@ namespace Mendham.Test.BaseExtensions
                 .And.ParamName.ShouldBeEquivalentTo(nameof(val));
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void VerifyArgumentNotNullOrWhiteSpace_NullStringWithMessage_ThrowsArgumentNullException(string msg)
         {
             string val = null;
@@ -433,8 +412,7 @@ namespace Mendham.Test.BaseExtensions
                 .And.ParamName.ShouldBeEquivalentTo(nameof(val));
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void VerifyArgumentNotNullOrWhiteSpace_NullStringWithCustomException_ThrowsCustomException(string msg)
         {
             string val = null;
@@ -457,8 +435,7 @@ namespace Mendham.Test.BaseExtensions
                 .And.ParamName.ShouldBeEquivalentTo(nameof(val));
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void VerifyArgumentNotNullOrWhiteSpace_EmptyStringWithMessage_ThrowsArgumentException(string msg)
         {
             string val = string.Empty;
@@ -470,8 +447,7 @@ namespace Mendham.Test.BaseExtensions
                 .And.ParamName.ShouldBeEquivalentTo(nameof(val));
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void VerifyArgumentNotNullOrWhiteSpace_EmptyStringWithCustomException_ThrowsCustomException(string msg)
         {
             string val = string.Empty;
@@ -494,8 +470,7 @@ namespace Mendham.Test.BaseExtensions
                 .And.ParamName.ShouldBeEquivalentTo(nameof(val));
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void VerifyArgumentNotNullOrWhiteSpace_WhiteSpaceStringWithMessage_ThrowsArgumentException(string msg)
         {
             string val = "   ";
@@ -507,8 +482,7 @@ namespace Mendham.Test.BaseExtensions
                 .And.ParamName.ShouldBeEquivalentTo(nameof(val));
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void VerifyArgumentNotNullOrWhiteSpace_WhiteSpaceStringWithCustomException_ThrowsCustomException(string msg)
         {
             string val = "   ";
@@ -520,8 +494,7 @@ namespace Mendham.Test.BaseExtensions
                 .Where(a => Equals(a.Value, val));
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void VerifyArgumentNotNullOrWhiteSpace_ValidString_Passes(string val)
         {
             var result = val.VerifyArgumentNotNullOrWhiteSpace(nameof(val));
@@ -529,8 +502,7 @@ namespace Mendham.Test.BaseExtensions
             result.Should().Be(val);
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void VerifyArgumentNotNullOrWhiteSpace_ValidStringWithMessage_Passes(string val, string msg)
         {
             var result = val.VerifyArgumentNotNullOrWhiteSpace(nameof(val), msg);
@@ -538,8 +510,7 @@ namespace Mendham.Test.BaseExtensions
             result.Should().Be(val);
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void VerifyArgumentNotNullOrWhiteSpace_ValidStringWithCustomException_Passes(string val, string msg)
         {
             var result = val.VerifyArgumentNotNullOrWhiteSpace(a => new CustomException(msg, a));
@@ -758,8 +729,7 @@ namespace Mendham.Test.BaseExtensions
                 .Where(a => Equals(a.Value, val));
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void VerifyArgumentMeetsCriteria_ValidCriteria_Passes(int val, string msg)
         {
             var result = val.VerifyArgumentMeetsCriteria(a => true, nameof(val), msg);
@@ -767,8 +737,7 @@ namespace Mendham.Test.BaseExtensions
             result.Should().Be(val);
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void VerifyArgumentMeetsCriteria_InvalidCriteria_ThrowsArgumentException(string val, string msg)
         {
             Action act = () => val.VerifyArgumentMeetsCriteria(a => false, nameof(val), msg);
@@ -778,8 +747,7 @@ namespace Mendham.Test.BaseExtensions
                 .And.ParamName.ShouldBeEquivalentTo(nameof(val));
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void VerifyArgumentMeetsCriteria_InvalidCriteriaWithCustomException_ThrowsCustomException(string val, string msg)
         {
             Action act = () => val.VerifyArgumentMeetsCriteria(a => false, a => new CustomException(msg, a));

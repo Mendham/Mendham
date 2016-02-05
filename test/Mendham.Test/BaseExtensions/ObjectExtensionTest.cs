@@ -23,8 +23,7 @@ namespace Mendham.Test.BaseExtensions
                 .And.HaveCount(1);
 		}
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void AsSingleItemList_Int_SingleItemList(int val)
         {
             var result = val.AsSingleItemList();

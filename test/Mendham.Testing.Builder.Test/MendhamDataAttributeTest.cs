@@ -10,8 +10,7 @@ namespace Mendham.Testing.Builder.Test1
 {
     public class MendhamDataAttributeTest
     {
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void MendhamData_ActualType_CreatesConstrainedInputObject(ConstrainedInputObject obj)
         {
             var sut = obj;
@@ -22,8 +21,7 @@ namespace Mendham.Testing.Builder.Test1
                 .HaveLength(3);
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void MendhamData_AbstractType_CreatesConstrainedInputObject(AbstractConstrainedInputObject obj)
         {
             var sut = obj;
@@ -34,8 +32,7 @@ namespace Mendham.Testing.Builder.Test1
                 .HaveLength(3);
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void MendhamData_DerivedType_CreatesDerivedConstrainedInputObject(DerivedConstrainedInputObject obj)
         {
             var sut = obj;
@@ -48,8 +45,7 @@ namespace Mendham.Testing.Builder.Test1
                 .NotBe(default(int));
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void MendhamData_String_NotNullOrEmpty(string obj)
         {
             var sut = obj;
@@ -58,8 +54,7 @@ namespace Mendham.Testing.Builder.Test1
                 .NotBeNullOrEmpty();
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void MendhamData_TwoStrings_NotEqual(string obj1, string obj2)
         {
             var sut = obj1;
@@ -68,8 +63,7 @@ namespace Mendham.Testing.Builder.Test1
                 .NotBe(obj2);
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void MendhamData_StringParameter_SeededWithVariableName(string variable1)
         {
             variable1.Should()

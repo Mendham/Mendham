@@ -12,8 +12,7 @@ namespace Mendham.Test.Equality
 {
     public class ComponentWithComparerTest
     {
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void IsEqualToComponent_SameComponentWithComparerReference_True(string componentValue)
         {
             var sut = new ComponentWithComparer<string>(componentValue, EqualityComparer<string>.Default);
@@ -25,8 +24,7 @@ namespace Mendham.Test.Equality
                 .BeTrue("they are the same reference");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void IsEqualToComponent_SameComponent_True(string componentValue)
         {
             var altComponentValue = componentValue;
@@ -40,8 +38,7 @@ namespace Mendham.Test.Equality
                 .BeTrue("they contain an equal component");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void IsEqualToComponent_DifferentComponent_False(string componentValue, string altComponentValue)
         {
             var sut = new ComponentWithComparer<string>(componentValue, EqualityComparer<string>.Default);
@@ -53,8 +50,7 @@ namespace Mendham.Test.Equality
                 .BeFalse("they have different components");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void IsEqualToComponent_EquatableComponent_True(string componentValue)
         {
             var componentValue1 = componentValue.ToUpper();
@@ -69,8 +65,7 @@ namespace Mendham.Test.Equality
                 .BeTrue("the components are equatable");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void IsEqualToComponent_DifferentCompareresBothEqual_True(string componentValue1, string componentValue2)
         {
             var comparerMock1 = new Mock<IEqualityComparer<string>>();
@@ -89,8 +84,7 @@ namespace Mendham.Test.Equality
                 .BeTrue("both comparers evaluate to true");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void IsEqualToComponent_DifferentCompareresFirstNotEqual_False(string componentValue1, string componentValue2)
         {
             var comparerMock1 = new Mock<IEqualityComparer<string>>();
@@ -109,8 +103,7 @@ namespace Mendham.Test.Equality
                 .BeFalse("the first comparer evalutes to false");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void IsEqualToComponent_DifferentCompareresSecondNotEqual_False(string componentValue1, string componentValue2)
         {
             var comparerMock1 = new Mock<IEqualityComparer<string>>();
@@ -129,8 +122,7 @@ namespace Mendham.Test.Equality
                 .BeFalse("the second comparer evalutes to false");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void GetComponentHashCode_SameComponentWithComparerReference_Equal(string componentValue)
         {
             var expectedComponent = new ComponentWithComparer<string>(componentValue, EqualityComparer<string>.Default);
@@ -143,8 +135,7 @@ namespace Mendham.Test.Equality
                 .Be(expected, "they are the same reference");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void GetComponentHashCode_SameComponent_Equal(string componentValue)
         {
             var altComponentValue = componentValue;
@@ -159,8 +150,7 @@ namespace Mendham.Test.Equality
                 .Be(expected, "they contain an equal component");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void GetComponentHashCode_DifferentComponent_NotEqual(string componentValue, string altComponentValue)
         {
             var expectedComponent = new ComponentWithComparer<string>(componentValue, EqualityComparer<string>.Default);
@@ -173,8 +163,7 @@ namespace Mendham.Test.Equality
                 .NotBe(expected, "they have different components");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void GetComponentHashCode_EquatableComponent_Equal(string componentValue)
         {
             var componentValue1 = componentValue.ToUpper();
@@ -190,8 +179,7 @@ namespace Mendham.Test.Equality
                 .Be(expected, "the components are equatable");
         }
 
-        [Theory]
-        [MendhamData]
+        [Theory, MendhamData]
         public void GetComponentHashCode_ResultFromComparer_ExpectedHashCode(string componentValue, int comparerHashResult)
         {
             var comparerMock = new Mock<IEqualityComparer<string>>();
