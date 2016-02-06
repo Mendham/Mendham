@@ -3,8 +3,8 @@
   "description": "Testing helpers with builder and ability to populate values directly in xUnit tests",
   "authors": [ "Craig Beall" ],
   "tags": [ "mendham test testing builder testbuilder tdd xunit" ],
-  "projectUrl": "https://cbeall.github.io/Mendham",
-  "licenseUrl": "https://raw.githubusercontent.com/cbeall/Mendham/master/LICENSE",
+  "projectUrl": "https://mendham.github.io",
+  "licenseUrl": "https://raw.githubusercontent.com/mendham/Mendham/master/LICENSE",
 
   "dependencies": {
     "xunit": "2.1.0",

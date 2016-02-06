@@ -3,8 +3,8 @@
   "description": "Mendham library used for tracking working with domain and concurrent objects",
   "authors": [ "Craig Beall" ],
   "tags": [ "mendham domain ddd concurrency" ],
-  "projectUrl": "https://cbeall.github.io/Mendham",
-  "licenseUrl": "https://raw.githubusercontent.com/cbeall/Mendham/master/LICENSE",
+  "projectUrl": "https://mendham.github.io",
+  "licenseUrl": "https://raw.githubusercontent.com/mendham/Mendham/master/LICENSE",
   "requireLicenseAcceptance": false,
   "frameworks": {
     "net451": { },

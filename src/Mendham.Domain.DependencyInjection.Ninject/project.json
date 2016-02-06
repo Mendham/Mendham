@@ -3,8 +3,8 @@
   "description": "Ninject plugin to use with Mendham.Domain ",
   "authors": [ "Craig Beall" ],
   "tags": [ "mendham domain ddd ninject ioc di" ],
-  "projectUrl": "https://cbeall.github.io/Mendham",
-  "licenseUrl": "https://raw.githubusercontent.com/cbeall/Mendham/master/LICENSE",
+  "projectUrl": "https://mendham.github.io",
+  "licenseUrl": "https://raw.githubusercontent.com/mendham/Mendham/master/LICENSE",
   "requireLicenseAcceptance": false,
 
   "dependencies": {

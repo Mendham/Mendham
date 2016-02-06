@@ -2,8 +2,8 @@
   "version": "1.0.0-beta2-*",
   "description": "Unit tests for Mendham.Domain.DependencyInjection.Autofac",
   "authors": [ "Craig Beall" ],
-  "projectUrl": "https://cbeall.github.io/Mendham",
-  "licenseUrl": "https://raw.githubusercontent.com/cbeall/Mendham/master/LICENSE",
+  "projectUrl": "https://mendham.github.io",
+  "licenseUrl": "https://raw.githubusercontent.com/mendham/Mendham/master/LICENSE",
 
   "dependencies": {
     "Autofac": "4.0.0-rc1-177",

@@ -3,8 +3,8 @@
   "description": "Test helpers for Mendham.Domain using Moq",
   "authors": [ "Craig Beall" ],
   "tags": [ "mendham moq mocking test testing domain ddd tdd xunit" ],
-  "projectUrl": "https://cbeall.github.io/Mendham",
-  "licenseUrl": "https://raw.githubusercontent.com/cbeall/Mendham/master/LICENSE",
+  "projectUrl": "https://mendham.github.io",
+  "licenseUrl": "https://raw.githubusercontent.com/mendham/Mendham/master/LICENSE",
 
   "dependencies": {
     "Moq": "4.2.1510.2205",
