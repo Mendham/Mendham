@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace Mendham.Testing.Builder.AutoFixture
 {
-    public interface IMendhamSpecimenContext : ISpecimenContext
+    internal interface IMendhamSpecimenContext : ISpecimenContext
     {
         Assembly CallingAssembly { get; }
     }
