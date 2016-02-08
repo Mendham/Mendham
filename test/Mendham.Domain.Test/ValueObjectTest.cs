@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Mendham.Domain.Test.TestObjects.Other;
 using Mendham.Domain.Test.TestObjects.ValueObjects.Base;
+using Mendham.Domain.Test.TestObjects.ValueObjects.NoProperty;
 using Mendham.Testing;
 using System;
 using System.Collections.Generic;
@@ -122,6 +123,28 @@ namespace Mendham.Domain.Test
         {
             TestValueObject valueObject1 = new TestValueObject(voStr, voInt);
             TestValueObject valueObject2 = new DerivedNoDifferenceTestValueObject(voStr, voInt);
+
+            bool result = valueObject1.Equals(valueObject2);
+
+            result.Should().BeFalse();
+        }
+
+        [Fact]
+        public void EqualT_SameNoPropertiesValueObjectEqual_True()
+        {
+            NoPropertyValueObject valueObject1 = new NoPropertyValueObject();
+            NoPropertyValueObject valueObject2 = new NoPropertyValueObject();
+
+            bool result = valueObject1.Equals(valueObject2);
+
+            result.Should().BeTrue();
+        }
+
+        [Fact]
+        public void EqualT_DifferentNoPropertiesValueObjectEqual_False()
+        {
+            NoPropertyValueObject valueObject1 = new NoPropertyValueObject();
+            AltNoPropertyValueObject valueObject2 = new AltNoPropertyValueObject();
 
             bool result = valueObject1.Equals(valueObject2);
 
@@ -265,6 +288,28 @@ namespace Mendham.Domain.Test
             result.Should().BeFalse();
         }
 
+        [Fact]
+        public void EqualObject_SameNoPropertiesValueObjectEqual_True()
+        {
+            NoPropertyValueObject valueObject1 = new NoPropertyValueObject();
+            object valueObject2 = new NoPropertyValueObject();
+
+            bool result = valueObject1.Equals(valueObject2);
+
+            result.Should().BeTrue();
+        }
+
+        [Fact]
+        public void EqualObject_DifferentNoPropertiesValueObjectEqual_False()
+        {
+            NoPropertyValueObject valueObject1 = new NoPropertyValueObject();
+            object valueObject2 = new AltNoPropertyValueObject();
+
+            bool result = valueObject1.Equals(valueObject2);
+
+            result.Should().BeFalse();
+        }
+
         [Theory, MendhamData]
         public void EqualOperator_SameReference_True(TestValueObject valueObject)
         {
@@ -321,6 +366,28 @@ namespace Mendham.Domain.Test
         {
             TestValueObject valueObject1 = new TestValueObject(voStr, voInt);
             TestValueObject valueObject2 = null;
+
+            bool result = valueObject1 == valueObject2;
+
+            result.Should().BeFalse();
+        }
+
+        [Fact]
+        public void EqualOperator_SameNoPropertiesValueObjectEqual_True()
+        {
+            NoPropertyValueObject valueObject1 = new NoPropertyValueObject();
+            NoPropertyValueObject valueObject2 = new NoPropertyValueObject();
+
+            bool result = valueObject1 == valueObject2;
+
+            result.Should().BeTrue();
+        }
+
+        [Fact]
+        public void EqualOperator_DifferentNoPropertiesValueObjectEqual_False()
+        {
+            NoPropertyValueObject valueObject1 = new NoPropertyValueObject();
+            AltNoPropertyValueObject valueObject2 = new AltNoPropertyValueObject();
 
             bool result = valueObject1 == valueObject2;
 
@@ -438,6 +505,30 @@ namespace Mendham.Domain.Test
         {
             var valueObject1 = new TestValueObject(voStr, voInt);
             var valueObject2 = new DerivedNoDifferenceTestValueObject(voStr, voInt);
+
+            var expected = valueObject1.GetHashCode();
+            int result = valueObject2.GetHashCode();
+
+            result.Should().NotBe(expected);
+        }
+
+        [Fact]
+        public void GetHashCode_SameNoPropertiesValueObjectEqual_Equal()
+        {
+            var valueObject1 = new NoPropertyValueObject();
+            var valueObject2 = new NoPropertyValueObject();
+
+            var expected = valueObject1.GetHashCode();
+            int result = valueObject2.GetHashCode();
+
+            result.Should().Be(expected);
+        }
+
+        [Fact]
+        public void GetHashCode_DifferentNoPropertiesValueObjectEqual_NotEqual()
+        {
+            var valueObject1 = new NoPropertyValueObject();
+            var valueObject2 = new AltNoPropertyValueObject();
 
             var expected = valueObject1.GetHashCode();
             int result = valueObject2.GetHashCode();
