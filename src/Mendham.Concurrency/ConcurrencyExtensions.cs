@@ -12,7 +12,7 @@ namespace Mendham.Concurrency
 		{
             obj.VerifyObjectWithTokenIsNotNull("VerifyConcurrencyTokenIsApplied failed.");
 
-            if (obj.Token != null)
+            if (obj.Token == null)
             {
                 throw new ConcurrencyTokenAlreadyAppliedException(obj, obj.Token, message);
             }
@@ -25,7 +25,7 @@ namespace Mendham.Concurrency
 		{
             obj.VerifyObjectWithTokenIsNotNull("VerifyConcurrencyTokenIsNotApplied failed.");
 
-            if (obj.Token == null)
+            if (obj.Token != null)
             {
                 throw new ConcurrencyTokenNotAppliedException(obj, message);
             }

@@ -7,7 +7,7 @@ namespace Mendham.Concurrency
 {
     public static class Int64ConcurrencyTokenExtensions
     {
-        public static T ValidateByteConcurrencyToken<T>(this T obj, byte[] tokenBytes, string message = null)
+        public static T ValidateInt64ConcurrencyToken<T>(this T obj, byte[] tokenBytes, string message = null)
             where T : IHasConcurrencyToken
         {
             tokenBytes.VerifyArgumentNotNullOrEmpty(nameof(tokenBytes), "Bytes for token are required");
@@ -17,7 +17,7 @@ namespace Mendham.Concurrency
             return obj.ValidateConcurrencyToken(token, message);
         }
 
-        public static T SetByteConcurrencyToken<T>(this T obj, byte[] tokenBytes)
+        public static T SetInt64ConcurrencyToken<T>(this T obj, byte[] tokenBytes)
            where T : IHasConcurrencyToken
         {
             tokenBytes.VerifyArgumentNotNullOrEmpty(nameof(tokenBytes), "Bytes for token are required");
