@@ -5,14 +5,14 @@ using System.Threading.Tasks;
 
 namespace Mendham.Concurrency
 {
-    public static class ByteConcurrencyTokenExtensions
+    public static class Int64ConcurrencyTokenExtensions
     {
         public static T ValidateByteConcurrencyToken<T>(this T obj, byte[] tokenBytes, string message = null)
             where T : IHasConcurrencyToken
         {
             tokenBytes.VerifyArgumentNotNullOrEmpty(nameof(tokenBytes), "Bytes for token are required");
 
-            IConcurrencyToken token = new ByteConcurrencyToken(tokenBytes);
+            IConcurrencyToken token = new Int64ConcurrencyToken(tokenBytes);
 
             return obj.ValidateConcurrencyToken(token, message);
         }
@@ -22,7 +22,7 @@ namespace Mendham.Concurrency
         {
             tokenBytes.VerifyArgumentNotNullOrEmpty(nameof(tokenBytes), "Bytes for token are required");
 
-            IConcurrencyToken token = new ByteConcurrencyToken(tokenBytes);
+            IConcurrencyToken token = new Int64ConcurrencyToken(tokenBytes);
 
             return obj.SetConcurrencyToken(token);
         }

@@ -1,0 +1,38 @@
+﻿{
+  "version": "1.0.0-beta3-*",
+  "description": "Unit tests for Mendham.Concurrency",
+  "authors": [ "Craig Beall" ],
+  "projectUrl": "https://mendham.github.io",
+  "licenseUrl": "https://raw.githubusercontent.com/mendham/Mendham/master/LICENSE",
+
+  "dependencies": {
+    "Moq": "4.2.1510.2205",
+    "Mendham.Concurrency": "1.0.0-*",
+    "Mendham.Testing.Builder": "1.0.0-*",
+    "Mendham.Testing": "1.0.0-*",
+    "Mendham.Testing.Moq": "1.0.0-*",
+    "xunit": "2.1.0",
+    "FluentAssertions": "4.2.1"
+  },
+
+  "commands": {
+    "test": "xunit.runner.dnx"
+  },
+
+  "frameworks": {
+    "net451": {
+      "dependencies": {
+        "xunit.runner.visualstudio": "2.1.0"
+      },
+      "frameworkAssemblies": {
+        "System.Runtime": "4.0.10.0",
+        "System.Threading.Tasks": "4.0.0.0"
+      }
+    },
+    "dnx451": {
+      "dependencies": {
+        "xunit.runner.dnx": "2.1.0-rc1-build204"
+      }
+    }
+  }
+}
