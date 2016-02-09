@@ -237,5 +237,91 @@ namespace Mendham.Concurrency.Test
 
             result.Should().NotBe(expected);
         }
+
+        [Theory, MendhamData]
+        public void CompareTo_SameValue_Zero([WithCount(8)]byte[] bytes)
+        {
+            IComparable token1 = new Int64ConcurrencyToken(bytes);
+            var token2 = new Int64ConcurrencyToken(bytes);
+
+            var result = token1.CompareTo(token2);
+
+            result.Should().Be(0);
+        }
+
+        [Theory, MendhamData]
+        public void CompareTo_WithLargerValue_NegitiveOne(long value)
+        {
+            var altValue = value + 10;
+
+            IComparable token1 = new Int64ConcurrencyToken(value);
+            var token2 = new Int64ConcurrencyToken(altValue);
+
+            var result = token1.CompareTo(token2);
+
+            result.Should().Be(-1);
+        }
+
+        [Theory, MendhamData]
+        public void CompareTo_WithSmallerValue_One(long value)
+        {
+            var altValue = value - 10;
+
+            IComparable token1 = new Int64ConcurrencyToken(value);
+            var token2 = new Int64ConcurrencyToken(altValue);
+
+            var result = token1.CompareTo(token2);
+
+            result.Should().Be(1);
+        }
+
+        [Theory, MendhamData]
+        public void CompareTo_NonInt64ConcurrencyToken_One([WithCount(8)]byte[] bytes)
+        {
+            IComparable token1 = new Int64ConcurrencyToken(bytes);
+            var token2 = new AltConcurrencyToken();
+
+            var result = token1.CompareTo(token2);
+
+            result.Should().Be(1);
+        }
+
+        [Theory, MendhamData]
+        public void IsAtLeastAsCurrentAs_SameValue_True([WithCount(8)]byte[] bytes)
+        {
+            var token1 = new Int64ConcurrencyToken(bytes);
+            var token2 = new Int64ConcurrencyToken(bytes);
+
+            var result = token1.IsAtLeastAsCurrentAs(token2);
+
+            result.Should().BeTrue();
+        }
+
+        [Theory, MendhamData]
+        public void IsAtLeastAsCurrentAs_WithLargerValue_False(long value)
+        {
+            var altValue = value + 10;
+
+            var token1 = new Int64ConcurrencyToken(value);
+            var token2 = new Int64ConcurrencyToken(altValue);
+
+            var result = token1.IsAtLeastAsCurrentAs(token2);
+
+            result.Should().BeFalse();
+        }
+
+        [Theory, MendhamData]
+        public void IsAtLeastAsCurrentAs_WithSmallerValue_True(long value)
+        {
+            value = value + 20; // Can't be sure value will be > 10 making altValue negative
+            var altValue = value - 10;
+
+            var token1 = new Int64ConcurrencyToken(value);
+            var token2 = new Int64ConcurrencyToken(altValue);
+
+            var result = token1.IsAtLeastAsCurrentAs(token2);
+
+            result.Should().BeTrue();
+        }
     }
 }

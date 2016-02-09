@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Mendham.Concurrency
 {
-	public class Int64ConcurrencyToken : IConcurrencyToken
+	public class Int64ConcurrencyToken : IConcurrencyToken, IComparable
     {
         private readonly long tokenValue;
         private readonly byte[] byteValue;
@@ -86,12 +86,27 @@ namespace Mendham.Concurrency
 
         public override string ToString()
 		{
-            return string.Format("Int64ConcurrencyToken [0x{0:X}]", GetDisplayValue());
-		}
+            return $"Int64ConcurrencyToken [{GetDisplayValue()}]";
+        }
 
         private string GetDisplayValue()
         {
             return string.Format("0x{0:X}", Value);
+        }
+
+        public int CompareTo(object obj)
+        {
+            var otherInt64ConcurrencyToken = obj as Int64ConcurrencyToken;
+
+            if (otherInt64ConcurrencyToken == default(Int64ConcurrencyToken))
+                return 1;
+
+            return Value.CompareTo(otherInt64ConcurrencyToken.Value);
+        }
+
+        public bool IsAtLeastAsCurrentAs(Int64ConcurrencyToken other)
+        {
+            return Value.CompareTo(other.Value) >= 0;
         }
     }
 }
