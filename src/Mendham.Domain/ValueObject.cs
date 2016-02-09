@@ -50,6 +50,11 @@ namespace Mendham.Domain
 		{
 			get
 			{
+                if (CustomEqualityComponents != null)
+                {
+                    return CustomEqualityComponents;
+                }
+
                 if (_propertyValues == null)
                 {
                     _propertyValues = GetPropertyValues();
@@ -59,6 +64,11 @@ namespace Mendham.Domain
                     .Select(a => a());
 			}
 		}
+
+        protected virtual IEnumerable<object> CustomEqualityComponents
+        {
+            get { return null; }
+        }
 	}
 
     /// <summary>

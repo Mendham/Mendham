@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Mendham.Domain.Test.TestObjects.Other;
 using Mendham.Domain.Test.TestObjects.ValueObjects.Base;
+using Mendham.Domain.Test.TestObjects.ValueObjects.CustomEquality;
 using Mendham.Domain.Test.TestObjects.ValueObjects.NoProperty;
 using Mendham.Testing;
 using System;
@@ -13,7 +14,6 @@ namespace Mendham.Domain.Test
 {
     public class ValueObjectTest
     {
-
         [Theory, MendhamData]
         public void EqualsT_SameReference_True(TestValueObject valueObject)
         {
@@ -145,6 +145,28 @@ namespace Mendham.Domain.Test
         {
             NoPropertyValueObject valueObject1 = new NoPropertyValueObject();
             AltNoPropertyValueObject valueObject2 = new AltNoPropertyValueObject();
+
+            bool result = valueObject1.Equals(valueObject2);
+
+            result.Should().BeFalse();
+        }
+
+        [Theory, MendhamData]
+        public void EqualsT_CustomEqualitySameCustomFieldMatches_True(string voStr, int voInt1, int voInt2)
+        {
+            CustomEqualityComponentsValueObject valueObject1 = new CustomEqualityComponentsValueObject(voStr, voInt1);
+            CustomEqualityComponentsValueObject valueObject2 = new CustomEqualityComponentsValueObject(voStr, voInt2);
+
+            bool result = valueObject1.Equals(valueObject2);
+
+            result.Should().BeTrue();
+        }
+
+        [Theory, MendhamData]
+        public void EqualsT_CustomEqualitySameCustomFieldNoMatch_False(string voStr1, string voStr2, int voInt)
+        {
+            CustomEqualityComponentsValueObject valueObject1 = new CustomEqualityComponentsValueObject(voStr1, voInt);
+            CustomEqualityComponentsValueObject valueObject2 = new CustomEqualityComponentsValueObject(voStr2, voInt);
 
             bool result = valueObject1.Equals(valueObject2);
 
@@ -304,6 +326,39 @@ namespace Mendham.Domain.Test
         {
             NoPropertyValueObject valueObject1 = new NoPropertyValueObject();
             object valueObject2 = new AltNoPropertyValueObject();
+
+            bool result = valueObject1.Equals(valueObject2);
+
+            result.Should().BeFalse();
+        }
+
+        [Theory, MendhamData]
+        public void EqualsObject_CustomEqualitySameCustomFieldMatches_True(string voStr, int voInt1, int voInt2)
+        {
+            CustomEqualityComponentsValueObject valueObject1 = new CustomEqualityComponentsValueObject(voStr, voInt1);
+            object valueObject2 = new CustomEqualityComponentsValueObject(voStr, voInt2);
+
+            bool result = valueObject1.Equals(valueObject2);
+
+            result.Should().BeTrue();
+        }
+
+        [Theory, MendhamData]
+        public void EqualsObject_CustomEqualitySameCustomFieldNoMatch_False(string voStr1, string voStr2, int voInt)
+        {
+            CustomEqualityComponentsValueObject valueObject1 = new CustomEqualityComponentsValueObject(voStr1, voInt);
+            object valueObject2 = new CustomEqualityComponentsValueObject(voStr2, voInt);
+
+            bool result = valueObject1.Equals(valueObject2);
+
+            result.Should().BeFalse();
+        }
+
+        [Theory, MendhamData]
+        public void EqualsObject_CustomEqualityDifferentTypes_False(string voStr, int voInt)
+        {
+            CustomEqualityComponentsValueObject valueObject1 = new CustomEqualityComponentsValueObject(voStr, voInt);
+            object valueObject2 = new AltCustomEqualityComponentsValueObject(voStr, voInt);
 
             bool result = valueObject1.Equals(valueObject2);
 
@@ -529,6 +584,42 @@ namespace Mendham.Domain.Test
         {
             var valueObject1 = new NoPropertyValueObject();
             var valueObject2 = new AltNoPropertyValueObject();
+
+            var expected = valueObject1.GetHashCode();
+            int result = valueObject2.GetHashCode();
+
+            result.Should().NotBe(expected);
+        }
+
+        [Theory, MendhamData]
+        public void GetHashCode_CustomEqualitySameCustomFieldMatches_Equal(string voStr, int voInt1, int voInt2)
+        {
+            var valueObject1 = new CustomEqualityComponentsValueObject(voStr, voInt1);
+            var valueObject2 = new CustomEqualityComponentsValueObject(voStr, voInt2);
+
+            var expected = valueObject1.GetHashCode();
+            int result = valueObject2.GetHashCode();
+
+            result.Should().Be(expected);
+        }
+
+        [Theory, MendhamData]
+        public void GetHashCode_CustomEqualitySameCustomFieldNoMatch_NotEqual(string voStr1, string voStr2, int voInt)
+        {
+            var valueObject1 = new CustomEqualityComponentsValueObject(voStr1, voInt);
+            var valueObject2 = new CustomEqualityComponentsValueObject(voStr2, voInt);
+
+            var expected = valueObject1.GetHashCode();
+            int result = valueObject2.GetHashCode();
+
+            result.Should().NotBe(expected);
+        }
+
+        [Theory, MendhamData]
+        public void GetHashCode_CustomEqualityDifferentTypes_NotEqual(string voStr, int voInt)
+        {
+            var valueObject1 = new CustomEqualityComponentsValueObject(voStr, voInt);
+            var valueObject2 = new AltCustomEqualityComponentsValueObject(voStr, voInt);
 
             var expected = valueObject1.GetHashCode();
             int result = valueObject2.GetHashCode();
