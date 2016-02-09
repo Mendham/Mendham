@@ -93,5 +93,83 @@ namespace Mendham.Concurrency.Test.TestObjects
             act.ShouldThrow<ConcurrencyTokenNotAppliedException>()
                 .Where(a => a.Message.Contains(msg));
         }
+
+        [Theory, MendhamData]
+        public void ValidateConcurrencyToken_SameToken_Object(Int64ConcurrencyToken token)
+        {
+            var sut = ObjectWithConcurrencyToken.WithToken(token);
+
+            var result = sut.ValidateConcurrencyToken(token);
+
+            result.Should().Be(sut);
+        }
+
+        [Theory, MendhamData]
+        public void ValidateConcurrencyToken_SameTokenWithMessage_Object(Int64ConcurrencyToken token, string msg)
+        {
+            var sut = ObjectWithConcurrencyToken.WithToken(token);
+
+            var result = sut.ValidateConcurrencyToken(token, msg);
+
+            result.Should().Be(sut);
+        }
+
+        [Theory, MendhamData]
+        public void ValidateConcurrencyToken_DifferentTokens_ThrowsInvaildConcurrencyTokenException(Int64ConcurrencyToken token1, Int64ConcurrencyToken token2)
+        {
+            var sut = ObjectWithConcurrencyToken.WithToken(token1);
+
+            Action act = () => sut.ValidateConcurrencyToken(token2);
+
+            act.ShouldThrow<InvaildConcurrencyTokenException>()
+                .Where(a => a.Expected == token1)
+                .Where(a => a.Actual == token2);
+        }
+
+        [Theory, MendhamData]
+        public void ValidateConcurrencyToken_DifferentTokensWithMessage_ThrowsInvaildConcurrencyTokenException(Int64ConcurrencyToken token1, Int64ConcurrencyToken token2, string msg)
+        {
+            var sut = ObjectWithConcurrencyToken.WithToken(token1);
+
+            Action act = () => sut.ValidateConcurrencyToken(token2, msg);
+
+            act.ShouldThrow<InvaildConcurrencyTokenException>()
+                .Where(a => a.Expected == token1)
+                .Where(a => a.Actual == token2)
+                .Where(a => a.Message.Contains(msg));
+        }
+
+        [Theory, MendhamData]
+        public void SetConcurrencyToken_ObjectWithoutToken_Object(Int64ConcurrencyToken newToken)
+        {
+            var sut = ObjectWithConcurrencyToken.WithoutToken();
+
+            var result = sut.SetConcurrencyToken(newToken);
+
+            result.Should().Be(sut)
+                .And.Match(a => (a as IHasConcurrencyToken).Token == newToken);
+        }
+
+        [Theory, MendhamData]
+        public void SetConcurrencyToken_ObjectWithToken_Object(Int64ConcurrencyToken newToken)
+        {
+            var sut = ObjectWithConcurrencyToken.WithToken();
+
+            var result = sut.SetConcurrencyToken(newToken);
+
+            result.Should().Be(sut)
+                .And.Match(a => (a as IHasConcurrencyToken).Token == newToken);
+        }
+
+        [Fact]
+        public void SetConcurrencyToken_SetNullToken_ThrowsArgumentNullException()
+        {
+            IConcurrencyToken newToken = default(IConcurrencyToken);
+            var sut = ObjectWithConcurrencyToken.WithoutToken();
+
+            Action act = () => sut.SetConcurrencyToken(newToken);
+
+            act.ShouldThrow<ArgumentNullException>("cannot set a null token to a IHasConcurrencyToken");
+        }
     }
 }

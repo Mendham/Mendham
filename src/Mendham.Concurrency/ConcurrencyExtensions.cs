@@ -51,7 +51,7 @@ namespace Mendham.Concurrency
 		   where T : IHasConcurrencyToken
 		{
             obj.VerifyObjectWithTokenIsNotNull("SetConcurrencyToken failed");
-            newToken.VerifyArgumentNotDefaultValue(nameof(newToken));
+            newToken.VerifyArgumentNotDefaultValue(nameof(newToken), "The new token being set cannot be null.");
 
             obj.Token = newToken;
 			return obj;
