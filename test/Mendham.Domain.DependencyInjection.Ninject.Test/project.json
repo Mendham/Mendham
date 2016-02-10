@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0-beta3-*",
+  "version": "1.0.0-beta4-*",
   "description": "Unit tests for Mendham.Domain.DependencyInjection.Ninject",
   "authors": [ "Craig Beall" ],
   "projectUrl": "https://mendham.github.io",
