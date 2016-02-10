@@ -32,6 +32,16 @@ namespace Mendham.Concurrency.Test.TestObjects
             return objWithConcurrencyToken as ObjectWithConcurrencyToken;
         }
 
+        public static ObjectWithConcurrencyToken WithTokenBytes(byte[] tokenBytes)
+        {
+            tokenBytes.VerifyArgumentNotNullOrEmpty(nameof(tokenBytes));
+
+            IHasConcurrencyToken objWithConcurrencyToken = new ObjectWithConcurrencyToken();
+            objWithConcurrencyToken.Token = new Int64ConcurrencyToken(tokenBytes);
+
+            return objWithConcurrencyToken as ObjectWithConcurrencyToken;
+        }
+
         public IConcurrencyToken GetToken()
         {
             return (this as IHasConcurrencyToken).Token;

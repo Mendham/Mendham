@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Mendham.Concurrency
 {
-    public static class ConcurrencyExtensions
+    public static class ConcurrencyTokenExtensions
     {
 		public static T VerifyConcurrencyTokenIsApplied<T>(this T obj, string message = null)
 			where T : IHasConcurrencyToken
