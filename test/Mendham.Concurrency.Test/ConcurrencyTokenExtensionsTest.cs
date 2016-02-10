@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Mendham.Concurrency.Test.TestObjects;
 using Mendham.Testing;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using Xunit;
 
 namespace Mendham.Concurrency.Test
 {
-    public class ConcurrencyExtensionsTest
+    public class ConcurrencyTokenExtensionsTest
     {
         [Fact]
         public void VerifyConcurrencyTokenIsApplied_WithToken_Object()
