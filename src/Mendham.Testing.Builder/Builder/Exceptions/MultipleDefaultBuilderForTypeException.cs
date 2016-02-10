@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Mendham.Testing.Builder.Exceptions
 {
-    public class MultipleBuilderForTypeException : MendhamBuilderAttributeException
+    public class MultipleDefaultBuilderForTypeException : DefaultBuilderAttributeException
     {
         public Type AdditionalBuilderType { get; private set; }
         public Type TypeToBuild { get; private set; }
 
-        public MultipleBuilderForTypeException(Type builderType, Type additionalBuilderType, Type typeToBuilder)
+        public MultipleDefaultBuilderForTypeException(Type builderType, Type additionalBuilderType, Type typeToBuilder)
             : base(builderType)
         {
             this.AdditionalBuilderType = additionalBuilderType;
@@ -28,7 +28,7 @@ namespace Mendham.Testing.Builder.Exceptions
                     TypeToBuild.FullName,
                     BuilderType.FullName,
                     AdditionalBuilderType.FullName,
-                    typeof(MendhamBuilderAttribute).Name);
+                    typeof(DefaultBuilderAttribute).Name);
             }
         }
     }

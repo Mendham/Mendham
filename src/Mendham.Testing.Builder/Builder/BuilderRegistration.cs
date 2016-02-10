@@ -117,7 +117,7 @@ namespace Mendham.Testing.Builder
             }
         }
 
-        private static Type GetTypeBuiltByBuilder(Type builderType, MendhamBuilderAttribute builderAttribute)
+        private static Type GetTypeBuiltByBuilder(Type builderType, DefaultBuilderAttribute builderAttribute)
         {
             var defaultTypeToBeBuilt = builderType
                 .GetTypeIBuilderBuilds();
@@ -126,7 +126,7 @@ namespace Mendham.Testing.Builder
             {
                 if (!builderAttribute.TypeOverride.GetTypeInfo().IsAssignableFrom(defaultTypeToBeBuilt))
                 {
-                    throw new InvalidMendhamBuilderOverrideException(builderType,
+                    throw new InvalidDefaultBuilderOverrideException(builderType,
                         builderAttribute.TypeOverride, defaultTypeToBeBuilt);
                 }
 
@@ -144,7 +144,7 @@ namespace Mendham.Testing.Builder
 
                 if (existingBuilderType != builderType)
                 {
-                    throw new MultipleBuilderForTypeException(existingBuilderType,
+                    throw new MultipleDefaultBuilderForTypeException(existingBuilderType,
                         builderType, typeToBuild);
                 }
                 else

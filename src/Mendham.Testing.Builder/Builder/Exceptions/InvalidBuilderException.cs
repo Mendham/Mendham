@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Mendham.Testing.Builder.Exceptions
 {
-    public class InvalidBuilderException : MendhamBuilderAttributeException
+    public class InvalidBuilderException : DefaultBuilderAttributeException
     {
         public InvalidBuilderException(Type builderType)
             : base(builderType)
@@ -20,7 +20,7 @@ namespace Mendham.Testing.Builder.Exceptions
                     CultureInfo.CurrentCulture,
                     "Incorrect attribute assignment to class {0}. Attribute {1} can only be applied to classes that implement interface {2}",
                     BuilderType.FullName,
-                    typeof(MendhamBuilderAttribute).FullName,
+                    typeof(DefaultBuilderAttribute).FullName,
                     typeof(IBuilder<>).FullName);
             }
         }

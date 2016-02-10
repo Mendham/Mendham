@@ -8,9 +8,9 @@ namespace Mendham.Testing.Builder
 {
     public class BuilderAttributeResolver : IBuilderAttributeResolver
     {
-        public IEnumerable<MendhamBuilderAttribute> GetAttributesAppliedToBuilder(Type builderType)
+        public IEnumerable<DefaultBuilderAttribute> GetAttributesAppliedToBuilder(Type builderType)
         {
-            return GetAttributesAppliedToClass<MendhamBuilderAttribute>(builderType);
+            return GetAttributesAppliedToClass<DefaultBuilderAttribute>(builderType);
         }
 
         public IEnumerable<TAttribute> GetAttributesAppliedToClass<TAttribute>(Type classWithAttribute)

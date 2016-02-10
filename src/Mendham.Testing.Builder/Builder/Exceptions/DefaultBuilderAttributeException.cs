@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Mendham.Testing.Builder.Exceptions
 {
-    public abstract class MendhamBuilderAttributeException : Exception
+    public abstract class DefaultBuilderAttributeException : Exception
     {
         public Type BuilderType { get; private set; }
 
-        public MendhamBuilderAttributeException(Type builderType)
+        public DefaultBuilderAttributeException(Type builderType)
         {
             this.BuilderType = builderType;
         }

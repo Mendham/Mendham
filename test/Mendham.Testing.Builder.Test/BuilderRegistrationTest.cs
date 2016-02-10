@@ -34,48 +34,48 @@ namespace Mendham.Testing.Builder.Test
         }
 
         [Fact]
-        public void Register_DataBuilderOverrideMismatch_ThrowsInvalidMendhamBuilderOverrideException()
+        public void Register_DataBuilderOverrideMismatch_ThrowsInvalidDefaultBuilderOverrideException()
         {
             var builderType = typeof(ConstrainedInputObjectBuilder);
             var typeOverriden = typeof(DerivedConstrainedInputObject);
             var defaultTypeBuilderByBuilder = typeof(ConstrainedInputObject);
-            var mendhamBuilderAttribute = new MendhamBuilderAttribute(typeOverriden);
+            var defaultBuilderAttribute = new DefaultBuilderAttribute(typeOverriden);
 
             Fixture.BuilderQueryService.AsMock()
                 .Setup(a => a.GetBuilderTypes(Fixture.TestAssembly))
                 .ReturnsItems(builderType);
             Fixture.BuilderAttributeResolver.AsMock()
                 .Setup(a => a.GetAttributesAppliedToBuilder(builderType))
-                .ReturnsItems(mendhamBuilderAttribute);
+                .ReturnsItems(defaultBuilderAttribute);
 
             var sut = Fixture.CreateSut();
             Action act = () => sut.Register(Fixture.TestAssembly);
 
-            act.ShouldThrow<InvalidMendhamBuilderOverrideException>()
+            act.ShouldThrow<InvalidDefaultBuilderOverrideException>()
                 .Where(a => a.BuilderType == builderType
                     && a.TypeOverride == typeOverriden
                     && a.TypeToBuild == defaultTypeBuilderByBuilder);
         }
 
         [Fact]
-        public void Register_MultipleBuildersAssignedToType_ThrowsMultipleBuilderForTypeException()
+        public void Register_MultipleBuildersAssignedToType_ThrowsDefaultMultipleBuilderForTypeException()
         {
             var firstBuilder = typeof(ConstrainedInputObjectBuilder);
             var secondBuilder = typeof(AdditionalConstrainedInputObjectBuilder);
             var defaultTypeBuilderByBuilder = typeof(ConstrainedInputObject);
-            var mendhamBuilderAttribute = new MendhamBuilderAttribute();
+            var defaultBuilderAttribute = new DefaultBuilderAttribute();
 
             Fixture.BuilderQueryService.AsMock()
                 .Setup(a => a.GetBuilderTypes(Fixture.TestAssembly))
                 .ReturnsItems(firstBuilder, secondBuilder);
             Fixture.BuilderAttributeResolver.AsMock()
                 .Setup(a => a.GetAttributesAppliedToBuilder(It.IsAny<Type>()))
-                .ReturnsItems(mendhamBuilderAttribute);
+                .ReturnsItems(defaultBuilderAttribute);
 
             var sut = Fixture.CreateSut();
             Action act = () => sut.Register(Fixture.TestAssembly);
 
-            act.ShouldThrow<MultipleBuilderForTypeException>()
+            act.ShouldThrow<MultipleDefaultBuilderForTypeException>()
                 .Where(a => a.BuilderType == firstBuilder
                     && a.AdditionalBuilderType == secondBuilder
                     && a.TypeToBuild == defaultTypeBuilderByBuilder);
@@ -85,14 +85,14 @@ namespace Mendham.Testing.Builder.Test
         public void IsBuilderForTypeRegistered_SingleDefaultBuilder_True()
         {
             var builderTypeForConstrainedInputObject = typeof(ConstrainedInputObjectBuilder);
-            var mendhamBuilderAttribute = new MendhamBuilderAttribute();
+            var defaultBuilderAttribute = new DefaultBuilderAttribute();
 
             Fixture.BuilderQueryService.AsMock()
                 .Setup(a => a.GetBuilderTypes(Fixture.TestAssembly))
                 .ReturnsItems(builderTypeForConstrainedInputObject);
             Fixture.BuilderAttributeResolver.AsMock()
                 .Setup(a => a.GetAttributesAppliedToBuilder(builderTypeForConstrainedInputObject))
-                .ReturnsItems(mendhamBuilderAttribute);
+                .ReturnsItems(defaultBuilderAttribute);
 
             var sut = Fixture.CreateSut();
             sut.Register(Fixture.TestAssembly);
@@ -108,14 +108,14 @@ namespace Mendham.Testing.Builder.Test
         {
             var builderTypeForConstrainedInputObject = typeof(ConstrainedInputObjectBuilder);
             var abstractConstrainedInputObjectType = typeof(AbstractConstrainedInputObject);
-            var mendhamBuilderAttribute = new MendhamBuilderAttribute(abstractConstrainedInputObjectType);
+            var defaultBuilderAttribute = new DefaultBuilderAttribute(abstractConstrainedInputObjectType);
 
             Fixture.BuilderQueryService.AsMock()
                 .Setup(a => a.GetBuilderTypes(Fixture.TestAssembly))
                 .ReturnsItems(builderTypeForConstrainedInputObject);
             Fixture.BuilderAttributeResolver.AsMock()
                 .Setup(a => a.GetAttributesAppliedToBuilder(builderTypeForConstrainedInputObject))
-                .ReturnsItems(mendhamBuilderAttribute);
+                .ReturnsItems(defaultBuilderAttribute);
 
             var sut = Fixture.CreateSut();
             sut.Register(Fixture.TestAssembly);
@@ -130,14 +130,14 @@ namespace Mendham.Testing.Builder.Test
         public void IsTypeRegistered_TypeNotRegistered_False()
         {
             var builderTypeForConstrainedInputObject = typeof(ConstrainedInputObjectBuilder);
-            var mendhamBuilderAttribute = new MendhamBuilderAttribute();
+            var defaultBuilderAttribute = new DefaultBuilderAttribute();
 
             Fixture.BuilderQueryService.AsMock()
                 .Setup(a => a.GetBuilderTypes(Fixture.TestAssembly))
                 .ReturnsItems(builderTypeForConstrainedInputObject);
             Fixture.BuilderAttributeResolver.AsMock()
                 .Setup(a => a.GetAttributesAppliedToBuilder(builderTypeForConstrainedInputObject))
-                .ReturnsItems(mendhamBuilderAttribute);
+                .ReturnsItems(defaultBuilderAttribute);
 
             var sut = Fixture.CreateSut();
             sut.Register(Fixture.TestAssembly);
@@ -152,15 +152,15 @@ namespace Mendham.Testing.Builder.Test
         public void IsTypeRegistered_MultipleTypesForBuilder_AllTrue()
         {
             var builderTypeForConstrainedInputObject = typeof(ConstrainedInputObjectBuilder);
-            var defaultMendhamBuilderAttribute = new MendhamBuilderAttribute();
-            var overridingMendhamBuilderAttribute = new MendhamBuilderAttribute(typeof(AbstractConstrainedInputObject));
+            var defaultBuilderAttribute = new DefaultBuilderAttribute();
+            var overridingDefaultBuilderAttribute = new DefaultBuilderAttribute(typeof(AbstractConstrainedInputObject));
 
             Fixture.BuilderQueryService.AsMock()
                 .Setup(a => a.GetBuilderTypes(Fixture.TestAssembly))
                 .ReturnsItems(builderTypeForConstrainedInputObject);
             Fixture.BuilderAttributeResolver.AsMock()
                 .Setup(a => a.GetAttributesAppliedToBuilder(builderTypeForConstrainedInputObject))
-                .ReturnsItems(defaultMendhamBuilderAttribute, overridingMendhamBuilderAttribute);
+                .ReturnsItems(defaultBuilderAttribute, overridingDefaultBuilderAttribute);
 
             var sut = Fixture.CreateSut();
             sut.Register(Fixture.TestAssembly);
@@ -185,14 +185,14 @@ namespace Mendham.Testing.Builder.Test
         public void BuildGeneric_SingleDefaultBuilder_DefaultObject()
         {
             var builderTypeForConstrainedInputObject = typeof(ConstrainedInputObjectBuilder);
-            var mendhamBuilderAttribute = new MendhamBuilderAttribute();
+            var defaultBuilderAttribute = new DefaultBuilderAttribute();
 
             Fixture.BuilderQueryService.AsMock()
                 .Setup(a => a.GetBuilderTypes(Fixture.TestAssembly))
                 .ReturnsItems(builderTypeForConstrainedInputObject);
             Fixture.BuilderAttributeResolver.AsMock()
                 .Setup(a => a.GetAttributesAppliedToBuilder(builderTypeForConstrainedInputObject))
-                .ReturnsItems(mendhamBuilderAttribute);
+                .ReturnsItems(defaultBuilderAttribute);
 
             var sut = Fixture.CreateSut();
             sut.Register(Fixture.TestAssembly);
@@ -208,14 +208,14 @@ namespace Mendham.Testing.Builder.Test
         {
             var builderTypeForConstrainedInputObject = typeof(ConstrainedInputObjectBuilder);
             var abstractConstrainedInputObjectType = typeof(AbstractConstrainedInputObject);
-            var mendhamBuilderAttribute = new MendhamBuilderAttribute(abstractConstrainedInputObjectType);
+            var defaultBuilderAttribute = new DefaultBuilderAttribute(abstractConstrainedInputObjectType);
 
             Fixture.BuilderQueryService.AsMock()
                 .Setup(a => a.GetBuilderTypes(Fixture.TestAssembly))
                 .ReturnsItems(builderTypeForConstrainedInputObject);
             Fixture.BuilderAttributeResolver.AsMock()
                 .Setup(a => a.GetAttributesAppliedToBuilder(builderTypeForConstrainedInputObject))
-                .ReturnsItems(mendhamBuilderAttribute);
+                .ReturnsItems(defaultBuilderAttribute);
 
             var sut = Fixture.CreateSut();
             sut.Register(Fixture.TestAssembly);
@@ -232,14 +232,14 @@ namespace Mendham.Testing.Builder.Test
         {
             var builderTypeForConstrainedInputObject = typeof(ConstrainedInputObjectBuilder);
             var typeWithUndefinedBuilder = typeof(DerivedConstrainedInputObject);
-            var mendhamBuilderAttribute = new MendhamBuilderAttribute();
+            var defaultBuilderAttribute = new DefaultBuilderAttribute();
 
             Fixture.BuilderQueryService.AsMock()
                 .Setup(a => a.GetBuilderTypes(Fixture.TestAssembly))
                 .ReturnsItems(builderTypeForConstrainedInputObject);
             Fixture.BuilderAttributeResolver.AsMock()
                 .Setup(a => a.GetAttributesAppliedToBuilder(builderTypeForConstrainedInputObject))
-                .ReturnsItems(mendhamBuilderAttribute);
+                .ReturnsItems(defaultBuilderAttribute);
 
             var sut = Fixture.CreateSut();
             sut.Register(Fixture.TestAssembly);
@@ -263,14 +263,14 @@ namespace Mendham.Testing.Builder.Test
         public void Build_SingleDefaultBuilder_DefaultObject()
         {
             var builderTypeForConstrainedInputObject = typeof(ConstrainedInputObjectBuilder);
-            var mendhamBuilderAttribute = new MendhamBuilderAttribute();
+            var defaultBuilderAttribute = new DefaultBuilderAttribute();
 
             Fixture.BuilderQueryService.AsMock()
                 .Setup(a => a.GetBuilderTypes(Fixture.TestAssembly))
                 .ReturnsItems(builderTypeForConstrainedInputObject);
             Fixture.BuilderAttributeResolver.AsMock()
                 .Setup(a => a.GetAttributesAppliedToBuilder(builderTypeForConstrainedInputObject))
-                .ReturnsItems(mendhamBuilderAttribute);
+                .ReturnsItems(defaultBuilderAttribute);
 
             var sut = Fixture.CreateSut();
             sut.Register(Fixture.TestAssembly);
@@ -286,14 +286,14 @@ namespace Mendham.Testing.Builder.Test
         {
             var builderTypeForConstrainedInputObject = typeof(ConstrainedInputObjectBuilder);
             var abstractConstrainedInputObjectType = typeof(AbstractConstrainedInputObject);
-            var mendhamBuilderAttribute = new MendhamBuilderAttribute(abstractConstrainedInputObjectType);
+            var defaultBuilderAttribute = new DefaultBuilderAttribute(abstractConstrainedInputObjectType);
 
             Fixture.BuilderQueryService.AsMock()
                 .Setup(a => a.GetBuilderTypes(Fixture.TestAssembly))
                 .ReturnsItems(builderTypeForConstrainedInputObject);
             Fixture.BuilderAttributeResolver.AsMock()
                 .Setup(a => a.GetAttributesAppliedToBuilder(builderTypeForConstrainedInputObject))
-                .ReturnsItems(mendhamBuilderAttribute);
+                .ReturnsItems(defaultBuilderAttribute);
 
             var sut = Fixture.CreateSut();
             sut.Register(Fixture.TestAssembly);
@@ -310,14 +310,14 @@ namespace Mendham.Testing.Builder.Test
         {
             var builderTypeForConstrainedInputObject = typeof(ConstrainedInputObjectBuilder);
             var typeWithUndefinedBuilder = typeof(DerivedConstrainedInputObject);
-            var mendhamBuilderAttribute = new MendhamBuilderAttribute();
+            var defaultBuilderAttribute = new DefaultBuilderAttribute();
 
             Fixture.BuilderQueryService.AsMock()
                 .Setup(a => a.GetBuilderTypes(Fixture.TestAssembly))
                 .ReturnsItems(builderTypeForConstrainedInputObject);
             Fixture.BuilderAttributeResolver.AsMock()
                 .Setup(a => a.GetAttributesAppliedToBuilder(builderTypeForConstrainedInputObject))
-                .ReturnsItems(mendhamBuilderAttribute);
+                .ReturnsItems(defaultBuilderAttribute);
 
             var sut = Fixture.CreateSut();
             sut.Register(Fixture.TestAssembly);

@@ -10,14 +10,14 @@ namespace Mendham.Testing
     /// when using MendhamFixture
     /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-    public class MendhamBuilderAttribute : Attribute
+    public class DefaultBuilderAttribute : Attribute
     {
-        public MendhamBuilderAttribute()
+        public DefaultBuilderAttribute()
         { }
 
         /// <param name="typeOverride"> The type to be applied by the builder if not default T in IBuilder<T>. The T in IBuilder<T> must be 
         /// assignable to the TypeOverride or an exception will occur</param>
-        public MendhamBuilderAttribute(Type typeOverride)
+        public DefaultBuilderAttribute(Type typeOverride)
         {
             this.TypeOverride = typeOverride;
         }

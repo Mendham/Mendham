@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Mendham.Concurrency.Test.Builder
 {
-    [MendhamBuilder]
+    [DefaultBuilder]
     public class Int64ConcurrencyTokenBuilder : Builder<Int64ConcurrencyToken>
     {
         long value;
