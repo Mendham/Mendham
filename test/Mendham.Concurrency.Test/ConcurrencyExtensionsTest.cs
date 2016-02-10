@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Mendham.Concurrency.Test.TestObjects
+namespace Mendham.Concurrency.Test
 {
     public class ConcurrencyExtensionsTest
     {
