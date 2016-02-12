@@ -36,9 +36,9 @@ namespace Mendham.Domain.Test
 		public async Task RaiseAsync_DomainEvent_LogsEvent()
 		{
 			var domainEvent = Fixture.CreateDomainEvent();
-			var loggerContainer = Mock.Of<IDomainEventLoggerContainer>();
-            Fixture.DomainEventLoggerContainer = loggerContainer;
-			Fixture.DomainEventHandlerContainer.AsMock()
+            var logger = Mock.Of<IDomainEventLogger>();
+            Fixture.DomainEventLoggers = logger.AsSingleItemEnumerable();
+            Fixture.DomainEventHandlerContainer.AsMock()
 				.Setup(a => a.HandleAllAsync(domainEvent))
 				.ReturnsNoActionTask();
 
@@ -46,17 +46,17 @@ namespace Mendham.Domain.Test
 
 			await sut.RaiseAsync(domainEvent);
 
-            loggerContainer.AsMock()
-				.Verify(a => a.WriteToAllLoggers(domainEvent), Times.Once);
-		}
+            logger.AsMock()
+                 .Verify(a => a.LogDomainEvent(domainEvent), Times.Once);
+        }
 
 		[Fact]
 		public async Task RaiseAsync_HandlerException_StillLogsEvent()
 		{
 			var domainEvent = Fixture.CreateDomainEvent();
-			var loggerContainer = Mock.Of<IDomainEventLoggerContainer>();
-            Fixture.DomainEventLoggerContainer = loggerContainer;
-			Fixture.DomainEventHandlerContainer.AsMock()
+            var logger = Mock.Of<IDomainEventLogger>();
+            Fixture.DomainEventLoggers = logger.AsSingleItemEnumerable();
+            Fixture.DomainEventHandlerContainer.AsMock()
 				.Setup(a => a.HandleAllAsync(domainEvent))
 				.Throws<InvalidOperationException>();
 
@@ -65,8 +65,8 @@ namespace Mendham.Domain.Test
 			await Assert.ThrowsAsync<InvalidOperationException>(
 				() => sut.RaiseAsync(domainEvent));
 
-            loggerContainer.AsMock()
-                .Verify(a => a.WriteToAllLoggers(domainEvent), Times.Once);
+            logger.AsMock()
+                .Verify(a => a.LogDomainEvent(domainEvent), Times.Once); ;
         }
 	}
 }

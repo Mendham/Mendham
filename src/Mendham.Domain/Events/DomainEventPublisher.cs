@@ -23,7 +23,10 @@ namespace Mendham.Domain.Events
             var domainEventPublisherComponents = domainEventPublisherComponentsFactory();
 
             // Log Event
-            domainEventPublisherComponents.DomainEventLoggerContainer.WriteToAllLoggers(domainEvent);
+            foreach (var logger in domainEventPublisherComponents.DomainEventLoggers)
+            {
+                logger.LogDomainEvent(domainEvent);
+            }
 
 			// Handle Event
 			return domainEventPublisherComponents.DomainEventHandlerContainer.HandleAllAsync(domainEvent);

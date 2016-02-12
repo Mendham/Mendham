@@ -1,8 +1,10 @@
-﻿namespace Mendham.Domain.Events
+﻿using System.Collections.Generic;
+
+namespace Mendham.Domain.Events
 {
     public interface IDomainEventPublisherComponents
     {
         IDomainEventHandlerContainer DomainEventHandlerContainer { get; }
-        IDomainEventLoggerContainer DomainEventLoggerContainer { get; }
+        IEnumerable<IDomainEventLogger> DomainEventLoggers { get; }
     }
 }

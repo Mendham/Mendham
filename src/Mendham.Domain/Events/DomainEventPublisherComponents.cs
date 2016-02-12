@@ -8,13 +8,13 @@ namespace Mendham.Domain.Events
     public class DomainEventPublisherComponents : IDomainEventPublisherComponents
     {
         private readonly IDomainEventHandlerContainer handlerContainer;
-        private readonly IDomainEventLoggerContainer loggerContainer;
+        private readonly IEnumerable<IDomainEventLogger> loggers;
 
         public DomainEventPublisherComponents(IDomainEventHandlerContainer handlerContainer,
-            IDomainEventLoggerContainer loggerContainer)
+            IEnumerable<IDomainEventLogger> loggers)
         {
             this.handlerContainer = handlerContainer;
-            this.loggerContainer = loggerContainer;
+            this.loggers = loggers.ToList();
         }
 
         public IDomainEventHandlerContainer DomainEventHandlerContainer
@@ -25,11 +25,11 @@ namespace Mendham.Domain.Events
             }
         }
 
-        public IDomainEventLoggerContainer DomainEventLoggerContainer
+        public IEnumerable<IDomainEventLogger> DomainEventLoggers
         {
             get
             {
-                return loggerContainer;
+                return loggers;
             }
         }
     }
