@@ -16,9 +16,16 @@ namespace Mendham.Domain.DependencyInjection.Autofac
             this.domainEventPublisherProvider = componentContext.Resolve<Func<IDomainEventPublisher>>();
         }
 
+        private IDomainEventPublisher _publisher;
+
         public IDomainEventPublisher GetPublisher()
         {
-            return domainEventPublisherProvider();
+            if (_publisher == default(IDomainEventPublisher))
+            {
+                _publisher = domainEventPublisherProvider();
+            }
+
+            return _publisher;
         }
     }
 }

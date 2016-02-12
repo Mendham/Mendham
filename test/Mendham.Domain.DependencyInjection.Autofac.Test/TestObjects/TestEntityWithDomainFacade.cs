@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Mendham.Domain.Events;
 
-namespace Mendham.Domain.DependencyInjection.Autofac.Test.Data
+namespace Mendham.Domain.DependencyInjection.Autofac.Test.TestObjects
 {
 	public class TestEntityWithDomainFacade : Entity
 	{
