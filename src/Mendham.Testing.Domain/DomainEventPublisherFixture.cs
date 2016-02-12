@@ -28,12 +28,12 @@ namespace Mendham.Testing
         }
 
         /// <summary>
-        /// Gets the IDomainEventPublisherProvider that employs this fixture
+        /// Gets the IDomainEventPublisher that employs this fixture
         /// </summary>
         /// <returns></returns>
-        public IDomainEventPublisherProvider GetDomainEventPublisherProvider()
+        public IDomainEventPublisher GetDomainEventPublisher()
         {
-            return new DomainEventPublisherProvider(this.publishedEvents);
+            return new DomainEventPublisher(this.publishedEvents);
         }
 
         /// <summary>
@@ -90,21 +90,6 @@ namespace Mendham.Testing
 
             if (!timesRaised.Validate(evtCount))
                 throw new DomainEventVerificationException<TDomainEvent>(evtCount, timesRaised, userMessage);
-        }
-
-        private class DomainEventPublisherProvider : IDomainEventPublisherProvider
-        {
-            private readonly IDomainEventLogger publishedEvents;
-
-            public DomainEventPublisherProvider(PublishedEvents publishedEvents)
-            {
-                this.publishedEvents = publishedEvents;
-            }
-
-            public IDomainEventPublisher GetPublisher()
-            {
-                return new DomainEventPublisher(publishedEvents as PublishedEvents);
-            }
         }
 
         private class DomainEventPublisher : IDomainEventPublisher

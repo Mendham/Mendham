@@ -20,7 +20,7 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
                 kernel.RegisterDomainEventHandlers(GetType().Assembly);
                 kernel.Bind<IDomainEventLogger>().To<TestDomainEventLogger>().InSingletonScope();
 
-                var publisher = kernel.Get<IDomainEventPublisherProvider>().GetPublisher();
+                var publisher = kernel.Get<IDomainEventPublisher>();
                 var logger = kernel.Get<IDomainEventLogger>() as TestDomainEventLogger;
 
                 var originalDomainEvent = new DomainEventWithHandlerRegistered();

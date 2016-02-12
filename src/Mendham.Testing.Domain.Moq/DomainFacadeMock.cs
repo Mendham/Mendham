@@ -18,22 +18,19 @@ namespace Mendham.Testing.Moq
         public static TDomainFacade Of<TDomainFacade>()
             where TDomainFacade : class, IDomainFacade
         {
-            var emptyProvider = Mock.Of<IDomainEventPublisherProvider>(
-                ctx => ctx.GetPublisher() == new EmptyDomainEventPublisher());
-
-            return Of<TDomainFacade>(emptyProvider);
+            return Of<TDomainFacade>(new EmptyDomainEventPublisher());
         }
 
         /// <summary>
         /// Generates a mockable implementation of the domain facade that utlizes a domain event publisher
         /// </summary>
         /// <typeparam name="TDomainFacade">Type of the domain facade</typeparam>
-        /// <param name="domainEventPublisherProvider">A IDomainEventPublisherProvider that is implemented to include an IDomainEventPublisher</param>
+        /// <param name="domainEventPublisher">IDomainEventPublisher to apply to facade</param>
         /// <returns>Mockable implementation of the domain facade</returns>
-        public static TDomainFacade Of<TDomainFacade>(IDomainEventPublisherProvider domainEventPublisherProvider)
+        public static TDomainFacade Of<TDomainFacade>(IDomainEventPublisher domainEventPublisher)
             where TDomainFacade : class, IDomainFacade
         {
-            return new DomainFacadeMockBase(domainEventPublisherProvider)
+            return new DomainFacadeMockBase(domainEventPublisher)
                 .As<TDomainFacade>()
                 .Object;
         }
@@ -47,8 +44,8 @@ namespace Mendham.Testing.Moq
         public static TDomainFacade Of<TDomainFacade>(DomainEventPublisherFixture domainEventPublisherFixture)
             where TDomainFacade : class, IDomainFacade
         {
-            var provider = domainEventPublisherFixture.GetDomainEventPublisherProvider();
-            return Of<TDomainFacade>(provider);
+            var publisher = domainEventPublisherFixture.GetDomainEventPublisher();
+            return Of<TDomainFacade>(publisher);
         }
 
         private class EmptyDomainEventPublisher : IDomainEventPublisher
@@ -61,8 +58,8 @@ namespace Mendham.Testing.Moq
 
         private class DomainFacadeMockBase : Mock<DomainFacade>
         {
-            public DomainFacadeMockBase(IDomainEventPublisherProvider domainEventPublisherProvider)
-                :base(domainEventPublisherProvider)
+            public DomainFacadeMockBase(IDomainEventPublisher domainEventPublisher)
+                :base(domainEventPublisher)
             {
                 this.CallBase = true;
             }

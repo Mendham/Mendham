@@ -15,8 +15,7 @@ namespace Mendham.Domain.Test.Fixtures
 
 		public override DomainEventPublisher CreateSut()
 		{
-			return new DomainEventPublisher(this.DomainEventHandlerContainer,
-				this.DomainEventLoggerContainer);
+			return new DomainEventPublisher(DomainEventPublisherContainerFactory);
 		}
 
 		public override void ResetFixture()
@@ -34,5 +33,10 @@ namespace Mendham.Domain.Test.Fixtures
 		{
 			return new TestDomainEvent();
 		}
+
+        private IDomainEventPublisherComponents DomainEventPublisherContainerFactory()
+        {
+            return new DomainEventPublisherComponents(DomainEventHandlerContainer, DomainEventLoggerContainer);
+        }
 	}
 }

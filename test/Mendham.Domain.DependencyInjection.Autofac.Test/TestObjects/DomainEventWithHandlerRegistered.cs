@@ -13,9 +13,9 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test.TestObjects
     {
         private readonly IDomainEventPublisher domainEventPublisher;
 
-        public DomainEventWithHandlerRegisteredHandler(IDomainEventPublisherProvider domainEventPublisherProvider)
+        public DomainEventWithHandlerRegisteredHandler(IDomainEventPublisher domainEventPublisher)
         {
-            this.domainEventPublisher = domainEventPublisherProvider.GetPublisher();
+            this.domainEventPublisher = domainEventPublisher;
         }
 
         public override Task HandleAsync(DomainEventWithHandlerRegistered domainEvent)

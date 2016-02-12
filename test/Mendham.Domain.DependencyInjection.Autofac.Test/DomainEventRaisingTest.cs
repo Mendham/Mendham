@@ -22,11 +22,11 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
 
             builder.RegisterType<TestDomainEventLogger>()
                 .As<IDomainEventLogger>()
-                .InstancePerLifetimeScope();
+                .SingleInstance();
 
             using (var scope = builder.Build().BeginLifetimeScope())
             {
-                var publisher = scope.Resolve<IDomainEventPublisherProvider>().GetPublisher();
+                var publisher = scope.Resolve<IDomainEventPublisher>();
                 var logger = scope.Resolve<IDomainEventLogger>() as TestDomainEventLogger;
 
                 var originalDomainEvent = new DomainEventWithHandlerRegistered();

@@ -1,6 +1,7 @@
 ﻿
 using Mendham.Domain.Events;
 using Ninject;
+using Ninject.Activation;
 using Ninject.Modules;
 using System;
 using System.Collections.Generic;
@@ -13,10 +14,6 @@ namespace Mendham.Domain.DependencyInjection.Ninject
     {
         public override void Load()
         {
-            Bind<IDomainEventPublisher>()
-                .To<DomainEventPublisher>()
-                .InSingletonScope();
-
             Bind<IDomainEventHandlerContainer>()
                 .To<DomainEventHandlerContainer>()
                 .InSingletonScope();
@@ -25,9 +22,21 @@ namespace Mendham.Domain.DependencyInjection.Ninject
                 .To<DomainEventLoggerContainer>()
                 .InSingletonScope();
 
-            Bind<IDomainEventPublisherProvider>()
-                .To<DomainEventPublisherProvider>()
+            Bind<IDomainEventPublisherComponents>()
+                .To<DomainEventPublisherComponents>()
                 .InSingletonScope();
+
+            Bind<IDomainEventPublisher>()
+                .ToMethod(CreateDomainEventPublisher)
+                .InSingletonScope();
+        }
+
+        private static IDomainEventPublisher CreateDomainEventPublisher(IContext context)
+        {
+            Func<IDomainEventPublisherComponents> domainEventPublisherContainerFactory = () => 
+                context.Kernel.Get<IDomainEventPublisherComponents>();
+
+            return new DomainEventPublisher(domainEventPublisherContainerFactory);
         }
     }
 }

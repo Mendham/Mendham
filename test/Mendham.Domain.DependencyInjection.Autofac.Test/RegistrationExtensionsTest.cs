@@ -18,10 +18,13 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
 		{
 			var assembly = typeof(RegistrationExtensionsTest).GetTypeInfo().Assembly;
 
-			var builder = new ContainerBuilder();
+            var builder = new ContainerBuilder();
 			builder.RegisterDomainEventHandlers(assembly);
 
-			using (var sut = builder.Build().BeginLifetimeScope())
+            // This is needed one of the test handlersin the assembly (not used here) injects a publisher
+            builder.RegisterModule<DomainEventHandlingModule>();
+
+            using (var sut = builder.Build().BeginLifetimeScope())
 			{
 				var result = sut.Resolve<IEnumerable<IDomainEventHandler>>();
 

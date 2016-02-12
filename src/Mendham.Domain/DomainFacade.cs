@@ -10,9 +10,9 @@ namespace Mendham.Domain
 	{
 		private readonly IDomainEventPublisher domainEventPublisher;
 
-		public DomainFacade(IDomainEventPublisherProvider domainEventPublisherProvider)
+		public DomainFacade(IDomainEventPublisher domainEventPublisher)
 		{
-			this.domainEventPublisher = domainEventPublisherProvider.GetPublisher();
+			this.domainEventPublisher = domainEventPublisher;
 		}
 
 		public Task RaiseEventAsync<TDomainEvent>(TDomainEvent domainEvent)

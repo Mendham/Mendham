@@ -9,6 +9,7 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test.TestObjects
     public class TestDomainEventLogger : IDomainEventLogger
     {
         private readonly List<IDomainEvent> _loggedEvents;
+        private readonly Guid loggerId = Guid.NewGuid();
 
         public TestDomainEventLogger()
         {

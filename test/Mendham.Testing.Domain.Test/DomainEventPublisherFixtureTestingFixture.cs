@@ -21,7 +21,7 @@ namespace Mendham.Testing.Domain.Test
             base.ResetFixture();
 
             sut = new DomainEventPublisherFixture();
-            domainEventPublisher = sut.GetDomainEventPublisherProvider().GetPublisher();
+            domainEventPublisher = sut.GetDomainEventPublisher();
         }
 
         public Task RaiseTestDomainEvent1()
