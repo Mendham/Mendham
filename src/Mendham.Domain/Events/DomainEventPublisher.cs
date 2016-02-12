@@ -10,21 +10,20 @@ namespace Mendham.Domain.Events
 	public class DomainEventPublisher : IDomainEventPublisher
 	{
 		private readonly IDomainEventHandlerContainer handlerContainer;
-		private readonly IEnumerable<IDomainEventLogger> domainEventLoggers;
+		private readonly IDomainEventLoggerContainer loggerContainer;
 
 		public DomainEventPublisher(IDomainEventHandlerContainer handlerContainer,
-			IEnumerable<IDomainEventLogger> domainEventLoggers)
+            IDomainEventLoggerContainer loggerContainer)
 		{
 			this.handlerContainer = handlerContainer;
-			this.domainEventLoggers = domainEventLoggers;
+			this.loggerContainer = loggerContainer;
 		}
 
 		public Task RaiseAsync<TDomainEvent>(TDomainEvent domainEvent)
 			where TDomainEvent : class, IDomainEvent
 		{
-			// Log Event
-			foreach (var logger in domainEventLoggers)
-				logger.LogDomainEvent(domainEvent);
+            // Log Event
+            loggerContainer.WriteToAllLoggers(domainEvent);
 
 			// Handle Event
 			return handlerContainer.HandleAllAsync(domainEvent);

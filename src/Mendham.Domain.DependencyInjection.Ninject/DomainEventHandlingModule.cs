@@ -21,6 +21,10 @@ namespace Mendham.Domain.DependencyInjection.Ninject
                 .To<DomainEventHandlerContainer>()
                 .InSingletonScope();
 
+            Bind<IDomainEventLoggerContainer>()
+                .To<DomainEventLoggerContainer>()
+                .InSingletonScope();
+
             Bind<IDomainEventPublisherProvider>()
                 .To<DomainEventPublisherProvider>()
                 .InSingletonScope();

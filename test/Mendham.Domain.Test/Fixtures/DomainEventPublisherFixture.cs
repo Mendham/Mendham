@@ -11,12 +11,12 @@ namespace Mendham.Domain.Test.Fixtures
     public class DomainEventPublisherFixture : Fixture<DomainEventPublisher>
     {
 		public IDomainEventHandlerContainer DomainEventHandlerContainer { get; set; }
-		public IEnumerable<IDomainEventLogger> DomainEventLoggers { get; set; }
+		public IDomainEventLoggerContainer DomainEventLoggerContainer { get; set; }
 
 		public override DomainEventPublisher CreateSut()
 		{
 			return new DomainEventPublisher(this.DomainEventHandlerContainer,
-				this.DomainEventLoggers);
+				this.DomainEventLoggerContainer);
 		}
 
 		public override void ResetFixture()
@@ -24,8 +24,8 @@ namespace Mendham.Domain.Test.Fixtures
 			base.ResetFixture();
 
 			this.DomainEventHandlerContainer = Mock.Of<IDomainEventHandlerContainer>();
-			this.DomainEventLoggers = Enumerable.Empty<IDomainEventLogger>();
-		}
+			this.DomainEventLoggerContainer = Mock.Of<IDomainEventLoggerContainer>();
+        }
 
 		public class TestDomainEvent : DomainEvent
 		{ }

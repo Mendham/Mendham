@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Mendham.Domain.Events;
+using Mendham.Testing;
+using Moq;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Mendham.Domain.Events;
-using Mendham.Testing;
-using Moq;
 
 namespace Mendham.Domain.Test.Fixtures
 {

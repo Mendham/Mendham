@@ -28,7 +28,7 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
 		}
 
 		[Fact]
-		public void DomainEventHandlingModule_RegisterDomainEventContainer_Resolves()
+		public void DomainEventHandlingModule_RegisterDomainEventHandlingContainer_Resolves()
 		{
 			var builder = new ContainerBuilder();
 			builder.RegisterModule<DomainEventHandlingModule>();
@@ -43,7 +43,23 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
 			}
 		}
 
-		[Fact]
+        [Fact]
+        public void DomainEventHandlingModule_RegisterDomainEventLoggingContainer_Resolves()
+        {
+            var builder = new ContainerBuilder();
+            builder.RegisterModule<DomainEventHandlingModule>();
+
+            using (var sut = builder.Build().BeginLifetimeScope())
+            {
+                var publisher = sut.Resolve<IDomainEventLoggerContainer>();
+
+                publisher.Should()
+                    .NotBeNull()
+                    .And.BeOfType<DomainEventLoggerContainer>();
+            }
+        }
+
+        [Fact]
 		public void DomainEventHandlingModule_RegisterDomainEventPublisher_IsSameInstance()
 		{
 			var builder = new ContainerBuilder();
@@ -67,7 +83,7 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
 		}
 
 		[Fact]
-		public void DomainEventHandlingModule_RegisterDomainEventContainer_IsSameInstance()
+		public void DomainEventHandlingModule_RegisterDomainEventHandlingContainer_IsSameInstance()
 		{
 			var builder = new ContainerBuilder();
 			builder.RegisterModule<DomainEventHandlingModule>();
@@ -88,5 +104,28 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
 			container1.Should()
 				.BeSameAs(container2);
 		}
-	}
+
+        [Fact]
+        public void DomainEventHandlingModule_RegisterDomainEventLoggingContainer_IsSameInstance()
+        {
+            var builder = new ContainerBuilder();
+            builder.RegisterModule<DomainEventHandlingModule>();
+            var container = builder.Build();
+
+            IDomainEventLoggerContainer container1, container2;
+
+            using (var sut = container.BeginLifetimeScope())
+            {
+                container1 = sut.Resolve<IDomainEventLoggerContainer>();
+            }
+
+            using (var sut = container.BeginLifetimeScope())
+            {
+                container2 = sut.Resolve<IDomainEventLoggerContainer>();
+            }
+
+            container1.Should()
+                .BeSameAs(container2);
+        }
+    }
 }

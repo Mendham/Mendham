@@ -35,13 +35,23 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
         }
 
         [Fact]
-        public void DomainEventHandlingModule_RegisterDomainEventContainer_Resolves()
+        public void DomainEventHandlingModule_RegisterDomainEventHandlerContainer_Resolves()
         {
             var result = sut.Get<IDomainEventHandlerContainer>();
 
             result.Should()
                 .NotBeNull()
                 .And.BeOfType<DomainEventHandlerContainer>();
+        }
+
+        [Fact]
+        public void DomainEventHandlingModule_RegisterDomainEventLoggerContainer_Resolves()
+        {
+            var result = sut.Get<IDomainEventLoggerContainer>();
+
+            result.Should()
+                .NotBeNull()
+                .And.BeOfType<DomainEventLoggerContainer>();
         }
 
         [Fact]
@@ -55,10 +65,20 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
         }
 
         [Fact]
-        public void DomainEventHandlingModule_RegisterDomainEventContainer_IsSameInstance()
+        public void DomainEventHandlingModule_RegisterDomainEventHandlerContainer_IsSameInstance()
         {
             var expectedContainer = sut.Get<IDomainEventHandlerContainer>();
             var result = sut.Get<IDomainEventHandlerContainer>();
+
+            result.Should()
+                .BeSameAs(expectedContainer);
+        }
+
+        [Fact]
+        public void DomainEventHandlingModule_RegisterDomainEventLoggerContainer_IsSameInstance()
+        {
+            var expectedContainer = sut.Get<IDomainEventLoggerContainer>();
+            var result = sut.Get<IDomainEventLoggerContainer>();
 
             result.Should()
                 .BeSameAs(expectedContainer);

@@ -19,6 +19,10 @@ namespace Mendham.Domain.DependencyInjection.Autofac
 				.As<IDomainEventHandlerContainer>()
 				.SingleInstance();
 
+            builder.RegisterType<DomainEventLoggerContainer>()
+                .As<IDomainEventLoggerContainer>()
+                .SingleInstance();
+
             builder.Register<IDomainEventPublisherProvider>(c => new DomainEventPublisherProvider(c))
                 .SingleInstance();
 		}
