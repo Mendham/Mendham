@@ -58,14 +58,13 @@ namespace Mendham.Domain.Events
 		/// <returns></returns>
 		private static bool HandlesDomainEvent<TDomainEvent>(IDomainEventHandler handler)
 		{
-			var expectedDomainEventTypeInfo = typeof(TDomainEvent).GetTypeInfo();
+			var expectedDomainEventTypeInfo = typeof(TDomainEvent);
 			var handlerInterfaceDomainEventType = GetDomainEventTypeFromHandler(handler);
 
 			if (handlerInterfaceDomainEventType == default(Type))
 				return false;
 
 			return handlerInterfaceDomainEventType
-				.GetTypeInfo()
 				.IsAssignableFrom(expectedDomainEventTypeInfo);
 		}
 
@@ -98,7 +97,7 @@ namespace Mendham.Domain.Events
 
 			return ti.IsInterface
 				&& ti.IsGenericType
-				&& ti.GetGenericTypeDefinition() == typeof(IDomainEventHandler<>);
+				&& ti.GetGenericTypeDefinition().Equals(typeof(IDomainEventHandler<>));
 		}
 
 		/// <summary>
