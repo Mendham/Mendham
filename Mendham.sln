@@ -62,7 +62,7 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Testing.Test", "tes
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Concurrency.Test", "test\Mendham.Concurrency.Test\Mendham.Concurrency.Test.xproj", "{97C32E0E-46E2-440E-8540-5827CABA3CC2}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Domain.DependencyInjection.InvalidTestEntity", "test\Mendham.Domain.DependencyInjection.InvalidTestEntity\Mendham.Domain.DependencyInjection.InvalidTestEntity.xproj", "{21B9B5EC-5460-4C3C-9767-C16ECBA3B78F}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Domain.DependencyInjection.InvalidTestEntity", "test\Resources\Mendham.Domain.DependencyInjection.InvalidTestEntity\Mendham.Domain.DependencyInjection.InvalidTestEntity.xproj", "{21B9B5EC-5460-4C3C-9767-C16ECBA3B78F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

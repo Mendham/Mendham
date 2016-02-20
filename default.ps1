@@ -62,5 +62,6 @@ task Build -depends Clean,Restore,SetBuildSuffix -description "Builds every sour
 
 task Test -depends Restore -description "Runs tests" {
     Get-ChildItem -Path .\test -Filter project.json -Recurse |
+        ? {$_.Directory.FullName -notmatch "test\\Resources" } |
         % { Test-Projects $_.FullName }
 }
