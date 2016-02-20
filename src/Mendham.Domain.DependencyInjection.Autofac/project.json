@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0-beta4-*",
+  "version": "1.0.0-beta5-*",
   "description": "Autofac plugin to use with Mendham.Domain ",
   "authors": [ "Craig Beall" ],
   "tags": [ "mendham domain ddd autofac ioc di" ],
