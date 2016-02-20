@@ -31,7 +31,7 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test.TestObjects
 			bool HasDomainEventPublisher();
 		}
 
-		public class Facade : DomainFacade, IFacade
+		public class Facade : DomainFacade, IFacade, IUnrelatedInterface
 		{
 			private readonly bool domainEventPublisherHasValue;
 
