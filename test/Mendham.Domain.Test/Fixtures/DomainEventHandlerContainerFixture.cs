@@ -15,12 +15,14 @@ namespace Mendham.Domain.Test.Fixtures
 		public IDomainEventHandler<DerivedDomainEvent> DerivedEventHandler { get; set; }
 		public IDomainEventHandler<OtherDomainEvent> OtherEventHandler { get; set; }
 
-		public override DomainEventHandlerContainer CreateSut()
+        public IDomainEventHandlerLogger DomainEventHandlerLogger { get; set; }
+
+        public override DomainEventHandlerContainer CreateSut()
 		{
-			return new DomainEventHandlerContainer(handlers);
+			return new DomainEventHandlerContainer(Handlers, DomainEventHandlerLogger.AsSingleItemEnumerable());
 		}
 
-		private IEnumerable<IDomainEventHandler> handlers
+		private IEnumerable<IDomainEventHandler> Handlers
 		{
 			get
 			{
@@ -37,6 +39,8 @@ namespace Mendham.Domain.Test.Fixtures
 			BaseEventHandler = Mock.Of<IDomainEventHandler<BaseDomainEvent>>();
 			DerivedEventHandler = Mock.Of<IDomainEventHandler<DerivedDomainEvent>>();
 			OtherEventHandler = Mock.Of<IDomainEventHandler<OtherDomainEvent>>();
+
+            DomainEventHandlerLogger = Mock.Of<IDomainEventHandlerLogger>();
 		}
 
 		public class BaseDomainEvent : DomainEvent

@@ -25,7 +25,7 @@ namespace Mendham.Domain.Events
             // Log Event
             foreach (var logger in domainEventPublisherComponents.DomainEventLoggers)
             {
-                logger.LogDomainEvent(domainEvent);
+                logger.LogDomainEventRaised(domainEvent);
             }
 
 			// Handle Event

@@ -15,7 +15,7 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test.TestObjects
             _loggedEvents = new List<IDomainEvent>();
         }
 
-        public void LogDomainEvent<TDomainEvent>(TDomainEvent domainEvent) where TDomainEvent : IDomainEvent
+        public void LogDomainEventRaised(IDomainEvent domainEvent)
         {
             _loggedEvents.Add(domainEvent);
         }

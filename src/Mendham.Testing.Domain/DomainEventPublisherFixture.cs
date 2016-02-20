@@ -104,7 +104,7 @@ namespace Mendham.Testing
             public Task RaiseAsync<TDomainEvent>(TDomainEvent domainEvent)
                 where TDomainEvent : class, IDomainEvent
             {
-                publishedEvents.LogDomainEvent(domainEvent);
+                publishedEvents.LogDomainEventRaised(domainEvent);
                 return Task.FromResult(0);
             }
         }
@@ -118,7 +118,7 @@ namespace Mendham.Testing
                 return CapturedEvents;
             }
 
-            void IDomainEventLogger.LogDomainEvent<TDomainEvent>(TDomainEvent domainEvent)
+            void IDomainEventLogger.LogDomainEventRaised(IDomainEvent domainEvent)
             {
                 CapturedEvents.Add(domainEvent);
             }

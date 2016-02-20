@@ -47,7 +47,7 @@ namespace Mendham.Domain.Test
 			await sut.RaiseAsync(domainEvent);
 
             logger.AsMock()
-                 .Verify(a => a.LogDomainEvent(domainEvent), Times.Once);
+                 .Verify(a => a.LogDomainEventRaised(domainEvent), Times.Once);
         }
 
 		[Fact]
@@ -66,7 +66,7 @@ namespace Mendham.Domain.Test
 				() => sut.RaiseAsync(domainEvent));
 
             logger.AsMock()
-                .Verify(a => a.LogDomainEvent(domainEvent), Times.Once); ;
+                .Verify(a => a.LogDomainEventRaised(domainEvent), Times.Once); ;
         }
 	}
 }

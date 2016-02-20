@@ -10,11 +10,10 @@ namespace Mendham.Domain.Events
 	/// </summary>
 	public interface IDomainEventLogger
 	{
-		/// <summary>
-		/// Logs Domain Event
-		/// </summary>
-		/// <typeparam name="TDomainEvent">Type of domain event</typeparam>
-		/// <param name="domainEvent">Domain Event</param>
-		void LogDomainEvent<TDomainEvent>(TDomainEvent domainEvent) where TDomainEvent : IDomainEvent;
+        /// <summary>
+        /// Logs Domain Event
+        /// </summary>
+        /// <param name="domainEvent">Domain Event</param>
+        void LogDomainEventRaised(IDomainEvent domainEvent);
 	}
 }

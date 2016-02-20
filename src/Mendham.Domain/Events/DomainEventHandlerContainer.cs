@@ -8,11 +8,14 @@ namespace Mendham.Domain.Events
 {
 	public class DomainEventHandlerContainer : IDomainEventHandlerContainer
 	{
-		private IEnumerable<IDomainEventHandler> domainEventHandlers;
+		private readonly IEnumerable<IDomainEventHandler> domainEventHandlers;
+        private readonly IEnumerable<IDomainEventHandlerLogger> domainEventHandlerLoggers;
 
-		public DomainEventHandlerContainer(IEnumerable<IDomainEventHandler> domainEventHandlers)
+		public DomainEventHandlerContainer(IEnumerable<IDomainEventHandler> domainEventHandlers,
+            IEnumerable<IDomainEventHandlerLogger> domainEventHandlerLoggers)
 		{
 			this.domainEventHandlers = domainEventHandlers;
+            this.domainEventHandlerLoggers = domainEventHandlerLoggers;
 		}
 
 		/// <summary>
@@ -136,20 +139,21 @@ namespace Mendham.Domain.Events
 		private async Task HandleAsync<TDomainEvent>(IDomainEventHandler<TDomainEvent> handler, TDomainEvent domainEvent)
 			where TDomainEvent :  IDomainEvent
 		{
-			try
+            Type handlerType = GetHandlerType(handler);
+
+            try
 			{
-				await handler.HandleAsync(domainEvent);
-			}
-			catch (Exception ex)
+                WriteToDomainEventHandlerLogger(a => a.LogDomainEventHandlerStarting(handlerType, domainEvent));
+
+                await handler.HandleAsync(domainEvent);
+
+                WriteToDomainEventHandlerLogger(a => a.LogDomainEventHandlerComplete(handlerType, domainEvent));
+            }
+            catch (Exception ex)
 			{
-				Type handlerType = handler.GetType();
+                WriteToDomainEventHandlerLogger(a => a.LogDomainEventHandlerError(handlerType, domainEvent, ex));
 
-				var wrapper = handler as IDomainEventHandlerWrapper;
-
-				if (wrapper != null)
-					handlerType = wrapper.GetBaseHandlerType();
-
-				throw new DomainEventHandlingException(handlerType, domainEvent, ex);
+                throw new DomainEventHandlingException(handlerType, domainEvent, ex);
 			}
 		}
 
@@ -190,5 +194,27 @@ namespace Mendham.Domain.Events
 				return this.domainEventHandler.GetType();
 			}
 		}
+
+        private void WriteToDomainEventHandlerLogger(Action<IDomainEventHandlerLogger> writeAction)
+        {
+            foreach(var domainEventHandlerLogger in domainEventHandlerLoggers)
+            {
+                writeAction(domainEventHandlerLogger);
+            }
+        }
+
+        private static Type GetHandlerType(IDomainEventHandler handler)
+        {
+            Type handlerType = handler.GetType();
+
+            var wrapper = handler as IDomainEventHandlerWrapper;
+
+            if (wrapper != null)
+            {
+                handlerType = wrapper.GetBaseHandlerType();
+            }
+
+            return handlerType;
+        }
 	}
 }
