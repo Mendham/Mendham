@@ -28,7 +28,7 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
         [Fact]
         public void RegisterDomainEventHandlers_HandlersInAssembly_ReturnsAll()
         {
-            var assembly = typeof(RegistrationExtensionsTest).GetTypeInfo().Assembly;
+            var assembly = GetType().GetTypeInfo().Assembly;
 
             sut.RegisterDomainEventHandlers(assembly);
 
@@ -47,13 +47,40 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
         [Fact]
         public void RegisterDomainFacades_ApplyingToBuilder_ReturnsFacade()
         {
-            var assembly = typeof(RegistrationExtensionsTest).GetTypeInfo().Assembly;
+            var assembly = GetType().GetTypeInfo().Assembly;
 
             sut.RegisterDomainFacades(assembly);
 
             var facade = sut.Get<TestEntityWithDomainFacade.IFacade>();
 
             facade.Should().NotBeNull();
+        }
+
+        [Fact]
+        public void RegisterDomainFacades_DerivedInterface_ReturnsDerivedFacade()
+        {
+            var assembly = GetType().GetTypeInfo().Assembly;
+
+            sut.RegisterDomainFacades(assembly);
+
+            var facade = sut.Get<DerivedTestEntityWithDomainFacade.IDerivedFacade>();
+
+            facade.Should().NotBeNull();
+        }
+
+        [Fact]
+        public void RegisterDomainFacades_BaseInterfaceOnAbstractBase_ReturnsNonAbstractFacade()
+        {
+            var assembly = GetType().GetTypeInfo().Assembly;
+
+            sut.RegisterDomainFacades(assembly);
+
+            var facade = sut.Get<AbstractTestEntityWithDomainFacade.IBaseFacade>();
+
+            facade.
+                Should()
+                .NotBeNull("there is a non abstract facade assocaited with IBaseFacade")
+                .And.BeOfType<DerivedTestEntityWithDomainFacade.DerivedFacade>("this is the one and only non abstract class");
         }
     }
 }
