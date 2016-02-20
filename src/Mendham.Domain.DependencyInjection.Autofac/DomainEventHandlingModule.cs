@@ -11,9 +11,9 @@ namespace Mendham.Domain.DependencyInjection.Autofac
     {
 		protected override void Load(ContainerBuilder builder)
 		{
-			builder.RegisterType<DomainEventHandlerContainer>()
-				.As<IDomainEventHandlerContainer>()
-				.SingleInstance();
+            builder.RegisterType<DomainEventHandlerContainer>()
+                .As<IDomainEventHandlerContainer>()
+                .SingleInstance();
 
             builder.RegisterType<DomainEventPublisherComponents>()
                 .As<IDomainEventPublisherComponents>()

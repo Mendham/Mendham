@@ -11,14 +11,14 @@ namespace Mendham.Domain.DependencyInjection.Autofac
     public static class RegistrationExtensions
 	{
         /// <summary>
-        /// Registers all domain event handlers found in the assembly with an instance per lifetime
+        /// Registers all domain event handlers found in the assembly as a singleton
         /// </summary>
 		public static void RegisterDomainEventHandlers(this ContainerBuilder builder, Assembly assembly)
 		{
 			builder
 				.RegisterAssemblyTypes(assembly)
 				.As<IDomainEventHandler>()
-				.InstancePerLifetimeScope();
+				.SingleInstance();
 		}
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace Mendham.Domain.DependencyInjection.Autofac
 				.RegisterAssemblyTypes(assembly)
 				.Where(IsAssignableFromIDomainFacade)
 				.As(t => ValidateAndGetServiceMapping(t, concreateTypesInAssembly))
-				.InstancePerLifetimeScope();
+				.SingleInstance();
         }
 
         /// <summary>

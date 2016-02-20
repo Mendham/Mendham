@@ -13,7 +13,59 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
     public class DomainEventRaisingTest
     {
         [Fact]
-        public async Task Raise_HandlerLogsSecondEvent_BothLogged()
+        public async Task Raise_SingleEvent_IsLogged()
+        {
+            var builder = new ContainerBuilder();
+
+            builder.RegisterModule<DomainEventHandlingModule>();
+            builder.RegisterDomainEventHandlers(GetType().Assembly);
+
+            builder.RegisterType<TestDomainEventLogger>()
+                .As<IDomainEventLogger>()
+                .SingleInstance();
+
+            using (var scope = builder.Build().BeginLifetimeScope())
+            {
+                var publisher = scope.Resolve<IDomainEventPublisher>();
+                var logger = scope.Resolve<IDomainEventLogger>() as TestDomainEventLogger;
+
+                var domainEvent = new Test1DomainEvent();
+
+                await publisher.RaiseAsync(domainEvent);
+
+                logger.LoggedEvents.Should()
+                    .HaveCount(1)
+                    .And.Contain(domainEvent);
+            }
+        }
+
+        [Fact]
+        public async Task Raise_SingleHandler_IsRaised()
+        {
+            var builder = new ContainerBuilder();
+
+            builder.RegisterModule<DomainEventHandlingModule>();
+            builder.RegisterDomainEventHandlers(GetType().Assembly);
+
+            using (var scope = builder.Build().BeginLifetimeScope())
+            {
+                var publisher = scope.Resolve<IDomainEventPublisher>();
+                var handler = scope.Resolve<IEnumerable<IDomainEventHandler>>()
+                    .OfType<WasCalledVerifiableHandler>()
+                    .Single();
+
+                var domainEvent = new WasCalledVerifiableEvent();
+
+                await publisher.RaiseAsync(domainEvent);
+
+                var result = handler.WasEverCalled;
+
+                result.Should().BeTrue();
+            }
+        }
+
+        [Fact]
+        public async Task Raise_HandlerRaisesSecondEvent_BothLogged()
         {
             var builder = new ContainerBuilder();
 
