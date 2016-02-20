@@ -11,7 +11,7 @@ namespace Mendham.Domain.DependencyInjection.Autofac
     public static class RegistrationExtensions
 	{
         /// <summary>
-        /// Registers all domain event handlers found in the assembly
+        /// Registers all domain event handlers found in the assembly with an instance per lifetime
         /// </summary>
 		public static void RegisterDomainEventHandlers(this ContainerBuilder builder, Assembly assembly)
 		{
@@ -26,13 +26,6 @@ namespace Mendham.Domain.DependencyInjection.Autofac
         /// </summary>
 		public static void RegisterDomainFacades(this ContainerBuilder builder, Assembly assembly)
 		{
-			builder
-				.RegisterAssemblyTypes(assembly)
-				.Where(a => typeof(Entity)
-					.GetTypeInfo()
-					.IsAssignableFrom(a.GetTypeInfo()))
-				.InstancePerDependency();
-
             var concreateTypesInAssembly = GetTypesAssignableFromIDomainFacade(assembly);
 
 			builder
@@ -40,6 +33,17 @@ namespace Mendham.Domain.DependencyInjection.Autofac
 				.Where(IsAssignableFromIDomainFacade)
 				.As(t => ValidateAndGetServiceMapping(t, concreateTypesInAssembly))
 				.InstancePerLifetimeScope();
+        }
+
+        /// <summary>
+        /// Register all concreate types that implement IEntity with one instance per dependency
+        /// </summary>
+        public static void RegisterEntities(this ContainerBuilder builder, Assembly assembly)
+        {
+            builder
+                .RegisterAssemblyTypes(assembly)
+                .Where(a => typeof(IEntity).IsAssignableFrom(a))
+                .InstancePerDependency();
         }
 
         private static IEnumerable<Type> ValidateAndGetServiceMapping(Type typeToBind, IEnumerable<Type> concreateTypesInAssembly)

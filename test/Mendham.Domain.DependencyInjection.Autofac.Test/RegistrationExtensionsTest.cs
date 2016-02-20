@@ -136,6 +136,7 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
 
 			var builder = new ContainerBuilder();
 			builder.RegisterModule<DomainEventHandlingModule>();
+            builder.RegisterEntities(assembly);
 			builder.RegisterDomainFacades(assembly);
 
 			using (var sut = builder.Build().BeginLifetimeScope())
