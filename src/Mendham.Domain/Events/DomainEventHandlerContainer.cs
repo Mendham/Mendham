@@ -143,7 +143,7 @@ namespace Mendham.Domain.Events
 
             try
 			{
-                WriteToDomainEventHandlerLogger(a => a.LogDomainEventHandlerStarting(handlerType, domainEvent));
+                WriteToDomainEventHandlerLogger(a => a.LogDomainEventHandlerStart(handlerType, domainEvent));
 
                 await handler.HandleAsync(domainEvent);
 

@@ -12,7 +12,7 @@ namespace Mendham.Domain.Events
         /// </summary>
         /// <param name="handlerType">Handler about to be involved</param>
         /// <param name="domainEvent">Domain event being handled</param>
-        void LogDomainEventHandlerStarting(Type handlerType, IDomainEvent domainEvent);
+        void LogDomainEventHandlerStart(Type handlerType, IDomainEvent domainEvent);
 
         /// <summary>
         /// Logs when a domain event handler is successfully invoked
