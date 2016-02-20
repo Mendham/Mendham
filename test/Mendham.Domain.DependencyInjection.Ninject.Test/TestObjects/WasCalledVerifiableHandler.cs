@@ -24,4 +24,37 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test.TestObjects
 
     public sealed class WasCalledVerifiableEvent : DomainEvent
     { }
+
+    public class WasCalledVerifiableHandlerLogger : IDomainEventHandlerLogger
+    {
+        public bool StartCalled { get; private set; }
+        public bool CompleteCalled { get; private set; }
+
+        public WasCalledVerifiableHandlerLogger()
+        {
+            StartCalled = false;
+            CompleteCalled = false;
+        }
+
+        void IDomainEventHandlerLogger.LogDomainEventHandlerStart(Type handlerType, IDomainEvent domainEvent)
+        {
+            if (handlerType.Equals(typeof(WasCalledVerifiableHandler)))
+            {
+                StartCalled = true;
+            }
+        }
+
+        void IDomainEventHandlerLogger.LogDomainEventHandlerComplete(Type handlerType, IDomainEvent domainEvent)
+        {
+            if (handlerType.Equals(typeof(WasCalledVerifiableHandler)))
+            {
+                CompleteCalled = true;
+            }
+        }
+
+        void IDomainEventHandlerLogger.LogDomainEventHandlerError(Type handlerType, IDomainEvent domainEvent, Exception exception)
+        {
+            throw new NotImplementedException("Can't be tested for this handler... there is no way to throw");
+        }
+    }
 }

@@ -2,8 +2,6 @@
 using Mendham.Domain.DependencyInjection.Ninject.Test.TestObjects;
 using Mendham.Domain.Events;
 using Ninject;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
@@ -50,6 +48,52 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
                 await publisher.RaiseAsync(domainEvent);
 
                 var result = handler.WasEverCalled;
+
+                result.Should().BeTrue();
+            }
+        }
+
+        [Fact]
+        public async Task Raise_SingleHandler_StartIsLogged()
+        {
+            using (var kernel = new StandardKernel(new DomainEventHandlingModule()))
+            {
+                kernel.RegisterDomainEventHandlers(GetType().Assembly);
+                kernel.Bind<IDomainEventHandlerLogger>()
+                    .To<WasCalledVerifiableHandlerLogger>()
+                    .InSingletonScope();
+
+                var publisher = kernel.Get<IDomainEventPublisher>();
+                var handlerLogger = kernel.Get<IDomainEventHandlerLogger>() as WasCalledVerifiableHandlerLogger;
+
+                var domainEvent = new WasCalledVerifiableEvent();
+
+                await publisher.RaiseAsync(domainEvent);
+
+                var result = handlerLogger.StartCalled;
+
+                result.Should().BeTrue();
+            }
+        }
+
+        [Fact]
+        public async Task Raise_SingleHandler_CompleteIsLogged()
+        {
+            using (var kernel = new StandardKernel(new DomainEventHandlingModule()))
+            {
+                kernel.RegisterDomainEventHandlers(GetType().Assembly);
+                kernel.Bind<IDomainEventHandlerLogger>()
+                    .To<WasCalledVerifiableHandlerLogger>()
+                    .InSingletonScope();
+
+                var publisher = kernel.Get<IDomainEventPublisher>();
+                var handlerLogger = kernel.Get<IDomainEventHandlerLogger>() as WasCalledVerifiableHandlerLogger;
+
+                var domainEvent = new WasCalledVerifiableEvent();
+
+                await publisher.RaiseAsync(domainEvent);
+
+                var result = handlerLogger.CompleteCalled;
 
                 result.Should().BeTrue();
             }

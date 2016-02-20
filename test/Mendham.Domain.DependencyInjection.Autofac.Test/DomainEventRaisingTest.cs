@@ -2,7 +2,6 @@
 using FluentAssertions;
 using Mendham.Domain.DependencyInjection.Autofac.Test.TestObjects;
 using Mendham.Domain.Events;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -59,6 +58,60 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
                 await publisher.RaiseAsync(domainEvent);
 
                 var result = handler.WasEverCalled;
+
+                result.Should().BeTrue();
+            }
+        }
+
+        [Fact]
+        public async Task Raise_SingleHandler_StartIsLogged()
+        {
+            var builder = new ContainerBuilder();
+
+            builder.RegisterModule<DomainEventHandlingModule>();
+            builder.RegisterDomainEventHandlers(GetType().Assembly);
+
+            builder.RegisterType<WasCalledVerifiableHandlerLogger>()
+                .As<IDomainEventHandlerLogger>()
+                .SingleInstance();
+
+            using (var scope = builder.Build().BeginLifetimeScope())
+            {
+                var publisher = scope.Resolve<IDomainEventPublisher>();
+                var handlerLogger = scope.Resolve<IDomainEventHandlerLogger>() as WasCalledVerifiableHandlerLogger;
+
+                var domainEvent = new WasCalledVerifiableEvent();
+
+                await publisher.RaiseAsync(domainEvent);
+
+                var result = handlerLogger.StartCalled;
+
+                result.Should().BeTrue();
+            }
+        }
+
+        [Fact]
+        public async Task Raise_SingleHandler_CompleteIsLogged()
+        {
+            var builder = new ContainerBuilder();
+
+            builder.RegisterModule<DomainEventHandlingModule>();
+            builder.RegisterDomainEventHandlers(GetType().Assembly);
+
+            builder.RegisterType<WasCalledVerifiableHandlerLogger>()
+                .As<IDomainEventHandlerLogger>()
+                .SingleInstance();
+
+            using (var scope = builder.Build().BeginLifetimeScope())
+            {
+                var publisher = scope.Resolve<IDomainEventPublisher>();
+                var handlerLogger = scope.Resolve<IDomainEventHandlerLogger>() as WasCalledVerifiableHandlerLogger; 
+
+                var domainEvent = new WasCalledVerifiableEvent();
+
+                await publisher.RaiseAsync(domainEvent);
+
+                var result = handlerLogger.CompleteCalled;
 
                 result.Should().BeTrue();
             }
