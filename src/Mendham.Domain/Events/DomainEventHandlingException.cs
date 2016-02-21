@@ -37,9 +37,7 @@ namespace Mendham.Domain.Events
 		{
 			get
 			{
-				return string.Format("{0} {1}. See INNER EXCEPTION for details",
-					DEFAULT_MESSAGE,
-					DomainEventHandlerType.FullName);
+                return $"An exception in handler {DomainEventHandlerType.FullName} occured when processing a '{DomainEvent.GetType().FullName}' domain event. See INNER EXCEPTION for details";
 			}
 		}
 	}
