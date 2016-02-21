@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using FluentAssertions;
-using Mendham.Domain.DependencyInjection.Autofac.Test.TestObjects;
 using Mendham.Domain.DependencyInjection.InvalidTestEntity;
+using Mendham.Domain.DependencyInjection.TestObjects;
 using Mendham.Domain.Events;
 using System;
 using System.Collections.Generic;
@@ -17,7 +17,7 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
 		[Fact]
 		public void RegisterDomainEventHandlers_HandlersInAssembly_ReturnsAll()
 		{
-			var assembly = GetType().GetTypeInfo().Assembly;
+			var assembly = typeof(Test1DomainEventHandler).GetTypeInfo().Assembly;
 
             var builder = new ContainerBuilder();
 			builder.RegisterDomainEventHandlers(assembly);
@@ -43,7 +43,7 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
 		[Fact]
 		public void RegisterDomainFacades_ApplyingToBuilder_ReturnsFacade()
 		{
-			var assembly = GetType().GetTypeInfo().Assembly;
+			var assembly = typeof(TestEntityWithDomainFacade).GetTypeInfo().Assembly;
 
 			var builder = new ContainerBuilder();
 			builder.RegisterModule<DomainEventHandlingModule>();
@@ -60,7 +60,7 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
         [Fact]
         public void RegisterDomainFacades_DerivedInterface_ReturnsDerivedFacade()
         {
-            var assembly = GetType().GetTypeInfo().Assembly;
+            var assembly = typeof(DerivedTestEntityWithDomainFacade).GetTypeInfo().Assembly;
 
             var builder = new ContainerBuilder();
             builder.RegisterModule<DomainEventHandlingModule>();
@@ -77,7 +77,7 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
         [Fact]
         public void RegisterDomainFacades_BaseInterfaceOnAbstractBase_ReturnsNonAbstractFacade()
         {
-            var assembly = GetType().GetTypeInfo().Assembly;
+            var assembly = typeof(AbstractTestEntityWithDomainFacade).GetTypeInfo().Assembly;
 
             var builder = new ContainerBuilder();
             builder.RegisterModule<DomainEventHandlingModule>();
@@ -97,7 +97,7 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
         [Fact]
         public void RegisterDomainFacades_UnrelatedInterface_NotBound()
         {
-            var assembly = GetType().GetTypeInfo().Assembly;
+            var assembly = typeof(IUnrelatedInterface).GetTypeInfo().Assembly;
 
             var builder = new ContainerBuilder();
             builder.RegisterModule<DomainEventHandlingModule>();
@@ -105,9 +105,9 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
 
             using (var sut = builder.Build().BeginLifetimeScope())
             {
-                var facade = sut.ResolveOptional<IUnrelatedInterface>();
+                var result = sut.IsRegistered<IUnrelatedInterface>();
 
-                facade.Should().BeNull();
+                result.Should().BeFalse();
             }
         }
 
@@ -132,7 +132,7 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
         [Fact]
 		public void RegisterDomainFacades_ApplyingToBuilder_ReturnsEntity()
 		{
-			var assembly = GetType().GetTypeInfo().Assembly;
+			var assembly = typeof(TestEntityWithDomainFacade).GetTypeInfo().Assembly;
 
 			var builder = new ContainerBuilder();
 			builder.RegisterModule<DomainEventHandlingModule>();

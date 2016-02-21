@@ -4,10 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Mendham.Domain.DependencyInjection.Ninject.Test.TestObjects
+namespace Mendham.Domain.DependencyInjection.TestObjects
 {
     public class TestEntityWithDomainFacade : Entity
     {
+        public delegate TestEntityWithDomainFacade Factory(int id);
+
         private readonly IFacade domainFacade;
 
         public TestEntityWithDomainFacade(int id, IFacade facade)
@@ -29,7 +31,7 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test.TestObjects
             bool HasDomainEventPublisher();
         }
 
-        public class Facade : DomainFacade, IFacade
+        public class Facade : DomainFacade, IFacade, IUnrelatedInterface
         {
             private readonly bool domainEventPublisherHasValue;
 

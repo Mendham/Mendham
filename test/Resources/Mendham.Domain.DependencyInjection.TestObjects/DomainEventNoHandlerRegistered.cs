@@ -1,6 +1,6 @@
 ﻿using Mendham.Domain.Events;
 
-namespace Mendham.Domain.DependencyInjection.Autofac.Test.TestObjects
+namespace Mendham.Domain.DependencyInjection.TestObjects
 {
     public class DomainEventNoHandlerRegistered : DomainEvent
     {

@@ -1,12 +1,9 @@
 ﻿using Mendham.Domain.Events;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace Mendham.Domain.DependencyInjection.Autofac.Test.TestObjects
+namespace Mendham.Domain.DependencyInjection.TestObjects
 {
-    public class AbstractTestEntityWithDomainFacade : Entity
+    public abstract class AbstractTestEntityWithDomainFacade : Entity
     {
         private readonly IBaseFacade domainFacade;
 

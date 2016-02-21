@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Mendham.Domain.DependencyInjection.Ninject.Test.TestObjects
+namespace Mendham.Domain.DependencyInjection.TestObjects
 {
     public sealed class WasCalledVerifiableHandler : DomainEventHandler<WasCalledVerifiableEvent>
     {

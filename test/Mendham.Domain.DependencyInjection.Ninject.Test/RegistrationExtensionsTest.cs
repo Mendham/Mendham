@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 using Mendham.Domain.DependencyInjection.InvalidTestEntity;
-using Mendham.Domain.DependencyInjection.Ninject.Test.TestObjects;
+using Mendham.Domain.DependencyInjection.TestObjects;
 using Mendham.Domain.Events;
 using Ninject;
 using System;
@@ -27,7 +27,7 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
         [Fact]
         public void RegisterDomainEventHandlers_HandlersInAssembly_ReturnsAll()
         {
-            var assembly = GetType().GetTypeInfo().Assembly;
+            var assembly = typeof(Test1DomainEventHandler).GetTypeInfo().Assembly;
 
             sut.RegisterDomainEventHandlers(assembly);
 
@@ -46,7 +46,7 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
         [Fact]
         public void RegisterDomainFacades_ApplyingToBuilder_ReturnsFacade()
         {
-            var assembly = GetType().GetTypeInfo().Assembly;
+            var assembly = typeof(TestEntityWithDomainFacade).GetTypeInfo().Assembly;
 
             sut.RegisterDomainFacades(assembly);
 
@@ -58,7 +58,7 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
         [Fact]
         public void RegisterDomainFacades_DerivedInterface_ReturnsDerivedFacade()
         {
-            var assembly = GetType().GetTypeInfo().Assembly;
+            var assembly = typeof(DerivedTestEntityWithDomainFacade).GetTypeInfo().Assembly;
 
             sut.RegisterDomainFacades(assembly);
 
@@ -70,7 +70,7 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
         [Fact]
         public void RegisterDomainFacades_BaseInterfaceOnAbstractBase_ReturnsNonAbstractFacade()
         {
-            var assembly = GetType().GetTypeInfo().Assembly;
+            var assembly = typeof(AbstractTestEntityWithDomainFacade).GetTypeInfo().Assembly;
 
             sut.RegisterDomainFacades(assembly);
 

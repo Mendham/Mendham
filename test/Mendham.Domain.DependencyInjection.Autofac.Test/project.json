@@ -12,6 +12,7 @@
     "Mendham.Domain": "1.0.0-*",
     "Mendham.Domain.DependencyInjection.Autofac": "1.0.0-*",
     "Mendham.Domain.DependencyInjection.InvalidTestEntity": "1.0.0-*",
+    "Mendham.Domain.DependencyInjection.TestObjects": "1.0.0-*",
     "Mendham.Testing": "1.0.0-*",
     "Mendham.Testing.Builder": "1.0.0-*",
     "Mendham.Testing.Moq": "1.0.0-*",

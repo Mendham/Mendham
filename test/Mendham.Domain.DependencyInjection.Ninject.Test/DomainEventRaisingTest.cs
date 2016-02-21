@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using Mendham.Domain.DependencyInjection.Ninject.Test.TestObjects;
+using Mendham.Domain.DependencyInjection.TestObjects;
 using Mendham.Domain.Events;
 using Ninject;
 using System.Linq;
@@ -15,7 +15,7 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
         {
             using (var kernel = new StandardKernel(new DomainEventHandlingModule()))
             {
-                kernel.RegisterDomainEventHandlers(GetType().Assembly);
+                kernel.RegisterDomainEventHandlers(typeof(TestDomainEventLogger).Assembly);
                 kernel.Bind<IDomainEventLogger>().To<TestDomainEventLogger>().InSingletonScope();
 
                 var publisher = kernel.Get<IDomainEventPublisher>();
@@ -36,7 +36,7 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
         {
             using (var kernel = new StandardKernel(new DomainEventHandlingModule()))
             {
-                kernel.RegisterDomainEventHandlers(GetType().Assembly);
+                kernel.RegisterDomainEventHandlers(typeof(WasCalledVerifiableEvent).Assembly);
 
                 var publisher = kernel.Get<IDomainEventPublisher>();
                 var handler = kernel.GetAll<IDomainEventHandler>()
@@ -58,7 +58,7 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
         {
             using (var kernel = new StandardKernel(new DomainEventHandlingModule()))
             {
-                kernel.RegisterDomainEventHandlers(GetType().Assembly);
+                kernel.RegisterDomainEventHandlers(typeof(WasCalledVerifiableEvent).Assembly);
                 kernel.Bind<IDomainEventHandlerLogger>()
                     .To<WasCalledVerifiableHandlerLogger>()
                     .InSingletonScope();
@@ -81,7 +81,7 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
         {
             using (var kernel = new StandardKernel(new DomainEventHandlingModule()))
             {
-                kernel.RegisterDomainEventHandlers(GetType().Assembly);
+                kernel.RegisterDomainEventHandlers(typeof(WasCalledVerifiableEvent).Assembly);
                 kernel.Bind<IDomainEventHandlerLogger>()
                     .To<WasCalledVerifiableHandlerLogger>()
                     .InSingletonScope();
@@ -104,7 +104,7 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
         {
             using (var kernel = new StandardKernel(new DomainEventHandlingModule()))
             {
-                kernel.RegisterDomainEventHandlers(GetType().Assembly);
+                kernel.RegisterDomainEventHandlers(typeof(DomainEventWithHandlerRegistered).Assembly);
                 kernel.Bind<IDomainEventLogger>().To<TestDomainEventLogger>().InSingletonScope();
 
                 var publisher = kernel.Get<IDomainEventPublisher>();
