@@ -6,7 +6,7 @@ namespace Mendham.Domain.DependencyInjection.TestObjects
     public class DomainEventWithHandlerRegistered : DomainEvent
     { }
 
-    public class DomainEventWithHandlerRegisteredHandler : DomainEventHandler<DomainEventWithHandlerRegistered>
+    public class DomainEventWithHandlerRegisteredHandler : IDomainEventHandler<DomainEventWithHandlerRegistered>
     {
         private readonly IDomainEventPublisher domainEventPublisher;
 
@@ -15,7 +15,7 @@ namespace Mendham.Domain.DependencyInjection.TestObjects
             this.domainEventPublisher = domainEventPublisher;
         }
 
-        public override Task HandleAsync(DomainEventWithHandlerRegistered domainEvent)
+        public Task HandleAsync(DomainEventWithHandlerRegistered domainEvent)
         {
             // Raised a second event that does not have any handlers registered to it
             return this.domainEventPublisher.RaiseAsync(new DomainEventNoHandlerRegistered());

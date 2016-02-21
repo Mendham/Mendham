@@ -14,6 +14,7 @@
     "Mendham.Testing.Builder": "1.0.0-*",
     "Mendham.Testing.Moq": "1.0.0-*",
     "Mendham.Domain.DependencyInjection.Ninject": "1.0.0-*",
+    "Mendham.Domain.DependencyInjection.ComplexDomainGraph": "1.0.0-*",
     "Mendham.Domain.DependencyInjection.InvalidConcreateBaseEntity": "1.0.0-*",
     "Mendham.Domain.DependencyInjection.InvalidMultipleDerivedEntity": "1.0.0-*",
     "Mendham.Domain.DependencyInjection.TestObjects": "1.0.0-*",

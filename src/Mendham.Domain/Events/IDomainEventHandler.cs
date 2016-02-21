@@ -26,15 +26,4 @@ namespace Mendham.Domain.Events
 		/// <returns>A task that represents the completion of the domain event handler</returns>
 		Task HandleAsync(TDomainEvent domainEvent);
 	}
-
-	public abstract class DomainEventHandler<TDomainEvent> : IDomainEventHandler<TDomainEvent>
-		where TDomainEvent : IDomainEvent
-	{
-		/// <summary>
-		/// Executes the Domain Event Handler
-		/// </summary>
-		/// <param name="domainEvent">The domain event to be handled.</param>
-		/// <returns>A task that represents the completion of the domain event handler</returns>
-		public abstract Task HandleAsync(TDomainEvent domainEvent);
-	}
 }

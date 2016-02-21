@@ -1,4 +1,6 @@
 ﻿using FluentAssertions;
+using Mendham.Domain.DependencyInjection.ComplexDomainGraph;
+using Mendham.Domain.DependencyInjection.Ninject.Test.TestObjects;
 using Mendham.Domain.DependencyInjection.TestObjects;
 using Mendham.Domain.Events;
 using Ninject;
@@ -118,6 +120,30 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
                     .HaveCount(2)
                     .And.Contain(originalDomainEvent)
                     .And.Match(a => a.OfType<DomainEventNoHandlerRegistered>().Any());
+            }
+        }
+
+        [Fact]
+        public async Task Raise_ComplexDomainGraph_ReturnsTrueAfterProcessing()
+        {
+            // The purpose of this test is to take an action on a complex graph to make sure the container 
+            // does not throw a circular dependency error
+
+            using (var kernel = new StandardKernel(new DomainEventHandlingModule()))
+            {
+                kernel.RegisterDomainEventHandlers(typeof(IHasCircularHandlerService).Assembly);
+                kernel.RegisterDomainFacades(typeof(IHasCircularHandlerService).Assembly);
+                kernel.Bind<IHasCircularHandlerService>().To<HasCircularHandlerService>();
+                kernel.Bind<ICountService>().To<CountService>().InSingletonScope();
+                kernel.Bind<IOtherService>().To<OtherService>();
+                kernel.Bind<IEntityCreationService>().To<EntityCreationService>();
+                kernel.Bind<IEntityFactory>().To<ComplexGraphEntityFactory>();
+
+                var sut = kernel.Get<IHasCircularHandlerService>();
+
+                var result = await sut.StartAsync();
+
+                result.Should().BeTrue();
             }
         }
     }

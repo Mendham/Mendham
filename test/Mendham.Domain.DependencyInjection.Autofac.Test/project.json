@@ -11,6 +11,7 @@
     "Moq": "4.2.1510.2205",
     "Mendham.Domain": "1.0.0-*",
     "Mendham.Domain.DependencyInjection.Autofac": "1.0.0-*",
+    "Mendham.Domain.DependencyInjection.ComplexDomainGraph": "1.0.0-*",
     "Mendham.Domain.DependencyInjection.InvalidConcreateBaseEntity": "1.0.0-*",
     "Mendham.Domain.DependencyInjection.InvalidMultipleDerivedEntity": "1.0.0-*",
     "Mendham.Domain.DependencyInjection.TestObjects": "1.0.0-*",

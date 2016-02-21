@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 
 namespace Mendham.Domain.DependencyInjection.TestObjects
 {
-    public sealed class Test2DomainEventHandler : DomainEventHandler<Test2DomainEvent>
+    public sealed class Test2DomainEventHandler : IDomainEventHandler<Test2DomainEvent>
     {
-        public override Task HandleAsync(Test2DomainEvent domainEvent)
+        public Task HandleAsync(Test2DomainEvent domainEvent)
         {
             return Task.FromResult(0);
         }

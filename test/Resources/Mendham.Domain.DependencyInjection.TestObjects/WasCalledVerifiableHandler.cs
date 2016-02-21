@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Mendham.Domain.DependencyInjection.TestObjects
 {
-    public sealed class WasCalledVerifiableHandler : DomainEventHandler<WasCalledVerifiableEvent>
+    public sealed class WasCalledVerifiableHandler : IDomainEventHandler<WasCalledVerifiableEvent>
     {
         public WasCalledVerifiableHandler()
         {
@@ -15,7 +15,7 @@ namespace Mendham.Domain.DependencyInjection.TestObjects
 
         public bool WasEverCalled { get; private set; }
 
-        public override Task HandleAsync(WasCalledVerifiableEvent domainEvent)
+        public Task HandleAsync(WasCalledVerifiableEvent domainEvent)
         {
             WasEverCalled = true;
             return Task.FromResult(0);
