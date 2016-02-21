@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Mendham.Domain.DependencyInjection.InvalidConcreateBaseEntity;
+using Mendham.Domain.DependencyInjection.InvalidMultipleDerivedEntity;
 using Mendham.Domain.DependencyInjection.TestObjects;
 using Mendham.Domain.Events;
 using Ninject;
@@ -94,6 +95,20 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
                 .Where(a => a.TypesImplementingInterface.Count() == 2, "There are two classes that implement the base facade")
                 .Where(a => a.TypesImplementingInterface.Contains(typeof(ConcreateBaseEntity.BaseFacade)), "BaseFacade is concreate and implements IBaseFacade")
                 .Where(a => a.TypesImplementingInterface.Contains(typeof(DerivedFromConcreateBaseEntity.DerivedFacade)), "DerivedFacade is concreate and implements IBaseFacade");
+        }
+
+        [Fact]
+        public void RegisterDomainFacades_InvalidConditionSharedFacadeMultipleDerivedEntity_ThrowsMultipleDomainFacadesFoundException()
+        {
+            var assembly = typeof(AbstractBaseEntity).GetTypeInfo().Assembly;
+
+            Action act = () => sut.RegisterDomainFacades(assembly);
+
+            act.ShouldThrow<MultipleDomainFacadesFoundException>()
+                .Where(a => a.InterfaceToBind.Equals(typeof(AbstractBaseEntity.IBaseFacade)), "IBaseFacade is implemented in two concreate classes")
+                .Where(a => a.TypesImplementingInterface.Count() == 2, "There are two classes that implement the base facade")
+                .Where(a => a.TypesImplementingInterface.Contains(typeof(DerivedFromAbstractBaseEntity.DerivedFacade)), "DerivedFacade in DerivedFromAbstractBaseEntity implements IBaseFacade")
+                .Where(a => a.TypesImplementingInterface.Contains(typeof(AltDerivedFromAbstractBaseEntity.DerivedFacade)), "DerivedFacade in DerivedFromAbstractBaseEntity implements IBaseFacade");
         }
     }
 }
