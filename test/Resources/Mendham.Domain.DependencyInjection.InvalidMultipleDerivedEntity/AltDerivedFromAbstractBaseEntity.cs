@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Mendham.Domain.DependencyInjection.InvalidTestEntity
+namespace Mendham.Domain.DependencyInjection.InvalidMultipleDerivedEntity
 {
-    public class DerivedEntity : BaseEntity
+    public class AltDerivedFromAbstractBaseEntity : AbstractBaseEntity
     {
         private readonly IDerivedFacade derivedFacade;
 
-        public DerivedEntity(int id, IDerivedFacade facade)
+        public AltDerivedFromAbstractBaseEntity(int id, IDerivedFacade facade)
             : base(id, facade)
         {
             this.derivedFacade = facade;

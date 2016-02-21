@@ -1,6 +1,6 @@
 ﻿{
   "version": "1.0.0-beta5-*",
-  "description": "Testing objects Mendham.Domain.DependencyInjection.InvalidTestEntity",
+  "description": "Testing objects Mendham.Domain.DependencyInjection.InvalidConcreateBaseEntity",
   "authors": [ "Craig Beall" ],
   "projectUrl": "https://mendham.github.io",
   "licenseUrl": "https://raw.githubusercontent.com/mendham/Mendham/master/LICENSE",

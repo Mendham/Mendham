@@ -30,7 +30,8 @@ namespace Mendham.Domain.DependencyInjection.Ninject
         /// <summary>
         /// Registers all concreate classes in the assembly that are assignable from an interface that is assignable from IDomainFacade
         /// </summary>
-        public static void RegisterDomainFacades(this IBindingRoot bindingRoot, Assembly assembly)
+        /// <param name="interfacesToIgnore">Intefaces to not include (optional)</param>
+        public static void RegisterDomainFacades(this IBindingRoot bindingRoot, Assembly assembly, IEnumerable<Type> interfacesToIgnore = null)
         {
             bindingRoot.Bind(a => a
                 .From(assembly)

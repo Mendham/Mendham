@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Mendham.Domain.DependencyInjection.InvalidTestEntity
+namespace Mendham.Domain.DependencyInjection.InvalidMultipleDerivedEntity
 {
-    public class BaseEntity : Entity
+    public abstract class AbstractBaseEntity : Entity
     {
         private readonly IBaseFacade domainFacade;
 
-        public BaseEntity(int id, IBaseFacade facade)
+        public AbstractBaseEntity(int id, IBaseFacade facade)
         {
             this.Id = id;
 
@@ -29,7 +29,7 @@ namespace Mendham.Domain.DependencyInjection.InvalidTestEntity
             bool HasDomainEventPublisher();
         }
 
-        public class BaseFacade : DomainFacade, IBaseFacade
+        public abstract class BaseFacade : DomainFacade, IBaseFacade
         {
             private readonly bool domainEventPublisherHasValue;
 
