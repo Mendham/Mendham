@@ -110,5 +110,69 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
                 .Where(a => a.TypesImplementingInterface.Contains(typeof(DerivedFromAbstractBaseEntity.DerivedFacade)), "DerivedFacade in DerivedFromAbstractBaseEntity implements IBaseFacade")
                 .Where(a => a.TypesImplementingInterface.Contains(typeof(AltDerivedFromAbstractBaseEntity.DerivedFacade)), "DerivedFacade in DerivedFromAbstractBaseEntity implements IBaseFacade");
         }
+
+        [Fact]
+        public void RegisterDomainFacades_IgnoreConcreateBaseSetManually_ReturnsBaseFacade()
+        {
+            var assembly = typeof(ConcreateBaseEntity).GetTypeInfo().Assembly;
+            var interfacesToIgnore = typeof(ConcreateBaseEntity.IBaseFacade).AsSingleItemEnumerable();
+
+            sut.RegisterDomainFacades(assembly, interfacesToIgnore);
+            sut.Bind<ConcreateBaseEntity.IBaseFacade>().To<ConcreateBaseEntity.BaseFacade>();
+
+            var result = sut.Get<ConcreateBaseEntity.IBaseFacade>();
+
+            result.Should().NotBeNull();
+        }
+
+        [Fact]
+        public void RegisterDomainFacades_IgnoreConcreateBaseNotSettingBase_BaseFacadeNotSet()
+        {
+            var assembly = typeof(ConcreateBaseEntity).GetTypeInfo().Assembly;
+            var interfacesToIgnore = typeof(ConcreateBaseEntity.IBaseFacade).AsSingleItemEnumerable();
+
+            sut.RegisterDomainFacades(assembly, interfacesToIgnore);
+
+            var result = sut.TryGet<ConcreateBaseEntity.IBaseFacade>();
+
+            result.Should().BeNull("the base facade is not set");
+        }
+
+        [Fact]
+        public void RegisterDomainFacades_IgnoreConcreateBase_ReturnsDerivedFacade()
+        {
+            var assembly = typeof(ConcreateBaseEntity).GetTypeInfo().Assembly;
+            var interfacesToIgnore = typeof(ConcreateBaseEntity.IBaseFacade).AsSingleItemEnumerable();
+
+            sut.RegisterDomainFacades(assembly, interfacesToIgnore);
+
+            var result = sut.Get<DerivedFromConcreateBaseEntity.IDerivedFacade>();
+
+            result.Should().NotBeNull();
+        }
+
+        [Fact]
+        public void RegisterDomainFacades_IgnoreListIncludesNonInterface_ThrowsInvalidDomainFacadeExclusionException()
+        {
+            var assembly = typeof(TestEntityWithDomainFacade).GetTypeInfo().Assembly;
+            var nonInterfaceType = typeof(TestEntityWithDomainFacade.Facade);
+
+            Action act = () => sut.RegisterDomainFacades(assembly, nonInterfaceType.AsSingleItemEnumerable());
+
+            act.ShouldThrow<InvalidDomainFacadeExclusionException>()
+                .Where(a => a.InvalidType.Equals(nonInterfaceType), "it is not an interface");
+        }
+
+        [Fact]
+        public void RegisterDomainFacades_IgnoreListIncludesInterfaceNotDerivedFromDomainFacade_ThrowsInvalidDomainFacadeExclusionException()
+        {
+            var assembly = typeof(TestEntityWithDomainFacade).GetTypeInfo().Assembly;
+            var interfaceNotDerivedFromDomainFacade = typeof(IUnrelatedInterface);
+
+            Action act = () => sut.RegisterDomainFacades(assembly, interfaceNotDerivedFromDomainFacade.AsSingleItemEnumerable());
+
+            act.ShouldThrow<InvalidDomainFacadeExclusionException>()
+                .Where(a => a.InvalidType.Equals(interfaceNotDerivedFromDomainFacade), "the interface is not derived from IDomainFacade");
+        }
     }
 }

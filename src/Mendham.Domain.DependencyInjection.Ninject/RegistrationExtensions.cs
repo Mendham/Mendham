@@ -1,6 +1,7 @@
 ﻿using Mendham.Domain.Events;
 using Ninject;
 using Ninject.Extensions.Conventions;
+using Ninject.Extensions.Conventions.Syntax;
 using Ninject.Syntax;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,8 @@ namespace Mendham.Domain.DependencyInjection.Ninject
         /// </summary>
         public static void RegisterDomainEventHandlers(this IBindingRoot bindingRoot, Assembly assembly)
         {
+            assembly.VerifyArgumentNotNull(nameof(assembly));
+
             bindingRoot.Bind(a => a
                 .From(assembly)
                 .SelectAllClasses()
@@ -30,23 +33,47 @@ namespace Mendham.Domain.DependencyInjection.Ninject
         /// <summary>
         /// Registers all concreate classes in the assembly that are assignable from an interface that is assignable from IDomainFacade
         /// </summary>
-        /// <param name="interfacesToIgnore">Intefaces to not include (optional)</param>
-        public static void RegisterDomainFacades(this IBindingRoot bindingRoot, Assembly assembly, IEnumerable<Type> interfacesToIgnore = null)
+        public static void RegisterDomainFacades(this IBindingRoot bindingRoot, Assembly assembly)
         {
+            assembly.VerifyArgumentNotNull(nameof(assembly));
+
+            bindingRoot.RegisterDomainFacades(assembly, Enumerable.Empty<Type>());
+        }
+
+        /// <summary>
+        /// Registers all concreate classes in the assembly that are assignable from an interface that is assignable from IDomainFacade
+        /// </summary>
+        /// <param name="interfacesToExclude">Intefaces to not include in domain facade registration (all must derive from IDomainFacade)</param>
+        public static void RegisterDomainFacades(this IBindingRoot bindingRoot, Assembly assembly, IEnumerable<Type> interfacesToExclude)
+        {
+            assembly
+                .VerifyArgumentNotNull(nameof(assembly));
+            interfacesToExclude
+                .VerifyArgumentNotNull(nameof(interfacesToExclude))
+                .VerifyArgumentMeetsCriteria(type => !type.Any(IsNotValidDomainFacadeInterface),
+                    set => new InvalidDomainFacadeExclusionException(set.First(IsNotValidDomainFacadeInterface)));
+
             bindingRoot.Bind(a => a
                 .From(assembly)
                 .SelectAllClasses()
                 .InheritedFrom<IDomainFacade>()
-                .BindSelection(DomainFacadeSelector)
+                .BindSelection(DomainFacadeSelector(interfacesToExclude))
                 .Configure(b => b.InSingletonScope())
             );
         }
 
-        private static IEnumerable<Type> DomainFacadeSelector(Type typeToBind, IEnumerable<Type> assignableTypes)
+        /// <summary>
+        /// Builds ServiceSelector delegate with consideration to interfacesToExclude
+        /// </summary>
+        private static ServiceSelector DomainFacadeSelector(IEnumerable<Type> interfacesToExclude)
         {
-            return assignableTypes
-                .Where(IsDomainFacadeInterface)
-                .Select(interfaceType => ValidateInterfaceOnlyAssignedOnce(interfaceType, typeToBind.GetTypeInfo()));
+            ServiceSelector serviceSelector = (type, baseTypes) =>
+                baseTypes
+                    .Where(IsDomainFacadeInterface)
+                    .Where(a => !interfacesToExclude.Contains(a))
+                    .Select(interfaceType => ValidateInterfaceOnlyAssignedOnce(interfaceType, type.GetTypeInfo()));
+                    
+            return serviceSelector;
         }
 
         private readonly static TypeInfo domainFacadeInterface = typeof(IDomainFacade).GetTypeInfo();
@@ -91,6 +118,13 @@ namespace Mendham.Domain.DependencyInjection.Ninject
             }
 
             return interfaceType;
+        }
+
+        private static bool IsNotValidDomainFacadeInterface(Type type)
+        {
+            var ti = type.GetTypeInfo();
+
+            return !typeof(IDomainFacade).IsAssignableFrom(ti) || !ti.IsInterface;
         }
     }
 }

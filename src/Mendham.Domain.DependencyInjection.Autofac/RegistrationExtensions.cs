@@ -15,8 +15,10 @@ namespace Mendham.Domain.DependencyInjection.Autofac
         /// </summary>
 		public static void RegisterDomainEventHandlers(this ContainerBuilder builder, Assembly assembly)
 		{
-			builder
-				.RegisterAssemblyTypes(assembly)
+            assembly.VerifyArgumentNotNull(nameof(assembly));
+
+            builder
+                .RegisterAssemblyTypes(assembly)
 				.As<IDomainEventHandler>()
 				.SingleInstance();
 		}
@@ -26,13 +28,31 @@ namespace Mendham.Domain.DependencyInjection.Autofac
         /// </summary>
 		public static void RegisterDomainFacades(this ContainerBuilder builder, Assembly assembly)
 		{
+            assembly.VerifyArgumentNotNull(nameof(assembly));
+
+            builder.RegisterDomainFacades(assembly, Enumerable.Empty<Type>());
+        }
+
+        /// <summary>
+        /// Registers all concreate classes in the assembly that are assignable from an interface that is assignable from IDomainFacade
+        /// </summary>
+        /// <param name="interfacesToExclude">Intefaces to not include in domain facade registration (all must derive from IDomainFacade)</param>
+		public static void RegisterDomainFacades(this ContainerBuilder builder, Assembly assembly, IEnumerable<Type> interfacesToExclude)
+        {
+            assembly
+                .VerifyArgumentNotNull(nameof(assembly));
+            interfacesToExclude
+                .VerifyArgumentNotNull(nameof(interfacesToExclude))
+                .VerifyArgumentMeetsCriteria(type => !type.Any(IsNotValidDomainFacadeInterface),
+                    set => new InvalidDomainFacadeExclusionException(set.First(IsNotValidDomainFacadeInterface)));
+
             var concreateTypesInAssembly = GetTypesAssignableFromIDomainFacade(assembly);
 
-			builder
-				.RegisterAssemblyTypes(assembly)
-				.Where(IsAssignableFromIDomainFacade)
-				.As(t => ValidateAndGetServiceMapping(t, concreateTypesInAssembly))
-				.SingleInstance();
+            builder
+                .RegisterAssemblyTypes(assembly)
+                .Where(IsAssignableFromIDomainFacade)
+                .As(t => ValidateAndGetServiceMapping(t, concreateTypesInAssembly, interfacesToExclude))
+                .SingleInstance();
         }
 
         /// <summary>
@@ -40,16 +60,19 @@ namespace Mendham.Domain.DependencyInjection.Autofac
         /// </summary>
         public static void RegisterEntities(this ContainerBuilder builder, Assembly assembly)
         {
+            assembly.VerifyArgumentNotNull(nameof(assembly));
+
             builder
                 .RegisterAssemblyTypes(assembly)
                 .Where(a => typeof(IEntity).IsAssignableFrom(a))
                 .InstancePerDependency();
         }
 
-        private static IEnumerable<Type> ValidateAndGetServiceMapping(Type typeToBind, IEnumerable<Type> concreateTypesInAssembly)
+        private static IEnumerable<Type> ValidateAndGetServiceMapping(Type typeToBind, IEnumerable<Type> concreateTypesInAssembly, IEnumerable<Type> interfacesToExclude)
         {
             return typeToBind.GetInterfaces()
                 .Where(a => !typeof(IDomainFacade).Equals(a) && typeof(IDomainFacade).IsAssignableFrom(a))
+                .Where(a => !interfacesToExclude.Contains(a))
                 .Select(a => ValidateInterfaceOnlyAssignedOnce(a, concreateTypesInAssembly));
         }
 
@@ -90,5 +113,10 @@ namespace Mendham.Domain.DependencyInjection.Autofac
                 throw new MultipleDomainFacadesFoundException(interfaceType, multipleTypes);
             }
         }
-	}
+
+        private static bool IsNotValidDomainFacadeInterface(Type type)
+        {
+            return !typeof(IDomainFacade).IsAssignableFrom(type) || !type.GetTypeInfo().IsInterface;
+        }
+    }
 }

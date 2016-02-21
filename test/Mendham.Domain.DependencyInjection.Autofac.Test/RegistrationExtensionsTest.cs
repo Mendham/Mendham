@@ -52,9 +52,9 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
 
 			using (var sut = builder.Build().BeginLifetimeScope())
 			{
-				var facade = sut.Resolve<TestEntityWithDomainFacade.IFacade>();
+				var result = sut.IsRegistered<TestEntityWithDomainFacade.IFacade>();
 
-				facade.Should().NotBeNull();
+				result.Should().BeTrue();
 			}
         }
 
@@ -69,9 +69,9 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
 
             using (var sut = builder.Build().BeginLifetimeScope())
             {
-                var facade = sut.Resolve<DerivedTestEntityWithDomainFacade.IDerivedFacade>();
+                var result = sut.IsRegistered<DerivedTestEntityWithDomainFacade.IDerivedFacade>();
 
-                facade.Should().NotBeNull();
+				result.Should().BeTrue();
             }
         }
 
@@ -88,10 +88,9 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
             {
                 var facade = sut.Resolve<AbstractTestEntityWithDomainFacade.IBaseFacade>();
 
-                facade.
-                Should()
-                .NotBeNull("there is a non abstract facade assocaited with IBaseFacade")
-                .And.BeOfType<DerivedTestEntityWithDomainFacade.DerivedFacade>("this is the one and only non abstract class");
+                facade.Should()
+                    .NotBeNull("there is a non abstract facade assocaited with IBaseFacade")
+                    .And.BeOfType<DerivedTestEntityWithDomainFacade.DerivedFacade>("this is the one and only non abstract class");
             }
         }
 
@@ -146,6 +145,87 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
                 .Where(a => a.TypesImplementingInterface.Count() == 2, "There are two classes that implement the base facade")
                 .Where(a => a.TypesImplementingInterface.Contains(typeof(DerivedFromAbstractBaseEntity.DerivedFacade)), "DerivedFacade in DerivedFromAbstractBaseEntity implements IBaseFacade")
                 .Where(a => a.TypesImplementingInterface.Contains(typeof(AltDerivedFromAbstractBaseEntity.DerivedFacade)), "DerivedFacade in DerivedFromAbstractBaseEntity implements IBaseFacade");
+        }
+
+        [Fact]
+        public void RegisterDomainFacades_IgnoreConcreateBaseSetManually_ReturnsBaseFacade()
+        {
+            var assembly = typeof(ConcreateBaseEntity).GetTypeInfo().Assembly;
+            var interfacesToIgnore = typeof(ConcreateBaseEntity.IBaseFacade).AsSingleItemEnumerable();
+
+            var builder = new ContainerBuilder();
+            builder.RegisterModule<DomainEventHandlingModule>();
+            builder.RegisterDomainFacades(assembly, interfacesToIgnore);
+            builder.RegisterType<ConcreateBaseEntity.BaseFacade>().As<ConcreateBaseEntity.IBaseFacade>();
+
+            using (var sut = builder.Build().BeginLifetimeScope())
+            {
+                var result = sut.Resolve<ConcreateBaseEntity.IBaseFacade>();
+
+                result.Should().NotBeNull();
+            }
+        }
+
+        [Fact]
+        public void RegisterDomainFacades_IgnoreConcreateBaseNotSettingBase_BaseFacadeNotSet()
+        {
+            var assembly = typeof(ConcreateBaseEntity).GetTypeInfo().Assembly;
+            var interfacesToIgnore = typeof(ConcreateBaseEntity.IBaseFacade).AsSingleItemEnumerable();
+
+            var builder = new ContainerBuilder();
+            builder.RegisterModule<DomainEventHandlingModule>();
+            builder.RegisterDomainFacades(assembly, interfacesToIgnore);
+
+            using (var sut = builder.Build().BeginLifetimeScope())
+            {
+                var result = sut.IsRegistered<ConcreateBaseEntity.IBaseFacade>();
+
+                result.Should().BeFalse("the base facade is not set");
+            }
+        }
+
+        [Fact]
+        public void RegisterDomainFacades_IgnoreConcreateBase_ReturnsDerivedFacade()
+        {
+            var assembly = typeof(ConcreateBaseEntity).GetTypeInfo().Assembly;
+            var interfacesToIgnore = typeof(ConcreateBaseEntity.IBaseFacade).AsSingleItemEnumerable();
+
+            var builder = new ContainerBuilder();
+            builder.RegisterModule<DomainEventHandlingModule>();
+            builder.RegisterDomainFacades(assembly, interfacesToIgnore);
+
+            using (var sut = builder.Build().BeginLifetimeScope())
+            {
+                var result = sut.Resolve<DerivedFromConcreateBaseEntity.IDerivedFacade>();
+
+                result.Should().NotBeNull();
+            }
+        }
+
+        [Fact]
+        public void RegisterDomainFacades_IgnoreListIncludesNonInterface_ThrowsInvalidDomainFacadeExclusionException()
+        {
+            var assembly = typeof(TestEntityWithDomainFacade).GetTypeInfo().Assembly;
+            var nonInterfaceType = typeof(TestEntityWithDomainFacade.Facade);
+            var builder = new ContainerBuilder();
+
+            Action act = () => builder.RegisterDomainFacades(assembly, nonInterfaceType.AsSingleItemEnumerable());
+
+            act.ShouldThrow<InvalidDomainFacadeExclusionException>()
+                .Where(a => a.InvalidType.Equals(nonInterfaceType), "it is not an interface");
+        }
+
+        [Fact]
+        public void RegisterDomainFacades_IgnoreListIncludesInterfaceNotDerivedFromDomainFacade_ThrowsInvalidDomainFacadeExclusionException()
+        {
+            var assembly = typeof(TestEntityWithDomainFacade).GetTypeInfo().Assembly;
+            var interfaceNotDerivedFromDomainFacade = typeof(IUnrelatedInterface);
+            var builder = new ContainerBuilder();
+
+            Action act = () => builder.RegisterDomainFacades(assembly, interfaceNotDerivedFromDomainFacade.AsSingleItemEnumerable());
+
+            act.ShouldThrow<InvalidDomainFacadeExclusionException>()
+                .Where(a => a.InvalidType.Equals(interfaceNotDerivedFromDomainFacade), "the interface is not derived from IDomainFacade");
         }
 
         [Fact]
