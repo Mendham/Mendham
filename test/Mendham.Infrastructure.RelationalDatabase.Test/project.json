@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0-beta5-*",
+  "version": "1.0.0-beta6-*",
   "description": "Unit tests for Mendham.Infrastructure.RelationalDatabase",
   "authors": [ "Craig Beall" ],
   "tags": [ "mendham" ],

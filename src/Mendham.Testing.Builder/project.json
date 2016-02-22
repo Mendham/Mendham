@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0-beta5-*",
+  "version": "1.0.0-beta6-*",
   "description": "Testing helpers with builder and ability to populate values directly in xUnit tests",
   "authors": [ "Craig Beall" ],
   "tags": [ "mendham test testing builder testbuilder tdd xunit" ],

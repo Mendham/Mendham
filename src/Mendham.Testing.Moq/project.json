@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0-beta5-*",
+  "version": "1.0.0-beta6-*",
   "description": "Testing helpers using Moq",
   "authors": [ "Craig Beall" ],
   "tags": [ "mendham moq mocking test testing tdd xunit" ],
