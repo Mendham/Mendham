@@ -6,6 +6,6 @@ namespace Mendham.Domain.Events.Components
     {
         IDomainEventHandlerContainer DomainEventHandlerContainer { get; }
         IDomainEventHandlerProcessor DomainEventHandlerProcessor { get; }
-        IEnumerable<IDomainEventLogger> DomainEventLoggers { get; }
+        IDomainEventLoggerProcessor DomainEventLoggerProcessor { get; }
     }
 }

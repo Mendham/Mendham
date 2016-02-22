@@ -18,10 +18,7 @@ namespace Mendham.Domain.Events.Components
             var domainEventPublisherComponents = domainEventPublisherComponentsFactory();
 
             // Log Event
-            foreach (var logger in domainEventPublisherComponents.DomainEventLoggers)
-            {
-                logger.LogDomainEventRaised(domainEvent);
-            }
+            domainEventPublisherComponents.DomainEventLoggerProcessor.LogDomainEvent(domainEvent);
 
             // Get Handlers
             var handlers = domainEventPublisherComponents.DomainEventHandlerContainer.GetHandlers<TDomainEvent>();

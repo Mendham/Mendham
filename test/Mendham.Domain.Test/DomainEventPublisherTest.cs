@@ -1,18 +1,15 @@
-﻿using Mendham.Domain.Events;
-using Mendham.Domain.Test.Fixtures;
+﻿using Mendham.Domain.Test.Fixtures;
 using Mendham.Domain.Test.TestObjects.Events;
 using Mendham.Testing;
 using Mendham.Testing.Moq;
 using Moq;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
 namespace Mendham.Domain.Test
 {
-	public class DomainEventPublisherTest : UnitTest<DomainEventPublisherFixture>
+    public class DomainEventPublisherTest : UnitTest<DomainEventPublisherFixture>
 	{
 		public DomainEventPublisherTest(DomainEventPublisherFixture fixture) : base(fixture)
 		{ }
@@ -44,9 +41,6 @@ namespace Mendham.Domain.Test
 			var domainEvent = Fixture.CreateDomainEvent();
             var handlers = Fixture.GetDomainEventHandlersForTestDomainEvent();
 
-            var logger = Mock.Of<IDomainEventLogger>();
-            Fixture.DomainEventLoggers = logger.AsSingleItemEnumerable();
-
             Fixture.DomainEventHandlerContainer.AsMock()
                 .Setup(a => a.GetHandlers<TestDomainEvent>())
                 .Returns(handlers);
@@ -58,8 +52,8 @@ namespace Mendham.Domain.Test
 
 			await sut.RaiseAsync(domainEvent);
 
-            logger.AsMock()
-                 .Verify(a => a.LogDomainEventRaised(domainEvent), Times.Once);
+            Fixture.DomainEventLoggerProcessor.AsMock()
+                 .Verify(a => a.LogDomainEvent(domainEvent), Times.Once);
         }
 
 		[Fact]
@@ -68,8 +62,6 @@ namespace Mendham.Domain.Test
 			var domainEvent = Fixture.CreateDomainEvent();
             var handlers = Fixture.GetDomainEventHandlersForTestDomainEvent();
 
-            var logger = Mock.Of<IDomainEventLogger>();
-            Fixture.DomainEventLoggers = logger.AsSingleItemEnumerable();
             Fixture.DomainEventHandlerContainer.AsMock()
                 .Setup(a => a.GetHandlers<TestDomainEvent>())
                 .Returns(handlers);
@@ -82,8 +74,8 @@ namespace Mendham.Domain.Test
 			await Assert.ThrowsAsync<InvalidOperationException>(
 				() => sut.RaiseAsync(domainEvent));
 
-            logger.AsMock()
-                .Verify(a => a.LogDomainEventRaised(domainEvent), Times.Once); ;
+            Fixture.DomainEventLoggerProcessor.AsMock()
+                .Verify(a => a.LogDomainEvent(domainEvent), Times.Once); ;
         }
 	}
 }

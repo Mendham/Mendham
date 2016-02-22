@@ -56,6 +56,16 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
         }
 
         [Fact]
+        public void DomainEventHandlingModule_RegisterDomainEventLoggerProcessor_Resolves()
+        {
+            var result = sut.Get<IDomainEventLoggerProcessor>();
+
+            result.Should()
+                .NotBeNull()
+                .And.BeOfType<DomainEventLoggerProcessor>();
+        }
+
+        [Fact]
         public void DomainEventHandlingModule_RegisterDomainEventPublisher_IsSameInstance()
         {
             var expectedPublisher = sut.Get<IDomainEventPublisher>();
@@ -78,11 +88,21 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
         [Fact]
         public void DomainEventHandlingModule_RegisterDomainEventHandlerProcessor_IsSameInstance()
         {
-            var expectedProcessor = sut.Get<IDomainEventHandlerProcessor>();
+            var expectedHandlerProcessor = sut.Get<IDomainEventHandlerProcessor>();
             var result = sut.Get<IDomainEventHandlerProcessor>();
 
             result.Should()
-                .BeSameAs(expectedProcessor);
+                .BeSameAs(expectedHandlerProcessor);
+        }
+
+        [Fact]
+        public void DomainEventHandlingModule_RegisterDomainEventLoggerProcessor_IsSameInstance()
+        {
+            var expectedLoggerProcessor = sut.Get<IDomainEventLoggerProcessor>();
+            var result = sut.Get<IDomainEventLoggerProcessor>();
+
+            result.Should()
+                .BeSameAs(expectedLoggerProcessor);
         }
     }
 }

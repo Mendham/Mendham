@@ -13,6 +13,10 @@ namespace Mendham.Domain.DependencyInjection.Ninject
                 .ToMethod(ctx => new DefaultDomainEventHandlerContainer(() => ctx.Kernel.GetAll<IDomainEventHandler>()))
                 .InSingletonScope();
 
+            Bind<IDomainEventLoggerProcessor>()
+                .ToMethod(ctx => new DomainEventLoggerProcessor(() => ctx.Kernel.GetAll<IDomainEventLogger>()))
+                .InSingletonScope();
+
             Bind<IDomainEventHandlerProcessor>()
                 .To<DomainEventHandlerProcessor>()
                 .InSingletonScope();

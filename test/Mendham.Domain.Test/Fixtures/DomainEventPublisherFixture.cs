@@ -12,7 +12,7 @@ namespace Mendham.Domain.Test.Fixtures
     {
 		public IDomainEventHandlerContainer DomainEventHandlerContainer { get; set; }
         public IDomainEventHandlerProcessor DomainEventHandlerProcessor { get; set; }
-        public IEnumerable<IDomainEventLogger> DomainEventLoggers { get; set; }
+        public IDomainEventLoggerProcessor DomainEventLoggerProcessor { get; set; }
 
         public override DomainEventPublisher CreateSut()
 		{
@@ -25,7 +25,7 @@ namespace Mendham.Domain.Test.Fixtures
 
 			this.DomainEventHandlerContainer = Mock.Of<IDomainEventHandlerContainer>();
             this.DomainEventHandlerProcessor = Mock.Of<IDomainEventHandlerProcessor>();
-            this.DomainEventLoggers = Enumerable.Empty<IDomainEventLogger>();
+            this.DomainEventLoggerProcessor = Mock.Of<IDomainEventLoggerProcessor>();
         }
 
         public TestDomainEvent CreateDomainEvent()
@@ -41,7 +41,7 @@ namespace Mendham.Domain.Test.Fixtures
         private IDomainEventPublisherComponents DomainEventPublisherContainerFactory()
         {
             return new DomainEventPublisherComponents(DomainEventHandlerContainer, 
-                DomainEventHandlerProcessor, DomainEventLoggers);
+                DomainEventHandlerProcessor, DomainEventLoggerProcessor);
         }
 	}
 }

@@ -61,6 +61,22 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
         }
 
         [Fact]
+        public void DomainEventHandlingModule_RegisterDomainEventLoggerProcessor_Resolves()
+        {
+            var builder = new ContainerBuilder();
+            builder.RegisterModule<DomainEventHandlingModule>();
+
+            using (var sut = builder.Build().BeginLifetimeScope())
+            {
+                var publisher = sut.Resolve<IDomainEventLoggerProcessor>();
+
+                publisher.Should()
+                    .NotBeNull()
+                    .And.BeOfType<DomainEventLoggerProcessor>();
+            }
+        }
+
+        [Fact]
 		public void DomainEventHandlingModule_RegisterDomainEventPublisher_IsSameInstance()
 		{
 			var builder = new ContainerBuilder();
@@ -127,6 +143,29 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
 
             processor1.Should()
                 .BeSameAs(processor2);
+        }
+
+        [Fact]
+        public void DomainEventHandlingModule_RegisterDomainEventLoggerProcessor_IsSameInstance()
+        {
+            var builder = new ContainerBuilder();
+            builder.RegisterModule<DomainEventHandlingModule>();
+            var container = builder.Build();
+
+            IDomainEventLoggerProcessor loggerProcessor1, loggerProcessor2;
+
+            using (var sut = container.BeginLifetimeScope())
+            {
+                loggerProcessor1 = sut.Resolve<IDomainEventLoggerProcessor>();
+            }
+
+            using (var sut = container.BeginLifetimeScope())
+            {
+                loggerProcessor2 = sut.Resolve<IDomainEventLoggerProcessor>();
+            }
+
+            loggerProcessor1.Should()
+                .BeSameAs(loggerProcessor2);
         }
     }
 }

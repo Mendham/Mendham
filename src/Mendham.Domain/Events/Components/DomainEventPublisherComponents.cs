@@ -9,15 +9,15 @@ namespace Mendham.Domain.Events.Components
     {
         private readonly IDomainEventHandlerContainer domainEventHandlerContainer;
         private readonly IDomainEventHandlerProcessor domainEventHandlerProcessor;
-        private readonly IEnumerable<IDomainEventLogger> domainEventLoggers;
+        private readonly IDomainEventLoggerProcessor domainEventLoggerProcessor;
 
         public DomainEventPublisherComponents(IDomainEventHandlerContainer domainEventHandlerContainer,
             IDomainEventHandlerProcessor domainEventHandlerProcessor,
-            IEnumerable<IDomainEventLogger> domainEventLoggers)
+            IDomainEventLoggerProcessor domainEventLoggerProcessor)
         {
             this.domainEventHandlerContainer = domainEventHandlerContainer;
             this.domainEventHandlerProcessor = domainEventHandlerProcessor;
-            this.domainEventLoggers = domainEventLoggers;
+            this.domainEventLoggerProcessor = domainEventLoggerProcessor;
         }
 
         public IDomainEventHandlerContainer DomainEventHandlerContainer
@@ -36,11 +36,11 @@ namespace Mendham.Domain.Events.Components
             }
         }
 
-        public IEnumerable<IDomainEventLogger> DomainEventLoggers
+        public IDomainEventLoggerProcessor DomainEventLoggerProcessor
         {
             get
             {
-                return domainEventLoggers;
+                return domainEventLoggerProcessor;
             }
         }
     }
