@@ -1,25 +1,21 @@
 ﻿using Mendham.Domain.Events;
+using Mendham.Domain.Events.Components;
+using Mendham.Domain.Test.TestObjects.Events;
 using Mendham.Testing;
 using Moq;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Mendham.Domain.Test.Fixtures
 {
-    public class DomainEventHandlerContainerFixture : Fixture<DomainEventHandlerContainer>
+    public class DefaultDomainEventHandlerContainerFixture : Fixture<DefaultDomainEventHandlerContainer>
     {
-
 		public IDomainEventHandler<BaseDomainEvent> BaseEventHandler { get; set; }
 		public IDomainEventHandler<DerivedDomainEvent> DerivedEventHandler { get; set; }
 		public IDomainEventHandler<OtherDomainEvent> OtherEventHandler { get; set; }
 
-        public IDomainEventHandlerLogger DomainEventHandlerLogger { get; set; }
-
-        public override DomainEventHandlerContainer CreateSut()
+        public override DefaultDomainEventHandlerContainer CreateSut()
 		{
-			return new DomainEventHandlerContainer(Handlers, DomainEventHandlerLogger.AsSingleItemEnumerable());
+			return new DefaultDomainEventHandlerContainer(() => Handlers);
 		}
 
 		private IEnumerable<IDomainEventHandler> Handlers
@@ -39,18 +35,7 @@ namespace Mendham.Domain.Test.Fixtures
 			BaseEventHandler = Mock.Of<IDomainEventHandler<BaseDomainEvent>>();
 			DerivedEventHandler = Mock.Of<IDomainEventHandler<DerivedDomainEvent>>();
 			OtherEventHandler = Mock.Of<IDomainEventHandler<OtherDomainEvent>>();
-
-            DomainEventHandlerLogger = Mock.Of<IDomainEventHandlerLogger>();
 		}
-
-		public class BaseDomainEvent : DomainEvent
-		{ }
-
-		public class DerivedDomainEvent : BaseDomainEvent
-		{ }
-
-		public class OtherDomainEvent : DomainEvent
-		{ }
 
 		public BaseDomainEvent CreateBaseDomainEvent()
 		{

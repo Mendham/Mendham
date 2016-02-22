@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Mendham.Domain.Events
+namespace Mendham.Domain.Events.Components
 {
 	public class DomainEventPublisher : IDomainEventPublisher
 	{
@@ -28,8 +28,11 @@ namespace Mendham.Domain.Events
                 logger.LogDomainEventRaised(domainEvent);
             }
 
-			// Handle Event
-			return domainEventPublisherComponents.DomainEventHandlerContainer.HandleAllAsync(domainEvent);
-		}
+            // Get Handlers
+            var handlers = domainEventPublisherComponents.DomainEventHandlerContainer.GetHandlers<TDomainEvent>();
+
+            // Get task to process all handlers
+            return domainEventPublisherComponents.DomainEventHandlerProcessor.HandleAllAsync(domainEvent, handlers);
+        }
     }
 }

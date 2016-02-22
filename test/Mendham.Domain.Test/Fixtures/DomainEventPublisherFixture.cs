@@ -1,16 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Mendham.Domain.Events;
+﻿using Mendham.Domain.Events;
+using Mendham.Domain.Events.Components;
+using Mendham.Domain.Test.TestObjects.Events;
 using Mendham.Testing;
 using Moq;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Mendham.Domain.Test.Fixtures
 {
     public class DomainEventPublisherFixture : Fixture<DomainEventPublisher>
     {
 		public IDomainEventHandlerContainer DomainEventHandlerContainer { get; set; }
+        public IDomainEventHandlerProcessor DomainEventHandlerProcessor { get; set; }
         public IEnumerable<IDomainEventLogger> DomainEventLoggers { get; set; }
 
         public override DomainEventPublisher CreateSut()
@@ -23,20 +24,24 @@ namespace Mendham.Domain.Test.Fixtures
 			base.ResetFixture();
 
 			this.DomainEventHandlerContainer = Mock.Of<IDomainEventHandlerContainer>();
+            this.DomainEventHandlerProcessor = Mock.Of<IDomainEventHandlerProcessor>();
             this.DomainEventLoggers = Enumerable.Empty<IDomainEventLogger>();
         }
 
-		public class TestDomainEvent : DomainEvent
-		{ }
+        public TestDomainEvent CreateDomainEvent()
+        {
+            return new TestDomainEvent();
+        }
 
-		public TestDomainEvent CreateDomainEvent()
-		{
-			return new TestDomainEvent();
-		}
+        public IEnumerable<IDomainEventHandler<TestDomainEvent>> GetDomainEventHandlersForTestDomainEvent()
+        {
+            return Mock.Of<IEnumerable<IDomainEventHandler<TestDomainEvent>>>();
+        }
 
         private IDomainEventPublisherComponents DomainEventPublisherContainerFactory()
         {
-            return new DomainEventPublisherComponents(DomainEventHandlerContainer, DomainEventLoggers);
+            return new DomainEventPublisherComponents(DomainEventHandlerContainer, 
+                DomainEventHandlerProcessor, DomainEventLoggers);
         }
 	}
 }

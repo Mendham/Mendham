@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using FluentAssertions;
 using Mendham.Domain.Events;
+using Mendham.Domain.Events.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,9 +40,25 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
 
 				publisher.Should()
 					.NotBeNull()
-					.And.BeOfType<DomainEventHandlerContainer>();
+					.And.BeOfType<DefaultDomainEventHandlerContainer>();
 			}
 		}
+
+        [Fact]
+        public void DomainEventHandlingModule_RegisterDomainEventHandlingProcessor_Resolves()
+        {
+            var builder = new ContainerBuilder();
+            builder.RegisterModule<DomainEventHandlingModule>();
+
+            using (var sut = builder.Build().BeginLifetimeScope())
+            {
+                var publisher = sut.Resolve<IDomainEventHandlerProcessor>();
+
+                publisher.Should()
+                    .NotBeNull()
+                    .And.BeOfType<DomainEventHandlerProcessor>();
+            }
+        }
 
         [Fact]
 		public void DomainEventHandlingModule_RegisterDomainEventPublisher_IsSameInstance()
@@ -88,5 +105,28 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
 			container1.Should()
 				.BeSameAs(container2);
 		}
+
+        [Fact]
+        public void DomainEventHandlingModule_RegisterDomainEventHandlingProcessor_IsSameInstance()
+        {
+            var builder = new ContainerBuilder();
+            builder.RegisterModule<DomainEventHandlingModule>();
+            var container = builder.Build();
+
+            IDomainEventHandlerProcessor processor1, processor2;
+
+            using (var sut = container.BeginLifetimeScope())
+            {
+                processor1 = sut.Resolve<IDomainEventHandlerProcessor>();
+            }
+
+            using (var sut = container.BeginLifetimeScope())
+            {
+                processor2 = sut.Resolve<IDomainEventHandlerProcessor>();
+            }
+
+            processor1.Should()
+                .BeSameAs(processor2);
+        }
     }
 }

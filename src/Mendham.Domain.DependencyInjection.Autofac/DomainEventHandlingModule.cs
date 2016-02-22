@@ -1,9 +1,7 @@
 ﻿using Autofac;
 using Mendham.Domain.Events;
+using Mendham.Domain.Events.Components;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Mendham.Domain.DependencyInjection.Autofac
 {
@@ -11,8 +9,12 @@ namespace Mendham.Domain.DependencyInjection.Autofac
     {
 		protected override void Load(ContainerBuilder builder)
 		{
-            builder.RegisterType<DomainEventHandlerContainer>()
+            builder.RegisterType<DefaultDomainEventHandlerContainer>()
                 .As<IDomainEventHandlerContainer>()
+                .SingleInstance();
+
+            builder.RegisterType<DomainEventHandlerProcessor>()
+                .As<IDomainEventHandlerProcessor>()
                 .SingleInstance();
 
             builder.RegisterType<DomainEventPublisherComponents>()

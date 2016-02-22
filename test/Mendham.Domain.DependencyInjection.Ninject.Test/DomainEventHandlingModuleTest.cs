@@ -7,6 +7,7 @@ using Ninject.Modules;
 using Ninject;
 using Mendham.Domain.Events;
 using FluentAssertions;
+using Mendham.Domain.Events.Components;
 
 namespace Mendham.Domain.DependencyInjection.Ninject.Test
 {
@@ -41,7 +42,17 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
 
             result.Should()
                 .NotBeNull()
-                .And.BeOfType<DomainEventHandlerContainer>();
+                .And.BeOfType<DefaultDomainEventHandlerContainer>();
+        }
+
+        [Fact]
+        public void DomainEventHandlingModule_RegisterDomainEventHandlerProcessor_Resolves()
+        {
+            var result = sut.Get<IDomainEventHandlerProcessor>();
+
+            result.Should()
+                .NotBeNull()
+                .And.BeOfType<DomainEventHandlerProcessor>();
         }
 
         [Fact]
@@ -62,6 +73,16 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
 
             result.Should()
                 .BeSameAs(expectedContainer);
+        }
+
+        [Fact]
+        public void DomainEventHandlingModule_RegisterDomainEventHandlerProcessor_IsSameInstance()
+        {
+            var expectedProcessor = sut.Get<IDomainEventHandlerProcessor>();
+            var result = sut.Get<IDomainEventHandlerProcessor>();
+
+            result.Should()
+                .BeSameAs(expectedProcessor);
         }
     }
 }
