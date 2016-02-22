@@ -1,7 +1,6 @@
 ﻿using Autofac;
 using Mendham.Domain.Events;
 using Mendham.Domain.Events.Components;
-using System;
 
 namespace Mendham.Domain.DependencyInjection.Autofac
 {
@@ -21,13 +20,9 @@ namespace Mendham.Domain.DependencyInjection.Autofac
                 .As<IDomainEventPublisherComponents>()
                 .SingleInstance();
 
-            builder.Register<IDomainEventPublisher>(c =>
-            {
-                Func<IDomainEventPublisherComponents> containerFactory =
-                    c.Resolve<Func<IDomainEventPublisherComponents>>();
-
-                return new DomainEventPublisher(containerFactory);
-            }).SingleInstance();
-		}
+            builder.RegisterType<DomainEventPublisher>()
+                .As<IDomainEventPublisher>()
+                .SingleInstance();
+        }
 	}
 }

@@ -2,7 +2,6 @@
 using Mendham.Domain.Events.Components;
 using Ninject;
 using Ninject.Modules;
-using System.Collections.Generic;
 
 namespace Mendham.Domain.DependencyInjection.Ninject
 {

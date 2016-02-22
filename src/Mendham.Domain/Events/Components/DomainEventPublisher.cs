@@ -1,14 +1,9 @@
-﻿using Mendham;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Threading;
+﻿using System;
 using System.Threading.Tasks;
 
 namespace Mendham.Domain.Events.Components
 {
-	public class DomainEventPublisher : IDomainEventPublisher
+    public class DomainEventPublisher : IDomainEventPublisher
 	{
         private readonly Func<IDomainEventPublisherComponents> domainEventPublisherComponentsFactory;
 
