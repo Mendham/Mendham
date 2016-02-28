@@ -1,7 +1,7 @@
 ﻿namespace Mendham.Testing
 {
     /// <summary>
-    /// A base class for creating a fixture for unit testing 
+    /// A base class for creating a <see cref="IFixture{T}"/> for unit testing 
     /// </summary>
 	public abstract class Fixture<T> : IFixture<T>
 	{
