@@ -36,5 +36,16 @@ namespace Mendham.Testing.Builder.Test
                 .And.Subject.Select(a => a.StringVal).Should()
                     .OnlyHaveUniqueItems("the factory creates a new value each run");
         }
+
+        [Theory, MendhamData]
+        public void BuildMultiple_BuilderGetDefaultFactoryMethod_MultipleObjects(int count)
+        {
+            var result = BasicObjectFullBuilder
+                .GetFactory()
+                .BuildMultiple(count);
+
+            result.Should().HaveCount(count, "that was the count passed")
+                .And.OnlyHaveUniqueItems("the factory creates different values for each");
+        }
     }
 }

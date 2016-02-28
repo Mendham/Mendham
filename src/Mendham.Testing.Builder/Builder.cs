@@ -113,14 +113,27 @@ namespace Mendham.Testing
         where TBuilder : IBuilder<TObject>, new()
     {
         /// <summary>
+        /// Gets default factory to produce <typeparamref name="TBuilder"/>. The result can be used to produce multiple 
+        /// unqiue builders which can be used to create a collection of <typeparamref name="TObject"/>
+        /// </summary>
+        /// <returns>A <see cref="Func{IBuilder{TObject}}"/> used to create a <typeparamref name="TObject"/></returns>
+        public static Func<IBuilder<TObject>> GetFactory()
+        {
+            return () => new TBuilder();
+        }
+
+        /// <summary>
+        /// Gets a factory to produce <typeparamref name="TBuilder"/>. The result of the factory can be modified by 
+        /// value in <paramref name="builderSetup"/>. The result can be used to produce multiple unqiue builders which
+        /// can be used to create a collection of <typeparamref name="TObject"/>
         /// Gets factory to produce a <see cref="IBuilder{TObject}"/> which is used for producing multiple builders
         /// which is needed when trying to create a collection of <typeparamref name="TObject"/>
         /// </summary>
-        /// <param name="builder">A builder to create a <typeparamref name="TObject"/></param>
+        /// <param name="builderSetup">A builder to create a <typeparamref name="TObject"/></param>
         /// <returns>A <see cref="Func{IBuilder{TObject}}"/> used to create a <typeparamref name="TObject"/></returns>
-        public static Func<IBuilder<TObject>> GetFactory(Func<TBuilder, TBuilder> builder)
+        public static Func<IBuilder<TObject>> GetFactory(Func<TBuilder, TBuilder> builderSetup)
         {
-            return () => builder(new TBuilder());
+            return () => builderSetup(new TBuilder());
         }
     }
 }

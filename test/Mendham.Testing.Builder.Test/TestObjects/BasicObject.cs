@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Mendham.Testing.Builder.Test.TestObjects
 {
-    public class BasicObject
+    public class BasicObject : IEquatable<BasicObject>
     {
         public int IntVal { get; private set; }
         public string StringVal { get; private set; }
@@ -17,6 +14,16 @@ namespace Mendham.Testing.Builder.Test.TestObjects
 
             this.IntVal = intVal;
             this.StringVal = stringVal;
+        }
+
+        public bool Equals(BasicObject other)
+        {
+            if (other == null)
+            {
+                throw new NotImplementedException("No handling for null types");
+            }
+
+            return IntVal.Equals(other.IntVal) && StringVal.Equals(other.StringVal);
         }
     }
 }
