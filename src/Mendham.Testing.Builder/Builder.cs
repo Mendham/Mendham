@@ -70,7 +70,7 @@ namespace Mendham.Testing
         /// Expression that represents property in <paramref name="obj"/> that has a non public setter
         /// </param>
         /// <param name="value">Value to be applied to property with non public setter</param>
-		protected static void SetPropertyNonPublicSetter<TSource, TProperty>(TSource obj, Expression<Func<TSource, TProperty>> propertyLambda, object value)
+		protected static void SetPropertyNonPublicSetter<TSource, TProperty>(TSource obj, Expression<Func<TSource, TProperty>> propertyLambda, TProperty value)
 		{
 			obj.SetPropertyNonPublicSetter(propertyLambda, value);
 		}
