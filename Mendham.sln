@@ -52,6 +52,14 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Domain.Concurrency"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Testing.Domain.Moq", "src\Mendham.Testing.Domain.Moq\Mendham.Testing.Domain.Moq.xproj", "{A790E356-DE29-4912-A937-CAEA154E5BFE}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Domain.DependencyInjection.ComplexDomainGraph", "test\Resources\Mendham.Domain.DependencyInjection.ComplexDomainGraph\Mendham.Domain.DependencyInjection.ComplexDomainGraph.xproj", "{FCC9D043-C7FE-4FBE-9E46-0AD58165A8F0}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Domain.DependencyInjection.InvalidConcreateBaseEntity", "test\Resources\Mendham.Domain.DependencyInjection.InvalidConcreateBaseEntity\Mendham.Domain.DependencyInjection.InvalidConcreateBaseEntity.xproj", "{3FAB2567-033B-44B3-8D8C-157D83D52875}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Domain.DependencyInjection.InvalidMultipleDerivedEntity", "test\Resources\Mendham.Domain.DependencyInjection.InvalidMultipleDerivedEntity\Mendham.Domain.DependencyInjection.InvalidMultipleDerivedEntity.xproj", "{D561B7C1-5424-441E-8B04-16390B4EF873}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Domain.DependencyInjection.TestObjects", "test\Resources\Mendham.Domain.DependencyInjection.TestObjects\Mendham.Domain.DependencyInjection.TestObjects.xproj", "{E3FF728B-8C33-4CEF-94E5-1390BF65ACCF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -122,6 +130,22 @@ Global
 		{A790E356-DE29-4912-A937-CAEA154E5BFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A790E356-DE29-4912-A937-CAEA154E5BFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A790E356-DE29-4912-A937-CAEA154E5BFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCC9D043-C7FE-4FBE-9E46-0AD58165A8F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCC9D043-C7FE-4FBE-9E46-0AD58165A8F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCC9D043-C7FE-4FBE-9E46-0AD58165A8F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCC9D043-C7FE-4FBE-9E46-0AD58165A8F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3FAB2567-033B-44B3-8D8C-157D83D52875}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3FAB2567-033B-44B3-8D8C-157D83D52875}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3FAB2567-033B-44B3-8D8C-157D83D52875}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3FAB2567-033B-44B3-8D8C-157D83D52875}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D561B7C1-5424-441E-8B04-16390B4EF873}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D561B7C1-5424-441E-8B04-16390B4EF873}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D561B7C1-5424-441E-8B04-16390B4EF873}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D561B7C1-5424-441E-8B04-16390B4EF873}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E3FF728B-8C33-4CEF-94E5-1390BF65ACCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E3FF728B-8C33-4CEF-94E5-1390BF65ACCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E3FF728B-8C33-4CEF-94E5-1390BF65ACCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E3FF728B-8C33-4CEF-94E5-1390BF65ACCF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -147,5 +171,9 @@ Global
 		{647BF880-EFDA-4B42-B8F0-013D88DF0FD3} = {BC1DD0E7-3123-4701-A68D-F6C1E9F015CD}
 		{0E25789C-2985-473F-B253-DB9A30B68AE8} = {BC1DD0E7-3123-4701-A68D-F6C1E9F015CD}
 		{A790E356-DE29-4912-A937-CAEA154E5BFE} = {0939C9D9-E0AA-4599-AA22-AC58F16C96DE}
+		{FCC9D043-C7FE-4FBE-9E46-0AD58165A8F0} = {C9AF6D12-2693-4513-BE01-B64EA0E89D11}
+		{3FAB2567-033B-44B3-8D8C-157D83D52875} = {C9AF6D12-2693-4513-BE01-B64EA0E89D11}
+		{D561B7C1-5424-441E-8B04-16390B4EF873} = {C9AF6D12-2693-4513-BE01-B64EA0E89D11}
+		{E3FF728B-8C33-4CEF-94E5-1390BF65ACCF} = {C9AF6D12-2693-4513-BE01-B64EA0E89D11}
 	EndGlobalSection
 EndGlobal
