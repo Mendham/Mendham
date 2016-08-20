@@ -40,6 +40,10 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Domain", "src\Mendh
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Domain.Test", "test\Mendham.Domain.Test\Mendham.Domain.Test.xproj", "{E4905CA2-745D-4A2A-9785-EBE17B1AF143}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Testing.Domain", "src\Mendham.Testing.Domain\Mendham.Testing.Domain.xproj", "{9631127B-6AA9-46CA-BB24-F9608FE9EE83}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Testing.Domain.Test", "test\Mendham.Testing.Domain.Test\Mendham.Testing.Domain.Test.xproj", "{DA74EED4-2C0A-4C0C-A924-FB90DDFAD6F7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -86,6 +90,14 @@ Global
 		{E4905CA2-745D-4A2A-9785-EBE17B1AF143}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E4905CA2-745D-4A2A-9785-EBE17B1AF143}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E4905CA2-745D-4A2A-9785-EBE17B1AF143}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9631127B-6AA9-46CA-BB24-F9608FE9EE83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9631127B-6AA9-46CA-BB24-F9608FE9EE83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9631127B-6AA9-46CA-BB24-F9608FE9EE83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9631127B-6AA9-46CA-BB24-F9608FE9EE83}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA74EED4-2C0A-4C0C-A924-FB90DDFAD6F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA74EED4-2C0A-4C0C-A924-FB90DDFAD6F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA74EED4-2C0A-4C0C-A924-FB90DDFAD6F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA74EED4-2C0A-4C0C-A924-FB90DDFAD6F7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -105,5 +117,7 @@ Global
 		{1080FA70-FD2C-48B2-A917-3DD25F84CF5B} = {5837883B-CC74-4A1F-96F5-AEEEAFD73EC4}
 		{ADCAF0D1-C09B-47F3-AE7E-A2B244A09FF5} = {856ADE16-2C01-47A4-9120-1EF2B409A9D3}
 		{E4905CA2-745D-4A2A-9785-EBE17B1AF143} = {5837883B-CC74-4A1F-96F5-AEEEAFD73EC4}
+		{9631127B-6AA9-46CA-BB24-F9608FE9EE83} = {0939C9D9-E0AA-4599-AA22-AC58F16C96DE}
+		{DA74EED4-2C0A-4C0C-A924-FB90DDFAD6F7} = {5837883B-CC74-4A1F-96F5-AEEEAFD73EC4}
 	EndGlobalSection
 EndGlobal
