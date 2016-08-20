@@ -13,6 +13,9 @@ if ($env:APPVEYOR) {
     # Dumps Environment
     ls env:
 
+    Write-Output "dotnet CLI version"
+    dotnet --version
+
     if ($env:APPVEYOR_REPO_TAG -eq $true -or $env:APPVEYOR_REPO_TAG -eq "True") {
         $tagBuild = $true;
     }
