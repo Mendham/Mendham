@@ -5,7 +5,7 @@ properties {
 
 function Restore-Packages ([string] $DirectoryName)
 {
-    & dotnet restore ("""" + $DirectoryName + """") --source "https://www.nuget.org/api/v2/"
+    & dotnet restore ("""" + $DirectoryName + """") --source "https://www.nuget.org/api/v2/" --infer-runtimes
 }
 
 function Build-Projects ([string] $DirectoryName, [string] $ProjectName)
@@ -43,7 +43,7 @@ task Restore -description "Restores packages for all projects" {
     Restore-Packages (Get-Item -Path ".\" -Verbose).FullName
 }
 
-task Build -depends Clean,Restore -description "Builds every source project" {
+task Build -depends Clean -description "Builds every source project" {
     Get-ChildItem -Path .\src -Filter *.xproj -Recurse |
         % { Build-Projects $_.DirectoryName $_.Directory.Name }
 }
