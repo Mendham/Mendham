@@ -1,37 +1,24 @@
 ﻿{
-  "version": "1.0.0-beta6-*",
-  "description": "Unit tests for Mendham.Concurrency",
-  "authors": [ "Craig Beall" ],
-  "projectUrl": "https://mendham.github.io",
-  "licenseUrl": "https://raw.githubusercontent.com/mendham/Mendham/master/LICENSE",
+  "testRunner": "xunit",
 
   "dependencies": {
-    "Moq": "4.2.1510.2205",
-    "Mendham.Concurrency": "1.0.0-*",
-    "Mendham.Testing.Builder": "1.0.0-*",
-    "Mendham.Testing": "1.0.0-*",
-    "Mendham.Testing.Moq": "1.0.0-*",
-    "xunit": "2.1.0",
-    "FluentAssertions": "4.2.1"
-  },
-
-  "commands": {
-    "test": "xunit.runner.dnx"
+    "Mendham.Concurrency": {
+      "target": "project"
+    },
+    "Mendham.Testing.Builder": {
+      "target": "project"
+    },
+    "Mendham.Testing.Moq": {
+      "target": "project"
+    },
+    "FluentAssertions": "4.13.0",
+    "dotnet-test-xunit": "2.2.0-preview2-build1029"
   },
 
   "frameworks": {
     "net451": {
       "dependencies": {
-        "xunit.runner.visualstudio": "2.1.0"
-      },
-      "frameworkAssemblies": {
-        "System.Runtime": "4.0.10.0",
-        "System.Threading.Tasks": "4.0.0.0"
-      }
-    },
-    "dnx451": {
-      "dependencies": {
-        "xunit.runner.dnx": "2.1.0-rc1-build204"
+        "Microsoft.NETCore.Platforms": "1.0.1"
       }
     }
   }
