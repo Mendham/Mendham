@@ -40,7 +40,19 @@ if ($env:APPVEYOR) {
     }
 }
 
+function Install-DotnetCLI() {
+    nuget update -self
+
+    Invoke-WebRequest "https://raw.githubusercontent.com/dotnet/cli/rel/1.0.0-preview2/scripts/obtain/dotnet-install.ps1" -OutFile ".\dotnet-install.ps1"
+
+    $env:DOTNET_INSTALL_DIR = "$pwd\.dotnetcli"
+    
+    & .\dotnet-install.ps1 -Channel "preview" -Version "1.0.0-preview2-003121" -InstallDir "$env:DOTNET_INSTALL_DIR"
+}
+
 Push-Location $PSScriptRoot
+
+Install-DotnetCLI
 
 Import-Module .\psake.psm1
 
