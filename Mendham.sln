@@ -70,6 +70,10 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Domain.DependencyIn
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Domain.DependencyInjection.Ninject.Test", "test\Mendham.Domain.DependencyInjection.Ninject.Test\Mendham.Domain.DependencyInjection.Ninject.Test.xproj", "{651C6216-267F-4A57-ADA8-B83E0A3F0C86}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Infrastructure.RelationalDatabase", "src\Mendham.Infrastructure.RelationalDatabase\Mendham.Infrastructure.RelationalDatabase.xproj", "{B1AF7EB6-F099-4F22-B621-6E12D562D95F}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Infrastructure.RelationalDatabase.Test", "test\Mendham.Infrastructure.RelationalDatabase.Test\Mendham.Infrastructure.RelationalDatabase.Test.xproj", "{A3CDD6BD-D218-4AB2-A71B-2A07824262A5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -172,6 +176,14 @@ Global
 		{651C6216-267F-4A57-ADA8-B83E0A3F0C86}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{651C6216-267F-4A57-ADA8-B83E0A3F0C86}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{651C6216-267F-4A57-ADA8-B83E0A3F0C86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1AF7EB6-F099-4F22-B621-6E12D562D95F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1AF7EB6-F099-4F22-B621-6E12D562D95F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1AF7EB6-F099-4F22-B621-6E12D562D95F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1AF7EB6-F099-4F22-B621-6E12D562D95F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3CDD6BD-D218-4AB2-A71B-2A07824262A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3CDD6BD-D218-4AB2-A71B-2A07824262A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3CDD6BD-D218-4AB2-A71B-2A07824262A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3CDD6BD-D218-4AB2-A71B-2A07824262A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -206,5 +218,7 @@ Global
 		{01286387-8530-47E5-866A-774BCED9AE99} = {D989969B-64BE-41BD-ACAB-C468136D9F83}
 		{9277E812-A778-4509-89C3-3F716E953822} = {5837883B-CC74-4A1F-96F5-AEEEAFD73EC4}
 		{651C6216-267F-4A57-ADA8-B83E0A3F0C86} = {5837883B-CC74-4A1F-96F5-AEEEAFD73EC4}
+		{B1AF7EB6-F099-4F22-B621-6E12D562D95F} = {1EAA64F8-EA81-4CE2-96CE-0A6D02304E52}
+		{A3CDD6BD-D218-4AB2-A71B-2A07824262A5} = {5837883B-CC74-4A1F-96F5-AEEEAFD73EC4}
 	EndGlobalSection
 EndGlobal

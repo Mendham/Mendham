@@ -4,8 +4,8 @@ using System.Data;
 using System.Data.Common;
 using System.Threading.Tasks;
 
-#if DOTNET5_4
-using IDbConnection = global::System.Data.Common.DbConnection;
+#if NETSTANDARD1_3
+using IDbConnection = System.Data.Common.DbConnection;
 #endif
 
 namespace Mendham.Infrastructure.RelationalDatabase

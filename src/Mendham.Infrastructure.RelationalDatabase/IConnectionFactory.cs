@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-#if DOTNET5_4
+#if NETSTANDARD1_3
 using IDbConnection = global::System.Data.Common.DbConnection;
 #endif
 

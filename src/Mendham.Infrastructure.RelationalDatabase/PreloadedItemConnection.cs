@@ -8,10 +8,10 @@ using System.Threading;
 using System.Collections.ObjectModel;
 using Mendham.Infrastructure.RelationalDatabase.Exceptions;
 
-#if DOTNET5_4
-using IDbConnection = global::System.Data.Common.DbConnection;
-using IDbTransaction = global::System.Data.Common.DbTransaction;
-using IDbCommand = global::System.Data.Common.DbCommand;
+#if NETSTANDARD1_3
+using IDbConnection = System.Data.Common.DbConnection;
+using IDbTransaction =System.Data.Common.DbTransaction;
+using IDbCommand = System.Data.Common.DbCommand;
 #endif
 
 namespace Mendham.Infrastructure.RelationalDatabase
@@ -46,7 +46,7 @@ namespace Mendham.Infrastructure.RelationalDatabase
             get { return _items; }
         }
 
-#if DOTNET5_4
+#if NETSTANDARD1_3
         public override async Task OpenAsync(CancellationToken cancellationToken)
         {
             try
@@ -177,7 +177,7 @@ namespace Mendham.Infrastructure.RelationalDatabase
 
         #region IDBConnection Connection Wrapper
 
-#if DOTNET5_4
+#if NETSTANDARD1_3
         public override string ConnectionString
         {
             get

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
 
-#if DOTNET5_4
+#if NETSTANDARD1_3
 using IDbConnection = global::System.Data.Common.DbConnection;
 #endif
 

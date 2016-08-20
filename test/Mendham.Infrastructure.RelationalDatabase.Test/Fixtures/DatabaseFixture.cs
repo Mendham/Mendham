@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-#if DNXCORE50
+#if NETCOREAPP1_0
 using IDbConnection = global::System.Data.Common.DbConnection;
 #endif
 

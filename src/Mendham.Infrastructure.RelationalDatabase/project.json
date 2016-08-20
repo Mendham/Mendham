@@ -1,25 +1,27 @@
 {
-  "version": "1.0.0-beta6-*",
+  "version": "1.0.0-*",
   "description": "Tools to help build a relational database infrastructure with a micro ORM",
   "authors": [ "Craig Beall" ],
-  "tags": [ "mendham ddd domain dapper relationaldatabase dbconnection" ],
-  "projectUrl": "https://mendham.github.io",
-  "licenseUrl": "https://raw.githubusercontent.com/mendham/Mendham/master/LICENSE",
+
+  "packOptions": {
+    "tags": [ "mendham ddd domain dapper relationaldatabase dbconnection" ],
+    "projectUrl": "https://mendham.github.io",
+    "licenseUrl": "https://raw.githubusercontent.com/mendham/Mendham/master/LICENSE",
+    "requireLicenseAcceptance": false
+  },
 
   "dependencies": {
-    "Dapper": "1.50.0-beta7",
+    "Dapper": "1.50.2",
     "Mendham": "1.0.0-*"
   },
 
   "frameworks": {
-    "net451": { },
-    "dotnet5.4": {
+    "netstandard1.3": {
       "dependencies": {
-        "System.Linq": "4.0.0-*",
-        "System.Runtime": "4.0.21-*", 
-        "System.Threading": "4.0.11-*",
-        "Microsoft.CSharp": "4.0.1-*"
+        "System.Reflection.TypeExtensions": "4.1.0",
+        "Microsoft.CSharp": "4.0.1"
       }
-    }
+    },
+    "net451": {}
   }
 }
