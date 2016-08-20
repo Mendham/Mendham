@@ -28,8 +28,12 @@ function Pack-Projects ([string] $DirectoryName, [string] $ProjectName, [string]
 
 function Test-Projects ([string] $Project)
 {
+    $testCmd = "dotnet test """ + $Project + """ --no-build"
+
     Write-Output "Testing Project: $Project"
-    & dotnet test ("""" + $Project + """") --no-build; if($LASTEXITCODE -ne 0) { exit 2 }
+    Write-Output $testCmd
+
+    iex $testCmd; if($LASTEXITCODE -ne 0) { exit 2 }
 }
 
 task Clean -description "Deletes all build artifacts" {
