@@ -1,37 +1,35 @@
 properties {
     $buildNumber = 0
-    $preRelease = $true
     $tagBuild = $false
 }
 
 function Restore-Packages ([string] $DirectoryName)
 {
-    & dnu restore ("""" + $DirectoryName + """") --parallel --source "https://www.nuget.org/api/v2/" --source "https://www.myget.org/F/aspnetmaster/api/v2/"
+    & dotnet restore ("""" + $DirectoryName + """") --source "https://www.nuget.org/api/v2/"
 }
 
 function Build-Projects ([string] $DirectoryName, [string] $ProjectName)
 {
     Write-Output "Directory: $DirectoryName"
-    & dnu pack ("""" + $DirectoryName + """") --configuration Release --out ".\artifacts\packages\$ProjectName"; if($LASTEXITCODE -ne 0) { exit 1 }
+    & dotnet build ("""" + $DirectoryName + """") --configuration Release; if($LASTEXITCODE -ne 0) { exit 1 }
+}
+
+function Pack-Projects ([string] $DirectoryName, [string] $ProjectName, [string] $VersionSuffix)
+{
+    $packCmd = "dotnet pack """ + $DirectoryName + """ --no-build --output "".\artifacts\packages\$ProjectName"""
+
+    if ($VersionSuffix) {
+        $packCmd += " --version-suffix $VersionSuffix"
+    }
+
+    Write-Output "Directory: $DirectoryName"
+    iex $packCmd; if($LASTEXITCODE -ne 0) { exit 1 }
 }
 
 function Test-Projects ([string] $Project)
 {
     Write-Output "Testing Project: $Project"
-    & dnx -p ("""" + $Project + """") test; if($LASTEXITCODE -ne 0) { exit 2 }
-}
-
-task ValidateConfig -description "Checking values in config" {
-    assert ( 'debug', 'release' -contains $config) 'Config value ($config) is not valid';
-
-    if ($preRelease -eq $null) {
-		Write-Output "Prerelease: n/a"
-	}
-	else {
-		Write-Output "PreRelease: $preRelease"
-	}
-
-    Write-Output 'Config value is valid';
+    & dotnet test ("""" + $Project + """") --no-build; if($LASTEXITCODE -ne 0) { exit 2 }
 }
 
 task Clean -description "Deletes all build artifacts" {
@@ -45,19 +43,27 @@ task Restore -description "Restores packages for all projects" {
     Restore-Packages (Get-Item -Path ".\" -Verbose).FullName
 }
 
-task SetBuildSuffix -description "Sets the build suffix that may be added to the version" {
-    if ($tagBuild -eq $false)
-    {
-        if ($buildNumber -ne 0) {
-        
-            $env:DNX_BUILD_VERSION = $buildNumber.ToString().PadLeft(5,'0')
-        }
-    }
-}
-
-task Build -depends Clean,Restore,SetBuildSuffix -description "Builds every source project" {
+task Build -depends Clean,Restore -description "Builds every source project" {
     Get-ChildItem -Path .\src -Filter *.xproj -Recurse |
         % { Build-Projects $_.DirectoryName $_.Directory.Name }
+}
+
+task Pack -depends Build -description "Builds every source project" {
+    $versionSuffix = $null
+
+    if ($tagBuild -eq $false) {
+        if ($buildNumber -ne 0) {
+        
+            $versionSuffix = "build-" + $buildNumber.ToString().PadLeft(5,'0')
+            Write-Output "Using version suffix $versionSuffix" 
+        }
+    }
+    else {
+        Write-Output "Tagged Build. Not applying a version suffix"
+    }
+
+    Get-ChildItem -Path .\src -Filter *.xproj -Recurse |
+        % { Pack-Projects $_.DirectoryName $_.Directory.Name $versionSuffix }
 }
 
 task Test -depends Restore -description "Runs tests" {
