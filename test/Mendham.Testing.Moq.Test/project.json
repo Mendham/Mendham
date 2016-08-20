@@ -1,35 +1,32 @@
 {
-  "version": "1.0.0-beta6-*",
-  "description": "Testing Project For Mendham.Testing.Moq",
-  "authors": [ "Craig Beall" ],
-  "projectUrl": "https://mendham.github.io",
-  "licenseUrl": "https://raw.githubusercontent.com/mendham/Mendham/master/LICENSE",
-  "commands": {
-    "test": "xunit.runner.dnx"
+  "testRunner": "xunit",
+
+  "dependencies": {
+    "Mendham.Testing.Moq": {
+      "target": "project"
+    },
+    "FluentAssertions": "4.13.0",
+    "dotnet-test-xunit": "2.2.0-preview2-build1029",
+    "NETStandard.Library": "1.6.0"
   },
+
   "frameworks": {
-    "net451": {
+    "netcoreapp1.0": {
       "dependencies": {
-        "xunit.runner.visualstudio": "2.1.0"
-      },
-      "frameworkAssemblies": {
-        "System.Runtime": "4.0.10.0",
-        "System.Threading.Tasks": "4.0.0.0"
+        "Microsoft.NETCore.App": {
+          "type": "platform",
+          "version": "1.0.0"
+        }
       }
     },
-    "dnx451": {
+
+    "net451": {
       "dependencies": {
-        "xunit.runner.dnx": "2.1.0-rc1-build204"
+        "Microsoft.NETCore.Platforms": "1.0.1",
+        "Mendham.Testing.Builder": {
+          "target": "project"
+        }
       }
     }
-  },
-  "dependencies": {
-    "Mendham": "1.0.0-*",
-    "Mendham.Testing": "1.0.0-*",
-    "Mendham.Testing.Builder": "1.0.0-*",
-    "Mendham.Testing.Moq": "1.0.0-*",
-    "xunit": "2.1.0",
-    "Moq": "4.2.1510.2205",
-    "FluentAssertions": "4.2.1"
   }
 }

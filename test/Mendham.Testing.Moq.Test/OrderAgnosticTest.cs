@@ -10,6 +10,10 @@ namespace Mendham.Testing.Moq.Test
 {
     public class OrderAgnosticTest
     {
+        // Only running these tests in NET451 because Mendham.Testing.Builder does not work with Netstandard because of the
+        // underlying dependencies. When those depdencies are upgraded to netstandard, then the if condition can be removed.
+#if NET451
+
         [Theory, MendhamData]
         public void Match_SameList_IsCalled([WithCount(20)]List<int> firstSet)
         {
@@ -104,5 +108,6 @@ namespace Mendham.Testing.Moq.Test
             sut.AsMock()
                 .Verify(a => a.MethodWithArrayParameter(OrderAgnostic.Match<int[], int>(secondSet)), Times.Once);
         }
+#endif
     }
 }
