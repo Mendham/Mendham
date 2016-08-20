@@ -10,15 +10,19 @@
   },
 
   "dependencies": {
-    "Mendham.Testing": "1.0.0-*",
-    "Moq": "4.6.38-alpha"
+    "Mendham.Testing": "1.0.0-*"
   },
 
   "frameworks": {
-    "netstandard1.3": { },
+    "netstandard1.3": {
+      "dependencies": {
+        "Moq": "4.6.38-alpha"
+      }
+    },
     "net451": {
       "dependencies": {
-        "Castle.Core": "4.0.0-beta001"
+        "Castle.Core": "3.*",
+        "Moq": "4.5.21"
       }
     }
   }
