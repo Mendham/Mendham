@@ -5,7 +5,7 @@ properties {
 
 function Restore-Packages ([string] $DirectoryName)
 {
-    & dotnet restore ("""" + $DirectoryName + """") --source "https://www.nuget.org/api/v2/" --infer-runtimes
+    & dotnet restore ("""" + $DirectoryName + """") --source "https://www.nuget.org/api/v2/"
 }
 
 function Build-Projects ([string] $DirectoryName, [string] $ProjectName)
