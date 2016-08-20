@@ -1,43 +1,33 @@
 {
-  "version": "1.0.0-beta6-*",
-  "description": "Unit tests for Mendham.Domain.DependencyInjection.Ninject",
-  "authors": [ "Craig Beall" ],
-  "projectUrl": "https://mendham.github.io",
-  "licenseUrl": "https://raw.githubusercontent.com/mendham/Mendham/master/LICENSE",
+  "testRunner": "xunit",
 
   "dependencies": {
-    "xunit": "2.1.0",
-    "Moq": "4.2.1510.2205",
-    "Ninject": "3.2.2",
-    "Mendham.Domain": "1.0.0-*",
-    "Mendham.Testing": "1.0.0-*",
-    "Mendham.Testing.Builder": "1.0.0-*",
-    "Mendham.Testing.Moq": "1.0.0-*",
-    "Mendham.Domain.DependencyInjection.Ninject": "1.0.0-*",
-    "Mendham.Domain.DependencyInjection.ComplexDomainGraph": "1.0.0-*",
-    "Mendham.Domain.DependencyInjection.InvalidConcreateBaseEntity": "1.0.0-*",
-    "Mendham.Domain.DependencyInjection.InvalidMultipleDerivedEntity": "1.0.0-*",
-    "Mendham.Domain.DependencyInjection.TestObjects": "1.0.0-*",
-    "FluentAssertions": "4.2.1"
-  },
-
-  "commands": {
-    "test": "xunit.runner.dnx"
+    "Mendham.Domain.DependencyInjection.Ninject": {
+      "target": "project"
+    },
+    "Mendham.Domain.DependencyInjection.ComplexDomainGraph": {
+      "target": "project"
+    },
+    "Mendham.Domain.DependencyInjection.InvalidConcreateBaseEntity": {
+      "target": "project"
+    },
+    "Mendham.Domain.DependencyInjection.InvalidMultipleDerivedEntity": {
+      "target": "project"
+    },
+    "Mendham.Domain.DependencyInjection.TestObjects": {
+      "target": "project"
+    },
+    "Mendham.Testing": {
+      "target": "project"
+    },
+    "FluentAssertions": "4.13.0",
+    "dotnet-test-xunit": "2.2.0-preview2-build1029"
   },
 
   "frameworks": {
     "net451": {
       "dependencies": {
-        "xunit.runner.visualstudio": "2.1.0"
-      },
-      "frameworkAssemblies": {
-        "System.Runtime": "4.0.10.0",
-        "System.Threading.Tasks": "4.0.0.0"
-      }
-    },
-    "dnx451": {
-      "dependencies": {
-        "xunit.runner.dnx": "2.1.0-rc1-build204"
+        "Microsoft.NETCore.Platforms": "1.0.1"
       }
     }
   }

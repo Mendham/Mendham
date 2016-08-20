@@ -1,5 +1,4 @@
 ﻿using Mendham.Domain.Events;
-using Ninject;
 using Ninject.Extensions.Conventions;
 using Ninject.Extensions.Conventions.Syntax;
 using Ninject.Syntax;

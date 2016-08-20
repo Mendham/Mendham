@@ -1,26 +1,23 @@
 {
-  "version": "1.0.0-beta6-*",
+  "version": "1.0.0-*",
   "description": "Autofac plugin to use with Mendham.Domain ",
   "authors": [ "Craig Beall" ],
-  "tags": [ "mendham domain ddd autofac ioc di" ],
-  "projectUrl": "https://mendham.github.io",
-  "licenseUrl": "https://raw.githubusercontent.com/mendham/Mendham/master/LICENSE",
-  "requireLicenseAcceptance": false,
+
+  "packOptions": {
+    "tags": [ "mendham domain ddd autofac ioc di" ],
+    "projectUrl": "https://mendham.github.io",
+    "licenseUrl": "https://raw.githubusercontent.com/mendham/Mendham/master/LICENSE",
+    "requireLicenseAcceptance": false
+  },
+
 
   "dependencies": {
-    "Mendham": "1.0.0-*",
     "Mendham.Domain": "1.0.0-*",
-    "Autofac": "4.0.0-rc1-177"
+    "Autofac": "4.0.0"
   },
 
   "frameworks": {
-    "net451": { },
-    "dotnet5.2": {
-      "dependencies": {
-        "System.Linq": "4.0.1-*",
-        "System.Threading": "4.0.11-*",
-        "Microsoft.CSharp": "4.0.1-*"
-      }
-    }
+    "netstandard1.3": {},
+    "net451": {}
   }
 }
