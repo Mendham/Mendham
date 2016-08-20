@@ -12,7 +12,7 @@ namespace Mendham.Testing.Builder.Test
         [Fact]
         public void GetAssembliesWithBuilders_ThisAssembly_ThisAssembly()
         {
-            var thisAssembly = this.GetType().Assembly;
+            var thisAssembly = GetType().Assembly;
             var sut = new BuilderAssemblyQueryService();
 
             var result = sut.GetAssembliesWithBuilders(thisAssembly);

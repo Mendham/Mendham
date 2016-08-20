@@ -7,30 +7,30 @@ namespace Mendham.Testing.Builder.Test.TestObjects
 {
     public class BasicObjectBuilder : Builder<BasicObject>
     {
-        int intVal;
-        string stringVal;
+        int _intVal;
+        string _stringVal;
 
         public BasicObjectBuilder()
         {
-            this.intVal = ObjectCreationContext.Create<int>();
-            this.stringVal = ObjectCreationContext.Create("str");
+            _intVal = ObjectCreationContext.Create<int>();
+            _stringVal = ObjectCreationContext.Create("str");
         }
 
         public BasicObjectBuilder WithIntVal(int intVal)
         {
-            this.intVal = intVal;
+            _intVal = intVal;
             return this;
         }
 
         public BasicObjectBuilder WithStringVal(string stringVal)
         {
-            this.stringVal = stringVal;
+            _stringVal = stringVal;
             return this;
         }
 
         protected override BasicObject BuildObject()
         {
-            return new BasicObject(intVal, stringVal);
+            return new BasicObject(_intVal, _stringVal);
         }
     }
 }

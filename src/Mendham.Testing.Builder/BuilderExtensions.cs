@@ -20,6 +20,8 @@ namespace Mendham.Testing
                 "Count to build multiple must be at least one");
 
             return Enumerable.Range(0, count)
+                // For larger counts, parallel is more performant
+                .AsParallel() 
                 .Select(a => builderFactory().Build())
                 .ToArray();
         }

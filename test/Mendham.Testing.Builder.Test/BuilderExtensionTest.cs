@@ -11,8 +11,10 @@ namespace Mendham.Testing.Builder.Test
     public class BuilderExtensionTest
     {
         [Theory, MendhamData]
-        public void BuildMultiple_FactoryFunc_MultipleObjectsWithValue(int commonVal, int count)
+        public void BuildMultiple_FactoryFunc_MultipleObjectsWithValue(int commonVal)
         {
+            int count = 17;
+
             Func<IBuilder<BasicObject>> factory = () => new BasicObjectBuilder()
                 .WithIntVal(commonVal);
 
@@ -25,8 +27,10 @@ namespace Mendham.Testing.Builder.Test
         }
 
         [Theory, MendhamData]
-        public void BuildMultiple_BuilderGetFactoryMethod_MultipleObjectsWithValue(int commonVal, int count)
+        public void BuildMultiple_BuilderGetFactoryMethod_MultipleObjectsWithValue(int commonVal)
         {
+            int count = 19;
+
             var result = BasicObjectFullBuilder
                 .GetFactory(b => b.WithIntVal(commonVal))
                 .BuildMultiple(count);
@@ -37,9 +41,11 @@ namespace Mendham.Testing.Builder.Test
                     .OnlyHaveUniqueItems("the factory creates a new value each run");
         }
 
-        [Theory, MendhamData]
-        public void BuildMultiple_BuilderGetDefaultFactoryMethod_MultipleObjects(int count)
+        [Fact]
+        public void BuildMultiple_BuilderGetDefaultFactoryMethod_MultipleObjects()
         {
+            int count = 23;
+
             var result = BasicObjectFullBuilder
                 .GetFactory()
                 .BuildMultiple(count);
