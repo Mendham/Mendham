@@ -1,5 +1,5 @@
 ﻿{
-  "version": "1.0.0-*",
+  "version": "1.0.0-beta7-*",
   "description": "Test helpers for Mendham.Domain using Moq",
   "authors": [ "Craig Beall" ],
 
