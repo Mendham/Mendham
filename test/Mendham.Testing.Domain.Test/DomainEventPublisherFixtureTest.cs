@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using Mendham.Domain.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,6 +37,11 @@ namespace Mendham.Testing.Domain.Test
 
             act.ShouldNotThrow<DomainEventVerificationException<Fixture.TestDomainEvent1>>();
         }
+
+        // Only running these tests in NET451 because Mendham.Testing.Builder does not work with Netstandard because of the
+        // underlying dependencies. When those depdencies are upgraded to netstandard, then the if condition can be removed.
+#if NET451
+
 
         [Theory, MendhamData]
         public void VerifyDomainEventRaised_NotRaised_DomainEventVerificationException(string userMessage)
@@ -185,5 +189,6 @@ namespace Mendham.Testing.Domain.Test
             act.ShouldThrow<DomainEventVerificationException<Fixture.TestDomainEvent2>>()
                 .Where(a => a.Message.Contains(userMessage));
         }
+#endif
     }
 }
