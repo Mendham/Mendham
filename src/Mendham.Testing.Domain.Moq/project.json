@@ -1,20 +1,22 @@
 ﻿{
-  "version": "1.0.0-beta6-*",
+  "version": "1.0.0-*",
   "description": "Test helpers for Mendham.Domain using Moq",
   "authors": [ "Craig Beall" ],
-  "tags": [ "mendham moq mocking test testing domain ddd tdd xunit" ],
-  "projectUrl": "https://mendham.github.io",
-  "licenseUrl": "https://raw.githubusercontent.com/mendham/Mendham/master/LICENSE",
+
+  "packOptions": {
+    "tags": [ "mendham moq mocking test testing domain ddd tdd xunit" ],
+    "projectUrl": "https://mendham.github.io",
+    "licenseUrl": "https://raw.githubusercontent.com/mendham/Mendham/master/LICENSE",
+    "requireLicenseAcceptance": false
+  },
 
   "dependencies": {
-    "Moq": "4.2.1510.2205",
-    "Mendham": "1.0.0-*",
-    "Mendham.Testing": "1.0.0-*",
     "Mendham.Testing.Domain": "1.0.0-*",
     "Mendham.Testing.Moq": "1.0.0-*"
   },
 
   "frameworks": {
-    "net451": { }
+    "netstandard1.3": {},
+    "net451": {}
   }
 }
