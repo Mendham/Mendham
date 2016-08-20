@@ -1,19 +1,21 @@
 {
-  "version": "1.0.0-beta6-*",
+  "version": "1.0.0-*",
   "description": "Testing helpers using Moq",
-  "authors": [ "Craig Beall" ],
-  "tags": [ "mendham moq mocking test testing tdd xunit" ],
-  "projectUrl": "https://mendham.github.io",
-  "licenseUrl": "https://raw.githubusercontent.com/mendham/Mendham/master/LICENSE",
+
+  "packOptions": {
+    "tags": [ "mendham moq mocking test testing tdd xunit" ],
+    "projectUrl": "https://mendham.github.io",
+    "licenseUrl": "https://raw.githubusercontent.com/mendham/Mendham/master/LICENSE",
+    "requireLicenseAcceptance": false
+  },
 
   "dependencies": {
-    "xunit": "2.1.0",
-    "Moq": "4.2.1510.2205",
-    "Mendham": "1.0.0-*",
-    "Mendham.Testing": "1.0.0-*"
+    "Mendham.Testing": "1.0.0-*",
+    "Moq": "4.6.36-alpha"
   },
 
   "frameworks": {
+    "netstandard1.3": { },
     "net451": { }
   }
 }

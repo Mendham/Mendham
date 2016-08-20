@@ -2,9 +2,6 @@
   "testRunner": "xunit",
 
   "dependencies": {
-    "Mendham": {
-      "target": "project"
-    },
     "Mendham.Testing.Builder": {
       "target": "project"
     },

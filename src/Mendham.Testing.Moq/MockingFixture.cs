@@ -29,7 +29,6 @@ namespace Mendham.Testing.Moq
             if (properties == null)
             {
                 properties = this.GetType()
-                    .GetTypeInfo()
                     .GetProperties(BindingFlags.Public | BindingFlags.Instance)
                     .Where(IsComponentToMock)
                     .ToList();
