@@ -17,7 +17,7 @@ namespace Mendham.Testing
 
 		public UnitTest(TFixture fixture)
 		{
-			this.Fixture = fixture;
+			Fixture = fixture;
 
             // This constructor is called prior to every test which resets the fixture prior to each test
 			Fixture.ResetFixture();

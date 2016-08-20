@@ -1,10 +1,13 @@
 {
-  "version": "1.0.0-beta6-*",
+  "version": "1.0.0-*",
   "description": "Testing helpers with builder and ability to populate values directly in xUnit tests",
-  "authors": [ "Craig Beall" ],
-  "tags": [ "mendham test testing builder testbuilder tdd xunit" ],
-  "projectUrl": "https://mendham.github.io",
-  "licenseUrl": "https://raw.githubusercontent.com/mendham/Mendham/master/LICENSE",
+
+  "packOptions": {
+    "tags": [ "mendham test testing builder testbuilder tdd xunit" ],
+    "projectUrl": "https://mendham.github.io",
+    "licenseUrl": "https://raw.githubusercontent.com/mendham/Mendham/master/LICENSE",
+    "requireLicenseAcceptance": false
+  },
 
   "dependencies": {
     "xunit": "2.1.0",
@@ -15,11 +18,7 @@
 
   "frameworks": {
     "net451": {
-      "frameworkAssemblies": {
-        "System.Reflection": "4.0.0.0",
-        "System.Runtime": "4.0.10.0",
-        "System.Threading.Tasks": "4.0.0.0"
-      }
+    
     }
   }
 }

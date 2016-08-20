@@ -13,18 +13,18 @@ namespace Mendham.Testing
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     public class InlineMendhamDataAttribute : DataAttribute
     {
-        private readonly object[] values;
+        private readonly object[] _values;
 
         public InlineMendhamDataAttribute(params object[] values)
         {
-            this.values = values;
+            _values = values;
         }
 
         public override IEnumerable<object[]> GetData(MethodInfo testMethod)
         {
             testMethod.VerifyArgumentNotDefaultValue("Test method is required");
 
-            var inlineAttributeData = new InlineDataAttribute(values)
+            var inlineAttributeData = new InlineDataAttribute(_values)
                 .GetData(testMethod);
             var mendhamDataAttributeData = new MendhamDataAttribute()
                 .GetData(testMethod);
