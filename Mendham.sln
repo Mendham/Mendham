@@ -36,6 +36,10 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Testing.Moq", "src\
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Testing.Moq.Test", "test\Mendham.Testing.Moq.Test\Mendham.Testing.Moq.Test.xproj", "{1080FA70-FD2C-48B2-A917-3DD25F84CF5B}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Domain", "src\Mendham.Domain\Mendham.Domain.xproj", "{ADCAF0D1-C09B-47F3-AE7E-A2B244A09FF5}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Domain.Test", "test\Mendham.Domain.Test\Mendham.Domain.Test.xproj", "{E4905CA2-745D-4A2A-9785-EBE17B1AF143}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -74,6 +78,14 @@ Global
 		{1080FA70-FD2C-48B2-A917-3DD25F84CF5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1080FA70-FD2C-48B2-A917-3DD25F84CF5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1080FA70-FD2C-48B2-A917-3DD25F84CF5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADCAF0D1-C09B-47F3-AE7E-A2B244A09FF5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADCAF0D1-C09B-47F3-AE7E-A2B244A09FF5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADCAF0D1-C09B-47F3-AE7E-A2B244A09FF5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADCAF0D1-C09B-47F3-AE7E-A2B244A09FF5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4905CA2-745D-4A2A-9785-EBE17B1AF143}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4905CA2-745D-4A2A-9785-EBE17B1AF143}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4905CA2-745D-4A2A-9785-EBE17B1AF143}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4905CA2-745D-4A2A-9785-EBE17B1AF143}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -91,5 +103,7 @@ Global
 		{CCEF5083-7214-4986-A1B1-47737582830C} = {5837883B-CC74-4A1F-96F5-AEEEAFD73EC4}
 		{00027219-6A70-4867-8118-A0D944BEF64F} = {0939C9D9-E0AA-4599-AA22-AC58F16C96DE}
 		{1080FA70-FD2C-48B2-A917-3DD25F84CF5B} = {5837883B-CC74-4A1F-96F5-AEEEAFD73EC4}
+		{ADCAF0D1-C09B-47F3-AE7E-A2B244A09FF5} = {856ADE16-2C01-47A4-9120-1EF2B409A9D3}
+		{E4905CA2-745D-4A2A-9785-EBE17B1AF143} = {5837883B-CC74-4A1F-96F5-AEEEAFD73EC4}
 	EndGlobalSection
 EndGlobal

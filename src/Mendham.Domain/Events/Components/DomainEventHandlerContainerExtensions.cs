@@ -38,7 +38,8 @@ namespace Mendham.Domain.Events.Components
                 return false;
 
             return handlerInterfaceDomainEventType
-                .IsAssignableFrom(expectedDomainEventTypeInfo);
+                .GetTypeInfo()
+                .IsAssignableFrom(expectedDomainEventTypeInfo.GetTypeInfo());
         }
 
         /// <summary>
