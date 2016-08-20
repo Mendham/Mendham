@@ -66,7 +66,7 @@ task Pack -depends Build -description "Builds every source project" {
         % { Pack-Projects $_.DirectoryName $_.Directory.Name $versionSuffix }
 }
 
-task Test -depends Restore -description "Runs tests" {
+task Test -depends Build -description "Runs tests" {
     Get-ChildItem -Path .\test -Filter project.json -Recurse |
         ? {$_.Directory.FullName -notmatch "test\\Resources" } |
         % { Test-Projects $_.FullName }

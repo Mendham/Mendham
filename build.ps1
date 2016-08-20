@@ -44,6 +44,6 @@ Push-Location $PSScriptRoot
 
 Import-Module .\psake.psm1
 
-Invoke-Psake -taskList Test,Pack -properties @{ buildNumber=$buildNumber; tagBuild=$tagBuild }
+Invoke-Psake -taskList Build,Test,Pack -properties @{ buildNumber=$buildNumber; tagBuild=$tagBuild }
 
 Pop-Location
