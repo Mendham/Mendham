@@ -1,24 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Mendham.Domain.Events;
 using System.Threading.Tasks;
-using Mendham.Domain.Events;
 
 namespace Mendham.Domain
 {
 	public abstract class DomainFacade : IDomainFacade
 	{
-		private readonly IDomainEventPublisher domainEventPublisher;
+		private readonly IDomainEventPublisher _domainEventPublisher;
 
 		public DomainFacade(IDomainEventPublisher domainEventPublisher)
 		{
-			this.domainEventPublisher = domainEventPublisher;
+			_domainEventPublisher = domainEventPublisher;
 		}
 
-		public Task RaiseEventAsync<TDomainEvent>(TDomainEvent domainEvent)
-			where TDomainEvent : class, IDomainEvent
+		public Task RaiseEventAsync<TDomainEvent>(TDomainEvent domainEvent) where TDomainEvent : class, IDomainEvent
 		{
-			return domainEventPublisher.RaiseAsync(domainEvent);
+			return _domainEventPublisher.RaiseAsync(domainEvent);
 		}
 	}
 }
