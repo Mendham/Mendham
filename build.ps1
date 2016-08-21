@@ -13,6 +13,8 @@ if ($env:APPVEYOR) {
     # Dumps Environment
     ls env:
 
+    Write-Output "Path: $env:Path"
+
     Write-Output "dotnet CLI version"
     dotnet --version
 
@@ -44,6 +46,6 @@ Push-Location $PSScriptRoot
 
 Import-Module .\psake.psm1
 
-Invoke-Psake -taskList Restore,Build,Test,Pack -properties @{ buildNumber=$buildNumber; tagBuild=$tagBuild }
+Invoke-Psake -taskList Test,Pack -properties @{ buildNumber=$buildNumber; tagBuild=$tagBuild }
 
 Pop-Location
