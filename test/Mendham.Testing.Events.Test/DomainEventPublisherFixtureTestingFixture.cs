@@ -3,12 +3,12 @@ using System.Threading.Tasks;
 
 namespace Mendham.Testing.Events.Test
 {
-    public class DomainEventPublisherFixtureTestingFixture : Fixture<DomainEventPublisherFixture>
+    public class EventPublisherFixtureTestingFixture : Fixture<EventPublisherFixture>
     {
-        private DomainEventPublisherFixture _sut;
-        private IEventPublisher _domainEventPublisher;
+        private EventPublisherFixture _sut;
+        private IEventPublisher _eventPublisher;
 
-        public override DomainEventPublisherFixture CreateSut()
+        public override EventPublisherFixture CreateSut()
         {
             return _sut;
         }
@@ -17,18 +17,18 @@ namespace Mendham.Testing.Events.Test
         {
             base.ResetFixture();
 
-            _sut = new DomainEventPublisherFixture();
-            _domainEventPublisher = _sut.GetDomainEventPublisher();
+            _sut = new EventPublisherFixture();
+            _eventPublisher = _sut.GetEventPublisher();
         }
 
         public Task RaiseTestEvent1()
         {
-            return _domainEventPublisher.RaiseAsync(new TestEvent1());
+            return _eventPublisher.RaiseAsync(new TestEvent1());
         }
 
         public Task RaiseTestEvent2(string value)
         {
-            return _domainEventPublisher.RaiseAsync(new TestEvent2(value));
+            return _eventPublisher.RaiseAsync(new TestEvent2(value));
         }
 
         public class TestEvent1 : Event

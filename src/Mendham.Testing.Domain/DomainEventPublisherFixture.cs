@@ -10,17 +10,17 @@ namespace Mendham.Testing
     /// <summary>
     /// Fixture used for testing event publishing
     /// </summary>
-    public class DomainEventPublisherFixture : IFixture
+    public class EventPublisherFixture : IFixture
     {
         private PublishedEvents _publishedEvents;
 
-        public DomainEventPublisherFixture()
+        public EventPublisherFixture()
         {
             _publishedEvents = new PublishedEvents();
         }
 
         /// <summary>
-        /// Resets the domain events being tracked by the fixture
+        /// Resets the events being tracked by the fixture
         /// </summary>
         public void ResetFixture()
         {
@@ -28,57 +28,57 @@ namespace Mendham.Testing
         }
 
         /// <summary>
-        /// Gets the IDomainEventPublisher that employs this fixture
+        /// Gets the <see cref="IEventPublisher"/> that employs this fixture
         /// </summary>
         /// <returns></returns>
-        public IEventPublisher GetDomainEventPublisher()
+        public IEventPublisher GetEventPublisher()
         {
-            return new DomainEventPublisher(_publishedEvents);
+            return new EventPublisher(_publishedEvents);
         }
 
         /// <summary>
-        /// Verify that a domain event was raised at least one time
+        /// Verify that a event was raised at least one time
         /// </summary>
-        /// <typeparam name="TEvent">The type of domain event that was raised</typeparam>
+        /// <typeparam name="TEvent">The type of event that was raised</typeparam>
         /// <param name="userMessage">Message to display when the verification fails</param>
-        public void VerifyDomainEventRaised<TEvent>(string userMessage = null)
+        public void VerifyEventRaised<TEvent>(string userMessage = null)
             where TEvent : IEvent
         {
-            VerifyDomainEventRaised<TEvent>(a => true, TimesRaised.AtLeastOnce, userMessage);
+            VerifyEventRaised<TEvent>(a => true, TimesRaised.AtLeastOnce, userMessage);
         }
 
         /// <summary>
-        /// Verify that a domain event was raised
+        /// Verify that a event was raised
         /// </summary>
-        /// <typeparam name="TEvent">The type of domain event that was raised</typeparam>
-        /// <param name="timesRaised">Expected number of times the domain event was raised</param>
+        /// <typeparam name="TEvent">The type of event that was raised</typeparam>
+        /// <param name="timesRaised">Expected number of times the event was raised</param>
         /// <param name="userMessage">Message to display when the verification fails</param>
-        public void VerifyDomainEventRaised<TEvent>(TimesRaised timesRaised, string userMessage = null)
+        public void VerifyEventRaised<TEvent>(TimesRaised timesRaised, string userMessage = null)
             where TEvent : IEvent
         {
-            VerifyDomainEventRaised<TEvent>(a => true, timesRaised, userMessage);
+            VerifyEventRaised<TEvent>(a => true, timesRaised, userMessage);
         }
 
         /// <summary>
-        /// Verify that a domain event was raised where it meets a specific condition at least once
+        /// Verify that a event was raised where it meets a specific condition at least once
         /// </summary>
-        /// <typeparam name="TEvent">The type of domain event that was raised</typeparam>
-        /// <param name="predicate">Predicate that defines valide condition for domain event to be verified</param>
+        /// <typeparam name="TEvent">The type of event that was raised</typeparam>
+        /// <param name="predicate">Predicate that defines valide condition for event to be verified</param>
         /// <param name="userMessage">Message to display when the verification fails</param>
-        public void VerifyDomainEventRaised<TEvent>(Func<TEvent, bool> predicate, string userMessage = null)
+        public void VerifyEventRaised<TEvent>(Func<TEvent, bool> predicate, string userMessage = null)
             where TEvent : IEvent
         {
-            VerifyDomainEventRaised(predicate, TimesRaised.AtLeastOnce, userMessage);
+            VerifyEventRaised(predicate, TimesRaised.AtLeastOnce, userMessage);
         }
 
         /// <summary>
-        /// Verify that a domain event was raised where it meets a specific condition
+        /// Verify that a event was raised where it meets a specific condition
         /// </summary>
-        /// <typeparam name="TEvent">The type of domain event that was raised</typeparam>
-        /// <param name="predicate">Predicate that defines valide condition for domain event to be verified</param>
-        /// <param name="timesRaised">Expected number of times the domain event was raised</param>
+        /// <typeparam name="TEvent">The type of event that was raised</typeparam>
+        /// <param name="predicate">Predicate that defines valide condition for event to be verified</param>
+        /// <param name="timesRaised">Expected number of times the event was raised</param>
         /// <param name="userMessage">Message to display when the verification fails</param>
-        public void VerifyDomainEventRaised<TEvent>(Func<TEvent, bool> predicate, 
+        public void VerifyEventRaised<TEvent>(Func<TEvent, bool> predicate, 
             TimesRaised timesRaised, string userMessage = null)
             where TEvent : IEvent
         {
@@ -89,22 +89,22 @@ namespace Mendham.Testing
             var evtCount = evts.Count();
 
             if (!timesRaised.Validate(evtCount))
-                throw new DomainEventVerificationException<TEvent>(evtCount, timesRaised, userMessage);
+                throw new EventVerificationException<TEvent>(evtCount, timesRaised, userMessage);
         }
 
-        private class DomainEventPublisher : IEventPublisher
+        private class EventPublisher : IEventPublisher
         {
             private readonly IEventLogger _publishedEvents;
 
-            public DomainEventPublisher(PublishedEvents publishedEvents)
+            public EventPublisher(PublishedEvents publishedEvents)
             {
                 _publishedEvents = publishedEvents;
             }
 
-            public Task RaiseAsync<TDomainEvent>(TDomainEvent domainEvent)
-                where TDomainEvent : class, IEvent
+            public Task RaiseAsync<TEvent>(TEvent eventRaised)
+                where TEvent : class, IEvent
             {
-                _publishedEvents.LogEvent(domainEvent);
+                _publishedEvents.LogEvent(eventRaised);
                 return Task.FromResult(0);
             }
         }
@@ -118,9 +118,9 @@ namespace Mendham.Testing
                 return _capturedEvents;
             }
 
-            void IEventLogger.LogEvent(IEvent domainEvent)
+            void IEventLogger.LogEvent(IEvent eventRaised)
             {
-                _capturedEvents.Add(domainEvent);
+                _capturedEvents.Add(eventRaised);
             }
         }
     }

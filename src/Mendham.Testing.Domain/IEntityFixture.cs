@@ -18,7 +18,7 @@ namespace Mendham.Testing
         where TDomainFacade : class, IDomainFacade
         where TBuilder : IEntityBuilder<TEntity, TDomainFacade, TBuilder>, new()
     {
-        DomainEventPublisherFixture DomainEventPublisherFixture { get; set; }
+        EventPublisherFixture DomainEventPublisherFixture { get; set; }
         TDomainFacade DomainFacade { get; set; }
 
         /// <summary>

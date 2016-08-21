@@ -41,10 +41,10 @@ namespace Mendham.Testing.Moq
         /// <typeparam name="TDomainFacade">Type of the domain facade</typeparam>
         /// <param name="domainEventPublisherFixture">A DomainEventPublisherFixture that is used for tracking domain events with raised within the fixture</param>
         /// <returns>Mockable implementation of the domain facade</returns>
-        public static TDomainFacade Of<TDomainFacade>(DomainEventPublisherFixture domainEventPublisherFixture)
+        public static TDomainFacade Of<TDomainFacade>(EventPublisherFixture domainEventPublisherFixture)
             where TDomainFacade : class, IDomainFacade
         {
-            var publisher = domainEventPublisherFixture.GetDomainEventPublisher();
+            var publisher = domainEventPublisherFixture.GetEventPublisher();
             return Of<TDomainFacade>(publisher);
         }
 

@@ -17,12 +17,12 @@ namespace Mendham.Testing.Moq
         where TDomainFacade : class, IDomainFacade
         where TBuilder : IEntityBuilder<TEntity, TDomainFacade, TBuilder>, new()
     {
-        public DomainEventPublisherFixture DomainEventPublisherFixture { get; set; }
+        public EventPublisherFixture DomainEventPublisherFixture { get; set; }
         public TDomainFacade DomainFacade { get; set; }
 
         public EntityFixture()
         {
-            this.DomainEventPublisherFixture = new DomainEventPublisherFixture();
+            this.DomainEventPublisherFixture = new EventPublisherFixture();
             this.DomainFacade = BuildDomainFacade();
         }
 

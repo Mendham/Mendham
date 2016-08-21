@@ -4,10 +4,10 @@ using System.Globalization;
 
 namespace Mendham.Testing
 {
-    public class DomainEventVerificationException<TEvent> : Exception
+    public class EventVerificationException<TEvent> : Exception
         where TEvent : IEvent
     {
-        internal DomainEventVerificationException(int timesCalled, TimesRaised timesExpected, string userMessage= null)
+        internal EventVerificationException(int timesCalled, TimesRaised timesExpected, string userMessage= null)
 			: base(MessageText(typeof(TEvent), timesCalled, timesExpected, userMessage))
 		{
             timesCalled.VerifyArgumentMeetsCriteria(a => a >= 0,
@@ -34,7 +34,7 @@ namespace Mendham.Testing
             return string.Format("{0}\r\n", userMessage);
         }
 
-        public Type DomainEventType
+        public Type EventType
         {
             get { return typeof(TEvent); }
         }

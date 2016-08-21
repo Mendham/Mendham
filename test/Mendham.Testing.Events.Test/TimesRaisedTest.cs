@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using Xunit;
 
-namespace Mendham.Testing.Domain.Test
+namespace Mendham.Testing.Events.Test
 {
     public class TimesRaisedTest
     {

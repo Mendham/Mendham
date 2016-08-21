@@ -10,25 +10,25 @@ namespace Mendham.Testing
 {
     public struct TimesRaised : IHasEqualityComponents, IEquatable<TimesRaised>
     {
-        private string failureDetails;
-        private int? minRaised;
-        private int? maxRaised;
+        private string _failureDetails;
+        private int? _minRaised;
+        private int? _maxRaised;
 
         private TimesRaised(string failureDetails, int? minRaised, int? maxRaised)
         {
             failureDetails.VerifyArgumentNotNullOrWhiteSpace(nameof(failureDetails));
 
-            this.failureDetails = failureDetails;
-            this.minRaised = minRaised;
-            this.maxRaised = maxRaised;
+            _failureDetails = failureDetails;
+            _minRaised = minRaised;
+            _maxRaised = maxRaised;
         }
 
         internal bool Validate(int actualTimesRaised)
         {
-            if (minRaised.HasValue && minRaised.Value > actualTimesRaised)
+            if (_minRaised.HasValue && _minRaised.Value > actualTimesRaised)
                 return false;
 
-            if (maxRaised.HasValue && maxRaised.Value < actualTimesRaised)
+            if (_maxRaised.HasValue && _maxRaised.Value < actualTimesRaised)
                 return false;
 
             return true;
@@ -36,12 +36,7 @@ namespace Mendham.Testing
 
         internal string GetFailDetails()
         {
-            var msg = string.Format(
-                CultureInfo.CurrentCulture,
-                this.failureDetails,
-                this.minRaised,
-                this.maxRaised);
-
+            var msg = string.Format(CultureInfo.CurrentCulture, _failureDetails, _minRaised, _maxRaised);
             return msg;
         }
 
@@ -49,8 +44,8 @@ namespace Mendham.Testing
         {
             get
             {
-                yield return this.minRaised;
-                yield return this.maxRaised;
+                yield return _minRaised;
+                yield return _maxRaised;
             }
         }
 
