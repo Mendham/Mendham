@@ -3,7 +3,7 @@ using FluentAssertions;
 using Mendham.Domain.DependencyInjection.Autofac.Test.TestObjects;
 using Mendham.Domain.DependencyInjection.ComplexDomainGraph;
 using Mendham.Domain.DependencyInjection.TestObjects;
-using Mendham.Domain.Events;
+using Mendham.Events;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -21,14 +21,14 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
 
             builder.RegisterModule<DomainEventHandlingModule>();
 
-            builder.RegisterType<TestDomainEventLogger>()
-                .As<IDomainEventLogger>()
+            builder.RegisterType<TestEventLogger>()
+                .As<IEventLogger>()
                 .SingleInstance();
 
             using (var scope = builder.Build().BeginLifetimeScope())
             {
-                var publisher = scope.Resolve<IDomainEventPublisher>();
-                var logger = scope.Resolve<IDomainEventLogger>() as TestDomainEventLogger;
+                var publisher = scope.Resolve<IEventPublisher>();
+                var logger = scope.Resolve<IEventLogger>() as TestEventLogger;
 
                 var domainEvent = new Test1DomainEvent();
 
@@ -46,12 +46,12 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
             var builder = new ContainerBuilder();
 
             builder.RegisterModule<DomainEventHandlingModule>();
-            builder.RegisterDomainEventHandlers(typeof(WasCalledVerifiableEvent).GetTypeInfo().Assembly);
+            builder.RegisterEventHandlers(typeof(WasCalledVerifiableEvent).GetTypeInfo().Assembly);
 
             using (var scope = builder.Build().BeginLifetimeScope())
             {
-                var publisher = scope.Resolve<IDomainEventPublisher>();
-                var handler = scope.Resolve<IEnumerable<IDomainEventHandler>>()
+                var publisher = scope.Resolve<IEventPublisher>();
+                var handler = scope.Resolve<IEnumerable<IEventHandler>>()
                     .OfType<WasCalledVerifiableHandler>()
                     .Single();
 
@@ -71,16 +71,16 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
             var builder = new ContainerBuilder();
 
             builder.RegisterModule<DomainEventHandlingModule>();
-            builder.RegisterDomainEventHandlers(typeof(WasCalledVerifiableEvent).GetTypeInfo().Assembly);
+            builder.RegisterEventHandlers(typeof(WasCalledVerifiableEvent).GetTypeInfo().Assembly);
 
             builder.RegisterType<WasCalledVerifiableHandlerLogger>()
-                .As<IDomainEventHandlerLogger>()
+                .As<IEventHandlerLogger>()
                 .SingleInstance();
 
             using (var scope = builder.Build().BeginLifetimeScope())
             {
-                var publisher = scope.Resolve<IDomainEventPublisher>();
-                var handlerLogger = scope.Resolve<IDomainEventHandlerLogger>() as WasCalledVerifiableHandlerLogger;
+                var publisher = scope.Resolve<IEventPublisher>();
+                var handlerLogger = scope.Resolve<IEventHandlerLogger>() as WasCalledVerifiableHandlerLogger;
 
                 var domainEvent = new WasCalledVerifiableEvent();
 
@@ -98,16 +98,16 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
             var builder = new ContainerBuilder();
 
             builder.RegisterModule<DomainEventHandlingModule>();
-            builder.RegisterDomainEventHandlers(typeof(WasCalledVerifiableEvent).GetTypeInfo().Assembly);
+            builder.RegisterEventHandlers(typeof(WasCalledVerifiableEvent).GetTypeInfo().Assembly);
 
             builder.RegisterType<WasCalledVerifiableHandlerLogger>()
-                .As<IDomainEventHandlerLogger>()
+                .As<IEventHandlerLogger>()
                 .SingleInstance();
 
             using (var scope = builder.Build().BeginLifetimeScope())
             {
-                var publisher = scope.Resolve<IDomainEventPublisher>();
-                var handlerLogger = scope.Resolve<IDomainEventHandlerLogger>() as WasCalledVerifiableHandlerLogger; 
+                var publisher = scope.Resolve<IEventPublisher>();
+                var handlerLogger = scope.Resolve<IEventHandlerLogger>() as WasCalledVerifiableHandlerLogger; 
 
                 var domainEvent = new WasCalledVerifiableEvent();
 
@@ -125,16 +125,16 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
             var builder = new ContainerBuilder();
 
             builder.RegisterModule<DomainEventHandlingModule>();
-            builder.RegisterDomainEventHandlers(typeof(DomainEventWithHandlerRegistered).GetTypeInfo().Assembly);
+            builder.RegisterEventHandlers(typeof(DomainEventWithHandlerRegistered).GetTypeInfo().Assembly);
 
-            builder.RegisterType<TestDomainEventLogger>()
-                .As<IDomainEventLogger>()
+            builder.RegisterType<TestEventLogger>()
+                .As<IEventLogger>()
                 .SingleInstance();
 
             using (var scope = builder.Build().BeginLifetimeScope())
             {
-                var publisher = scope.Resolve<IDomainEventPublisher>();
-                var logger = scope.Resolve<IDomainEventLogger>() as TestDomainEventLogger;
+                var publisher = scope.Resolve<IEventPublisher>();
+                var logger = scope.Resolve<IEventLogger>() as TestEventLogger;
 
                 var originalDomainEvent = new DomainEventWithHandlerRegistered();
 
@@ -156,7 +156,7 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
             var builder = new ContainerBuilder();
 
             builder.RegisterModule<DomainEventHandlingModule>();
-            builder.RegisterDomainEventHandlers(typeof(IHasCircularHandlerService).GetTypeInfo().Assembly);
+            builder.RegisterEventHandlers(typeof(IHasCircularHandlerService).GetTypeInfo().Assembly);
             builder.RegisterDomainFacades(typeof(IHasCircularHandlerService).GetTypeInfo().Assembly);
             builder.RegisterEntities(typeof(IHasCircularHandlerService).GetTypeInfo().Assembly);
 

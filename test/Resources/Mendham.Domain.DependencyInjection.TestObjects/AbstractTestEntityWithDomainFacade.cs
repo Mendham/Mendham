@@ -1,24 +1,24 @@
 ﻿using Mendham.Domain.Events;
+using Mendham.Events;
 using System.Collections.Generic;
 
 namespace Mendham.Domain.DependencyInjection.TestObjects
 {
     public abstract class AbstractTestEntityWithDomainFacade : Entity
     {
-        private readonly IBaseFacade domainFacade;
+        private readonly IBaseFacade _domainFacade;
 
         public AbstractTestEntityWithDomainFacade(int id, IBaseFacade facade)
         {
-            this.Id = id;
-
-            this.domainFacade = facade;
+            Id = id;
+            _domainFacade = facade;
         }
 
-        public int Id { get; private set; }
+        public int Id { get; }
 
         public bool HasValidFacade()
         {
-            return domainFacade != null && domainFacade.HasDomainEventPublisher();
+            return _domainFacade != null && _domainFacade.HasDomainEventPublisher();
         }
 
         public interface IBaseFacade : IDomainFacade
@@ -28,17 +28,17 @@ namespace Mendham.Domain.DependencyInjection.TestObjects
 
         public abstract class BaseFacade : DomainFacade, IBaseFacade
         {
-            private readonly bool domainEventPublisherHasValue;
+            private readonly bool _eventPublisherHasValue;
 
-            public BaseFacade(IDomainEventPublisher domainEventPublisher)
-                : base(domainEventPublisher)
+            public BaseFacade(IEventPublisher eventPublisher)
+                : base(eventPublisher)
             {
-                domainEventPublisherHasValue = domainEventPublisher != null;
+                _eventPublisherHasValue = eventPublisher != null;
             }
 
             public bool HasDomainEventPublisher()
             {
-                return domainEventPublisherHasValue;
+                return _eventPublisherHasValue;
             }
         }
 

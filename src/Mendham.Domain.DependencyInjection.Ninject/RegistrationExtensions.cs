@@ -1,4 +1,4 @@
-﻿using Mendham.Domain.Events;
+﻿using Mendham.Events;
 using Ninject.Extensions.Conventions;
 using Ninject.Extensions.Conventions.Syntax;
 using Ninject.Syntax;
@@ -7,24 +7,23 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace Mendham.Domain.DependencyInjection.Ninject
 {
     public static class RegistrationExtensions
     {
         /// <summary>
-        /// Registers all domain event handlers found in the assembly
+        /// Registers all event handlers found in the assembly as a singleton
         /// </summary>
-        public static void RegisterDomainEventHandlers(this IBindingRoot bindingRoot, Assembly assembly)
+        public static void RegisterEventHandlers(this IBindingRoot bindingRoot, Assembly assembly)
         {
             assembly.VerifyArgumentNotNull(nameof(assembly));
 
             bindingRoot.Bind(a => a
                 .From(assembly)
                 .SelectAllClasses()
-                .InheritedFrom(typeof(IDomainEventHandler<>))
-                .BindSelection((t, types) => types.Where(b => b.Equals(typeof(IDomainEventHandler))))
+                .InheritedFrom(typeof(IEventHandler<>))
+                .BindSelection((t, types) => types.Where(b => b.Equals(typeof(IEventHandler))))
                 .Configure(b => b.InSingletonScope())
             );
         }

@@ -1,8 +1,5 @@
-﻿using Mendham.Domain.Events;
-using System;
+﻿using Mendham.Events;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Mendham.Domain.DependencyInjection.TestObjects
 {
@@ -10,20 +7,19 @@ namespace Mendham.Domain.DependencyInjection.TestObjects
     {
         public delegate TestEntityWithDomainFacade Factory(int id);
 
-        private readonly IFacade domainFacade;
+        private readonly IFacade _domainFacade;
 
         public TestEntityWithDomainFacade(int id, IFacade facade)
         {
-            this.Id = id;
-
-            this.domainFacade = facade;
+            Id = id;
+            _domainFacade = facade;
         }
 
         public int Id { get; private set; }
 
         public bool HasValidFacade()
         {
-            return domainFacade != null && domainFacade.HasDomainEventPublisher();
+            return _domainFacade != null && _domainFacade.HasDomainEventPublisher();
         }
 
         public interface IFacade : IDomainFacade
@@ -33,17 +29,17 @@ namespace Mendham.Domain.DependencyInjection.TestObjects
 
         public class Facade : DomainFacade, IFacade, IUnrelatedInterface
         {
-            private readonly bool domainEventPublisherHasValue;
+            private readonly bool _eventPublisherHasValue;
 
-            public Facade(IDomainEventPublisher domainEventPublisher)
-                : base(domainEventPublisher)
+            public Facade(IEventPublisher eventPublisher)
+                : base(eventPublisher)
             {
-                domainEventPublisherHasValue = domainEventPublisher != null;
+                _eventPublisherHasValue = eventPublisher != null;
             }
 
             public bool HasDomainEventPublisher()
             {
-                return domainEventPublisherHasValue;
+                return _eventPublisherHasValue;
             }
         }
 

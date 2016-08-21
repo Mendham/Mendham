@@ -2,7 +2,7 @@
 using Mendham.Domain.DependencyInjection.ComplexDomainGraph;
 using Mendham.Domain.DependencyInjection.Ninject.Test.TestObjects;
 using Mendham.Domain.DependencyInjection.TestObjects;
-using Mendham.Domain.Events;
+using Mendham.Events;
 using Ninject;
 using System.Linq;
 using System.Reflection;
@@ -18,11 +18,11 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
         {
             using (var kernel = new StandardKernel(new DomainEventHandlingModule()))
             {
-                kernel.RegisterDomainEventHandlers(typeof(TestDomainEventLogger).GetTypeInfo().Assembly);
-                kernel.Bind<IDomainEventLogger>().To<TestDomainEventLogger>().InSingletonScope();
+                kernel.RegisterEventHandlers(typeof(TestEventLogger).GetTypeInfo().Assembly);
+                kernel.Bind<IEventLogger>().To<TestEventLogger>().InSingletonScope();
 
-                var publisher = kernel.Get<IDomainEventPublisher>();
-                var logger = kernel.Get<IDomainEventLogger>() as TestDomainEventLogger;
+                var publisher = kernel.Get<IEventPublisher>();
+                var logger = kernel.Get<IEventLogger>() as TestEventLogger;
 
                 var domainEvent = new Test1DomainEvent();
 
@@ -39,10 +39,10 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
         {
             using (var kernel = new StandardKernel(new DomainEventHandlingModule()))
             {
-                kernel.RegisterDomainEventHandlers(typeof(WasCalledVerifiableEvent).GetTypeInfo().Assembly);
+                kernel.RegisterEventHandlers(typeof(WasCalledVerifiableEvent).GetTypeInfo().Assembly);
 
-                var publisher = kernel.Get<IDomainEventPublisher>();
-                var handler = kernel.GetAll<IDomainEventHandler>()
+                var publisher = kernel.Get<IEventPublisher>();
+                var handler = kernel.GetAll<IEventHandler>()
                     .OfType<WasCalledVerifiableHandler>()
                     .Single();
 
@@ -61,13 +61,13 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
         {
             using (var kernel = new StandardKernel(new DomainEventHandlingModule()))
             {
-                kernel.RegisterDomainEventHandlers(typeof(WasCalledVerifiableEvent).GetTypeInfo().Assembly);
-                kernel.Bind<IDomainEventHandlerLogger>()
+                kernel.RegisterEventHandlers(typeof(WasCalledVerifiableEvent).GetTypeInfo().Assembly);
+                kernel.Bind<IEventHandlerLogger>()
                     .To<WasCalledVerifiableHandlerLogger>()
                     .InSingletonScope();
 
-                var publisher = kernel.Get<IDomainEventPublisher>();
-                var handlerLogger = kernel.Get<IDomainEventHandlerLogger>() as WasCalledVerifiableHandlerLogger;
+                var publisher = kernel.Get<IEventPublisher>();
+                var handlerLogger = kernel.Get<IEventHandlerLogger>() as WasCalledVerifiableHandlerLogger;
 
                 var domainEvent = new WasCalledVerifiableEvent();
 
@@ -84,13 +84,13 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
         {
             using (var kernel = new StandardKernel(new DomainEventHandlingModule()))
             {
-                kernel.RegisterDomainEventHandlers(typeof(WasCalledVerifiableEvent).GetTypeInfo().Assembly);
-                kernel.Bind<IDomainEventHandlerLogger>()
+                kernel.RegisterEventHandlers(typeof(WasCalledVerifiableEvent).GetTypeInfo().Assembly);
+                kernel.Bind<IEventHandlerLogger>()
                     .To<WasCalledVerifiableHandlerLogger>()
                     .InSingletonScope();
 
-                var publisher = kernel.Get<IDomainEventPublisher>();
-                var handlerLogger = kernel.Get<IDomainEventHandlerLogger>() as WasCalledVerifiableHandlerLogger;
+                var publisher = kernel.Get<IEventPublisher>();
+                var handlerLogger = kernel.Get<IEventHandlerLogger>() as WasCalledVerifiableHandlerLogger;
 
                 var domainEvent = new WasCalledVerifiableEvent();
 
@@ -107,11 +107,11 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
         {
             using (var kernel = new StandardKernel(new DomainEventHandlingModule()))
             {
-                kernel.RegisterDomainEventHandlers(typeof(DomainEventWithHandlerRegistered).GetTypeInfo().Assembly);
-                kernel.Bind<IDomainEventLogger>().To<TestDomainEventLogger>().InSingletonScope();
+                kernel.RegisterEventHandlers(typeof(DomainEventWithHandlerRegistered).GetTypeInfo().Assembly);
+                kernel.Bind<IEventLogger>().To<TestEventLogger>().InSingletonScope();
 
-                var publisher = kernel.Get<IDomainEventPublisher>();
-                var logger = kernel.Get<IDomainEventLogger>() as TestDomainEventLogger;
+                var publisher = kernel.Get<IEventPublisher>();
+                var logger = kernel.Get<IEventLogger>() as TestEventLogger;
 
                 var originalDomainEvent = new DomainEventWithHandlerRegistered();
 
@@ -132,7 +132,7 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
 
             using (var kernel = new StandardKernel(new DomainEventHandlingModule()))
             {
-                kernel.RegisterDomainEventHandlers(typeof(IHasCircularHandlerService).GetTypeInfo().Assembly);
+                kernel.RegisterEventHandlers(typeof(IHasCircularHandlerService).GetTypeInfo().Assembly);
                 kernel.RegisterDomainFacades(typeof(IHasCircularHandlerService).GetTypeInfo().Assembly);
                 kernel.Bind<IHasCircularHandlerService>().To<HasCircularHandlerService>();
                 kernel.Bind<ICountService>().To<CountService>().InSingletonScope();
@@ -156,7 +156,7 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
 
             using (var kernel = new StandardKernel(new DomainEventHandlingModule()))
             {
-                kernel.RegisterDomainEventHandlers(typeof(IHasCircularHandlerService).GetTypeInfo().Assembly);
+                kernel.RegisterEventHandlers(typeof(IHasCircularHandlerService).GetTypeInfo().Assembly);
                 kernel.RegisterDomainFacades(typeof(IHasCircularHandlerService).GetTypeInfo().Assembly);
                 kernel.Bind<IHasCircularHandlerService>().To<HasCircularHandlerService>();
                 kernel.Bind<ICountService>().To<CountService>().InSingletonScope();

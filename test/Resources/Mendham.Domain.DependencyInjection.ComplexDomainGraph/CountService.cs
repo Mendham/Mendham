@@ -1,4 +1,5 @@
 ﻿using Mendham.Domain.Events;
+using Mendham.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,15 +17,15 @@ namespace Mendham.Domain.DependencyInjection.ComplexDomainGraph
 
     public class CountService : ICountService
     {
-        private readonly IDomainEventPublisher domainEventPublisher;
+        private readonly IEventPublisher _eventPublisher;
         private const int MAX_COUNT = 50;
 
         private ReaderWriterLockSlim countLock = new ReaderWriterLockSlim(LockRecursionPolicy.SupportsRecursion);
         int _currentCount;
 
-        public CountService(IDomainEventPublisher domainEventPublisher)
+        public CountService(IEventPublisher eventPublisher)
         {
-            this.domainEventPublisher = domainEventPublisher;
+            _eventPublisher = eventPublisher;
             _currentCount = 0;
         }
 

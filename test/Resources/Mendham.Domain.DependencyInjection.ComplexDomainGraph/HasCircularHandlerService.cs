@@ -1,4 +1,5 @@
 ﻿using Mendham.Domain.Events;
+using Mendham.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,19 +14,19 @@ namespace Mendham.Domain.DependencyInjection.ComplexDomainGraph
 
     public class HasCircularHandlerService : IHasCircularHandlerService
     {
-        private readonly IDomainEventPublisher domainEventPublisher;
-        private readonly ICountService countService;
+        private readonly IEventPublisher _eventPublisher;
+        private readonly ICountService _countService;
 
-        public HasCircularHandlerService(IDomainEventPublisher domainEventPublisher, ICountService countService)
+        public HasCircularHandlerService(IEventPublisher eventPublisher, ICountService countService)
         {
-            this.domainEventPublisher = domainEventPublisher;
-            this.countService = countService;
+            _eventPublisher = eventPublisher;
+            _countService = countService;
         }
 
         public async Task<bool> StartAsync()
         {
-            await domainEventPublisher.RaiseAsync(new DomainEvent1());
-            return countService.WasMaxCountReached();
+            await _eventPublisher.RaiseAsync(new DomainEvent1());
+            return _countService.WasMaxCountReached();
         }
     }
 }

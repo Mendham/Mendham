@@ -1,24 +1,24 @@
-﻿using Mendham.Domain.Events;
+﻿using Mendham.Events;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Mendham.Domain.DependencyInjection.TestObjects
 {
-    public class TestDomainEventLogger : IDomainEventLogger
+    public class TestEventLogger : IEventLogger
     {
-        private readonly List<IDomainEvent> _loggedEvents;
+        private readonly List<IEvent> _loggedEvents;
 
-        public TestDomainEventLogger()
+        public TestEventLogger()
         {
-            _loggedEvents = new List<IDomainEvent>();
+            _loggedEvents = new List<IEvent>();
         }
 
-        public void LogDomainEventRaised(IDomainEvent domainEvent)
+        public void LogEvent(IEvent eventRaised)
         {
-            _loggedEvents.Add(domainEvent);
+            _loggedEvents.Add(eventRaised);
         }
 
-        public List<IDomainEvent> LoggedEvents
+        public List<IEvent> LoggedEvents
         {
             get { return _loggedEvents.ToList(); }
         }

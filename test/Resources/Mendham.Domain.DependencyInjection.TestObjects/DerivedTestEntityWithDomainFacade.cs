@@ -1,20 +1,21 @@
 ﻿using Mendham.Domain.Events;
+using Mendham.Events;
 
 namespace Mendham.Domain.DependencyInjection.TestObjects
 {
     public class DerivedTestEntityWithDomainFacade : AbstractTestEntityWithDomainFacade
     {
-        private readonly IDerivedFacade derivedFacade;
+        private readonly IDerivedFacade _derivedFacade;
 
         public DerivedTestEntityWithDomainFacade(int id, IDerivedFacade facade)
             : base(id, facade)
         {
-            this.derivedFacade = facade;
+            _derivedFacade = facade;
         }
 
         public bool HasValidDerivedFacade()
         {
-            return derivedFacade != null && derivedFacade.HasDomainEventPublisher();
+            return _derivedFacade != null && _derivedFacade.HasDomainEventPublisher();
         }
 
         public interface IDerivedFacade : IBaseFacade
@@ -24,17 +25,17 @@ namespace Mendham.Domain.DependencyInjection.TestObjects
 
         public class DerivedFacade : BaseFacade, IDerivedFacade
         {
-            private readonly bool domainEventPublisherHasValue;
+            private readonly bool _eventPublisherHasValue;
 
-            public DerivedFacade(IDomainEventPublisher domainEventPublisher)
-                : base(domainEventPublisher)
+            public DerivedFacade(IEventPublisher eventPublisher)
+                : base(eventPublisher)
             {
-                domainEventPublisherHasValue = domainEventPublisher != null;
+                _eventPublisherHasValue = eventPublisher != null;
             }
 
             public bool HasValidDerivedFacade()
             {
-                return domainEventPublisherHasValue;
+                return _eventPublisherHasValue;
             }
         }
     }

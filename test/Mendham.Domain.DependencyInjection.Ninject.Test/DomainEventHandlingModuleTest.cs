@@ -1,13 +1,13 @@
-﻿using System;
+﻿using FluentAssertions;
+using Mendham.Domain.Events;
+using Mendham.Events;
+using Mendham.Events.Components;
+using Ninject;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
-using Ninject.Modules;
-using Ninject;
-using Mendham.Domain.Events;
-using FluentAssertions;
-using Mendham.Domain.Events.Components;
 
 namespace Mendham.Domain.DependencyInjection.Ninject.Test
 {
@@ -17,89 +17,89 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
 
         public DomainEventHandlingModuleTest()
         {
-            this.sut = new StandardKernel(new DomainEventHandlingModule());
+            sut = new StandardKernel(new DomainEventHandlingModule());
         }
 
         public void Dispose()
         {
-            this.sut.Dispose();
+            sut.Dispose();
         }
 
         [Fact]
         public void DomainEventHandlingModule_RegisterDomainEventPublisher_Resolves()
         {
-            var result = sut.Get<IDomainEventPublisher>();
+            var result = sut.Get<IEventPublisher>();
 
             result.Should()
                 .NotBeNull()
-                .And.BeOfType<DomainEventPublisher>();
+                .And.BeOfType<EventPublisher>();
         }
 
         [Fact]
-        public void DomainEventHandlingModule_RegisterDomainEventHandlerContainer_Resolves()
+        public void DomainEventHandlingModule_RegisterEventHandlerContainer_Resolves()
         {
-            var result = sut.Get<IDomainEventHandlerContainer>();
+            var result = sut.Get<IEventHandlerContainer>();
 
             result.Should()
                 .NotBeNull()
-                .And.BeOfType<DefaultDomainEventHandlerContainer>();
+                .And.BeOfType<DefaultEventHandlerContainer>();
         }
 
         [Fact]
-        public void DomainEventHandlingModule_RegisterDomainEventHandlerProcessor_Resolves()
+        public void DomainEventHandlingModule_RegisterEventHandlerProcessor_Resolves()
         {
-            var result = sut.Get<IDomainEventHandlerProcessor>();
+            var result = sut.Get<IEventHandlerProcessor>();
 
             result.Should()
                 .NotBeNull()
-                .And.BeOfType<DomainEventHandlerProcessor>();
+                .And.BeOfType<EventHandlerProcessor>();
         }
 
         [Fact]
-        public void DomainEventHandlingModule_RegisterDomainEventLoggerProcessor_Resolves()
+        public void DomainEventHandlingModule_RegisterEventLoggerProcessor_Resolves()
         {
-            var result = sut.Get<IDomainEventLoggerProcessor>();
+            var result = sut.Get<IEventLoggerProcessor>();
 
             result.Should()
                 .NotBeNull()
-                .And.BeOfType<DomainEventLoggerProcessor>();
+                .And.BeOfType<EventLoggerProcessor>();
         }
 
         [Fact]
         public void DomainEventHandlingModule_RegisterDomainEventPublisher_IsSameInstance()
         {
-            var expectedPublisher = sut.Get<IDomainEventPublisher>();
-            var result = sut.Get<IDomainEventPublisher>();
+            var expectedPublisher = sut.Get<IEventPublisher>();
+            var result = sut.Get<IEventPublisher>();
 
             result.Should()
                 .BeSameAs(expectedPublisher);
         }
 
         [Fact]
-        public void DomainEventHandlingModule_RegisterDomainEventHandlerContainer_IsSameInstance()
+        public void DomainEventHandlingModule_RegisterEventHandlerContainer_IsSameInstance()
         {
-            var expectedContainer = sut.Get<IDomainEventHandlerContainer>();
-            var result = sut.Get<IDomainEventHandlerContainer>();
+            var expectedContainer = sut.Get<IEventHandlerContainer>();
+            var result = sut.Get<IEventHandlerContainer>();
 
             result.Should()
                 .BeSameAs(expectedContainer);
         }
 
         [Fact]
-        public void DomainEventHandlingModule_RegisterDomainEventHandlerProcessor_IsSameInstance()
+        public void DomainEventHandlingModule_RegisterEventHandlerProcessor_IsSameInstance()
         {
-            var expectedHandlerProcessor = sut.Get<IDomainEventHandlerProcessor>();
-            var result = sut.Get<IDomainEventHandlerProcessor>();
+            var expectedHandlerProcessor = sut.Get<IEventHandlerProcessor>();
+            var result = sut.Get<IEventHandlerProcessor>();
 
             result.Should()
                 .BeSameAs(expectedHandlerProcessor);
         }
 
         [Fact]
-        public void DomainEventHandlingModule_RegisterDomainEventLoggerProcessor_IsSameInstance()
+        public void DomainEventHandlingModule_RegisterEventLoggerProcessor_IsSameInstance()
         {
-            var expectedLoggerProcessor = sut.Get<IDomainEventLoggerProcessor>();
-            var result = sut.Get<IDomainEventLoggerProcessor>();
+            var expectedLoggerProcessor = sut.Get<IEventLoggerProcessor>();
+            var result = sut.Get<IEventLoggerProcessor>();
 
             result.Should()
                 .BeSameAs(expectedLoggerProcessor);

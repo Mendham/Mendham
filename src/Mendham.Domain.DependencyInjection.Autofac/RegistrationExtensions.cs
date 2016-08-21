@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using Mendham.Domain.Events;
+using Mendham.Events;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,15 +11,15 @@ namespace Mendham.Domain.DependencyInjection.Autofac
     public static class RegistrationExtensions
 	{
         /// <summary>
-        /// Registers all domain event handlers found in the assembly as a singleton
+        /// Registers all event handlers found in the assembly as a singleton
         /// </summary>
-		public static void RegisterDomainEventHandlers(this ContainerBuilder builder, Assembly assembly)
+		public static void RegisterEventHandlers(this ContainerBuilder builder, Assembly assembly)
 		{
             assembly.VerifyArgumentNotNull(nameof(assembly));
 
             builder
                 .RegisterAssemblyTypes(assembly)
-				.As<IDomainEventHandler>()
+				.As<IEventHandler>()
 				.SingleInstance();
 		}
 

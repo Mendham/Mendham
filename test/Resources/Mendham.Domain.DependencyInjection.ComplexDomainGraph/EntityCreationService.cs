@@ -1,4 +1,5 @@
 ﻿using Mendham.Domain.Events;
+using Mendham.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,20 +14,20 @@ namespace Mendham.Domain.DependencyInjection.ComplexDomainGraph
 
     public class EntityCreationService : IEntityCreationService
     {
-        private readonly IDomainEventPublisher domainEventPublisher;
-        private readonly IEntityFactory entityFactory;
+        private readonly IEventPublisher _eventPublisher;
+        private readonly IEntityFactory _entityFactory;
 
-        public EntityCreationService(IEntityFactory entityFactory, IDomainEventPublisher domainEventPublisher)
+        public EntityCreationService(IEntityFactory entityFactory, IEventPublisher eventPublisher)
         {
-            this.entityFactory = entityFactory;
-            this.domainEventPublisher = domainEventPublisher;
+            _entityFactory = entityFactory;
+            _eventPublisher = eventPublisher;
         }
 
         public async Task<Entity1> CreateEntityAsync()
         {
-            var entity = entityFactory.Create();
+            var entity = _entityFactory.Create();
 
-            await domainEventPublisher.RaiseAsync(new EntityCreated());
+            await _eventPublisher.RaiseAsync(new EntityCreated());
 
             return entity;
         }

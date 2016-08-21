@@ -1,4 +1,5 @@
 ﻿using Mendham.Domain.Events;
+using Mendham.Events;
 using System.Threading.Tasks;
 
 namespace Mendham.Domain.DependencyInjection.TestObjects
@@ -6,19 +7,19 @@ namespace Mendham.Domain.DependencyInjection.TestObjects
     public class DomainEventWithHandlerRegistered : DomainEvent
     { }
 
-    public class DomainEventWithHandlerRegisteredHandler : IDomainEventHandler<DomainEventWithHandlerRegistered>
+    public class DomainEventWithHandlerRegisteredHandler : IEventHandler<DomainEventWithHandlerRegistered>
     {
-        private readonly IDomainEventPublisher domainEventPublisher;
+        private readonly IEventPublisher _eventPublisher;
 
-        public DomainEventWithHandlerRegisteredHandler(IDomainEventPublisher domainEventPublisher)
+        public DomainEventWithHandlerRegisteredHandler(IEventPublisher eventPublisher)
         {
-            this.domainEventPublisher = domainEventPublisher;
+            _eventPublisher = eventPublisher;
         }
 
         public Task HandleAsync(DomainEventWithHandlerRegistered domainEvent)
         {
             // Raised a second event that does not have any handlers registered to it
-            return this.domainEventPublisher.RaiseAsync(new DomainEventNoHandlerRegistered());
+            return _eventPublisher.RaiseAsync(new DomainEventNoHandlerRegistered());
         }
     }
 }

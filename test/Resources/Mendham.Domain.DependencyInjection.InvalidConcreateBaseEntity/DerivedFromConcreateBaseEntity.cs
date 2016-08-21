@@ -1,8 +1,4 @@
-﻿using Mendham.Domain.Events;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Mendham.Events;
 
 namespace Mendham.Domain.DependencyInjection.InvalidConcreateBaseEntity
 {
@@ -28,17 +24,17 @@ namespace Mendham.Domain.DependencyInjection.InvalidConcreateBaseEntity
 
         public class DerivedFacade : BaseFacade, IDerivedFacade
         {
-            private readonly bool domainEventPublisherHasValue;
+            private readonly bool _eventPublisherHasValue;
 
-            public DerivedFacade(IDomainEventPublisher domainEventPublisher)
-                : base(domainEventPublisher)
+            public DerivedFacade(IEventPublisher eventPublisher)
+                : base(eventPublisher)
             {
-                domainEventPublisherHasValue = domainEventPublisher != null;
+                _eventPublisherHasValue = eventPublisher != null;
             }
 
             public bool HasValidDerivedFacade()
             {
-                return domainEventPublisherHasValue;
+                return _eventPublisherHasValue;
             }
         }
     }

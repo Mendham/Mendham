@@ -3,6 +3,7 @@ using Mendham.Domain.DependencyInjection.InvalidConcreateBaseEntity;
 using Mendham.Domain.DependencyInjection.InvalidMultipleDerivedEntity;
 using Mendham.Domain.DependencyInjection.TestObjects;
 using Mendham.Domain.Events;
+using Mendham.Events;
 using Ninject;
 using System;
 using System.Linq;
@@ -17,12 +18,12 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
 
         public RegistrationExtensionsTest()
         {
-            this.sut = new StandardKernel(new DomainEventHandlingModule());
+            sut = new StandardKernel(new DomainEventHandlingModule());
         }
 
         public void Dispose()
         {
-            this.sut.Dispose();
+            sut.Dispose();
         }
 
         [Fact]
@@ -30,14 +31,14 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
         {
             var assembly = typeof(Test1DomainEventHandler).GetTypeInfo().Assembly;
 
-            sut.RegisterDomainEventHandlers(assembly);
+            sut.RegisterEventHandlers(assembly);
 
-            var result = sut.GetAll<IDomainEventHandler>();
+            var result = sut.GetAll<IEventHandler>();
 
             result.Should()
                 .NotBeEmpty();
             result.Should()
-                .ContainItemsAssignableTo<IDomainEventHandler>();
+                .ContainItemsAssignableTo<IEventHandler>();
             result.Should()
                 .Contain(a => a is Test1DomainEventHandler);
             result.Should()

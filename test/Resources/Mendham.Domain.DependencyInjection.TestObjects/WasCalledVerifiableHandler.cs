@@ -1,4 +1,5 @@
 ﻿using Mendham.Domain.Events;
+using Mendham.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Mendham.Domain.DependencyInjection.TestObjects
 {
-    public sealed class WasCalledVerifiableHandler : IDomainEventHandler<WasCalledVerifiableEvent>
+    public sealed class WasCalledVerifiableHandler : IEventHandler<WasCalledVerifiableEvent>
     {
         public WasCalledVerifiableHandler()
         {
@@ -25,7 +26,7 @@ namespace Mendham.Domain.DependencyInjection.TestObjects
     public sealed class WasCalledVerifiableEvent : DomainEvent
     { }
 
-    public class WasCalledVerifiableHandlerLogger : IDomainEventHandlerLogger
+    public class WasCalledVerifiableHandlerLogger : IEventHandlerLogger
     {
         public bool StartCalled { get; private set; }
         public bool CompleteCalled { get; private set; }
@@ -36,7 +37,7 @@ namespace Mendham.Domain.DependencyInjection.TestObjects
             CompleteCalled = false;
         }
 
-        void IDomainEventHandlerLogger.LogDomainEventHandlerStart(Type handlerType, IDomainEvent domainEvent)
+        void IEventHandlerLogger.LogEventHandlerStart(Type handlerType, IEvent eventRaised)
         {
             if (handlerType.Equals(typeof(WasCalledVerifiableHandler)))
             {
@@ -44,7 +45,7 @@ namespace Mendham.Domain.DependencyInjection.TestObjects
             }
         }
 
-        void IDomainEventHandlerLogger.LogDomainEventHandlerComplete(Type handlerType, IDomainEvent domainEvent)
+        void IEventHandlerLogger.LogEventHandlerComplete(Type handlerType, IEvent eventRaised)
         {
             if (handlerType.Equals(typeof(WasCalledVerifiableHandler)))
             {
@@ -52,7 +53,7 @@ namespace Mendham.Domain.DependencyInjection.TestObjects
             }
         }
 
-        void IDomainEventHandlerLogger.LogDomainEventHandlerError(Type handlerType, IDomainEvent domainEvent, Exception exception)
+        void IEventHandlerLogger.LogEventHandlerError(Type handlerType, IEvent eventRaised, Exception exception)
         {
             throw new NotImplementedException("Can't be tested for this handler... there is no way to throw");
         }

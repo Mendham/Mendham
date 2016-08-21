@@ -1,4 +1,4 @@
-﻿using Mendham.Domain.Events;
+﻿using Mendham.Events;
 
 namespace Mendham.Domain.DependencyInjection.ComplexDomainGraph
 {
@@ -7,11 +7,11 @@ namespace Mendham.Domain.DependencyInjection.ComplexDomainGraph
 
     public class OtherService : IOtherService
     {
-        private readonly IDomainEventPublisher domainEventPublisher;
+        private readonly IEventPublisher _eventPublisher;
 
-        public OtherService(IDomainEventPublisher domainEventPublisher)
+        public OtherService(IEventPublisher eventPublishe)
         {
-            this.domainEventPublisher = domainEventPublisher;
+            _eventPublisher = eventPublishe;
         }
     }
 }

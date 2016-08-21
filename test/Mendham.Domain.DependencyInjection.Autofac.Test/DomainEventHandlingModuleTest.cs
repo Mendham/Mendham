@@ -1,7 +1,8 @@
 ﻿using Autofac;
 using FluentAssertions;
 using Mendham.Domain.Events;
-using Mendham.Domain.Events.Components;
+using Mendham.Events;
+using Mendham.Events.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,86 +14,86 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
 	public class DomainEventHandlingModuleTest
 	{
 		[Fact]
-		public void DomainEventHandlingModule_RegisterDomainEventPublisher_Resolves()
+		public void DomainEventHandlingModule_RegisterEventPublisher_Resolves()
 		{
 			var builder = new ContainerBuilder();
 			builder.RegisterModule<DomainEventHandlingModule>();
 
 			using (var sut = builder.Build().BeginLifetimeScope())
 			{
-				var publisher = sut.Resolve<IDomainEventPublisher>();
+				var publisher = sut.Resolve<IEventPublisher>();
 
 				publisher.Should()
 					.NotBeNull()
-					.And.BeOfType<DomainEventPublisher>();
+					.And.BeOfType<EventPublisher>();
 			}
 		}
 
 		[Fact]
-		public void DomainEventHandlingModule_RegisterDomainEventHandlingContainer_Resolves()
+		public void DomainEventHandlingModule_RegisterEventHandlingContainer_Resolves()
 		{
 			var builder = new ContainerBuilder();
 			builder.RegisterModule<DomainEventHandlingModule>();
 
 			using (var sut = builder.Build().BeginLifetimeScope())
 			{
-				var publisher = sut.Resolve<IDomainEventHandlerContainer>();
+				var publisher = sut.Resolve<IEventHandlerContainer>();
 
 				publisher.Should()
 					.NotBeNull()
-					.And.BeOfType<DefaultDomainEventHandlerContainer>();
+					.And.BeOfType<DefaultEventHandlerContainer>();
 			}
 		}
 
         [Fact]
-        public void DomainEventHandlingModule_RegisterDomainEventHandlingProcessor_Resolves()
+        public void DomainEventHandlingModule_RegisterEventHandlingProcessor_Resolves()
         {
             var builder = new ContainerBuilder();
             builder.RegisterModule<DomainEventHandlingModule>();
 
             using (var sut = builder.Build().BeginLifetimeScope())
             {
-                var publisher = sut.Resolve<IDomainEventHandlerProcessor>();
+                var publisher = sut.Resolve<IEventHandlerProcessor>();
 
                 publisher.Should()
                     .NotBeNull()
-                    .And.BeOfType<DomainEventHandlerProcessor>();
+                    .And.BeOfType<EventHandlerProcessor>();
             }
         }
 
         [Fact]
-        public void DomainEventHandlingModule_RegisterDomainEventLoggerProcessor_Resolves()
+        public void DomainEventHandlingModule_RegisterEventLoggerProcessor_Resolves()
         {
             var builder = new ContainerBuilder();
             builder.RegisterModule<DomainEventHandlingModule>();
 
             using (var sut = builder.Build().BeginLifetimeScope())
             {
-                var publisher = sut.Resolve<IDomainEventLoggerProcessor>();
+                var publisher = sut.Resolve<IEventLoggerProcessor>();
 
                 publisher.Should()
                     .NotBeNull()
-                    .And.BeOfType<DomainEventLoggerProcessor>();
+                    .And.BeOfType<EventLoggerProcessor>();
             }
         }
 
         [Fact]
-		public void DomainEventHandlingModule_RegisterDomainEventPublisher_IsSameInstance()
+		public void DomainEventHandlingModule_RegisterEventPublisher_IsSameInstance()
 		{
 			var builder = new ContainerBuilder();
 			builder.RegisterModule<DomainEventHandlingModule>();
 			var container = builder.Build();
 
-			IDomainEventPublisher publisher1, publisher2;
+			IEventPublisher publisher1, publisher2;
 
 			using (var sut =container.BeginLifetimeScope())
 			{
-				publisher1 = sut.Resolve<IDomainEventPublisher>();
+				publisher1 = sut.Resolve<IEventPublisher>();
 			}
 
 			using (var sut =container.BeginLifetimeScope())
 			{
-				publisher2 = sut.Resolve<IDomainEventPublisher>();
+				publisher2 = sut.Resolve<IEventPublisher>();
 			}
 
 			publisher1.Should()
@@ -100,22 +101,22 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
 		}
 
 		[Fact]
-		public void DomainEventHandlingModule_RegisterDomainEventHandlingContainer_IsSameInstance()
+		public void DomainEventHandlingModule_RegisterEventHandlingContainer_IsSameInstance()
 		{
 			var builder = new ContainerBuilder();
 			builder.RegisterModule<DomainEventHandlingModule>();
 			var container = builder.Build();
 
-			IDomainEventHandlerContainer container1, container2;
+			IEventHandlerContainer container1, container2;
 
 			using (var sut =container.BeginLifetimeScope())
 			{
-				container1 = sut.Resolve<IDomainEventHandlerContainer>();
+				container1 = sut.Resolve<IEventHandlerContainer>();
 			}
 
 			using (var sut =container.BeginLifetimeScope())
 			{
-				container2 = sut.Resolve<IDomainEventHandlerContainer>();
+				container2 = sut.Resolve<IEventHandlerContainer>();
 			}
 
 			container1.Should()
@@ -129,16 +130,16 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
             builder.RegisterModule<DomainEventHandlingModule>();
             var container = builder.Build();
 
-            IDomainEventHandlerProcessor processor1, processor2;
+            IEventHandlerProcessor processor1, processor2;
 
             using (var sut = container.BeginLifetimeScope())
             {
-                processor1 = sut.Resolve<IDomainEventHandlerProcessor>();
+                processor1 = sut.Resolve<IEventHandlerProcessor>();
             }
 
             using (var sut = container.BeginLifetimeScope())
             {
-                processor2 = sut.Resolve<IDomainEventHandlerProcessor>();
+                processor2 = sut.Resolve<IEventHandlerProcessor>();
             }
 
             processor1.Should()
@@ -146,22 +147,22 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
         }
 
         [Fact]
-        public void DomainEventHandlingModule_RegisterDomainEventLoggerProcessor_IsSameInstance()
+        public void DomainEventHandlingModule_RegisterEventLoggerProcessor_IsSameInstance()
         {
             var builder = new ContainerBuilder();
             builder.RegisterModule<DomainEventHandlingModule>();
             var container = builder.Build();
 
-            IDomainEventLoggerProcessor loggerProcessor1, loggerProcessor2;
+            IEventLoggerProcessor loggerProcessor1, loggerProcessor2;
 
             using (var sut = container.BeginLifetimeScope())
             {
-                loggerProcessor1 = sut.Resolve<IDomainEventLoggerProcessor>();
+                loggerProcessor1 = sut.Resolve<IEventLoggerProcessor>();
             }
 
             using (var sut = container.BeginLifetimeScope())
             {
-                loggerProcessor2 = sut.Resolve<IDomainEventLoggerProcessor>();
+                loggerProcessor2 = sut.Resolve<IEventLoggerProcessor>();
             }
 
             loggerProcessor1.Should()

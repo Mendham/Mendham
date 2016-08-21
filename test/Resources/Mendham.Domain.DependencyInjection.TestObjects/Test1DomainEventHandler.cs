@@ -1,9 +1,10 @@
 ﻿using Mendham.Domain.Events;
+using Mendham.Events;
 using System.Threading.Tasks;
 
 namespace Mendham.Domain.DependencyInjection.TestObjects
 {
-    public sealed class Test1DomainEventHandler : IDomainEventHandler<Test1DomainEvent>
+    public sealed class Test1DomainEventHandler : IEventHandler<Test1DomainEvent>
     {
         public Task HandleAsync(Test1DomainEvent domainEvent)
         {

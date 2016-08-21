@@ -3,17 +3,16 @@ using FluentAssertions;
 using Mendham.Domain.DependencyInjection.InvalidConcreateBaseEntity;
 using Mendham.Domain.DependencyInjection.InvalidMultipleDerivedEntity;
 using Mendham.Domain.DependencyInjection.TestObjects;
-using Mendham.Domain.Events;
+using Mendham.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Mendham.Domain.DependencyInjection.Autofac.Test
 {
-	public class RegistrationExtensionsTest
+    public class RegistrationExtensionsTest
 	{
 		[Fact]
 		public void RegisterDomainEventHandlers_HandlersInAssembly_ReturnsAll()
@@ -21,19 +20,19 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
 			var assembly = typeof(Test1DomainEventHandler).GetTypeInfo().Assembly;
 
             var builder = new ContainerBuilder();
-			builder.RegisterDomainEventHandlers(assembly);
+			builder.RegisterEventHandlers(assembly);
 
             // This is needed one of the test handlersin the assembly (not used here) injects a publisher
             builder.RegisterModule<DomainEventHandlingModule>();
 
             using (var sut = builder.Build().BeginLifetimeScope())
 			{
-				var result = sut.Resolve<IEnumerable<IDomainEventHandler>>();
+				var result = sut.Resolve<IEnumerable<IEventHandler>>();
 
 				result.Should()
 					.NotBeEmpty();
 				result.Should()
-					.ContainItemsAssignableTo<IDomainEventHandler>();
+					.ContainItemsAssignableTo<IEventHandler>();
 				result.Should()
 					.Contain(a => a is Test1DomainEventHandler);
 				result.Should()
