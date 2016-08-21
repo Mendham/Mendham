@@ -5,9 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-using Fixture = Mendham.Testing.Domain.Test.DomainEventPublisherFixtureTestingFixture;
+using Fixture = Mendham.Testing.Events.Test.DomainEventPublisherFixtureTestingFixture;
 
-namespace Mendham.Testing.Domain.Test
+namespace Mendham.Testing.Events.Test
 {
     public class DomainEventPublisherFixtureTest : UnitTest<DomainEventPublisherFixtureTestingFixture>
     {
@@ -19,23 +19,23 @@ namespace Mendham.Testing.Domain.Test
         public async Task VerifyDomainEventRaised_Raised_NoException()
         {
             var sut = Fixture.CreateSut();
-            await Fixture.RaiseTestDomainEvent1();
+            await Fixture.RaiseTestEvent1();
 
-            Action act = () => sut.VerifyDomainEventRaised<Fixture.TestDomainEvent1>();
+            Action act = () => sut.VerifyDomainEventRaised<Fixture.TestEvent1>();
 
-            act.ShouldNotThrow<DomainEventVerificationException<Fixture.TestDomainEvent1>>();
+            act.ShouldNotThrow<DomainEventVerificationException<Fixture.TestEvent1>>();
         }
 
         [Fact]
         public async Task VerifyDomainEventRaised_RaisedTwice_NoException()
         {
             var sut = Fixture.CreateSut();
-            await Fixture.RaiseTestDomainEvent1();
-            await Fixture.RaiseTestDomainEvent1();
+            await Fixture.RaiseTestEvent1();
+            await Fixture.RaiseTestEvent1();
 
-            Action act = () => sut.VerifyDomainEventRaised<Fixture.TestDomainEvent1>();
+            Action act = () => sut.VerifyDomainEventRaised<Fixture.TestEvent1>();
 
-            act.ShouldNotThrow<DomainEventVerificationException<Fixture.TestDomainEvent1>>();
+            act.ShouldNotThrow<DomainEventVerificationException<Fixture.TestEvent1>>();
         }
 
         // Only running these tests in NET451 because Mendham.Testing.Builder does not work with Netstandard because of the
@@ -48,9 +48,9 @@ namespace Mendham.Testing.Domain.Test
         {
             var sut = Fixture.CreateSut();
 
-            Action act = () => sut.VerifyDomainEventRaised<Fixture.TestDomainEvent1>(userMessage);
+            Action act = () => sut.VerifyDomainEventRaised<Fixture.TestEvent1>(userMessage);
 
-            act.ShouldThrow<DomainEventVerificationException<Fixture.TestDomainEvent1>>()
+            act.ShouldThrow<DomainEventVerificationException<Fixture.TestEvent1>>()
                 .Where(a => a.Message.Contains(userMessage));
         }
 
@@ -58,11 +58,11 @@ namespace Mendham.Testing.Domain.Test
         public async Task VerifyDomainEventRaised_WrongEventRaised_DomainEventVerificationException(string userMessage)
         {
             var sut = Fixture.CreateSut();
-            await Fixture.RaiseTestDomainEvent1();
+            await Fixture.RaiseTestEvent1();
 
-            Action act = () => sut.VerifyDomainEventRaised<Fixture.TestDomainEvent2>(userMessage);
+            Action act = () => sut.VerifyDomainEventRaised<Fixture.TestEvent2>(userMessage);
 
-            act.ShouldThrow<DomainEventVerificationException<Fixture.TestDomainEvent2>>()
+            act.ShouldThrow<DomainEventVerificationException<Fixture.TestEvent2>>()
                 .Where(a => a.Message.Contains(userMessage));
         }
 
@@ -70,23 +70,23 @@ namespace Mendham.Testing.Domain.Test
         public async Task VerifyDomainEventRaisedTwice_RaisedTwice_NoException()
         {
             var sut = Fixture.CreateSut();
-            await Fixture.RaiseTestDomainEvent1();
-            await Fixture.RaiseTestDomainEvent1();
+            await Fixture.RaiseTestEvent1();
+            await Fixture.RaiseTestEvent1();
 
-            Action act = () => sut.VerifyDomainEventRaised<Fixture.TestDomainEvent1>(TimesRaised.Exactly(2));
+            Action act = () => sut.VerifyDomainEventRaised<Fixture.TestEvent1>(TimesRaised.Exactly(2));
 
-            act.ShouldNotThrow<DomainEventVerificationException<Fixture.TestDomainEvent1>>();
+            act.ShouldNotThrow<DomainEventVerificationException<Fixture.TestEvent1>>();
         }
 
         [Theory, MendhamData]
         public async Task VerifyDomainEventRaisedTwice_RaiseOnce_DomainEventVerificationException(string userMessage)
         {
             var sut = Fixture.CreateSut();
-            await Fixture.RaiseTestDomainEvent1();
+            await Fixture.RaiseTestEvent1();
 
-            Action act = () => sut.VerifyDomainEventRaised<Fixture.TestDomainEvent1>(TimesRaised.Exactly(2), userMessage);
+            Action act = () => sut.VerifyDomainEventRaised<Fixture.TestEvent1>(TimesRaised.Exactly(2), userMessage);
 
-            act.ShouldThrow<DomainEventVerificationException<Fixture.TestDomainEvent1>>()
+            act.ShouldThrow<DomainEventVerificationException<Fixture.TestEvent1>>()
                 .Where(a => a.Message.Contains(userMessage));
         }
 
@@ -94,23 +94,23 @@ namespace Mendham.Testing.Domain.Test
         public async Task VerifyDomainEventRaisedWithCondition_Raised_NoException(string domainEventValue)
         {
             var sut = Fixture.CreateSut();
-            await Fixture.RaiseTestDomainEvent2(domainEventValue);
+            await Fixture.RaiseTestEvent2(domainEventValue);
 
-            Action act = () => sut.VerifyDomainEventRaised<Fixture.TestDomainEvent2>(a => a.Value == domainEventValue);
+            Action act = () => sut.VerifyDomainEventRaised<Fixture.TestEvent2>(a => a.Value == domainEventValue);
 
-            act.ShouldNotThrow<DomainEventVerificationException<Fixture.TestDomainEvent2>>();
+            act.ShouldNotThrow<DomainEventVerificationException<Fixture.TestEvent2>>();
         }
 
         [Theory, MendhamData]
         public async Task VerifyDomainEventRaisedWithCondition_RaisedTwice_NoException(string domainEventValue)
         {
             var sut = Fixture.CreateSut();
-            await Fixture.RaiseTestDomainEvent2(domainEventValue);
-            await Fixture.RaiseTestDomainEvent2(domainEventValue);
+            await Fixture.RaiseTestEvent2(domainEventValue);
+            await Fixture.RaiseTestEvent2(domainEventValue);
 
-            Action act = () => sut.VerifyDomainEventRaised<Fixture.TestDomainEvent2>(a => a.Value == domainEventValue);
+            Action act = () => sut.VerifyDomainEventRaised<Fixture.TestEvent2>(a => a.Value == domainEventValue);
 
-            act.ShouldNotThrow<DomainEventVerificationException<Fixture.TestDomainEvent2>>();
+            act.ShouldNotThrow<DomainEventVerificationException<Fixture.TestEvent2>>();
         }
 
         [Theory, MendhamData]
@@ -118,9 +118,9 @@ namespace Mendham.Testing.Domain.Test
         {
             var sut = Fixture.CreateSut();
 
-            Action act = () => sut.VerifyDomainEventRaised<Fixture.TestDomainEvent2>(a => a.Value == domainEventValue, userMessage);
+            Action act = () => sut.VerifyDomainEventRaised<Fixture.TestEvent2>(a => a.Value == domainEventValue, userMessage);
 
-            act.ShouldThrow<DomainEventVerificationException<Fixture.TestDomainEvent2>>()
+            act.ShouldThrow<DomainEventVerificationException<Fixture.TestEvent2>>()
                 .Where(a => a.Message.Contains(userMessage));
         }
 
@@ -129,11 +129,11 @@ namespace Mendham.Testing.Domain.Test
             string expectedDomainEventValue, string actualDomainEventValue, string userMessage)
         {
             var sut = Fixture.CreateSut();
-            await Fixture.RaiseTestDomainEvent2(actualDomainEventValue);
+            await Fixture.RaiseTestEvent2(actualDomainEventValue);
 
-            Action act = () => sut.VerifyDomainEventRaised<Fixture.TestDomainEvent2>(a => a.Value == expectedDomainEventValue, userMessage);
+            Action act = () => sut.VerifyDomainEventRaised<Fixture.TestEvent2>(a => a.Value == expectedDomainEventValue, userMessage);
 
-            act.ShouldThrow<DomainEventVerificationException<Fixture.TestDomainEvent2>>()
+            act.ShouldThrow<DomainEventVerificationException<Fixture.TestEvent2>>()
                 .Where(a => a.Message.Contains(userMessage));
         }
 
@@ -141,11 +141,11 @@ namespace Mendham.Testing.Domain.Test
         public async Task VerifyDomainEventRaisedWithCondition_WrongEventRaised_DomainEventVerificationException(string domainEventValue, string userMessage)
         {
             var sut = Fixture.CreateSut();
-            await Fixture.RaiseTestDomainEvent1();
+            await Fixture.RaiseTestEvent1();
 
-            Action act = () => sut.VerifyDomainEventRaised<Fixture.TestDomainEvent2>(a => a.Value == domainEventValue, userMessage);
+            Action act = () => sut.VerifyDomainEventRaised<Fixture.TestEvent2>(a => a.Value == domainEventValue, userMessage);
 
-            act.ShouldThrow<DomainEventVerificationException<Fixture.TestDomainEvent2>>()
+            act.ShouldThrow<DomainEventVerificationException<Fixture.TestEvent2>>()
                 .Where(a => a.Message.Contains(userMessage));
         }
 
@@ -153,25 +153,25 @@ namespace Mendham.Testing.Domain.Test
         public async Task VerifyDomainEventRaisedWithConditionTwice_RaisedTwice_NoException(string domainEventValue)
         {
             var sut = Fixture.CreateSut();
-            await Fixture.RaiseTestDomainEvent2(domainEventValue);
-            await Fixture.RaiseTestDomainEvent2(domainEventValue);
+            await Fixture.RaiseTestEvent2(domainEventValue);
+            await Fixture.RaiseTestEvent2(domainEventValue);
 
-            Action act = () => sut.VerifyDomainEventRaised<Fixture.TestDomainEvent2>(
+            Action act = () => sut.VerifyDomainEventRaised<Fixture.TestEvent2>(
                 a => a.Value == domainEventValue, TimesRaised.Exactly(2));
 
-            act.ShouldNotThrow<DomainEventVerificationException<Fixture.TestDomainEvent2>>();
+            act.ShouldNotThrow<DomainEventVerificationException<Fixture.TestEvent2>>();
         }
 
         [Theory, MendhamData]
         public async Task VerifyDomainEventRaisedWithConditionTwice_RaiseOnce_DomainEventVerificationException(string domainEventValue, string userMessage)
         {
             var sut = Fixture.CreateSut();
-            await Fixture.RaiseTestDomainEvent2(domainEventValue);
+            await Fixture.RaiseTestEvent2(domainEventValue);
 
-            Action act = () => sut.VerifyDomainEventRaised<Fixture.TestDomainEvent2>(
+            Action act = () => sut.VerifyDomainEventRaised<Fixture.TestEvent2>(
                 a => a.Value == domainEventValue, TimesRaised.Exactly(2), userMessage);
 
-            act.ShouldThrow<DomainEventVerificationException<Fixture.TestDomainEvent2>>()
+            act.ShouldThrow<DomainEventVerificationException<Fixture.TestEvent2>>()
                 .Where(a => a.Message.Contains(userMessage));
         }
 
@@ -180,13 +180,13 @@ namespace Mendham.Testing.Domain.Test
             string domainEventValue, string altDomainEventValue, string userMessage)
         {
             var sut = Fixture.CreateSut();
-            await Fixture.RaiseTestDomainEvent2(domainEventValue);
-            await Fixture.RaiseTestDomainEvent2(altDomainEventValue);
+            await Fixture.RaiseTestEvent2(domainEventValue);
+            await Fixture.RaiseTestEvent2(altDomainEventValue);
 
-            Action act = () => sut.VerifyDomainEventRaised<Fixture.TestDomainEvent2>(a => 
+            Action act = () => sut.VerifyDomainEventRaised<Fixture.TestEvent2>(a => 
             a.Value == domainEventValue, TimesRaised.Exactly(2), userMessage);
 
-            act.ShouldThrow<DomainEventVerificationException<Fixture.TestDomainEvent2>>()
+            act.ShouldThrow<DomainEventVerificationException<Fixture.TestEvent2>>()
                 .Where(a => a.Message.Contains(userMessage));
         }
 #endif

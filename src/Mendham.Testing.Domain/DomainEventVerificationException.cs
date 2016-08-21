@@ -1,29 +1,26 @@
-﻿using Mendham.Domain.Events;
+﻿using Mendham.Events;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Mendham.Testing
 {
-    public class DomainEventVerificationException<TDomainEvent> : Exception
-        where TDomainEvent : IDomainEvent
+    public class DomainEventVerificationException<TEvent> : Exception
+        where TEvent : IEvent
     {
         internal DomainEventVerificationException(int timesCalled, TimesRaised timesExpected, string userMessage= null)
-			: base(MessageText(typeof(TDomainEvent), timesCalled, timesExpected, userMessage))
+			: base(MessageText(typeof(TEvent), timesCalled, timesExpected, userMessage))
 		{
             timesCalled.VerifyArgumentMeetsCriteria(a => a >= 0,
                 nameof(timesCalled), "Times called must be a positive value");
             timesExpected.VerifyArgumentNotDefaultValue(nameof(timesExpected));
 
-            this.TimesCalled = timesCalled;
-            this.TimesExpected = timesExpected;
+            TimesCalled = timesCalled;
+            TimesExpected = timesExpected;
         }
 
         private static string MessageText(Type t, int timesCalled, TimesRaised timesExpected, string userMessage)
         {
-            var msg = "{3}Domain Event {0} publish error. The event was expected be called {1}, but was called {2} time(s)";
+            var msg = "{3} Domain Event {0} publish error. The event was expected be called {1}, but was called {2} time(s)";
 
             return string.Format(CultureInfo.CurrentCulture, msg, t.FullName,
                 timesExpected.GetFailDetails(), timesCalled, FormatUserMessage(userMessage));
@@ -39,7 +36,7 @@ namespace Mendham.Testing
 
         public Type DomainEventType
         {
-            get { return typeof(TDomainEvent); }
+            get { return typeof(TEvent); }
         }
 
         public int TimesCalled { get; private set; }
