@@ -2,7 +2,7 @@
   "testRunner": "xunit",
 
   "dependencies": {
-    "Mendham.Testing.Domain": {
+    "Mendham.Testing.Events": {
       "target": "project"
     },
   
