@@ -18,7 +18,7 @@ namespace Mendham.Events
 		/// </summary>
 		public Type EventHandlerType { get; }
 
-        private const string DEFAULT_MESSAGE = "An exception occured when handling the domain event";
+        private const string DEFAULT_MESSAGE = "An exception occured when handling the event";
 
         protected EventHandlingException(EventHandlingException firstException)
             : this(firstException.EventHandlerType, firstException.Event, firstException)

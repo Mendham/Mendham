@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 namespace Mendham.Events
 {
 	/// <summary>
-	/// Use this interface for any logger that should log when any domain event is raised
+	/// Use this interface for any logger that should log when any event is raised
 	/// </summary>
 	public interface IEventLogger
 	{
         /// <summary>
-        /// Logs Domain Event
+        /// Logs Event
         /// </summary>
-        /// <param name="eventRaised">Domain Event</param>
+        /// <param name="eventRaised">Event that was raised</param>
         void LogEvent(IEvent eventRaised);
 	}
 }
