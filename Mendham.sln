@@ -74,6 +74,10 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Infrastructure.Rela
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Infrastructure.RelationalDatabase.Test", "test\Mendham.Infrastructure.RelationalDatabase.Test\Mendham.Infrastructure.RelationalDatabase.Test.xproj", "{A3CDD6BD-D218-4AB2-A71B-2A07824262A5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "events", "events", "{A5AAD2FC-316E-4D57-AB53-0B90B983A1B6}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Events", "src\Mendham.Events\Mendham.Events.xproj", "{736D7F22-7C27-4CFE-BCC7-CB6F024FBA1F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -184,6 +188,10 @@ Global
 		{A3CDD6BD-D218-4AB2-A71B-2A07824262A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A3CDD6BD-D218-4AB2-A71B-2A07824262A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A3CDD6BD-D218-4AB2-A71B-2A07824262A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{736D7F22-7C27-4CFE-BCC7-CB6F024FBA1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{736D7F22-7C27-4CFE-BCC7-CB6F024FBA1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{736D7F22-7C27-4CFE-BCC7-CB6F024FBA1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{736D7F22-7C27-4CFE-BCC7-CB6F024FBA1F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -220,5 +228,7 @@ Global
 		{651C6216-267F-4A57-ADA8-B83E0A3F0C86} = {5837883B-CC74-4A1F-96F5-AEEEAFD73EC4}
 		{B1AF7EB6-F099-4F22-B621-6E12D562D95F} = {1EAA64F8-EA81-4CE2-96CE-0A6D02304E52}
 		{A3CDD6BD-D218-4AB2-A71B-2A07824262A5} = {5837883B-CC74-4A1F-96F5-AEEEAFD73EC4}
+		{A5AAD2FC-316E-4D57-AB53-0B90B983A1B6} = {856ADE16-2C01-47A4-9120-1EF2B409A9D3}
+		{736D7F22-7C27-4CFE-BCC7-CB6F024FBA1F} = {A5AAD2FC-316E-4D57-AB53-0B90B983A1B6}
 	EndGlobalSection
 EndGlobal

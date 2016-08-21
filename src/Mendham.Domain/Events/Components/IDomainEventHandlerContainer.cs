@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
-namespace Mendham.Domain.Events.Components
+namespace Mendham.Events.Components
 {
-    public interface IDomainEventHandlerContainer
+    public interface IEventHandlerContainer
     {
-        IEnumerable<IDomainEventHandler<TDomainEvent>> GetHandlers<TDomainEvent>()
-            where TDomainEvent : IDomainEvent;
+        IEnumerable<IEventHandler<TEvent>> GetHandlers<TEvent>() where TEvent : IEvent;
     }
 }

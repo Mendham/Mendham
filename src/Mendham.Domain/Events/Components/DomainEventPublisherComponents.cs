@@ -1,46 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Mendham.Domain.Events.Components
+﻿namespace Mendham.Events.Components
 {
-    public class DomainEventPublisherComponents : IDomainEventPublisherComponents
+    public class EventPublisherComponents : IEventPublisherComponents
     {
-        private readonly IDomainEventHandlerContainer domainEventHandlerContainer;
-        private readonly IDomainEventHandlerProcessor domainEventHandlerProcessor;
-        private readonly IDomainEventLoggerProcessor domainEventLoggerProcessor;
+        private readonly IEventHandlerContainer _eventHandlerContainer;
+        private readonly IEventHandlerProcessor _eventHandlerProcessor;
+        private readonly IEventLoggerProcessor _eventLoggerProcessor;
 
-        public DomainEventPublisherComponents(IDomainEventHandlerContainer domainEventHandlerContainer,
-            IDomainEventHandlerProcessor domainEventHandlerProcessor,
-            IDomainEventLoggerProcessor domainEventLoggerProcessor)
+        public EventPublisherComponents(IEventHandlerContainer eventHandlerContainer,
+            IEventHandlerProcessor eventHandlerProcessor,
+            IEventLoggerProcessor eventLoggerProcessor)
         {
-            this.domainEventHandlerContainer = domainEventHandlerContainer;
-            this.domainEventHandlerProcessor = domainEventHandlerProcessor;
-            this.domainEventLoggerProcessor = domainEventLoggerProcessor;
+            _eventHandlerContainer = eventHandlerContainer;
+            _eventHandlerProcessor = eventHandlerProcessor;
+            _eventLoggerProcessor = eventLoggerProcessor;
         }
 
-        public IDomainEventHandlerContainer DomainEventHandlerContainer
+        public IEventHandlerContainer EventHandlerContainer
         {
             get
             {
-                return domainEventHandlerContainer;
+                return _eventHandlerContainer;
             }
         }
 
-        public IDomainEventHandlerProcessor DomainEventHandlerProcessor
+        public IEventHandlerProcessor EventHandlerProcessor
         {
             get
             {
-                return domainEventHandlerProcessor;
+                return _eventHandlerProcessor;
             }
         }
 
-        public IDomainEventLoggerProcessor DomainEventLoggerProcessor
+        public IEventLoggerProcessor EventLoggerProcessor
         {
             get
             {
-                return domainEventLoggerProcessor;
+                return _eventLoggerProcessor;
             }
         }
     }

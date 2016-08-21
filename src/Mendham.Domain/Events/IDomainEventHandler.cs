@@ -1,29 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
-namespace Mendham.Domain.Events
+namespace Mendham.Events
 {
 	/// <summary>
-	/// Base Domain Event Handler used to register domain event handlers
+	/// Non generic handler used to register event handlers
 	/// </summary>
-	public interface IDomainEventHandler
+	public interface IEventHandler
 	{ }
 
 	/// <summary>
-	/// The interface for a domain event handler that handles the type of domain event as 
-	/// well as any type derived from the domain event
+	/// The interface for a event handler that handles the type of event as 
+	/// well as any type derived from the event
 	/// </summary>
-	/// <typeparam name="TDomainEvent">Type of domain event to be handled</typeparam>
-	public interface IDomainEventHandler<TDomainEvent> : IDomainEventHandler
-		where TDomainEvent : IDomainEvent
+	/// <typeparam name="TEvent">Type of event to be handled</typeparam>
+	public interface IEventHandler<TEvent> : IEventHandler where TEvent : IEvent
 	{
 		/// <summary>
-		/// Executes the Domain Event Handler
+		/// Executes the Event Handler
 		/// </summary>
-		/// <param name="domainEvent">The domain event to be handled.</param>
-		/// <returns>A task that represents the completion of the domain event handler</returns>
-		Task HandleAsync(TDomainEvent domainEvent);
+		/// <param name="eventToHandle">The event to be handled.</param>
+		/// <returns>A task that represents the completion of the event handler</returns>
+		Task HandleAsync(TEvent eventToHandle);
 	}
 }

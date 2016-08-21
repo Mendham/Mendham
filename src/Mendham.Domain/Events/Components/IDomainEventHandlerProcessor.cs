@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Mendham.Domain.Events.Components
+namespace Mendham.Events.Components
 {
-    public interface IDomainEventHandlerProcessor
+    public interface IEventHandlerProcessor
     {
         /// <summary>
-        /// Asynchronously processes the domain event for each of the handlers
+        /// Asynchronously processes the event for each of the handlers
         /// </summary>
-        /// <typeparam name="TDomainEvent"></typeparam>
-        /// <param name="domainEvent">Domain event</param>
-        /// <param name="handlers">All registered handlers for the domain event type</param>
-		/// <exception cref="DomainEventHandlingException">One or more errors occured by handler</exception>
-        Task HandleAllAsync<TDomainEvent>(TDomainEvent domainEvent, IEnumerable<IDomainEventHandler<TDomainEvent>> handlers)
-            where TDomainEvent : IDomainEvent;
+        /// <typeparam name="Event"></typeparam>
+        /// <param name="eventRaised">Raised event</param>
+        /// <param name="handlers">All registered handlers for the event type</param>
+		/// <exception cref="EventHandlingException">One or more errors occured by handler</exception>
+        Task HandleAllAsync<Event>(Event eventRaised, IEnumerable<IEventHandler<Event>> handlers) where Event : IEvent;
     }
 }

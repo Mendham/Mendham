@@ -1,11 +1,12 @@
 ﻿using System;
 
-namespace Mendham.Domain.Events.Components
+namespace Mendham.Events.Components
 {
     /// <summary>
-    /// Interface used to get the type of the underlying handler within a DomainEventHandlerWrapper
+    /// Interface used to get the type of the underlying handler within a 
+    /// <see cref="EventHandlerWrapper{TBaseEvent, TDerivedEvent}"/> 
     /// </summary>
-    public interface IDomainEventHandlerWrapper : IDomainEventHandler
+    public interface IEventHandlerWrapper : IEventHandler
     {
         Type GetBaseHandlerType();
     }

@@ -1,7 +1,7 @@
-﻿namespace Mendham.Domain.Events.Components
+﻿namespace Mendham.Events.Components
 {
-    public interface IDomainEventLoggerProcessor
+    public interface IEventLoggerProcessor
     {
-        void LogDomainEvent(IDomainEvent domainEvent);
+        void LogEvent(IEvent eventRaised);
     }
 }

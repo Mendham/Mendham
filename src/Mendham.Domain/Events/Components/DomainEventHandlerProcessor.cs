@@ -3,86 +3,86 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Mendham.Domain.Events.Components
+namespace Mendham.Events.Components
 {
-    public class DomainEventHandlerProcessor : IDomainEventHandlerProcessor
+    public class EventHandlerProcessor : IEventHandlerProcessor
     {
-        private readonly IEnumerable<IDomainEventHandlerLogger> domainEventHandlerLoggers;
+        private readonly IEnumerable<IEventHandlerLogger> _eventHandlerLoggers;
 
-        public DomainEventHandlerProcessor(IEnumerable<IDomainEventHandlerLogger> domainEventHandlerLoggers)
+        public EventHandlerProcessor(IEnumerable<IEventHandlerLogger> eventHandlerLoggers)
         {
-            this.domainEventHandlerLoggers = domainEventHandlerLoggers;
+            _eventHandlerLoggers = eventHandlerLoggers;
         }
 
-        public async Task HandleAllAsync<TDomainEvent>(TDomainEvent domainEvent, IEnumerable<IDomainEventHandler<TDomainEvent>> handlers) 
-            where TDomainEvent : IDomainEvent
+        public async Task HandleAllAsync<TEvent>(TEvent eventRaised, IEnumerable<IEventHandler<TEvent>> handlers) 
+            where TEvent : IEvent
         {
             // Start all handlers and return tasks
             var handlerTasks = handlers
-                .Select(handler => HandleAsync(handler, domainEvent))
+                .Select(handler => HandleAsync(handler, eventRaised))
                 .ToList();
 
             try
             {
                 await Task.WhenAll(handlerTasks);
             }
-            catch (DomainEventHandlingException ex)
+            catch (EventHandlingException ex)
             {
                 var dehExceptions = handlerTasks
                     .Where(a => a.Exception != null)
                     .SelectMany(a => a.Exception.InnerExceptions)
-                    .OfType<DomainEventHandlingException>();
+                    .OfType<EventHandlingException>();
 
                 if (dehExceptions.Count() > 1)
-                    throw new AggregateDomainEventHandlingException(dehExceptions, ex);
+                    throw new AggregateEventHandlingException(dehExceptions, ex);
 
                 throw ex;
             }
         }
 
         /// <summary>
-		/// Handles the domain event. If the domain event throws an exception, a 
-		/// DomainEventHandlingException is returned which wraps the original exception.
+		/// Handles the main event. If the event throws an exception, a 
+		/// <see cref="EventHandlingException"/> is returned which wraps the original exception.
 		/// </summary>
-		/// <typeparam name="TDomainEvent">Type of domain event</typeparam>
+		/// <typeparam name="TEvent">Type of event</typeparam>
 		/// <param name="handler">Handler</param>
-		/// <param name="domainEvent">Domain Event</param>
+		/// <param name="eventRaised">Event raised</param>
 		/// <returns>A task that represents the the completion of the event being handled.</returns>
-		/// <exception cref="DomainEventHandlingException">An error has occured by handler</exception>
-		private async Task HandleAsync<TDomainEvent>(IDomainEventHandler<TDomainEvent> handler, TDomainEvent domainEvent)
-            where TDomainEvent : IDomainEvent
+		/// <exception cref="EventHandlingException">An error has occured by handler</exception>
+		private async Task HandleAsync<TEvent>(IEventHandler<TEvent> handler, TEvent eventRaised)
+            where TEvent : IEvent
         {
             Type handlerType = GetHandlerType(handler);
 
             try
             {
-                WriteToDomainEventHandlerLogger(a => a.LogDomainEventHandlerStart(handlerType, domainEvent));
+                WriteToEventHandlerLogger(a => a.LogEventHandlerStart(handlerType, eventRaised));
 
-                await handler.HandleAsync(domainEvent);
+                await handler.HandleAsync(eventRaised);
 
-                WriteToDomainEventHandlerLogger(a => a.LogDomainEventHandlerComplete(handlerType, domainEvent));
+                WriteToEventHandlerLogger(a => a.LogEventHandlerComplete(handlerType, eventRaised));
             }
             catch (Exception ex)
             {
-                WriteToDomainEventHandlerLogger(a => a.LogDomainEventHandlerError(handlerType, domainEvent, ex));
+                WriteToEventHandlerLogger(a => a.LogEventHandlerError(handlerType, eventRaised, ex));
 
-                throw new DomainEventHandlingException(handlerType, domainEvent, ex);
+                throw new EventHandlingException(handlerType, eventRaised, ex);
             }
         }
 
-        private void WriteToDomainEventHandlerLogger(Action<IDomainEventHandlerLogger> writeAction)
+        private void WriteToEventHandlerLogger(Action<IEventHandlerLogger> writeAction)
         {
-            foreach (var domainEventHandlerLogger in domainEventHandlerLoggers)
+            foreach (var eventHandlerLogger in _eventHandlerLoggers)
             {
-                writeAction(domainEventHandlerLogger);
+                writeAction(eventHandlerLogger);
             }
         }
 
-        private static Type GetHandlerType(IDomainEventHandler handler)
+        private static Type GetHandlerType(IEventHandler handler)
         {
             Type handlerType = handler.GetType();
 
-            var wrapper = handler as IDomainEventHandlerWrapper;
+            var wrapper = handler as IEventHandlerWrapper;
 
             if (wrapper != null)
             {

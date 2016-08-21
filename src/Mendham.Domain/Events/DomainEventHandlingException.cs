@@ -1,44 +1,44 @@
 ﻿using System;
 
-namespace Mendham.Domain.Events
+namespace Mendham.Events
 {
     /// <summary>
     /// Exception that occurs when an event handler throws an exception when an event is rasied.
     /// The inner exception contains the details of the exception.
     /// </summary>
-    public class DomainEventHandlingException : Exception
+    public class EventHandlingException : Exception
     {
-		/// <summary>
-		/// The domain event raised when the exception occured
+        /// <summary>
+		/// The event raised when the exception occured
 		/// </summary>
-		public IDomainEvent DomainEvent { get; protected set; }
-		/// <summary>
+        public IEvent Event { get; }
+
+        /// <summary>
 		/// The type of the handler that threw an exception
 		/// </summary>
-		public Type DomainEventHandlerType { get; protected set; }
+		public Type EventHandlerType { get; }
 
-		private const string DEFAULT_MESSAGE = "An exception occured when handling the domain event";
+        private const string DEFAULT_MESSAGE = "An exception occured when handling the domain event";
 
-		protected DomainEventHandlingException(DomainEventHandlingException firstException)
-			:base(DEFAULT_MESSAGE, firstException)
-		{ }
+        protected EventHandlingException(EventHandlingException firstException)
+            : this(firstException.EventHandlerType, firstException.Event, firstException)
+        { }
 
-		internal DomainEventHandlingException(Type domainEventHandler, IDomainEvent domainEvent, Exception exception)
-			:base(DEFAULT_MESSAGE, exception)
-		{
-			domainEvent.VerifyArgumentNotDefaultValue(nameof(domainEvent));
-			domainEventHandler.VerifyArgumentNotDefaultValue(nameof(domainEventHandler));
+        internal EventHandlingException(Type eventHandler, IEvent eventRaised, Exception exception)
+            : base(DEFAULT_MESSAGE, exception)
+        {
+            Event = eventRaised
+                .VerifyArgumentNotDefaultValue(nameof(eventRaised));
+            EventHandlerType = eventHandler
+                .VerifyArgumentNotDefaultValue(nameof(eventHandler));
+        }
 
-			this.DomainEvent = domainEvent;
-			this.DomainEventHandlerType = domainEventHandler;
-		}
-
-		public override string Message
-		{
-			get
-			{
-                return $"An exception in handler {DomainEventHandlerType.FullName} occured when processing a '{DomainEvent.GetType().FullName}' domain event. See INNER EXCEPTION for details";
-			}
-		}
-	}
+        public override string Message
+        {
+            get
+            {
+                return $"An exception in handler {EventHandlerType.FullName} occured when processing a '{Event.GetType().FullName}' event. See INNER EXCEPTION for details";
+            }
+        }
+    }
 }

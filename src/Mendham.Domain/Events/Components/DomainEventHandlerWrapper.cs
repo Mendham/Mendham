@@ -1,37 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
-namespace Mendham.Domain.Events.Components
+namespace Mendham.Events.Components
 {
     /// <summary>
-    /// When a base domain event handler must be passed in an enumerable, because the generic type does not match,
+    /// When a base event handler must be passed in an enumerable, because the generic type does not match,
     /// handlers for base types must be wrapped in an handler of the derived type. This class does this.
     /// </summary>
-    /// <typeparam name="TBaseDomainEvent">Base domain event type (the type the handler is set to process)</typeparam>
-    /// <typeparam name="TDerivedDomainEvent">Derived domain event (the type of domain event that was raised)</typeparam>
-    internal class DomainEventHandlerWrapper<TBaseDomainEvent, TDerivedDomainEvent> : IDomainEventHandler<TDerivedDomainEvent>, IDomainEventHandlerWrapper
-        where TBaseDomainEvent : IDomainEvent
-        where TDerivedDomainEvent : TBaseDomainEvent
+    /// <typeparam name="TBaseEvent">Base event type (the type the handler is set to process)</typeparam>
+    /// <typeparam name="TDerivedEvent">Derived event (the type of event that was raised)</typeparam>
+    internal class EventHandlerWrapper<TBaseEvent, TDerivedEvent> : IEventHandler<TDerivedEvent>, IEventHandlerWrapper
+        where TBaseEvent : IEvent
+        where TDerivedEvent : TBaseEvent
     {
-        private readonly IDomainEventHandler<TBaseDomainEvent> domainEventHandler;
+        private readonly IEventHandler<TBaseEvent> _eventHandler;
 
-        public DomainEventHandlerWrapper(IDomainEventHandler<TBaseDomainEvent> domainEventHandler)
+        public EventHandlerWrapper(IEventHandler<TBaseEvent> eventHandler)
         {
-            domainEventHandler.VerifyArgumentNotDefaultValue(nameof(domainEventHandler));
+            eventHandler.VerifyArgumentNotDefaultValue(nameof(eventHandler));
 
-            this.domainEventHandler = domainEventHandler;
+            _eventHandler = eventHandler;
         }
 
-        Task IDomainEventHandler<TDerivedDomainEvent>.HandleAsync(TDerivedDomainEvent domainEvent)
+        Task IEventHandler<TDerivedEvent>.HandleAsync(TDerivedEvent eventRaised)
         {
-            return this.domainEventHandler.HandleAsync(domainEvent);
+            return _eventHandler.HandleAsync(eventRaised);
         }
 
-        Type IDomainEventHandlerWrapper.GetBaseHandlerType()
+        Type IEventHandlerWrapper.GetBaseHandlerType()
         {
-            return this.domainEventHandler.GetType();
+            return _eventHandler.GetType();
         }
     }
 }

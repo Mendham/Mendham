@@ -4,55 +4,52 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 
-namespace Mendham.Domain.Events
+namespace Mendham.Events
 {
     /// <summary>
-	/// An exception that contains details when multiple domain event handlers throw an excpetion
-	/// during the processing of a single domain event being raised.
+	/// An exception that contains details when multiple event handlers throw an excpetion
+	/// during the processing of a single event being raised.
 	/// </summary>
 	[DebuggerDisplay("Count = {Count}")]
-    public class AggregateDomainEventHandlingException : DomainEventHandlingException
+    public class AggregateEventHandlingException : EventHandlingException
     {
-        private readonly IReadOnlyCollection<DomainEventHandlingException> domainEventHandlingExceptions;
+        private readonly IReadOnlyCollection<EventHandlingException> _eventHandlingExceptions;
 
-        internal AggregateDomainEventHandlingException(IEnumerable<DomainEventHandlingException> domainEventHandlingExceptions, DomainEventHandlingException firstException)
+        internal AggregateEventHandlingException(IEnumerable<EventHandlingException> eventHandlingExceptions, EventHandlingException firstException)
             : base(firstException)
         {
-            domainEventHandlingExceptions
-                .VerifyArgumentNotNullOrEmpty(nameof(domainEventHandlingExceptions), "The exceptions passed cannot be null or empty")
+            eventHandlingExceptions
+                .VerifyArgumentNotNullOrEmpty(nameof(eventHandlingExceptions), "The exceptions passed cannot be null or empty")
                 .VerifyArgumentMeetsCriteria(a => a.Count() > 1,
-                nameof(domainEventHandlingExceptions), "AggregateDomainEventHandlingException more than one exception")
+                    nameof(eventHandlingExceptions), $"{nameof(AggregateEventHandlingException)} requires more than one exception")
                 .VerifyArgumentMeetsCriteria(a => a
-                    .Select(b => b.DomainEvent)
+                    .Select(b => b.Event)
                     .Distinct()
-                    .Count() == 1, nameof(domainEventHandlingExceptions), "The exceptions passed do not all have a matching domain event");
+                    .Count() == 1, nameof(eventHandlingExceptions), "The exceptions passed do not all have a matching event");
 
-            this.DomainEvent = firstException.DomainEvent;
-            this.DomainEventHandlerType = firstException.DomainEventHandlerType;
-
-            this.domainEventHandlingExceptions = new ReadOnlyCollection<DomainEventHandlingException>(domainEventHandlingExceptions.ToList());
+            _eventHandlingExceptions = new ReadOnlyCollection<EventHandlingException>(eventHandlingExceptions.ToList());
         }
 
         /// <summary>
-        /// Types of the domain event handlers that threw an exception
+        /// Types of the event handlers that threw an exception
         /// </summary>
-        public IEnumerable<Type> DomainEventHandlerTypes
+        public IEnumerable<Type> EventHandlerTypes
         {
             get
             {
-                return domainEventHandlingExceptions
-                    .Select(a => a.DomainEventHandlerType);
+                return _eventHandlingExceptions
+                    .Select(a => a.EventHandlerType);
             }
         }
 
         /// <summary>
-        /// Exceptions thrown by domain event handlers
+        /// Exceptions thrown by event handlers
         /// </summary>
-        public IEnumerable<DomainEventHandlingException> InnerExceptions
+        public IEnumerable<EventHandlingException> InnerExceptions
         {
             get
             {
-                return domainEventHandlingExceptions;
+                return _eventHandlingExceptions;
             }
         }
 
@@ -60,8 +57,8 @@ namespace Mendham.Domain.Events
         {
             get
             {
-                return string.Format("Multiple exceptions occured when handling the domain event. Exception count {0}. See See INNER EXCEPTIONS for details.",
-                    this.domainEventHandlingExceptions.Count());
+                return string.Format("Multiple exceptions occured when handling the event. Exception count {0}. See See INNER EXCEPTIONS for details.",
+                    _eventHandlingExceptions.Count());
             }
         }
     }

@@ -2,57 +2,57 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 
-namespace Mendham.Domain.Events.Components
+namespace Mendham.Events.Components
 {
-    public static class DomainEventHandlerContainerExtensions
+    public static class EventHandlerContainerExtensions
+
     {
         /// <summary>
-        /// Given a set of IDomainEventHandlers, select all that can handle the type of domain event (include base types)
+        /// Given a set of <see cref="IEventHandler"/>, select all that can handle the type of event (include base types)
         /// </summary>
-        /// <typeparam name="TDomainEvent">Type of domain event to process</typeparam>
+        /// <typeparam name="TEvent">Type of event to process</typeparam>
         /// <param name="allHandlers">All known handlers</param>
-        /// <returns>All handlers that can process the domain event</returns>
-        public static IEnumerable<IDomainEventHandler<TDomainEvent>> SelectHandlersForDomainEvent<TDomainEvent>(this IEnumerable<IDomainEventHandler> allHandlers)
-            where TDomainEvent : IDomainEvent
+        /// <returns>All handlers that can process the event</returns>
+        public static IEnumerable<IEventHandler<TEvent>> SelectHandlersForEvent<TEvent>(this IEnumerable<IEventHandler> allHandlers)
+            where TEvent : IEvent
         {
             return allHandlers
-                .Where(HandlesDomainEvent<TDomainEvent>)
-                .Select(GetGenericDomainEventHandlerForDomainEvent<TDomainEvent>);
+                .Where(HandlesEvent<TEvent>)
+                .Select(GetGenericEventHandlerForEvent<TEvent>);
         }
 
         /// <summary>
-		/// Determines if a given domain event handler is mean to handle the domain event. The
-		/// handler can be either a exact match or meant to handle a base type of the domain event
+		/// Determines if a given event handler is mean to handle the event. The
+		/// handler can be either a exact match or meant to handle a base type of the event
 		/// </summary>
-		/// <typeparam name="TDomainEvent">Type of domain event to be handled</typeparam>
-		/// <param name="handler">Domain event handler to be evaluated</param>
+		/// <typeparam name="TEvent">Type of event to be handled</typeparam>
+		/// <param name="handler">Event handler to be evaluated</param>
 		/// <returns></returns>
-		private static bool HandlesDomainEvent<TDomainEvent>(IDomainEventHandler handler)
+		private static bool HandlesEvent<TEvent>(IEventHandler handler)
         {
-            var expectedDomainEventTypeInfo = typeof(TDomainEvent);
-            var handlerInterfaceDomainEventType = GetDomainEventTypeFromHandler(handler);
+            var expectedEventTypeInfo = typeof(TEvent);
+            var handlerInterfaceEventType = GetEventTypeFromHandler(handler);
 
-            if (handlerInterfaceDomainEventType == default(Type))
+            if (handlerInterfaceEventType == default(Type))
                 return false;
 
-            return handlerInterfaceDomainEventType
+            return handlerInterfaceEventType
                 .GetTypeInfo()
-                .IsAssignableFrom(expectedDomainEventTypeInfo.GetTypeInfo());
+                .IsAssignableFrom(expectedEventTypeInfo.GetTypeInfo());
         }
 
         /// <summary>
-		/// Gets the type of domain event that is handled by the domain event handler
+		/// Gets the type of event that is handled by the event handler
 		/// </summary>
 		/// <param name="handler">Handler</param>
-		/// <returns>Type of domain event the handler is meant to handle</returns>
-		private static Type GetDomainEventTypeFromHandler(IDomainEventHandler handler)
+		/// <returns>Type of event the handler is meant to handle</returns>
+		private static Type GetEventTypeFromHandler(IEventHandler handler)
         {
             var handlerInterface = handler
                 .GetType()
                 .GetInterfaces()
-                .FirstOrDefault(IsGenericDomainEventHandler);
+                .FirstOrDefault(IsGenericEventHandler);
 
             if (handlerInterface == default(Type))
                 return default(Type);
@@ -61,41 +61,41 @@ namespace Mendham.Domain.Events.Components
         }
 
         /// <summary>
-		/// Gets the domain event handler casted to the correct type for the domain event. Wraps the event if needed
+		/// Gets the event handler casted to the correct type for the event. Wraps the event if needed
 		/// </summary>
-		/// <typeparam name="TDomainEvent">Type of domain event</typeparam>
-		/// <param name="handler">Handler that is known to be correct for the type of domain event</param>
+		/// <typeparam name="TEvent">Type of event</typeparam>
+		/// <param name="handler">Handler that is known to be correct for the type of event</param>
 		/// <returns></returns>
-		private static IDomainEventHandler<TDomainEvent> GetGenericDomainEventHandlerForDomainEvent<TDomainEvent>(IDomainEventHandler handler)
-            where TDomainEvent : IDomainEvent
+		private static IEventHandler<TEvent> GetGenericEventHandlerForEvent<TEvent>(IEventHandler handler)
+            where TEvent : IEvent
         {
-            var match = handler as IDomainEventHandler<TDomainEvent>;
+            var match = handler as IEventHandler<TEvent>;
 
             if (match != null)
                 return match;
 
-            var baseDomainEventType = GetDomainEventTypeFromHandler(handler);
+            var baseEventType = GetEventTypeFromHandler(handler);
 
-            var genericDomainEventHandlerWrapper = typeof(DomainEventHandlerWrapper<,>);
-            var constructedDomainEventHandlerWrapper = genericDomainEventHandlerWrapper
-                .MakeGenericType(baseDomainEventType, typeof(TDomainEvent));
+            var genericEventHandlerWrapper = typeof(EventHandlerWrapper<,>);
+            var constructedEventHandlerWrapper = genericEventHandlerWrapper
+                .MakeGenericType(baseEventType, typeof(TEvent));
 
-            return (IDomainEventHandler<TDomainEvent>)
-                Activator.CreateInstance(constructedDomainEventHandlerWrapper, handler);
+            return (IEventHandler<TEvent>)
+                Activator.CreateInstance(constructedEventHandlerWrapper, handler);
         }
 
         /// <summary>
-		/// Verifies that type of domain event handler implements the generic type of IDomainEventHandler
+		/// Verifies that type of event handler implements the generic type of <see cref="IEventHandler"/>
 		/// </summary>
-		/// <param name="t">Type of domain event</param>
-		/// <returns>True if type implements the the genreic type of IDomainEventHandler</returns>
-		private static bool IsGenericDomainEventHandler(Type t)
+		/// <param name="t">Type of event</param>
+		/// <returns>True if type implements the the genreic type of <see cref="IEventHandler"/></returns>
+		private static bool IsGenericEventHandler(Type t)
         {
             var ti = t.GetTypeInfo();
 
             return ti.IsInterface
                 && ti.IsGenericType
-                && ti.GetGenericTypeDefinition().Equals(typeof(IDomainEventHandler<>));
+                && ti.GetGenericTypeDefinition().Equals(typeof(IEventHandler<>));
         }
     }
 }

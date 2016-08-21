@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Mendham.Domain.Events.Components
+namespace Mendham.Events.Components
 {
-    public class DefaultDomainEventHandlerContainer : IDomainEventHandlerContainer
+    public class DefaultEventHandlerContainer : IEventHandlerContainer
     {
-        private readonly Func<IEnumerable<IDomainEventHandler>> domainEventHandlersFactory;
+        private readonly Func<IEnumerable<IEventHandler>> _eventHandlersFactory;
 
-        public DefaultDomainEventHandlerContainer(Func<IEnumerable<IDomainEventHandler>> domainEventHandlersFactory)
+        public DefaultEventHandlerContainer(Func<IEnumerable<IEventHandler>> eventHandlersFactory)
         {
-            this.domainEventHandlersFactory = domainEventHandlersFactory;
+            this._eventHandlersFactory = eventHandlersFactory;
         }
 
-        public IEnumerable<IDomainEventHandler<TDomainEvent>> GetHandlers<TDomainEvent>() where TDomainEvent : IDomainEvent
+        public IEnumerable<IEventHandler<TEvent>> GetHandlers<TEvent>() where TEvent : IEvent
         {
-            return domainEventHandlersFactory()
-                .SelectHandlersForDomainEvent<TDomainEvent>();
+            return _eventHandlersFactory()
+                .SelectHandlersForEvent<TEvent>();
         }
     }
 }

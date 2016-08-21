@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-
-namespace Mendham.Domain.Events.Components
+﻿namespace Mendham.Events.Components
 {
-    public interface IDomainEventPublisherComponents
+    public interface IEventPublisherComponents
     {
-        IDomainEventHandlerContainer DomainEventHandlerContainer { get; }
-        IDomainEventHandlerProcessor DomainEventHandlerProcessor { get; }
-        IDomainEventLoggerProcessor DomainEventLoggerProcessor { get; }
+        IEventHandlerContainer EventHandlerContainer { get; }
+        IEventHandlerProcessor EventHandlerProcessor { get; }
+        IEventLoggerProcessor EventLoggerProcessor { get; }
     }
 }

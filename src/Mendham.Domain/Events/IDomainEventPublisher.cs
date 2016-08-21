@@ -1,23 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
-namespace Mendham.Domain.Events
+namespace Mendham.Events
 {
 	/// <summary>
-	/// Use this interface to raise domain events
+	/// Use this interface to raise events
 	/// </summary>
-	public interface IDomainEventPublisher
+	public interface IEventPublisher
 	{
 		/// <summary>
-		/// Raises a domain event to be logged and handled
+		/// Raises a event to be logged and handled
 		/// </summary>
-		/// <typeparam name="TDomainEvent">Type of Domain Event</typeparam>
-		/// <param name="domainEvent">Domain Event</param>
-		/// <returns>Empty task after successfully</returns>
-		/// <exception cref="DomainEventHandlingException">One or more errors occured by handler</exception>
-		Task RaiseAsync<TDomainEvent>(TDomainEvent domainEvent)
-			where TDomainEvent : class, IDomainEvent;
+		/// <typeparam name="TEvent">Type of Event</typeparam>
+		/// <param name="eventRaised">Event raised</param>
+		/// <returns>Empty task after successfully raised</returns>
+		/// <exception cref="EventHandlingException">One or more errors occured by handler</exception>
+		Task RaiseAsync<TEvent>(TEvent eventRaised) where TEvent : class, IEvent;
 	}
 }

@@ -1,23 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace Mendham.Domain.Events
+namespace Mendham.Events
 {
-	public abstract class DomainEvent : IDomainEvent
+	public abstract class Event : IEvent
 	{
-		public DomainEvent()
+        public Event() : this(DateTimeOffset.UtcNow)
+        { }
+
+		public Event(DateTimeOffset eventTime)
 		{
-			this.TimeOccurred = DateTime.UtcNow;
+			eventTime.VerifyArgumentNotDefaultValue(nameof(eventTime), "Event time is required");
+			EventTime = eventTime;
 		}
 
-		public DomainEvent(DateTime timeOccured)
-		{
-			timeOccured.VerifyArgumentNotDefaultValue(nameof(timeOccured), "Event time is required");
-			this.TimeOccurred = timeOccured;
-		}
-
-		public DateTime TimeOccurred { get; protected set; }
+		public DateTimeOffset EventTime { get; protected set; }
 	}
 }

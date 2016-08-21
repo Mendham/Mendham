@@ -3,22 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Mendham.Domain.Events.Components
+namespace Mendham.Events.Components
 {
-    public class DomainEventLoggerProcessor : IDomainEventLoggerProcessor
+    public class EventLoggerProcessor : IEventLoggerProcessor
     {
-        private readonly Func<IEnumerable<IDomainEventLogger>> loggersFactory;
+        private readonly Func<IEnumerable<IEventLogger>> loggersFactory;
 
-        public DomainEventLoggerProcessor(Func<IEnumerable<IDomainEventLogger>> loggersFactory)
+        public EventLoggerProcessor(Func<IEnumerable<IEventLogger>> loggersFactory)
         {
             this.loggersFactory = loggersFactory;
         }
 
-        public void LogDomainEvent(IDomainEvent domainEvent)
+        public void LogEvent(IEvent eventRaised)
         {
             foreach (var logger in loggersFactory())
             {
-                logger.LogDomainEventRaised(domainEvent);
+                logger.LogEvent(eventRaised);
             }
         }
     }

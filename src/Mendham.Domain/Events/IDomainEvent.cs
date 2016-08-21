@@ -1,18 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace Mendham.Domain.Events
+namespace Mendham.Events
 {
 	/// <summary>
-	/// A domain event
+	/// An application event
 	/// </summary>
-	public interface IDomainEvent
+	public interface IEvent
 	{
 		/// <summary>
-		/// Time in which the domain event occured
+		/// Time in which the event occured
 		/// </summary>
-		DateTime TimeOccurred { get; }
+		DateTimeOffset EventTime { get; }
 	}
 }

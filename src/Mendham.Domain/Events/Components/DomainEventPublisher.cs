@@ -1,30 +1,30 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Mendham.Domain.Events.Components
+namespace Mendham.Events.Components
 {
-    public class DomainEventPublisher : IDomainEventPublisher
+    public class EventPublisher : IEventPublisher
 	{
-        private readonly Func<IDomainEventPublisherComponents> domainEventPublisherComponentsFactory;
+        private readonly Func<IEventPublisherComponents> _eventPublisherComponentsFactory;
 
-        public DomainEventPublisher(Func<IDomainEventPublisherComponents> domainEventPublisherContainerFactory)
+        public EventPublisher(Func<IEventPublisherComponents> eventPublisherContainerFactory)
 		{
-			this.domainEventPublisherComponentsFactory = domainEventPublisherContainerFactory;
+			_eventPublisherComponentsFactory = eventPublisherContainerFactory;
 		}
 
-		public Task RaiseAsync<TDomainEvent>(TDomainEvent domainEvent)
-			where TDomainEvent : class, IDomainEvent
+		public Task RaiseAsync<TEvent>(TEvent eventRaised)
+			where TEvent : class, IEvent
 		{
-            var domainEventPublisherComponents = domainEventPublisherComponentsFactory();
+            var eventPublisherComponents = _eventPublisherComponentsFactory();
 
             // Log Event
-            domainEventPublisherComponents.DomainEventLoggerProcessor.LogDomainEvent(domainEvent);
+            eventPublisherComponents.EventLoggerProcessor.LogEvent(eventRaised);
 
             // Get Handlers
-            var handlers = domainEventPublisherComponents.DomainEventHandlerContainer.GetHandlers<TDomainEvent>();
+            var handlers = eventPublisherComponents.EventHandlerContainer.GetHandlers<TEvent>();
 
             // Get task to process all handlers
-            return domainEventPublisherComponents.DomainEventHandlerProcessor.HandleAllAsync(domainEvent, handlers);
+            return eventPublisherComponents.EventHandlerProcessor.HandleAllAsync(eventRaised, handlers);
         }
     }
 }
