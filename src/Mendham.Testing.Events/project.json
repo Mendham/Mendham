@@ -1,18 +1,18 @@
 ﻿{
   "version": "1.0.0-beta7-*",
-  "description": "Test helpers for Mendham.Domain",
+  "description": "Test helpers for Mendham.Events",
   "authors": [ "Craig Beall" ],
 
   "packOptions": {
-    "tags": [ "mendham test testing domain ddd tdd xunit" ],
+    "tags": [ "mendham tdd xunit events domainevents" ],
     "projectUrl": "https://mendham.github.io",
     "licenseUrl": "https://raw.githubusercontent.com/mendham/Mendham/master/LICENSE",
     "requireLicenseAcceptance": false
   },
 
   "dependencies": {
-    "Mendham.Domain": "1.0.0-*",
-    "Mendham.Testing.Events": "1.0.0-*"
+    "Mendham.Events": "1.0.0-*",
+    "Mendham.Testing": "1.0.0-*"
   },
 
   "frameworks": {
