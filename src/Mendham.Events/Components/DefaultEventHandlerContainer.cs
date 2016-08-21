@@ -9,7 +9,7 @@ namespace Mendham.Events.Components
 
         public DefaultEventHandlerContainer(Func<IEnumerable<IEventHandler>> eventHandlersFactory)
         {
-            this._eventHandlersFactory = eventHandlersFactory;
+            _eventHandlersFactory = eventHandlersFactory;
         }
 
         public IEnumerable<IEventHandler<TEvent>> GetHandlers<TEvent>() where TEvent : IEvent
