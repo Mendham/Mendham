@@ -13,6 +13,6 @@ namespace Mendham.Events
 			EventTime = eventTime;
 		}
 
-		public DateTimeOffset EventTime { get; protected set; }
+		public DateTimeOffset EventTime { get; }
 	}
 }
