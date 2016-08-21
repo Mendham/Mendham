@@ -7,6 +7,21 @@ namespace Mendham.Testing
 {
     public static class BuilderExtensions
     {
+
+        private static readonly Random _random = new Random();
+
+        /// <summary>
+        /// Uses <paramref name="builderFactory"/> to build a random amount objects of type <typeparamref name="T"/>
+        /// </summary>
+        /// <typeparam name="T">Object to be built</typeparam>
+        /// <param name="builderFactory">Delegate to create builder</param>
+        /// <returns>An enumerable containing <typeparamref name="T"/> objects</returns>
+        public static IEnumerable<T> BuildMultiple<T>(this Func<IBuilder<T>> builderFactory)
+        {
+            var count = _random.Next(4, 9);
+            return builderFactory.BuildMultiple(count);
+        }
+
         /// <summary>
         /// Uses <paramref name="builderFactory"/> to build multiple objects of type <typeparamref name="T"/>
         /// </summary>
