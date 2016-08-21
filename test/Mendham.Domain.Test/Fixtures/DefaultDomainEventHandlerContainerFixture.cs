@@ -1,24 +1,23 @@
-﻿using Mendham.Domain.Events;
-using Mendham.Domain.Events.Components;
-using Mendham.Domain.Test.TestObjects.Events;
+﻿using Mendham.Events.Components;
+using Mendham.Events.Test.TestObjects;
 using Mendham.Testing;
 using Moq;
 using System.Collections.Generic;
 
-namespace Mendham.Domain.Test.Fixtures
+namespace Mendham.Events.Test.Fixtures
 {
-    public class DefaultDomainEventHandlerContainerFixture : Fixture<DefaultDomainEventHandlerContainer>
+    public class DefaultEventHandlerContainerFixture : Fixture<DefaultEventHandlerContainer>
     {
-		public IDomainEventHandler<BaseDomainEvent> BaseEventHandler { get; set; }
-		public IDomainEventHandler<DerivedDomainEvent> DerivedEventHandler { get; set; }
-		public IDomainEventHandler<OtherDomainEvent> OtherEventHandler { get; set; }
+		public IEventHandler<BaseEvent> BaseEventHandler { get; set; }
+		public IEventHandler<DerivedEvent> DerivedEventHandler { get; set; }
+		public IEventHandler<OtherEvent> OtherEventHandler { get; set; }
 
-        public override DefaultDomainEventHandlerContainer CreateSut()
+        public override DefaultEventHandlerContainer CreateSut()
 		{
-			return new DefaultDomainEventHandlerContainer(() => Handlers);
+			return new DefaultEventHandlerContainer(() => Handlers);
 		}
 
-		private IEnumerable<IDomainEventHandler> Handlers
+		private IEnumerable<IEventHandler> Handlers
 		{
 			get
 			{
@@ -32,19 +31,19 @@ namespace Mendham.Domain.Test.Fixtures
 		{
 			base.ResetFixture();
 
-			BaseEventHandler = Mock.Of<IDomainEventHandler<BaseDomainEvent>>();
-			DerivedEventHandler = Mock.Of<IDomainEventHandler<DerivedDomainEvent>>();
-			OtherEventHandler = Mock.Of<IDomainEventHandler<OtherDomainEvent>>();
+			BaseEventHandler = Mock.Of<IEventHandler<BaseEvent>>();
+			DerivedEventHandler = Mock.Of<IEventHandler<DerivedEvent>>();
+			OtherEventHandler = Mock.Of<IEventHandler<OtherEvent>>();
 		}
 
-		public BaseDomainEvent CreateBaseDomainEvent()
+		public BaseEvent CreateBaseEvent()
 		{
-			return new BaseDomainEvent();
+			return new BaseEvent();
 		}
 
-		public DerivedDomainEvent CreateDerivedDomainEvent()
+		public DerivedEvent CreateDerivedEvent()
 		{
-			return new DerivedDomainEvent();
+			return new DerivedEvent();
 		}
 	}
 }

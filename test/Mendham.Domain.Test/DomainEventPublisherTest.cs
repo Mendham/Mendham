@@ -1,5 +1,5 @@
-﻿using Mendham.Domain.Test.Fixtures;
-using Mendham.Domain.Test.TestObjects.Events;
+﻿using Mendham.Events.Test.Fixtures;
+using Mendham.Events.Test.TestObjects;
 using Mendham.Testing;
 using Mendham.Testing.Moq;
 using Moq;
@@ -7,75 +7,75 @@ using System;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Mendham.Domain.Test
+namespace Mendham.Events.Test
 {
-    public class DomainEventPublisherTest : UnitTest<DomainEventPublisherFixture>
+    public class EventPublisherTest : UnitTest<EventPublisherFixture>
 	{
-		public DomainEventPublisherTest(DomainEventPublisherFixture fixture) : base(fixture)
+		public EventPublisherTest(EventPublisherFixture fixture) : base(fixture)
 		{ }
 
 		[Fact]
-		public async Task RaiseAsync_DomainEvent_RaisesHandlers()
+		public async Task RaiseAsync_Event_RaisesHandlers()
 		{
-			var domainEvent = Fixture.CreateDomainEvent();
-            var handlers = Fixture.GetDomainEventHandlersForTestDomainEvent();
+			var testEvent = Fixture.CreateEvent();
+            var handlers = Fixture.GetEventHandlersForTestEvent();
 
-            Fixture.DomainEventHandlerContainer.AsMock()
-                .Setup(a => a.GetHandlers<TestDomainEvent>())
+            Fixture.EventHandlerContainer.AsMock()
+                .Setup(a => a.GetHandlers<TestEvent>())
                 .Returns(handlers);
-			Fixture.DomainEventHandlerProcessor.AsMock()
-				.Setup(a => a.HandleAllAsync(domainEvent, handlers))
+			Fixture.EventHandlerProcessor.AsMock()
+				.Setup(a => a.HandleAllAsync(testEvent, handlers))
 				.ReturnsNoActionTask();
 
 			var sut = Fixture.CreateSut();
 
-			await sut.RaiseAsync(domainEvent);
+			await sut.RaiseAsync(testEvent);
 
-			Fixture.DomainEventHandlerProcessor.AsMock()
-				.Verify(a => a.HandleAllAsync(domainEvent, handlers), Times.Once);
+			Fixture.EventHandlerProcessor.AsMock()
+				.Verify(a => a.HandleAllAsync(testEvent, handlers), Times.Once);
 		}
 
 		[Fact]
-		public async Task RaiseAsync_DomainEvent_LogsEvent()
+		public async Task RaiseAsync_Event_LogsEvent()
 		{
-			var domainEvent = Fixture.CreateDomainEvent();
-            var handlers = Fixture.GetDomainEventHandlersForTestDomainEvent();
+			var testEvent = Fixture.CreateEvent();
+            var handlers = Fixture.GetEventHandlersForTestEvent();
 
-            Fixture.DomainEventHandlerContainer.AsMock()
-                .Setup(a => a.GetHandlers<TestDomainEvent>())
+            Fixture.EventHandlerContainer.AsMock()
+                .Setup(a => a.GetHandlers<TestEvent>())
                 .Returns(handlers);
-            Fixture.DomainEventHandlerProcessor.AsMock()
-				.Setup(a => a.HandleAllAsync(domainEvent, handlers))
+            Fixture.EventHandlerProcessor.AsMock()
+				.Setup(a => a.HandleAllAsync(testEvent, handlers))
 				.ReturnsNoActionTask();
 
 			var sut = Fixture.CreateSut();
 
-			await sut.RaiseAsync(domainEvent);
+			await sut.RaiseAsync(testEvent);
 
-            Fixture.DomainEventLoggerProcessor.AsMock()
-                 .Verify(a => a.LogDomainEvent(domainEvent), Times.Once);
+            Fixture.EventLoggerProcessor.AsMock()
+                 .Verify(a => a.LogEvent(testEvent), Times.Once);
         }
 
 		[Fact]
 		public async Task RaiseAsync_HandlerException_StillLogsEvent()
 		{
-			var domainEvent = Fixture.CreateDomainEvent();
-            var handlers = Fixture.GetDomainEventHandlersForTestDomainEvent();
+			var testEvent = Fixture.CreateEvent();
+            var handlers = Fixture.GetEventHandlersForTestEvent();
 
-            Fixture.DomainEventHandlerContainer.AsMock()
-                .Setup(a => a.GetHandlers<TestDomainEvent>())
+            Fixture.EventHandlerContainer.AsMock()
+                .Setup(a => a.GetHandlers<TestEvent>())
                 .Returns(handlers);
-            Fixture.DomainEventHandlerProcessor.AsMock()
-                .Setup(a => a.HandleAllAsync(domainEvent, handlers))
+            Fixture.EventHandlerProcessor.AsMock()
+                .Setup(a => a.HandleAllAsync(testEvent, handlers))
                 .Throws<InvalidOperationException>();
 
 			var sut = Fixture.CreateSut();
 
 			await Assert.ThrowsAsync<InvalidOperationException>(
-				() => sut.RaiseAsync(domainEvent));
+				() => sut.RaiseAsync(testEvent));
 
-            Fixture.DomainEventLoggerProcessor.AsMock()
-                .Verify(a => a.LogDomainEvent(domainEvent), Times.Once); ;
+            Fixture.EventLoggerProcessor.AsMock()
+                .Verify(a => a.LogEvent(testEvent), Times.Once); ;
         }
 	}
 }

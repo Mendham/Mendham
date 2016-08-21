@@ -1,7 +1,5 @@
-﻿using Mendham.Domain.Events;
-
-namespace Mendham.Domain.Test.TestObjects.Events
+﻿namespace Mendham.Events.Test.TestObjects
 {
-    public class OtherDomainEvent : DomainEvent
+    public class OtherEvent : Event
     { }
 }

@@ -1,38 +1,38 @@
-﻿using Mendham.Domain.Test.Fixtures;
+﻿using Mendham.Events.Test.Fixtures;
 using Mendham.Testing;
 using Mendham.Testing.Moq;
 using Moq;
 using Xunit;
 
-namespace Mendham.Domain.Test
+namespace Mendham.Events.Test
 {
-    public class DomainEventLoggerProcessorTest : UnitTest<DomainEventLoggerProcessorFixture>
+    public class EventLoggerProcessorTest : UnitTest<EventLoggerProcessorFixture>
     {
-        public DomainEventLoggerProcessorTest(DomainEventLoggerProcessorFixture fixture) : base(fixture)
+        public EventLoggerProcessorTest(EventLoggerProcessorFixture fixture) : base(fixture)
         { }
 
         [Fact]
-        public void LogDomainEventRaised_MultipleLoggers_AllLogged()
+        public void LogEventRaised_MultipleLoggers_AllLogged()
         {
-            Fixture.AddLogger(Fixture.DomainEventLogger1);
-            Fixture.AddLogger(Fixture.DomainEventLogger2);
+            Fixture.AddLogger(Fixture.EventLogger1);
+            Fixture.AddLogger(Fixture.EventLogger2);
 
             var sut = Fixture.CreateSut();
 
-            sut.LogDomainEvent(Fixture.DomainEvent);
+            sut.LogEvent(Fixture.Event);
 
-            Fixture.DomainEventLogger1.AsMock()
-                .Verify(a => a.LogDomainEventRaised(Fixture.DomainEvent), Times.Once());
-            Fixture.DomainEventLogger2.AsMock()
-                .Verify(a => a.LogDomainEventRaised(Fixture.DomainEvent), Times.Once());
+            Fixture.EventLogger1.AsMock()
+                .Verify(a => a.LogEvent(Fixture.Event), Times.Once());
+            Fixture.EventLogger2.AsMock()
+                .Verify(a => a.LogEvent(Fixture.Event), Times.Once());
         }
 
         [Fact]
-        public void LogDomainEventRaised_NoLoggers_Completes()
+        public void LogEventRaised_NoLoggers_Completes()
         {
             var sut = Fixture.CreateSut();
 
-            sut.LogDomainEvent(Fixture.DomainEvent);
+            sut.LogEvent(Fixture.Event);
         }
     }
 }

@@ -1,16 +1,16 @@
 ﻿using FluentAssertions;
-using Mendham.Domain.Events.Components;
-using Mendham.Domain.Test.Fixtures;
-using Mendham.Domain.Test.TestObjects.Events;
+using Mendham.Events.Components;
+using Mendham.Events.Test.Fixtures;
+using Mendham.Events.Test.TestObjects;
 using Mendham.Testing;
 using System.Linq;
 using Xunit;
 
-namespace Mendham.Domain.Test
+namespace Mendham.Events.Test
 {
-    public class DefaultDomainEventHandlerContainerTest : UnitTest<DefaultDomainEventHandlerContainerFixture>
+    public class DefaultEventHandlerContainerTest : UnitTest<DefaultEventHandlerContainerFixture>
 	{
-		public DefaultDomainEventHandlerContainerTest(DefaultDomainEventHandlerContainerFixture fixture) : base(fixture)
+		public DefaultEventHandlerContainerTest(DefaultEventHandlerContainerFixture fixture) : base(fixture)
 		{ }
 
 		[Fact]
@@ -18,7 +18,7 @@ namespace Mendham.Domain.Test
 		{
 			var sut = Fixture.CreateSut();
 
-			var result = sut.GetHandlers<BaseDomainEvent>();
+			var result = sut.GetHandlers<BaseEvent>();
 
             result.Should()
                 .ContainSingle()
@@ -30,7 +30,7 @@ namespace Mendham.Domain.Test
         {
             var sut = Fixture.CreateSut();
 
-            var result = sut.GetHandlers<DerivedDomainEvent>();
+            var result = sut.GetHandlers<DerivedEvent>();
 
             result.Should()
                 .HaveCount(2);
@@ -41,7 +41,7 @@ namespace Mendham.Domain.Test
         {
             var sut = Fixture.CreateSut();
 
-            var result = sut.GetHandlers<DerivedDomainEvent>();
+            var result = sut.GetHandlers<DerivedEvent>();
 
             result.Should()
                 .Contain(Fixture.DerivedEventHandler);
@@ -52,8 +52,8 @@ namespace Mendham.Domain.Test
         {
             var sut = Fixture.CreateSut();
 
-            var result = sut.GetHandlers<DerivedDomainEvent>()
-                .OfType<IDomainEventHandlerWrapper>()
+            var result = sut.GetHandlers<DerivedEvent>()
+                .OfType<IEventHandlerWrapper>()
                 .FirstOrDefault();
 
             result.Should()

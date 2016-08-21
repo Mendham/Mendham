@@ -1,46 +1,45 @@
-﻿using Mendham.Domain.Events;
-using Mendham.Domain.Events.Components;
-using Mendham.Domain.Test.TestObjects.Events;
+﻿using Mendham.Events.Components;
+using Mendham.Events.Test.TestObjects;
 using Mendham.Testing;
 using Moq;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Mendham.Domain.Test.Fixtures
+namespace Mendham.Events.Test.Fixtures
 {
-    public class DomainEventLoggerProcessorFixture : Fixture<DomainEventLoggerProcessor>
+    public class EventLoggerProcessorFixture : Fixture<EventLoggerProcessor>
     {
-        public IDomainEventLogger DomainEventLogger1 { get; set; }
-        public IDomainEventLogger DomainEventLogger2 { get; set; }
+        public IEventLogger EventLogger1 { get; set; }
+        public IEventLogger EventLogger2 { get; set; }
 
-        private List<IDomainEventLogger> loggers;
+        private List<IEventLogger> _loggers;
 
-        public DomainEventLoggerProcessorFixture()
+        public EventLoggerProcessorFixture()
         {
-            loggers = new List<IDomainEventLogger>();
+            _loggers = new List<IEventLogger>();
         }
 
-        public TestDomainEvent DomainEvent { get; set; }
+        public TestEvent Event { get; set; }
 
-        public override DomainEventLoggerProcessor CreateSut()
+        public override EventLoggerProcessor CreateSut()
         {
-            var loggersAtCreation = loggers.ToList();
-            return new DomainEventLoggerProcessor(() => loggersAtCreation);
+            var loggersAtCreation = _loggers.ToList();
+            return new EventLoggerProcessor(() => loggersAtCreation);
         }
 
-        public void AddLogger(IDomainEventLogger logger)
+        public void AddLogger(IEventLogger logger)
         {
-            loggers.Add(logger);
+            _loggers.Add(logger);
         }
 
         public override void ResetFixture()
         {
             base.ResetFixture();
 
-            loggers.Clear();
+            _loggers.Clear();
 
-            DomainEventLogger1 = Mock.Of<IDomainEventLogger>();
-            DomainEventLogger2 = Mock.Of<IDomainEventLogger>();
+            EventLogger1 = Mock.Of<IEventLogger>();
+            EventLogger2 = Mock.Of<IEventLogger>();
         }
     }
 }

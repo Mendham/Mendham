@@ -1,47 +1,45 @@
-﻿using Mendham.Domain.Events;
-using Mendham.Domain.Events.Components;
-using Mendham.Domain.Test.TestObjects.Events;
+﻿using Mendham.Events.Components;
+using Mendham.Events.Test.TestObjects;
 using Mendham.Testing;
 using Moq;
 using System.Collections.Generic;
-using System.Linq;
 
-namespace Mendham.Domain.Test.Fixtures
+namespace Mendham.Events.Test.Fixtures
 {
-    public class DomainEventPublisherFixture : Fixture<DomainEventPublisher>
+    public class EventPublisherFixture : Fixture<EventPublisher>
     {
-		public IDomainEventHandlerContainer DomainEventHandlerContainer { get; set; }
-        public IDomainEventHandlerProcessor DomainEventHandlerProcessor { get; set; }
-        public IDomainEventLoggerProcessor DomainEventLoggerProcessor { get; set; }
+		public IEventHandlerContainer EventHandlerContainer { get; set; }
+        public IEventHandlerProcessor EventHandlerProcessor { get; set; }
+        public IEventLoggerProcessor EventLoggerProcessor { get; set; }
 
-        public override DomainEventPublisher CreateSut()
+        public override EventPublisher CreateSut()
 		{
-			return new DomainEventPublisher(DomainEventPublisherContainerFactory);
+			return new EventPublisher(EventPublisherContainerFactory);
 		}
 
 		public override void ResetFixture()
 		{
 			base.ResetFixture();
 
-			this.DomainEventHandlerContainer = Mock.Of<IDomainEventHandlerContainer>();
-            this.DomainEventHandlerProcessor = Mock.Of<IDomainEventHandlerProcessor>();
-            this.DomainEventLoggerProcessor = Mock.Of<IDomainEventLoggerProcessor>();
+			EventHandlerContainer = Mock.Of<IEventHandlerContainer>();
+            EventHandlerProcessor = Mock.Of<IEventHandlerProcessor>();
+            EventLoggerProcessor = Mock.Of<IEventLoggerProcessor>();
         }
 
-        public TestDomainEvent CreateDomainEvent()
+        public TestEvent CreateEvent()
         {
-            return new TestDomainEvent();
+            return new TestEvent();
         }
 
-        public IEnumerable<IDomainEventHandler<TestDomainEvent>> GetDomainEventHandlersForTestDomainEvent()
+        public IEnumerable<IEventHandler<TestEvent>> GetEventHandlersForTestEvent()
         {
-            return Mock.Of<IEnumerable<IDomainEventHandler<TestDomainEvent>>>();
+            return Mock.Of<IEnumerable<IEventHandler<TestEvent>>>();
         }
 
-        private IDomainEventPublisherComponents DomainEventPublisherContainerFactory()
+        private IEventPublisherComponents EventPublisherContainerFactory()
         {
-            return new DomainEventPublisherComponents(DomainEventHandlerContainer, 
-                DomainEventHandlerProcessor, DomainEventLoggerProcessor);
+            return new EventPublisherComponents(EventHandlerContainer, 
+                EventHandlerProcessor, EventLoggerProcessor);
         }
 	}
 }
