@@ -1,9 +1,7 @@
 ﻿using Mendham.Domain.Extensions;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace Mendham.Domain
 {
@@ -16,7 +14,7 @@ namespace Mendham.Domain
         {
 			get
 			{
-				return this.IdentityComponents;
+				return IdentityComponents;
 			}
 		}
 
