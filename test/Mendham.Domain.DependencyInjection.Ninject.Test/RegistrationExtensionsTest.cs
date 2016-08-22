@@ -2,8 +2,7 @@
 using Mendham.Domain.DependencyInjection.InvalidConcreateBaseEntity;
 using Mendham.Domain.DependencyInjection.InvalidMultipleDerivedEntity;
 using Mendham.Domain.DependencyInjection.TestObjects;
-using Mendham.Events;
-using Mendham.Events.DependencyInjection.TestObjects;
+using Mendham.Events.DependencyInjection.Ninject;
 using Ninject;
 using System;
 using System.Linq;
@@ -24,25 +23,6 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
         public void Dispose()
         {
             sut.Dispose();
-        }
-
-        [Fact]
-        public void RegisterDomainEventHandlers_HandlersInAssembly_ReturnsAll()
-        {
-            var assembly = typeof(Test1EventHandler).GetTypeInfo().Assembly;
-
-            sut.RegisterEventHandlers(assembly);
-
-            var result = sut.GetAll<IEventHandler>();
-
-            result.Should()
-                .NotBeEmpty();
-            result.Should()
-                .ContainItemsAssignableTo<IEventHandler>();
-            result.Should()
-                .Contain(a => a is Test1EventHandler);
-            result.Should()
-                .Contain(a => a is Test2EventHandler);
         }
 
         [Fact]

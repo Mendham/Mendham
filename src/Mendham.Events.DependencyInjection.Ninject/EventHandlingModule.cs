@@ -3,7 +3,7 @@ using Mendham.Events.Components;
 using Ninject;
 using Ninject.Modules;
 
-namespace Mendham.Domain.DependencyInjection.Ninject
+namespace Mendham.Events.DependencyInjection.Ninject
 {
     public class EventHandlingModule : NinjectModule
     {

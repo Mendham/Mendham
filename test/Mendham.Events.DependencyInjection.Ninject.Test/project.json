@@ -1,0 +1,25 @@
+﻿{
+  "testRunner": "xunit",
+
+  "dependencies": {
+    "Mendham.Events.DependencyInjection.Ninject": {
+      "target": "project"
+    },
+    "Mendham.Events.DependencyInjection.TestObjects": {
+      "target": "project"
+    },
+    "Mendham.Testing": {
+      "target": "project"
+    },
+    "FluentAssertions": "4.13.0",
+    "dotnet-test-xunit": "2.2.0-preview2-build1029"
+  },
+
+  "frameworks": {
+    "net451": {
+      "dependencies": {
+        "Microsoft.NETCore.Platforms": "1.0.1"
+      }
+    }
+  }
+}

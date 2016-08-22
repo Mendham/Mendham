@@ -1,20 +1,24 @@
 ﻿{
   "version": "1.0.0-beta7-*",
-  "description": "Ninject plugin to use with Mendham.Domain ",
+  "description": "Ninject plugin to use with Mendham.Events ",
   "authors": [ "Craig Beall" ],
 
   "packOptions": {
-    "tags": [ "mendham domain ddd ninject ioc di" ],
+    "tags": [ "mendham events eventhandling ninject ioc di" ],
     "projectUrl": "https://mendham.github.io",
     "licenseUrl": "https://raw.githubusercontent.com/mendham/Mendham/master/LICENSE",
     "requireLicenseAcceptance": false
   },
   "dependencies": {
-    "Mendham.Domain": "1.0.0-*",
-    "Mendham.Events.DependencyInjection.Ninject": "1.0.0-*"
+    "Mendham.Events": "1.0.0-*"
   },
 
   "frameworks": {
-    "net451": {}
+    "net451": {
+      "dependencies": {
+        "Ninject": "3.2.2",
+        "ninject.extensions.conventions":  "3.2.0"
+      }
+    }
   }
 }

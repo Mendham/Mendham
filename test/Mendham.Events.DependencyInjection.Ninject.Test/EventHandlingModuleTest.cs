@@ -1,6 +1,4 @@
 ﻿using FluentAssertions;
-using Mendham.Domain.Events;
-using Mendham.Events;
 using Mendham.Events.Components;
 using Ninject;
 using System;
@@ -9,13 +7,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Mendham.Domain.DependencyInjection.Ninject.Test
+namespace Mendham.Events.DependencyInjection.Ninject.Test
 {
-    public class DomainEventHandlingModuleTest : IDisposable
+    public class EventHandlingModuleTest : IDisposable
     {
         private IKernel sut;
 
-        public DomainEventHandlingModuleTest()
+        public EventHandlingModuleTest()
         {
             sut = new StandardKernel(new EventHandlingModule());
         }
@@ -26,7 +24,7 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
         }
 
         [Fact]
-        public void DomainEventHandlingModule_RegisterDomainEventPublisher_Resolves()
+        public void EventHandlingModule_RegisterDomainEventPublisher_Resolves()
         {
             var result = sut.Get<IEventPublisher>();
 
@@ -36,7 +34,7 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
         }
 
         [Fact]
-        public void DomainEventHandlingModule_RegisterEventHandlerContainer_Resolves()
+        public void EventHandlingModule_RegisterEventHandlerContainer_Resolves()
         {
             var result = sut.Get<IEventHandlerContainer>();
 
@@ -46,7 +44,7 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
         }
 
         [Fact]
-        public void DomainEventHandlingModule_RegisterEventHandlerProcessor_Resolves()
+        public void EventHandlingModule_RegisterEventHandlerProcessor_Resolves()
         {
             var result = sut.Get<IEventHandlerProcessor>();
 
@@ -56,7 +54,7 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
         }
 
         [Fact]
-        public void DomainEventHandlingModule_RegisterEventLoggerProcessor_Resolves()
+        public void EventHandlingModule_RegisterEventLoggerProcessor_Resolves()
         {
             var result = sut.Get<IEventLoggerProcessor>();
 
@@ -66,7 +64,7 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
         }
 
         [Fact]
-        public void DomainEventHandlingModule_RegisterDomainEventPublisher_IsSameInstance()
+        public void EventHandlingModule_RegisterDomainEventPublisher_IsSameInstance()
         {
             var expectedPublisher = sut.Get<IEventPublisher>();
             var result = sut.Get<IEventPublisher>();
@@ -76,7 +74,7 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
         }
 
         [Fact]
-        public void DomainEventHandlingModule_RegisterEventHandlerContainer_IsSameInstance()
+        public void EventHandlingModule_RegisterEventHandlerContainer_IsSameInstance()
         {
             var expectedContainer = sut.Get<IEventHandlerContainer>();
             var result = sut.Get<IEventHandlerContainer>();
@@ -86,7 +84,7 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
         }
 
         [Fact]
-        public void DomainEventHandlingModule_RegisterEventHandlerProcessor_IsSameInstance()
+        public void EventHandlingModule_RegisterEventHandlerProcessor_IsSameInstance()
         {
             var expectedHandlerProcessor = sut.Get<IEventHandlerProcessor>();
             var result = sut.Get<IEventHandlerProcessor>();
@@ -96,7 +94,7 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
         }
 
         [Fact]
-        public void DomainEventHandlingModule_RegisterEventLoggerProcessor_IsSameInstance()
+        public void EventHandlingModule_RegisterEventLoggerProcessor_IsSameInstance()
         {
             var expectedLoggerProcessor = sut.Get<IEventLoggerProcessor>();
             var result = sut.Get<IEventLoggerProcessor>();
