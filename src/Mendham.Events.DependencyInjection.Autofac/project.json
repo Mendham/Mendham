@@ -1,26 +1,22 @@
 ﻿{
   "version": "1.0.0-beta7-*",
-  "description": "A simple asynchronous event handler ",
+  "description": "Autofac plugin to use with Mendham.Events",
   "authors": [ "Craig Beall" ],
 
   "packOptions": {
-    "tags": [ "mendham events eventhandling" ],
+    "tags": [ "mendham events eventhandling autofac ioc di" ],
     "projectUrl": "https://mendham.github.io",
     "licenseUrl": "https://raw.githubusercontent.com/mendham/Mendham/master/LICENSE",
     "requireLicenseAcceptance": false
   },
 
   "dependencies": {
-    "NETStandard.Library": "1.6.0",
-    "Mendham": "1.0.0-*"
+    "Mendham.Events": "1.0.0-*",
+    "Autofac": "4.0.0"
   },
 
   "frameworks": {
-    "netstandard1.3": {
-      "dependencies": {
-        "System.Reflection.TypeExtensions": "4.1.0"
-      }
-    },
+    "netstandard1.3": {},
     "net451": {}
   }
 }

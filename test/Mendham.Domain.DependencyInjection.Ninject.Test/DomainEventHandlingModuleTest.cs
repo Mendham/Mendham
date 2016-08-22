@@ -17,7 +17,7 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
 
         public DomainEventHandlingModuleTest()
         {
-            sut = new StandardKernel(new DomainEventHandlingModule());
+            sut = new StandardKernel(new EventHandlingModule());
         }
 
         public void Dispose()

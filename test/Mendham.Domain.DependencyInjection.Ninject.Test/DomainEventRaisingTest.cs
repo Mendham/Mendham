@@ -16,7 +16,7 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
         [Fact]
         public async Task Raise_SingleEvent_IsLogged()
         {
-            using (var kernel = new StandardKernel(new DomainEventHandlingModule()))
+            using (var kernel = new StandardKernel(new EventHandlingModule()))
             {
                 kernel.RegisterEventHandlers(typeof(TestEventLogger).GetTypeInfo().Assembly);
                 kernel.Bind<IEventLogger>().To<TestEventLogger>().InSingletonScope();
@@ -37,7 +37,7 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
         [Fact]
         public async Task Raise_SingleHandler_IsRaised()
         {
-            using (var kernel = new StandardKernel(new DomainEventHandlingModule()))
+            using (var kernel = new StandardKernel(new EventHandlingModule()))
             {
                 kernel.RegisterEventHandlers(typeof(WasCalledVerifiableEvent).GetTypeInfo().Assembly);
 
@@ -59,7 +59,7 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
         [Fact]
         public async Task Raise_SingleHandler_StartIsLogged()
         {
-            using (var kernel = new StandardKernel(new DomainEventHandlingModule()))
+            using (var kernel = new StandardKernel(new EventHandlingModule()))
             {
                 kernel.RegisterEventHandlers(typeof(WasCalledVerifiableEvent).GetTypeInfo().Assembly);
                 kernel.Bind<IEventHandlerLogger>()
@@ -82,7 +82,7 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
         [Fact]
         public async Task Raise_SingleHandler_CompleteIsLogged()
         {
-            using (var kernel = new StandardKernel(new DomainEventHandlingModule()))
+            using (var kernel = new StandardKernel(new EventHandlingModule()))
             {
                 kernel.RegisterEventHandlers(typeof(WasCalledVerifiableEvent).GetTypeInfo().Assembly);
                 kernel.Bind<IEventHandlerLogger>()
@@ -105,7 +105,7 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
         [Fact]
         public async Task Raise_HandlerLogsSecondEvent_BothLogged()
         {
-            using (var kernel = new StandardKernel(new DomainEventHandlingModule()))
+            using (var kernel = new StandardKernel(new EventHandlingModule()))
             {
                 kernel.RegisterEventHandlers(typeof(EventWithHandlerRegistered).GetTypeInfo().Assembly);
                 kernel.Bind<IEventLogger>().To<TestEventLogger>().InSingletonScope();
@@ -130,7 +130,7 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
             // The purpose of this test is to take an action on a complex graph to make sure the container 
             // does not throw a circular dependency error
 
-            using (var kernel = new StandardKernel(new DomainEventHandlingModule()))
+            using (var kernel = new StandardKernel(new EventHandlingModule()))
             {
                 kernel.RegisterEventHandlers(typeof(IHasCircularHandlerService).GetTypeInfo().Assembly);
                 kernel.RegisterDomainFacades(typeof(IHasCircularHandlerService).GetTypeInfo().Assembly);
@@ -154,7 +154,7 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
             // The purpose of this test is to take an action on a complex graph to make sure the container 
             // does not throw a circular dependency error
 
-            using (var kernel = new StandardKernel(new DomainEventHandlingModule()))
+            using (var kernel = new StandardKernel(new EventHandlingModule()))
             {
                 kernel.RegisterEventHandlers(typeof(IHasCircularHandlerService).GetTypeInfo().Assembly);
                 kernel.RegisterDomainFacades(typeof(IHasCircularHandlerService).GetTypeInfo().Assembly);

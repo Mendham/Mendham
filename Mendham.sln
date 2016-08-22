@@ -82,6 +82,12 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Testing.Events", "s
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Testing.Events.Test", "test\Mendham.Testing.Events.Test\Mendham.Testing.Events.Test.xproj", "{E36459E2-C0E8-4041-A908-453BD7351786}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Events.DependencyInjection.Autofac", "src\Mendham.Events.DependencyInjection.Autofac\Mendham.Events.DependencyInjection.Autofac.xproj", "{A9AFC412-1E6A-46D9-805F-ECE8971A2658}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Events.DependencyInjection.TestObjects", "test\Resources\Mendham.Events.DependencyInjection.TestObjects\Mendham.Events.DependencyInjection.TestObjects.xproj", "{0374578A-1794-4A26-ACCD-F589B0BE5BF3}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Events.DependencyInjection.Autofac.Test", "test\Mendham.Events.DependencyInjection.Autofac.Test\Mendham.Events.DependencyInjection.Autofac.Test.xproj", "{542B5B24-61A2-48E1-B37A-BCC88C114FC1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -204,6 +210,18 @@ Global
 		{E36459E2-C0E8-4041-A908-453BD7351786}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E36459E2-C0E8-4041-A908-453BD7351786}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E36459E2-C0E8-4041-A908-453BD7351786}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9AFC412-1E6A-46D9-805F-ECE8971A2658}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9AFC412-1E6A-46D9-805F-ECE8971A2658}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9AFC412-1E6A-46D9-805F-ECE8971A2658}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9AFC412-1E6A-46D9-805F-ECE8971A2658}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0374578A-1794-4A26-ACCD-F589B0BE5BF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0374578A-1794-4A26-ACCD-F589B0BE5BF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0374578A-1794-4A26-ACCD-F589B0BE5BF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0374578A-1794-4A26-ACCD-F589B0BE5BF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{542B5B24-61A2-48E1-B37A-BCC88C114FC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{542B5B24-61A2-48E1-B37A-BCC88C114FC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{542B5B24-61A2-48E1-B37A-BCC88C114FC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{542B5B24-61A2-48E1-B37A-BCC88C114FC1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -244,5 +262,8 @@ Global
 		{BF3FD031-D2B2-4D56-A2D7-B95D1C85B39B} = {5837883B-CC74-4A1F-96F5-AEEEAFD73EC4}
 		{96A07AE4-C95C-47BB-9155-D8A835950743} = {0939C9D9-E0AA-4599-AA22-AC58F16C96DE}
 		{E36459E2-C0E8-4041-A908-453BD7351786} = {5837883B-CC74-4A1F-96F5-AEEEAFD73EC4}
+		{A9AFC412-1E6A-46D9-805F-ECE8971A2658} = {A5AAD2FC-316E-4D57-AB53-0B90B983A1B6}
+		{0374578A-1794-4A26-ACCD-F589B0BE5BF3} = {C9AF6D12-2693-4513-BE01-B64EA0E89D11}
+		{542B5B24-61A2-48E1-B37A-BCC88C114FC1} = {5837883B-CC74-4A1F-96F5-AEEEAFD73EC4}
 	EndGlobalSection
 EndGlobal

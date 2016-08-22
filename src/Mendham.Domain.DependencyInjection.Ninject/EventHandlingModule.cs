@@ -5,7 +5,7 @@ using Ninject.Modules;
 
 namespace Mendham.Domain.DependencyInjection.Ninject
 {
-    public class DomainEventHandlingModule : NinjectModule
+    public class EventHandlingModule : NinjectModule
     {
         public override void Load()
         {

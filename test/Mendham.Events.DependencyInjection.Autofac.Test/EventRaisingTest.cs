@@ -1,18 +1,16 @@
 ﻿using Autofac;
 using FluentAssertions;
-using Mendham.Domain.DependencyInjection.Autofac.Test.TestObjects;
-using Mendham.Domain.DependencyInjection.ComplexDomainGraph;
-using Mendham.Events;
 using Mendham.Events.DependencyInjection.TestObjects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Mendham.Domain.DependencyInjection.Autofac.Test
+namespace Mendham.Events.DependencyInjection.Autofac.Test
 {
-    public class DomainEventRaisingTest
+    public class EventRaisingTest
     {
         [Fact]
         public async Task Raise_SingleEvent_IsLogged()
@@ -107,7 +105,7 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
             using (var scope = builder.Build().BeginLifetimeScope())
             {
                 var publisher = scope.Resolve<IEventPublisher>();
-                var handlerLogger = scope.Resolve<IEventHandlerLogger>() as WasCalledVerifiableHandlerLogger; 
+                var handlerLogger = scope.Resolve<IEventHandlerLogger>() as WasCalledVerifiableHandlerLogger;
 
                 var domainEvent = new WasCalledVerifiableEvent();
 
@@ -144,35 +142,6 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
                     .HaveCount(2)
                     .And.Contain(originalDomainEvent)
                     .And.Match(a => a.OfType<EventNoHandlerRegistered>().Any());
-            }
-        }
-
-        [Fact]
-        public async Task Raise_ComplexDomainGraph_ReturnsTrueAfterProcessing()
-        {
-            // The purpose of this test is to take an action on a complex graph to make sure the container 
-            // does not throw a circular dependency error
-
-            var builder = new ContainerBuilder();
-
-            builder.RegisterModule<EventHandlingModule>();
-            builder.RegisterEventHandlers(typeof(IHasCircularHandlerService).GetTypeInfo().Assembly);
-            builder.RegisterDomainFacades(typeof(IHasCircularHandlerService).GetTypeInfo().Assembly);
-            builder.RegisterEntities(typeof(IHasCircularHandlerService).GetTypeInfo().Assembly);
-
-            builder.RegisterType<HasCircularHandlerService>().As<IHasCircularHandlerService>();
-            builder.RegisterType<CountService>().As<ICountService>().SingleInstance();
-            builder.RegisterType<OtherService>().As<IOtherService>();
-            builder.RegisterType<EntityCreationService>().As<IEntityCreationService>();
-            builder.RegisterType<ComplexGraphEntityFactory>().As<IEntityFactory>();
-
-            using (var scope = builder.Build().BeginLifetimeScope())
-            {
-                var sut = scope.Resolve<IHasCircularHandlerService>();
-
-                var result = await sut.StartAsync();
-
-                result.Should().BeTrue();
             }
         }
     }
