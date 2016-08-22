@@ -1,8 +1,8 @@
 ﻿using FluentAssertions;
 using Mendham.Domain.DependencyInjection.ComplexDomainGraph;
 using Mendham.Domain.DependencyInjection.Ninject.Test.TestObjects;
-using Mendham.Domain.DependencyInjection.TestObjects;
 using Mendham.Events;
+using Mendham.Events.DependencyInjection.TestObjects;
 using Ninject;
 using System.Linq;
 using System.Reflection;
@@ -24,7 +24,7 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
                 var publisher = kernel.Get<IEventPublisher>();
                 var logger = kernel.Get<IEventLogger>() as TestEventLogger;
 
-                var domainEvent = new Test1DomainEvent();
+                var domainEvent = new Test1Event();
 
                 await publisher.RaiseAsync(domainEvent);
 
@@ -107,20 +107,20 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
         {
             using (var kernel = new StandardKernel(new DomainEventHandlingModule()))
             {
-                kernel.RegisterEventHandlers(typeof(DomainEventWithHandlerRegistered).GetTypeInfo().Assembly);
+                kernel.RegisterEventHandlers(typeof(EventWithHandlerRegistered).GetTypeInfo().Assembly);
                 kernel.Bind<IEventLogger>().To<TestEventLogger>().InSingletonScope();
 
                 var publisher = kernel.Get<IEventPublisher>();
                 var logger = kernel.Get<IEventLogger>() as TestEventLogger;
 
-                var originalDomainEvent = new DomainEventWithHandlerRegistered();
+                var originalDomainEvent = new EventWithHandlerRegistered();
 
                 await publisher.RaiseAsync(originalDomainEvent);
 
                 logger.LoggedEvents.Should()
                     .HaveCount(2)
                     .And.Contain(originalDomainEvent)
-                    .And.Match(a => a.OfType<DomainEventNoHandlerRegistered>().Any());
+                    .And.Match(a => a.OfType<EventNoHandlerRegistered>().Any());
             }
         }
 

@@ -1,17 +1,13 @@
-﻿using Mendham.Domain.Events;
-using Mendham.Events;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Threading.Tasks;
 
-namespace Mendham.Domain.DependencyInjection.TestObjects
+namespace Mendham.Events.DependencyInjection.TestObjects
 {
     public sealed class WasCalledVerifiableHandler : IEventHandler<WasCalledVerifiableEvent>
     {
         public WasCalledVerifiableHandler()
         {
-            this.WasEverCalled = false;
+            WasEverCalled = false;
         }
 
         public bool WasEverCalled { get; private set; }
@@ -23,7 +19,7 @@ namespace Mendham.Domain.DependencyInjection.TestObjects
         }
     }
 
-    public sealed class WasCalledVerifiableEvent : DomainEvent
+    public sealed class WasCalledVerifiableEvent : Event
     { }
 
     public class WasCalledVerifiableHandlerLogger : IEventHandlerLogger

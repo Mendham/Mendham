@@ -1,6 +1,5 @@
 ﻿using Autofac;
 using FluentAssertions;
-using Mendham.Domain.Events;
 using Mendham.Events;
 using Mendham.Events.Components;
 using System;
@@ -11,7 +10,7 @@ using Xunit;
 
 namespace Mendham.Domain.DependencyInjection.Autofac.Test
 {
-	public class DomainEventHandlingModuleTest
+	public class EventHandlingModuleTest
 	{
 		[Fact]
 		public void DomainEventHandlingModule_RegisterEventPublisher_Resolves()

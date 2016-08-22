@@ -2,8 +2,8 @@
 using Mendham.Domain.DependencyInjection.InvalidConcreateBaseEntity;
 using Mendham.Domain.DependencyInjection.InvalidMultipleDerivedEntity;
 using Mendham.Domain.DependencyInjection.TestObjects;
-using Mendham.Domain.Events;
 using Mendham.Events;
+using Mendham.Events.DependencyInjection.TestObjects;
 using Ninject;
 using System;
 using System.Linq;
@@ -29,7 +29,7 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
         [Fact]
         public void RegisterDomainEventHandlers_HandlersInAssembly_ReturnsAll()
         {
-            var assembly = typeof(Test1DomainEventHandler).GetTypeInfo().Assembly;
+            var assembly = typeof(Test1EventHandler).GetTypeInfo().Assembly;
 
             sut.RegisterEventHandlers(assembly);
 
@@ -40,9 +40,9 @@ namespace Mendham.Domain.DependencyInjection.Ninject.Test
             result.Should()
                 .ContainItemsAssignableTo<IEventHandler>();
             result.Should()
-                .Contain(a => a is Test1DomainEventHandler);
+                .Contain(a => a is Test1EventHandler);
             result.Should()
-                .Contain(a => a is Test2DomainEventHandler);
+                .Contain(a => a is Test2EventHandler);
         }
 
         [Fact]

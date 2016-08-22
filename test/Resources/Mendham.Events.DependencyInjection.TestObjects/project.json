@@ -1,9 +1,6 @@
 ﻿{
   "dependencies": {
-    "Mendham.Domain": {
-      "target": "project"
-    },
-    "Mendham.Events.DependencyInjection.TestObjects": {
+    "Mendham.Events": {
       "target": "project"
     }
   },

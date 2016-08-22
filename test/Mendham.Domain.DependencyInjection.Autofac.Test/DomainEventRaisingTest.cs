@@ -4,6 +4,7 @@ using Mendham.Domain.DependencyInjection.Autofac.Test.TestObjects;
 using Mendham.Domain.DependencyInjection.ComplexDomainGraph;
 using Mendham.Domain.DependencyInjection.TestObjects;
 using Mendham.Events;
+using Mendham.Events.DependencyInjection.TestObjects;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -30,7 +31,7 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
                 var publisher = scope.Resolve<IEventPublisher>();
                 var logger = scope.Resolve<IEventLogger>() as TestEventLogger;
 
-                var domainEvent = new Test1DomainEvent();
+                var domainEvent = new Test1Event();
 
                 await publisher.RaiseAsync(domainEvent);
 
@@ -125,7 +126,7 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
             var builder = new ContainerBuilder();
 
             builder.RegisterModule<DomainEventHandlingModule>();
-            builder.RegisterEventHandlers(typeof(DomainEventWithHandlerRegistered).GetTypeInfo().Assembly);
+            builder.RegisterEventHandlers(typeof(EventWithHandlerRegistered).GetTypeInfo().Assembly);
 
             builder.RegisterType<TestEventLogger>()
                 .As<IEventLogger>()
@@ -136,14 +137,14 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
                 var publisher = scope.Resolve<IEventPublisher>();
                 var logger = scope.Resolve<IEventLogger>() as TestEventLogger;
 
-                var originalDomainEvent = new DomainEventWithHandlerRegistered();
+                var originalDomainEvent = new EventWithHandlerRegistered();
 
                 await publisher.RaiseAsync(originalDomainEvent);
 
                 logger.LoggedEvents.Should()
                     .HaveCount(2)
                     .And.Contain(originalDomainEvent)
-                    .And.Match(a => a.OfType<DomainEventNoHandlerRegistered>().Any());
+                    .And.Match(a => a.OfType<EventNoHandlerRegistered>().Any());
             }
         }
 

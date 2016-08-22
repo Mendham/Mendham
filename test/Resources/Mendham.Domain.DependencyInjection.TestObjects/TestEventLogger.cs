@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Mendham.Domain.DependencyInjection.TestObjects
+namespace Mendham.Events.DependencyInjection.TestObjects
 {
     public class TestEventLogger : IEventLogger
     {
