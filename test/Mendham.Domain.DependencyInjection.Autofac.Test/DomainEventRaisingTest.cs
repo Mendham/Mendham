@@ -2,7 +2,6 @@
 using FluentAssertions;
 using Mendham.Domain.DependencyInjection.Autofac.Test.TestObjects;
 using Mendham.Domain.DependencyInjection.ComplexDomainGraph;
-using Mendham.Domain.DependencyInjection.TestObjects;
 using Mendham.Events;
 using Mendham.Events.DependencyInjection.TestObjects;
 using System.Collections.Generic;
@@ -20,7 +19,7 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
         {
             var builder = new ContainerBuilder();
 
-            builder.RegisterModule<DomainEventHandlingModule>();
+            builder.RegisterModule<EventHandlingModule>();
 
             builder.RegisterType<TestEventLogger>()
                 .As<IEventLogger>()
@@ -46,7 +45,7 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
         {
             var builder = new ContainerBuilder();
 
-            builder.RegisterModule<DomainEventHandlingModule>();
+            builder.RegisterModule<EventHandlingModule>();
             builder.RegisterEventHandlers(typeof(WasCalledVerifiableEvent).GetTypeInfo().Assembly);
 
             using (var scope = builder.Build().BeginLifetimeScope())
@@ -71,7 +70,7 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
         {
             var builder = new ContainerBuilder();
 
-            builder.RegisterModule<DomainEventHandlingModule>();
+            builder.RegisterModule<EventHandlingModule>();
             builder.RegisterEventHandlers(typeof(WasCalledVerifiableEvent).GetTypeInfo().Assembly);
 
             builder.RegisterType<WasCalledVerifiableHandlerLogger>()
@@ -98,7 +97,7 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
         {
             var builder = new ContainerBuilder();
 
-            builder.RegisterModule<DomainEventHandlingModule>();
+            builder.RegisterModule<EventHandlingModule>();
             builder.RegisterEventHandlers(typeof(WasCalledVerifiableEvent).GetTypeInfo().Assembly);
 
             builder.RegisterType<WasCalledVerifiableHandlerLogger>()
@@ -125,7 +124,7 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
         {
             var builder = new ContainerBuilder();
 
-            builder.RegisterModule<DomainEventHandlingModule>();
+            builder.RegisterModule<EventHandlingModule>();
             builder.RegisterEventHandlers(typeof(EventWithHandlerRegistered).GetTypeInfo().Assembly);
 
             builder.RegisterType<TestEventLogger>()
@@ -156,7 +155,7 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
 
             var builder = new ContainerBuilder();
 
-            builder.RegisterModule<DomainEventHandlingModule>();
+            builder.RegisterModule<EventHandlingModule>();
             builder.RegisterEventHandlers(typeof(IHasCircularHandlerService).GetTypeInfo().Assembly);
             builder.RegisterDomainFacades(typeof(IHasCircularHandlerService).GetTypeInfo().Assembly);
             builder.RegisterEntities(typeof(IHasCircularHandlerService).GetTypeInfo().Assembly);

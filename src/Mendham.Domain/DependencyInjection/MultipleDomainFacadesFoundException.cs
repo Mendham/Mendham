@@ -3,17 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Mendham.Domain.DependencyInjection.Ninject
+namespace Mendham.Domain.DependencyInjection
 {
     public class MultipleDomainFacadesFoundException : Exception
     {
         private readonly Type _interfaceToBind;
         private readonly IEnumerable<Type> _typesImplementingInterface;
 
-        internal MultipleDomainFacadesFoundException(Type interfaceToBind, IEnumerable<Type> typesImplementingInterface)
+        public MultipleDomainFacadesFoundException(Type interfaceToBind, IEnumerable<Type> typesImplementingInterface)
         {
-            _interfaceToBind = interfaceToBind;
-            _typesImplementingInterface = typesImplementingInterface;
+            _interfaceToBind = interfaceToBind
+                .VerifyArgumentNotDefaultValue(nameof(interfaceToBind));
+            _typesImplementingInterface = typesImplementingInterface
+                .VerifyArgumentNotNullOrEmpty(nameof(typesImplementingInterface));
         }
 
         public Type InterfaceToBind

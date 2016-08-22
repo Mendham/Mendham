@@ -24,7 +24,7 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
 			builder.RegisterEventHandlers(assembly);
 
             // This is needed one of the test handlersin the assembly (not used here) injects a publisher
-            builder.RegisterModule<DomainEventHandlingModule>();
+            builder.RegisterModule<EventHandlingModule>();
 
             using (var sut = builder.Build().BeginLifetimeScope())
 			{
@@ -47,7 +47,7 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
 			var assembly = typeof(TestEntityWithDomainFacade).GetTypeInfo().Assembly;
 
 			var builder = new ContainerBuilder();
-			builder.RegisterModule<DomainEventHandlingModule>();
+			builder.RegisterModule<EventHandlingModule>();
 			builder.RegisterDomainFacades(assembly);
 
 			using (var sut = builder.Build().BeginLifetimeScope())
@@ -64,7 +64,7 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
             var assembly = typeof(DerivedTestEntityWithDomainFacade).GetTypeInfo().Assembly;
 
             var builder = new ContainerBuilder();
-            builder.RegisterModule<DomainEventHandlingModule>();
+            builder.RegisterModule<EventHandlingModule>();
             builder.RegisterDomainFacades(assembly);
 
             using (var sut = builder.Build().BeginLifetimeScope())
@@ -81,7 +81,7 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
             var assembly = typeof(AbstractTestEntityWithDomainFacade).GetTypeInfo().Assembly;
 
             var builder = new ContainerBuilder();
-            builder.RegisterModule<DomainEventHandlingModule>();
+            builder.RegisterModule<EventHandlingModule>();
             builder.RegisterDomainFacades(assembly);
 
             using (var sut = builder.Build().BeginLifetimeScope())
@@ -100,7 +100,7 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
             var assembly = typeof(IUnrelatedInterface).GetTypeInfo().Assembly;
 
             var builder = new ContainerBuilder();
-            builder.RegisterModule<DomainEventHandlingModule>();
+            builder.RegisterModule<EventHandlingModule>();
             builder.RegisterDomainFacades(assembly);
 
             using (var sut = builder.Build().BeginLifetimeScope())
@@ -117,7 +117,7 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
             var assembly = typeof(ConcreateBaseEntity).GetTypeInfo().Assembly;
 
             var builder = new ContainerBuilder();
-            builder.RegisterModule<DomainEventHandlingModule>();
+            builder.RegisterModule<EventHandlingModule>();
             builder.RegisterDomainFacades(assembly);
 
             Action act = () => builder.Build();
@@ -135,7 +135,7 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
             var assembly = typeof(AbstractBaseEntity).GetTypeInfo().Assembly;
 
             var builder = new ContainerBuilder();
-            builder.RegisterModule<DomainEventHandlingModule>();
+            builder.RegisterModule<EventHandlingModule>();
             builder.RegisterDomainFacades(assembly);
 
             Action act = () => builder.Build();
@@ -154,7 +154,7 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
             var interfacesToIgnore = typeof(ConcreateBaseEntity.IBaseFacade).AsSingleItemEnumerable();
 
             var builder = new ContainerBuilder();
-            builder.RegisterModule<DomainEventHandlingModule>();
+            builder.RegisterModule<EventHandlingModule>();
             builder.RegisterDomainFacades(assembly, interfacesToIgnore);
             builder.RegisterType<ConcreateBaseEntity.BaseFacade>().As<ConcreateBaseEntity.IBaseFacade>();
 
@@ -173,7 +173,7 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
             var interfacesToIgnore = typeof(ConcreateBaseEntity.IBaseFacade).AsSingleItemEnumerable();
 
             var builder = new ContainerBuilder();
-            builder.RegisterModule<DomainEventHandlingModule>();
+            builder.RegisterModule<EventHandlingModule>();
             builder.RegisterDomainFacades(assembly, interfacesToIgnore);
 
             using (var sut = builder.Build().BeginLifetimeScope())
@@ -191,7 +191,7 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
             var interfacesToIgnore = typeof(ConcreateBaseEntity.IBaseFacade).AsSingleItemEnumerable();
 
             var builder = new ContainerBuilder();
-            builder.RegisterModule<DomainEventHandlingModule>();
+            builder.RegisterModule<EventHandlingModule>();
             builder.RegisterDomainFacades(assembly, interfacesToIgnore);
 
             using (var sut = builder.Build().BeginLifetimeScope())
@@ -234,7 +234,7 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
 			var assembly = typeof(TestEntityWithDomainFacade).GetTypeInfo().Assembly;
 
 			var builder = new ContainerBuilder();
-			builder.RegisterModule<DomainEventHandlingModule>();
+			builder.RegisterModule<EventHandlingModule>();
             builder.RegisterEntities(assembly);
 			builder.RegisterDomainFacades(assembly);
 

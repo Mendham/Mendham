@@ -1,6 +1,6 @@
 {
   "version": "1.0.0-beta7-*",
-  "description": "Autofac plugin to use with Mendham.Domain ",
+  "description": "Autofac plugin to use with Mendham.Domain",
   "authors": [ "Craig Beall" ],
 
   "packOptions": {
@@ -13,7 +13,7 @@
 
   "dependencies": {
     "Mendham.Domain": "1.0.0-*",
-    "Autofac": "4.0.0"
+    "Mendham.Events.DependencyInjection.Autofac": "1.0.0-*"
   },
 
   "frameworks": {

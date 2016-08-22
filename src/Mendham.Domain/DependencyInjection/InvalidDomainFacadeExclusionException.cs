@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Mendham.Domain.DependencyInjection.Ninject
+namespace Mendham.Domain.DependencyInjection
 {
     public class InvalidDomainFacadeExclusionException : Exception
     {

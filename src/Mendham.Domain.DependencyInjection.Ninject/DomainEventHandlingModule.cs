@@ -1,5 +1,4 @@
-﻿using Mendham.Domain.Events;
-using Mendham.Events;
+﻿using Mendham.Events;
 using Mendham.Events.Components;
 using Ninject;
 using Ninject.Modules;

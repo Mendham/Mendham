@@ -4,7 +4,7 @@ using Mendham.Events.Components;
 
 namespace Mendham.Domain.DependencyInjection.Autofac
 {
-    public class DomainEventHandlingModule : Module
+    public class EventHandlingModule : Module
     {
 		protected override void Load(ContainerBuilder builder)
 		{

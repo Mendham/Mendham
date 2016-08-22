@@ -16,7 +16,7 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
 		public void DomainEventHandlingModule_RegisterEventPublisher_Resolves()
 		{
 			var builder = new ContainerBuilder();
-			builder.RegisterModule<DomainEventHandlingModule>();
+			builder.RegisterModule<EventHandlingModule>();
 
 			using (var sut = builder.Build().BeginLifetimeScope())
 			{
@@ -32,7 +32,7 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
 		public void DomainEventHandlingModule_RegisterEventHandlingContainer_Resolves()
 		{
 			var builder = new ContainerBuilder();
-			builder.RegisterModule<DomainEventHandlingModule>();
+			builder.RegisterModule<EventHandlingModule>();
 
 			using (var sut = builder.Build().BeginLifetimeScope())
 			{
@@ -48,7 +48,7 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
         public void DomainEventHandlingModule_RegisterEventHandlingProcessor_Resolves()
         {
             var builder = new ContainerBuilder();
-            builder.RegisterModule<DomainEventHandlingModule>();
+            builder.RegisterModule<EventHandlingModule>();
 
             using (var sut = builder.Build().BeginLifetimeScope())
             {
@@ -64,7 +64,7 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
         public void DomainEventHandlingModule_RegisterEventLoggerProcessor_Resolves()
         {
             var builder = new ContainerBuilder();
-            builder.RegisterModule<DomainEventHandlingModule>();
+            builder.RegisterModule<EventHandlingModule>();
 
             using (var sut = builder.Build().BeginLifetimeScope())
             {
@@ -80,7 +80,7 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
 		public void DomainEventHandlingModule_RegisterEventPublisher_IsSameInstance()
 		{
 			var builder = new ContainerBuilder();
-			builder.RegisterModule<DomainEventHandlingModule>();
+			builder.RegisterModule<EventHandlingModule>();
 			var container = builder.Build();
 
 			IEventPublisher publisher1, publisher2;
@@ -103,7 +103,7 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
 		public void DomainEventHandlingModule_RegisterEventHandlingContainer_IsSameInstance()
 		{
 			var builder = new ContainerBuilder();
-			builder.RegisterModule<DomainEventHandlingModule>();
+			builder.RegisterModule<EventHandlingModule>();
 			var container = builder.Build();
 
 			IEventHandlerContainer container1, container2;
@@ -126,7 +126,7 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
         public void DomainEventHandlingModule_RegisterDomainEventHandlingProcessor_IsSameInstance()
         {
             var builder = new ContainerBuilder();
-            builder.RegisterModule<DomainEventHandlingModule>();
+            builder.RegisterModule<EventHandlingModule>();
             var container = builder.Build();
 
             IEventHandlerProcessor processor1, processor2;
@@ -149,7 +149,7 @@ namespace Mendham.Domain.DependencyInjection.Autofac.Test
         public void DomainEventHandlingModule_RegisterEventLoggerProcessor_IsSameInstance()
         {
             var builder = new ContainerBuilder();
-            builder.RegisterModule<DomainEventHandlingModule>();
+            builder.RegisterModule<EventHandlingModule>();
             var container = builder.Build();
 
             IEventLoggerProcessor loggerProcessor1, loggerProcessor2;
