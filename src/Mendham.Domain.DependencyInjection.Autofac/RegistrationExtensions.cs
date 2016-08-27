@@ -1,12 +1,13 @@
 ﻿using Autofac;
-using Mendham.Events;
+using Mendham.Domain;
+using Mendham.Domain.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 
-namespace Mendham.Domain.DependencyInjection.Autofac
+namespace Mendham.DependencyInjection.Autofac
 {
     public static class RegistrationExtensions
 	{

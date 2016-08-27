@@ -1,8 +1,8 @@
 ﻿using Autofac;
 using FluentAssertions;
+using Mendham.DependencyInjection.Autofac;
 using Mendham.Domain.DependencyInjection.Autofac.Test.TestObjects;
 using Mendham.Domain.DependencyInjection.ComplexDomainGraph;
-using Mendham.Events.DependencyInjection.Autofac;
 using System.Reflection;
 using System.Threading.Tasks;
 using Xunit;

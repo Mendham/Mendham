@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Mendham.DependencyInjection.Ninject;
 using Mendham.Events.DependencyInjection.TestObjects;
 using Ninject;
 using System.Linq;

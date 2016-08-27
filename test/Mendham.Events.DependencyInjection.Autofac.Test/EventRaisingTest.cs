@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using FluentAssertions;
+using Mendham.DependencyInjection.Autofac;
 using Mendham.Events.DependencyInjection.TestObjects;
 using System;
 using System.Collections.Generic;

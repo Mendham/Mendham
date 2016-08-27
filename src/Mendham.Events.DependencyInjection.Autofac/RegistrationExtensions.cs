@@ -1,7 +1,8 @@
 ﻿using Autofac;
+using Mendham.Events;
 using System.Reflection;
 
-namespace Mendham.Events.DependencyInjection.Autofac
+namespace Mendham.DependencyInjection.Autofac
 {
     public static class RegistrationExtensions
     {

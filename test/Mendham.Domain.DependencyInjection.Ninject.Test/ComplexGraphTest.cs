@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
+using Mendham.DependencyInjection.Ninject;
 using Mendham.Domain.DependencyInjection.ComplexDomainGraph;
 using Mendham.Domain.DependencyInjection.Ninject.Test.TestObjects;
-using Mendham.Events.DependencyInjection.Ninject;
 using Ninject;
 using System.Linq;
 using System.Reflection;

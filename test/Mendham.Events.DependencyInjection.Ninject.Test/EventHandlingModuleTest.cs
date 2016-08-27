@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Mendham.DependencyInjection.Ninject;
 using Mendham.Events.Components;
 using Ninject;
 using System;

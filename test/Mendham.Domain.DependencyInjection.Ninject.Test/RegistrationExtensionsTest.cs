@@ -1,8 +1,8 @@
 ﻿using FluentAssertions;
+using Mendham.DependencyInjection.Ninject;
 using Mendham.Domain.DependencyInjection.InvalidConcreateBaseEntity;
 using Mendham.Domain.DependencyInjection.InvalidMultipleDerivedEntity;
 using Mendham.Domain.DependencyInjection.TestObjects;
-using Mendham.Events.DependencyInjection.Ninject;
 using Ninject;
 using System;
 using System.Linq;

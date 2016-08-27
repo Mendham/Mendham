@@ -1,11 +1,9 @@
 ﻿using FluentAssertions;
+using Mendham.DependencyInjection.Ninject;
 using Mendham.Events.DependencyInjection.TestObjects;
 using Ninject;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Mendham.Events.DependencyInjection.Ninject.Test

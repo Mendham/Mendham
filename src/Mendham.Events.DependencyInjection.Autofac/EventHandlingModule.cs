@@ -1,7 +1,8 @@
 ﻿using Autofac;
+using Mendham.Events;
 using Mendham.Events.Components;
 
-namespace Mendham.Events.DependencyInjection.Autofac
+namespace Mendham.DependencyInjection.Autofac
 {
     public class EventHandlingModule : Module
     {

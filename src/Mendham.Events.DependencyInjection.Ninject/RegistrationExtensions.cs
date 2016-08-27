@@ -1,9 +1,10 @@
-﻿using Ninject.Extensions.Conventions;
+﻿using Mendham.Events;
+using Ninject.Extensions.Conventions;
 using Ninject.Syntax;
 using System.Linq;
 using System.Reflection;
 
-namespace Mendham.Events.DependencyInjection.Ninject
+namespace Mendham.DependencyInjection.Ninject
 {
     public static class RegistrationExtensions
     {

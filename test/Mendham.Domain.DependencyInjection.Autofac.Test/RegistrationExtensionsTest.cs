@@ -1,11 +1,10 @@
 ﻿using Autofac;
 using FluentAssertions;
+using Mendham.DependencyInjection.Autofac;
 using Mendham.Domain.DependencyInjection.InvalidConcreateBaseEntity;
 using Mendham.Domain.DependencyInjection.InvalidMultipleDerivedEntity;
 using Mendham.Domain.DependencyInjection.TestObjects;
-using Mendham.Events.DependencyInjection.Autofac;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Xunit;

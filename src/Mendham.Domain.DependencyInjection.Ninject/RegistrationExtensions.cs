@@ -1,4 +1,6 @@
-﻿using Ninject.Extensions.Conventions;
+﻿using Mendham.Domain;
+using Mendham.Domain.DependencyInjection;
+using Ninject.Extensions.Conventions;
 using Ninject.Extensions.Conventions.Syntax;
 using Ninject.Syntax;
 using System;
@@ -7,7 +9,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 
-namespace Mendham.Domain.DependencyInjection.Ninject
+namespace Mendham.DependencyInjection.Ninject
 {
     public static class RegistrationExtensions
     {
