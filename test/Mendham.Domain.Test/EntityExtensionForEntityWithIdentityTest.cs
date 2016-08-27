@@ -119,6 +119,18 @@ namespace Mendham.Domain.Test
         }
 
         [Theory, MendhamData]
+        public void IsEqualToEntity_BaseByDerivedWithUncommonSharedValues_False(TestingIdentity identity1, TestingIdentity identity2)
+        {
+            IEntity entity1 = new PocoWithIdentityEntity(identity1);
+            IEntity entity2 = new PocoWithIdentityDerivedEntity(identity2);
+
+            bool result = entity1.IsEqualToEntity(entity2);
+
+            result.Should()
+                .BeFalse("base and derived entities with a different identity are not equal");
+        }
+
+        [Theory, MendhamData]
         public void IsEqualToEntity_DerivedByBaseWithCommonSharedValues_True(TestingIdentity identity)
         {
             IEntity entity1 = new PocoWithIdentityDerivedEntity(identity);
@@ -128,6 +140,18 @@ namespace Mendham.Domain.Test
 
             result.Should()
                 .BeTrue("base and derived entities with a common identity are equal when identity is equal");
+        }
+
+        [Theory, MendhamData]
+        public void IsEqualToEntity_DerivedByBaseWithUncommonSharedValues_False(TestingIdentity identity1, TestingIdentity identity2)
+        {
+            IEntity entity1 = new PocoWithIdentityDerivedEntity(identity1);
+            IEntity entity2 = new PocoWithIdentityEntity(identity2);
+
+            bool result = entity1.IsEqualToEntity(entity2);
+
+            result.Should()
+                .BeFalse("base and derived entities with a different identity are not equal");
         }
 
         [Theory, MendhamData]
