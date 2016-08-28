@@ -1,0 +1,22 @@
+﻿{
+  "version": "1.0.0-beta7-*",
+  "description": "Run Mendham.Domain with ASP.NET Core's built in container",
+  "authors": [ "Craig Beall" ],
+
+  "packOptions": {
+    "tags": [ "mendham domain ddd aspnetcore ioc di" ],
+    "projectUrl": "https://mendham.github.io",
+    "licenseUrl": "https://raw.githubusercontent.com/mendham/Mendham/master/LICENSE",
+    "requireLicenseAcceptance": false
+  },
+
+  "dependencies": {
+    "Mendham.Domain": "1.0.0-*",
+    "Mendham.Events.DependencyInjection.AspNetCore": "1.0.0-*"
+  },
+
+  "frameworks": {
+    "netstandard1.3": {},
+    "net451": {}
+  }
+}

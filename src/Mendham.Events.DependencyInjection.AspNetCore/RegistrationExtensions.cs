@@ -13,16 +13,16 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IEventsBuilder AddEventHandling(this IServiceCollection services)
         {
-            services.AddTransient<IEventHandlerContainer, DefaultEventHandlerContainer>();
-            services.AddTransient<Func<IEnumerable<IEventHandler>>>(serviceProvider =>
+            services.TryAddTransient<IEventHandlerContainer, DefaultEventHandlerContainer>();
+            services.TryAddTransient<Func<IEnumerable<IEventHandler>>>(serviceProvider =>
                 () => serviceProvider.GetServices<IEventHandler>());
 
-            services.AddTransient<IEventLoggerProcessor, EventLoggerProcessor>();
-            services.AddTransient<Func<IEnumerable<IEventLogger>>>(serviceProvider =>
+            services.TryAddTransient<IEventLoggerProcessor, EventLoggerProcessor>();
+            services.TryAddTransient<Func<IEnumerable<IEventLogger>>>(serviceProvider =>
                 () => serviceProvider.GetServices<IEventLogger>());
 
-            services.AddTransient<IEventHandlerProcessor, EventHandlerProcessor>();
-            services.AddTransient<IEventPublisherComponents, EventPublisherComponents>();
+            services.TryAddTransient<IEventHandlerProcessor, EventHandlerProcessor>();
+            services.TryAddTransient<IEventPublisherComponents, EventPublisherComponents>();
 
             services.TryAddTransient<IEventPublisher, EventPublisher>();
 

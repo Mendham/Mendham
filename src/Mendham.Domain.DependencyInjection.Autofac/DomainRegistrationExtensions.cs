@@ -31,16 +31,16 @@ namespace Mendham.DependencyInjection.Autofac
                 .VerifyArgumentNotNull(nameof(assembly));
             interfacesToExclude
                 .VerifyArgumentNotNull(nameof(interfacesToExclude))
-                .VerifyArgumentMeetsCriteria(type => !type.Any(IsNotValidDomainFacadeInterface),
-                    set => new InvalidDomainFacadeExclusionException(set.First(IsNotValidDomainFacadeInterface)));
+                .VerifyArgumentMeetsCriteria(type => !type.Any(DomainRegistrationHelpers.IsNotValidDomainFacadeInterface),
+                    set => new InvalidDomainFacadeExclusionException(set.First(DomainRegistrationHelpers.IsNotValidDomainFacadeInterface)));
 
-            var concreateTypesInAssembly = GetTypesAssignableFromIDomainFacade(assembly);
+            var concreateTypesInAssembly = DomainRegistrationHelpers.GetTypesAssignableFromIDomainFacade(assembly);
 
             builder
                 .RegisterAssemblyTypes(assembly)
-                .Where(IsAssignableFromIDomainFacade)
-                .As(t => ValidateAndGetServiceMapping(t, concreateTypesInAssembly, interfacesToExclude))
-                .SingleInstance();
+                .Where(DomainRegistrationHelpers.IsAssignableFromIDomainFacade)
+                .As(t => DomainRegistrationHelpers.ValidateAndGetServiceMapping(t, concreateTypesInAssembly, interfacesToExclude))
+                .InstancePerDependency();
         }
 
         /// <summary>
@@ -54,57 +54,6 @@ namespace Mendham.DependencyInjection.Autofac
                 .RegisterAssemblyTypes(assembly)
                 .Where(a => typeof(IEntity).IsAssignableFrom(a))
                 .InstancePerDependency();
-        }
-
-        private static IEnumerable<Type> ValidateAndGetServiceMapping(Type typeToBind, IEnumerable<Type> concreateTypesInAssembly, IEnumerable<Type> interfacesToExclude)
-        {
-            return typeToBind.GetInterfaces()
-                .Where(a => !typeof(IDomainFacade).Equals(a) && typeof(IDomainFacade).IsAssignableFrom(a))
-                .Where(a => !interfacesToExclude.Contains(a))
-                .Select(a => ValidateInterfaceOnlyAssignedOnce(a, concreateTypesInAssembly));
-        }
-
-        private static bool IsAssignableFromIDomainFacade(Type type)
-        {
-            return typeof(IDomainFacade).IsAssignableFrom(type);
-        }
-
-        private static IEnumerable<Type> GetTypesAssignableFromIDomainFacade(Assembly assembly)
-        {
-            return assembly.GetTypes()
-                .Where(IsAssignableFromIDomainFacade)
-                .Select(a => a.GetTypeInfo())
-                .Where(a => a.IsClass && !a.IsAbstract)
-                .Cast<Type>()
-                .ToList();
-        }
-
-        private static Type ValidateInterfaceOnlyAssignedOnce(Type interfaceType, IEnumerable<Type> assignableTypes)
-        {
-            var typesImplementingInterface = assignableTypes
-                .Where(a => interfaceType.IsAssignableFrom(a));
-
-            if (typesImplementingInterface.Count() == 1)
-            {
-                return interfaceType;
-            }
-            else if (!typesImplementingInterface.Any())
-            {
-                throw new InvalidOperationException($"No types found to implement interface {interfaceType.FullName}");
-            }
-            else
-            {
-                var multipleTypes = new ReadOnlyCollection<Type>(typesImplementingInterface
-                    .OrderBy(a => a.FullName)
-                    .ToList());
-
-                throw new MultipleDomainFacadesFoundException(interfaceType, multipleTypes);
-            }
-        }
-
-        private static bool IsNotValidDomainFacadeInterface(Type type)
-        {
-            return !typeof(IDomainFacade).IsAssignableFrom(type) || !type.GetTypeInfo().IsInterface;
         }
     }
 }
