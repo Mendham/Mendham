@@ -46,6 +46,7 @@ namespace Mendham.Events.DependencyInjection.Autofac.Test
 
             builder.RegisterModule<EventHandlingModule>();
             builder.RegisterEventHandlers(typeof(WasCalledVerifiableEvent).GetTypeInfo().Assembly);
+            builder.RegisterType<WasCalledTracker>().SingleInstance();
 
             using (var scope = builder.Build().BeginLifetimeScope())
             {

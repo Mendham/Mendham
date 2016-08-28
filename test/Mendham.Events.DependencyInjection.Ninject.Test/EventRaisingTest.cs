@@ -38,6 +38,7 @@ namespace Mendham.Events.DependencyInjection.Ninject.Test
             using (var kernel = new StandardKernel(new EventHandlingModule()))
             {
                 kernel.RegisterEventHandlers(typeof(WasCalledVerifiableEvent).GetTypeInfo().Assembly);
+                kernel.Bind<WasCalledTracker>().ToSelf().InSingletonScope();
 
                 var publisher = kernel.Get<IEventPublisher>();
                 var handler = kernel.GetAll<IEventHandler>()

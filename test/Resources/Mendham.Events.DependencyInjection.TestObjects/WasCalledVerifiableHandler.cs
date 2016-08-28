@@ -5,17 +5,35 @@ namespace Mendham.Events.DependencyInjection.TestObjects
 {
     public sealed class WasCalledVerifiableHandler : IEventHandler<WasCalledVerifiableEvent>
     {
-        public WasCalledVerifiableHandler()
+        private readonly WasCalledTracker _tracker;
+
+        public WasCalledVerifiableHandler(WasCalledTracker tracker)
         {
-            WasEverCalled = false;
+            _tracker = tracker;
         }
 
-        public bool WasEverCalled { get; private set; }
+        public bool WasEverCalled
+        {
+            get
+            {
+                return _tracker.WasEverCalled;
+            }
+        }
 
         public Task HandleAsync(WasCalledVerifiableEvent domainEvent)
         {
-            WasEverCalled = true;
+            _tracker.CallMade();
             return Task.FromResult(0);
+        }
+    }
+
+    public class WasCalledTracker
+    {
+        public bool WasEverCalled { get; private set; } = false;
+
+        public void CallMade()
+        {
+            WasEverCalled = true;
         }
     }
 
