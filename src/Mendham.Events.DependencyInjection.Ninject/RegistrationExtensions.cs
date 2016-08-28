@@ -20,7 +20,7 @@ namespace Mendham.DependencyInjection.Ninject
                 .SelectAllClasses()
                 .InheritedFrom(typeof(IEventHandler<>))
                 .BindSelection((t, types) => types.Where(b => b.Equals(typeof(IEventHandler))))
-                .Configure(b => b.InSingletonScope())
+                .Configure(b => b.InTransientScope())
             );
         }
     }

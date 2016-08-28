@@ -16,7 +16,7 @@ namespace Mendham.DependencyInjection.Autofac
             builder
                 .RegisterAssemblyTypes(assembly)
                 .As<IEventHandler>()
-                .SingleInstance();
+                .InstancePerDependency();
         }
     }
 }
