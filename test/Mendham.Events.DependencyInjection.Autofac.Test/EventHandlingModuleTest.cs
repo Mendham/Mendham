@@ -2,6 +2,7 @@
 using FluentAssertions;
 using Mendham.DependencyInjection.Autofac;
 using Mendham.Events.Components;
+using Mendham.Events.DependencyInjection.TestObjects;
 using Xunit;
 
 namespace Mendham.Events.DependencyInjection.Autofac.Test
@@ -16,9 +17,9 @@ namespace Mendham.Events.DependencyInjection.Autofac.Test
 
             using (var sut = builder.Build().BeginLifetimeScope())
             {
-                var publisher = sut.Resolve<IEventPublisher>();
+                var result = sut.Resolve<IEventPublisher>();
 
-                publisher.Should()
+                result.Should()
                     .NotBeNull()
                     .And.BeOfType<EventPublisher>();
             }
@@ -32,9 +33,9 @@ namespace Mendham.Events.DependencyInjection.Autofac.Test
 
             using (var sut = builder.Build().BeginLifetimeScope())
             {
-                var publisher = sut.Resolve<IEventHandlerContainer>();
+                var result = sut.Resolve<IEventHandlerContainer>();
 
-                publisher.Should()
+                result.Should()
                     .NotBeNull()
                     .And.BeOfType<DefaultEventHandlerContainer>();
             }
@@ -48,9 +49,9 @@ namespace Mendham.Events.DependencyInjection.Autofac.Test
 
             using (var sut = builder.Build().BeginLifetimeScope())
             {
-                var publisher = sut.Resolve<IEventHandlerProcessor>();
+                var result = sut.Resolve<IEventHandlerProcessor>();
 
-                publisher.Should()
+                result.Should()
                     .NotBeNull()
                     .And.BeOfType<EventHandlerProcessor>();
             }
@@ -64,11 +65,30 @@ namespace Mendham.Events.DependencyInjection.Autofac.Test
 
             using (var sut = builder.Build().BeginLifetimeScope())
             {
-                var publisher = sut.Resolve<IEventLoggerProcessor>();
+                var result = sut.Resolve<IEventLoggerProcessor>();
 
-                publisher.Should()
+                result.Should()
                     .NotBeNull()
                     .And.BeOfType<EventLoggerProcessor>();
+            }
+        }
+
+        [Fact]
+        public void EventHandlingModule_RegisterEventPublisherAfterOther_UsesOtherEventPublisher()
+        {
+            var builder = new ContainerBuilder();
+
+            builder.RegisterType<AltEventPublisher>()
+                .As<IEventPublisher>();
+            builder.RegisterModule<EventHandlingModule>();
+
+            using (var sut = builder.Build().BeginLifetimeScope())
+            {
+                var result = sut.Resolve<IEventPublisher>();
+
+                result.Should()
+                    .NotBeNull()
+                    .And.BeOfType<AltEventPublisher>();
             }
         }
     }

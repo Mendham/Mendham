@@ -25,6 +25,7 @@ namespace Mendham.DependencyInjection.Autofac
                 .InstancePerDependency();
 
             builder.RegisterType<EventPublisher>()
+                .PreserveExistingDefaults()
                 .As<IEventPublisher>()
                 .InstancePerDependency();
         }
