@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -105,5 +106,29 @@ namespace Mendham.Events.DependencyInjection.AspNetCore.Test
                     .And.BeOfType<EventLoggerProcessor>();
             }
         }
+
+        [Fact]
+        public void AddEventHandlers_AssemblyWithHandlers_ReturnsAll()
+        {
+            var builder = new WebHostBuilder()
+                .ConfigureServices(sc => sc
+                    .AddEventHandling()
+                    .AddEventHandlers(typeof(Test1EventHandler).GetTypeInfo().Assembly))
+                .Configure(app => { });
+
+            using (var server = new TestServer(builder))
+            {
+                var result = server.Host.Services.GetService<IEnumerable<IEventHandler>>();
+
+                result.Should()
+                    .NotBeEmpty();
+                result.Should()
+                    .ContainItemsAssignableTo<IEventHandler>();
+                result.Should()
+                    .Contain(a => a is Test1EventHandler);
+                result.Should()
+                    .Contain(a => a is Test2EventHandler);
+            }
+        }    
     }
 }
