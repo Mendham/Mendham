@@ -1,0 +1,12 @@
+﻿{
+  "dependencies": {
+    "Mendham.Events": {
+      "target": "project"
+    }
+  },
+
+  "frameworks": {
+    "netstandard1.3": {},
+    "net451": {}
+  }
+}

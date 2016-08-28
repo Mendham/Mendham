@@ -2,6 +2,7 @@
 using FluentAssertions;
 using Mendham.DependencyInjection.Autofac;
 using Mendham.Events.DependencyInjection.TestObjects;
+using Mendham.Events.DependencyInjection.TrackableTestObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,7 +47,11 @@ namespace Mendham.Events.DependencyInjection.Autofac.Test
 
             builder.RegisterModule<EventHandlingModule>();
             builder.RegisterEventHandlers(typeof(WasCalledVerifiableEvent).GetTypeInfo().Assembly);
-            builder.RegisterType<WasCalledTracker>().SingleInstance();
+
+            /// Tracker that helps the handler (registered in previous line) determine if it was called.
+            builder.RegisterType<WasCalledTracker>()
+                .AsSelf()
+                .SingleInstance();
 
             using (var scope = builder.Build().BeginLifetimeScope())
             {
@@ -71,18 +76,17 @@ namespace Mendham.Events.DependencyInjection.Autofac.Test
             var builder = new ContainerBuilder();
 
             builder.RegisterModule<EventHandlingModule>();
-            builder.RegisterEventHandlers(typeof(WasCalledVerifiableEvent).GetTypeInfo().Assembly);
-
-            builder.RegisterType<WasCalledVerifiableHandlerLogger>()
+            builder.RegisterEventHandlers(typeof(Test1EventHandler).GetTypeInfo().Assembly);
+            builder.RegisterType<VerifiableEventHandlerLogger<Test1EventHandler>>()
                 .As<IEventHandlerLogger>()
                 .SingleInstance();
 
             using (var scope = builder.Build().BeginLifetimeScope())
             {
                 var publisher = scope.Resolve<IEventPublisher>();
-                var handlerLogger = scope.Resolve<IEventHandlerLogger>() as WasCalledVerifiableHandlerLogger;
+                var handlerLogger = scope.Resolve<IEventHandlerLogger>() as IVerifiableEventHandlerLogger;
 
-                var domainEvent = new WasCalledVerifiableEvent();
+                var domainEvent = new Test1Event();
 
                 await publisher.RaiseAsync(domainEvent);
 
@@ -98,18 +102,18 @@ namespace Mendham.Events.DependencyInjection.Autofac.Test
             var builder = new ContainerBuilder();
 
             builder.RegisterModule<EventHandlingModule>();
-            builder.RegisterEventHandlers(typeof(WasCalledVerifiableEvent).GetTypeInfo().Assembly);
+            builder.RegisterEventHandlers(typeof(Test1EventHandler).GetTypeInfo().Assembly);
 
-            builder.RegisterType<WasCalledVerifiableHandlerLogger>()
+            builder.RegisterType<VerifiableEventHandlerLogger<Test1EventHandler>>()
                 .As<IEventHandlerLogger>()
                 .SingleInstance();
 
             using (var scope = builder.Build().BeginLifetimeScope())
             {
                 var publisher = scope.Resolve<IEventPublisher>();
-                var handlerLogger = scope.Resolve<IEventHandlerLogger>() as WasCalledVerifiableHandlerLogger;
+                var handlerLogger = scope.Resolve<IEventHandlerLogger>() as IVerifiableEventHandlerLogger;
 
-                var domainEvent = new WasCalledVerifiableEvent();
+                var domainEvent = new Test1Event();
 
                 await publisher.RaiseAsync(domainEvent);
 

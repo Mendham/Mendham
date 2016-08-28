@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Mendham.DependencyInjection.Ninject;
 using Mendham.Events.DependencyInjection.TestObjects;
+using Mendham.Events.DependencyInjection.TrackableTestObjects;
 using Ninject;
 using System.Linq;
 using System.Reflection;
@@ -60,15 +61,15 @@ namespace Mendham.Events.DependencyInjection.Ninject.Test
         {
             using (var kernel = new StandardKernel(new EventHandlingModule()))
             {
-                kernel.RegisterEventHandlers(typeof(WasCalledVerifiableEvent).GetTypeInfo().Assembly);
+                kernel.RegisterEventHandlers(typeof(Test1EventHandler).GetTypeInfo().Assembly);
                 kernel.Bind<IEventHandlerLogger>()
-                    .To<WasCalledVerifiableHandlerLogger>()
+                    .To<VerifiableEventHandlerLogger<Test1EventHandler>>()
                     .InSingletonScope();
 
                 var publisher = kernel.Get<IEventPublisher>();
-                var handlerLogger = kernel.Get<IEventHandlerLogger>() as WasCalledVerifiableHandlerLogger;
+                var handlerLogger = kernel.Get<IEventHandlerLogger>() as IVerifiableEventHandlerLogger;
 
-                var domainEvent = new WasCalledVerifiableEvent();
+                var domainEvent = new Test1Event();
 
                 await publisher.RaiseAsync(domainEvent);
 
@@ -83,15 +84,15 @@ namespace Mendham.Events.DependencyInjection.Ninject.Test
         {
             using (var kernel = new StandardKernel(new EventHandlingModule()))
             {
-                kernel.RegisterEventHandlers(typeof(WasCalledVerifiableEvent).GetTypeInfo().Assembly);
+                kernel.RegisterEventHandlers(typeof(Test1EventHandler).GetTypeInfo().Assembly);
                 kernel.Bind<IEventHandlerLogger>()
-                    .To<WasCalledVerifiableHandlerLogger>()
+                    .To<VerifiableEventHandlerLogger<Test1EventHandler>>()
                     .InSingletonScope();
 
                 var publisher = kernel.Get<IEventPublisher>();
-                var handlerLogger = kernel.Get<IEventHandlerLogger>() as WasCalledVerifiableHandlerLogger;
+                var handlerLogger = kernel.Get<IEventHandlerLogger>() as IVerifiableEventHandlerLogger;
 
-                var domainEvent = new WasCalledVerifiableEvent();
+                var domainEvent = new Test1Event();
 
                 await publisher.RaiseAsync(domainEvent);
 

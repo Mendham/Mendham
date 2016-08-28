@@ -8,6 +8,9 @@
     "Mendham.Events.DependencyInjection.TestObjects": {
       "target": "project"
     },
+    "Mendham.Events.DependencyInjection.TrackableTestObjects": {
+      "target": "project"
+    },
     "Mendham.Testing": {
       "target": "project"
     },
