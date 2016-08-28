@@ -2,6 +2,9 @@
 
 namespace Mendham.Events
 {
+    /// <summary>
+    /// Logs the progress of each event handler that handles a given event
+    /// </summary>
     public interface IEventHandlerLogger
     {
         /// <summary>
