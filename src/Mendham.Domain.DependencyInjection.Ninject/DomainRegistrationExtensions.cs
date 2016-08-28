@@ -11,7 +11,7 @@ using System.Reflection;
 
 namespace Mendham.DependencyInjection.Ninject
 {
-    public static class RegistrationExtensions
+    public static class DomainRegistrationExtensions
     {
         /// <summary>
         /// Registers all concreate classes in the assembly that are assignable from an interface that is assignable from IDomainFacade

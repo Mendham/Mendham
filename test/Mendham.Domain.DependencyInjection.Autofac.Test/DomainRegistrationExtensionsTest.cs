@@ -11,7 +11,7 @@ using Xunit;
 
 namespace Mendham.Domain.DependencyInjection.Autofac.Test
 {
-    public class RegistrationExtensionsTest
+    public class DomainRegistrationExtensionsTest
 	{
 		[Fact]
 		public void RegisterDomainFacades_ApplyingToBuilder_ReturnsFacade()

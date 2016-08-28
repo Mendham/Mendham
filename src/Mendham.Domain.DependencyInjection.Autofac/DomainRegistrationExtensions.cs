@@ -9,7 +9,7 @@ using System.Reflection;
 
 namespace Mendham.DependencyInjection.Autofac
 {
-    public static class RegistrationExtensions
+    public static class DomainRegistrationExtensions
 	{
         /// <summary>
         /// Registers all concreate classes in the assembly that are assignable from an interface that is assignable from IDomainFacade

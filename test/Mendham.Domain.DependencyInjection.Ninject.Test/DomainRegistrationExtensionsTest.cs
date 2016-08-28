@@ -11,11 +11,11 @@ using Xunit;
 
 namespace Mendham.Domain.DependencyInjection.Ninject.Test
 {
-    public class RegistrationExtensionsTest : IDisposable
+    public class DomainRegistrationExtensionsTest : IDisposable
     {
         private IKernel sut;
 
-        public RegistrationExtensionsTest()
+        public DomainRegistrationExtensionsTest()
         {
             sut = new StandardKernel(new EventHandlingModule());
         }
