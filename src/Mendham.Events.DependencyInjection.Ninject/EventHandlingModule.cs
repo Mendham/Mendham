@@ -11,23 +11,23 @@ namespace Mendham.DependencyInjection.Ninject
         {
             Bind<IEventHandlerContainer>()
                 .ToMethod(ctx => new DefaultEventHandlerContainer(() => ctx.Kernel.GetAll<IEventHandler>()))
-                .InSingletonScope();
+                .InTransientScope();
 
             Bind<IEventLoggerProcessor>()
                 .ToMethod(ctx => new EventLoggerProcessor(() => ctx.Kernel.GetAll<IEventLogger>()))
-                .InSingletonScope();
+                .InTransientScope();
 
             Bind<IEventHandlerProcessor>()
                 .To<EventHandlerProcessor>()
-                .InSingletonScope();
+                .InTransientScope();
 
             Bind<IEventPublisherComponents>()
                 .To<EventPublisherComponents>()
-                .InSingletonScope();
+                .InTransientScope();
 
             Bind<IEventPublisher>()
-                .ToMethod(ctx => new EventPublisher(() => ctx.Kernel.Get<IEventPublisherComponents>()))
-                .InSingletonScope();
+                .To<EventPublisher>()
+                .InTransientScope();
         }
     }
 }

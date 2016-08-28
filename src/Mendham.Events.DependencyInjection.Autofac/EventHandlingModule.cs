@@ -10,23 +10,23 @@ namespace Mendham.DependencyInjection.Autofac
 		{
             builder.RegisterType<DefaultEventHandlerContainer>()
                 .As<IEventHandlerContainer>()
-                .SingleInstance();
-
-            builder.RegisterType<EventHandlerProcessor>()
-                .As<IEventHandlerProcessor>()
-                .SingleInstance();
+                .InstancePerDependency();
 
             builder.RegisterType<EventLoggerProcessor>()
                 .As<IEventLoggerProcessor>()
-                .SingleInstance();
+                .InstancePerDependency();
+
+            builder.RegisterType<EventHandlerProcessor>()
+                .As<IEventHandlerProcessor>()
+                .InstancePerDependency();
 
             builder.RegisterType<EventPublisherComponents>()
                 .As<IEventPublisherComponents>()
-                .SingleInstance();
+                .InstancePerDependency();
 
             builder.RegisterType<EventPublisher>()
                 .As<IEventPublisher>()
-                .SingleInstance();
+                .InstancePerDependency();
         }
 	}
 }

@@ -23,7 +23,7 @@ namespace Mendham.Events.DependencyInjection.Ninject.Test
         }
 
         [Fact]
-        public void RegisterDomainEventHandlers_HandlersInAssembly_ReturnsAll()
+        public void RegisterEventHandlers_HandlersInAssembly_ReturnsAll()
         {
             var assembly = typeof(Test1EventHandler).GetTypeInfo().Assembly;
 

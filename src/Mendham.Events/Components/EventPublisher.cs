@@ -5,26 +5,23 @@ namespace Mendham.Events.Components
 {
     public class EventPublisher : IEventPublisher
 	{
-        private readonly Func<IEventPublisherComponents> _eventPublisherComponentsFactory;
+        private readonly IEventPublisherComponents _eventPublisherComponents;
 
-        public EventPublisher(Func<IEventPublisherComponents> eventPublisherContainerFactory)
+        public EventPublisher(IEventPublisherComponents eventPublisherContainer)
 		{
-			_eventPublisherComponentsFactory = eventPublisherContainerFactory;
+			_eventPublisherComponents = eventPublisherContainer;
 		}
 
-		public Task RaiseAsync<TEvent>(TEvent eventRaised)
-			where TEvent : class, IEvent
+		public Task RaiseAsync<TEvent>(TEvent eventRaised) where TEvent : class, IEvent
 		{
-            var eventPublisherComponents = _eventPublisherComponentsFactory();
-
             // Log Event
-            eventPublisherComponents.EventLoggerProcessor.LogEvent(eventRaised);
+            _eventPublisherComponents.EventLoggerProcessor.LogEvent(eventRaised);
 
             // Get Handlers
-            var handlers = eventPublisherComponents.EventHandlerContainer.GetHandlers<TEvent>();
+            var handlers = _eventPublisherComponents.EventHandlerContainer.GetHandlers<TEvent>();
 
             // Get task to process all handlers
-            return eventPublisherComponents.EventHandlerProcessor.HandleAllAsync(eventRaised, handlers);
+            return _eventPublisherComponents.EventHandlerProcessor.HandleAllAsync(eventRaised, handlers);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Mendham.Events.DependencyInjection.Autofac.Test
     public class RegistrationExtensionsTest
     {
         [Fact]
-        public void RegisterDomainEventHandlers_HandlersInAssembly_ReturnsAll()
+        public void RegisterEventHandlers_HandlersInAssembly_ReturnsAll()
         {
             var assembly = typeof(Test1EventHandler).GetTypeInfo().Assembly;
 

@@ -63,45 +63,5 @@ namespace Mendham.Events.DependencyInjection.Ninject.Test
                 .NotBeNull()
                 .And.BeOfType<EventLoggerProcessor>();
         }
-
-        [Fact]
-        public void EventHandlingModule_RegisterDomainEventPublisher_IsSameInstance()
-        {
-            var expectedPublisher = sut.Get<IEventPublisher>();
-            var result = sut.Get<IEventPublisher>();
-
-            result.Should()
-                .BeSameAs(expectedPublisher);
-        }
-
-        [Fact]
-        public void EventHandlingModule_RegisterEventHandlerContainer_IsSameInstance()
-        {
-            var expectedContainer = sut.Get<IEventHandlerContainer>();
-            var result = sut.Get<IEventHandlerContainer>();
-
-            result.Should()
-                .BeSameAs(expectedContainer);
-        }
-
-        [Fact]
-        public void EventHandlingModule_RegisterEventHandlerProcessor_IsSameInstance()
-        {
-            var expectedHandlerProcessor = sut.Get<IEventHandlerProcessor>();
-            var result = sut.Get<IEventHandlerProcessor>();
-
-            result.Should()
-                .BeSameAs(expectedHandlerProcessor);
-        }
-
-        [Fact]
-        public void EventHandlingModule_RegisterEventLoggerProcessor_IsSameInstance()
-        {
-            var expectedLoggerProcessor = sut.Get<IEventLoggerProcessor>();
-            var result = sut.Get<IEventLoggerProcessor>();
-
-            result.Should()
-                .BeSameAs(expectedLoggerProcessor);
-        }
     }
 }

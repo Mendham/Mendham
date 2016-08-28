@@ -14,7 +14,10 @@ namespace Mendham.Events.Test.Fixtures
 
         public override EventPublisher CreateSut()
 		{
-			return new EventPublisher(EventPublisherContainerFactory);
+            var components = new EventPublisherComponents(EventHandlerContainer,
+                EventHandlerProcessor, EventLoggerProcessor);
+
+            return new EventPublisher(components);
 		}
 
 		public override void ResetFixture()
@@ -34,12 +37,6 @@ namespace Mendham.Events.Test.Fixtures
         public IEnumerable<IEventHandler<TestEvent>> GetEventHandlersForTestEvent()
         {
             return Mock.Of<IEnumerable<IEventHandler<TestEvent>>>();
-        }
-
-        private IEventPublisherComponents EventPublisherContainerFactory()
-        {
-            return new EventPublisherComponents(EventHandlerContainer, 
-                EventHandlerProcessor, EventLoggerProcessor);
         }
 	}
 }
