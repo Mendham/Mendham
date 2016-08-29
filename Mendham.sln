@@ -102,6 +102,8 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Domain.DependencyIn
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Domain.DependencyInjection.AspNetCore.Test", "test\Mendham.Domain.DependencyInjection.AspNetCore.Test\Mendham.Domain.DependencyInjection.AspNetCore.Test.xproj", "{174F24D6-6EAB-4A4A-9BFB-3089268114BF}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Testing.AspNetCore", "src\Mendham.Testing.AspNetCore\Mendham.Testing.AspNetCore.xproj", "{71E1388B-CC6E-42A3-A881-C498E158C87F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -264,6 +266,10 @@ Global
 		{174F24D6-6EAB-4A4A-9BFB-3089268114BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{174F24D6-6EAB-4A4A-9BFB-3089268114BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{174F24D6-6EAB-4A4A-9BFB-3089268114BF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71E1388B-CC6E-42A3-A881-C498E158C87F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71E1388B-CC6E-42A3-A881-C498E158C87F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71E1388B-CC6E-42A3-A881-C498E158C87F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71E1388B-CC6E-42A3-A881-C498E158C87F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -314,5 +320,6 @@ Global
 		{9A26AD14-9E2B-405E-8BF5-D0BC7E83FABE} = {C9AF6D12-2693-4513-BE01-B64EA0E89D11}
 		{36E4C742-FD0D-4B92-A1B4-5B98149C69DF} = {D989969B-64BE-41BD-ACAB-C468136D9F83}
 		{174F24D6-6EAB-4A4A-9BFB-3089268114BF} = {5837883B-CC74-4A1F-96F5-AEEEAFD73EC4}
+		{71E1388B-CC6E-42A3-A881-C498E158C87F} = {0939C9D9-E0AA-4599-AA22-AC58F16C96DE}
 	EndGlobalSection
 EndGlobal
