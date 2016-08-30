@@ -1,50 +1,28 @@
-﻿using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-
-namespace Mendham.Testing.Moq
+﻿namespace Mendham.Testing.Moq
 {
+    /// <summary>
+    /// A base class for creating a <see cref="IFixture"/> where public read/write Mock properties are reset after each run,
+    /// unless they are marked with a <see cref="IgnoreFixtureComponentAttribute"/>. Any non interface properties that do not
+    /// have a default constructor will result in an exception unless ignored.
+    /// </summary>
+    public abstract class MockingFixture : IFixture
+    {
+        void IFixture.ResetFixture()
+        {
+            this.ResetMockProperties();
+        }
+    }
+
+    /// <summary>
+    /// A base class for creating a <see cref="IFixture{T}"/> where public read/write Mock properties are reset after each run,
+    /// unless they are marked with a <see cref="IgnoreFixtureComponentAttribute"/>. Any non interface properties that do not
+    /// have a default constructor will result in an exception unless ignored.
+    /// </summary>
     public abstract class MockingFixture<T> : Fixture<T>, IFixture<T>
     {
-        private List<PropertyInfo> properties;
-
         public sealed override void ResetFixture()
         {
-            foreach(var prop in GetProperties())
-            {
-                var mockType = typeof(Mock<>)
-                    .MakeGenericType(prop.PropertyType);
-
-                Mock mockObj = Activator.CreateInstance(mockType) as Mock;
-
-                prop.SetValue(this, mockObj.Object);
-            }
+            this.ResetMockProperties();
         }
-
-        private IEnumerable<PropertyInfo> GetProperties()
-        {
-            if (properties == null)
-            {
-                properties = this.GetType()
-                    .GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                    .Where(IsComponentToMock)
-                    .ToList();
-            }
-
-            return properties;
-        }
-
-        private static bool IsComponentToMock(PropertyInfo property)
-        {
-            return property.CanRead
-                && property.CanWrite
-                && property.GetGetMethod(false) != null
-                && property.GetSetMethod(false) != null
-                && !property.IsDefined(typeof(IgnoreFixtureComponentAttribute), false);
-        }
-
     }
 }

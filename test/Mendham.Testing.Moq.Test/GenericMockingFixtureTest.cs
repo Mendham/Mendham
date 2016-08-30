@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Mendham.Testing.Moq.Test
 {
-    public class MockingFixtureTest
+    public class GenericMockingFixtureTest
     {
         [Fact]
         public void ResetFixture_FirstRun_CreatesMoqs()
