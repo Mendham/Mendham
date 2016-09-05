@@ -265,6 +265,7 @@ namespace Mendham.Concurrency.Test
         [Theory, MendhamData]
         public void CompareTo_WithSmallerValue_One(long value)
         {
+            value = value + 20; // Can't be sure value will be > 10 making altValue negative
             var altValue = value - 10;
 
             IComparable token1 = new Int64ConcurrencyToken(value);
