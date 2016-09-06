@@ -1,0 +1,27 @@
+﻿{
+  "testRunner": "xunit",
+
+  "dependencies": {
+    "Mendham.Testing.Builder": {
+      "target": "project"
+    },
+    "Mendham.Infrastructure.Http": {
+      "target": "project"
+    },
+    "Mendham.Testing.Http": {
+      "target": "project"
+    },
+    "Mendham.Testing.Moq": {
+      "target": "project"
+    },
+    "dotnet-test-xunit": "2.2.0-preview2-build1029"
+  },
+
+  "frameworks": {
+    "net451": {
+      "dependencies": {
+        "Microsoft.NETCore.Platforms": "1.0.1"
+      }
+    }
+  }
+}
