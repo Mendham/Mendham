@@ -7,7 +7,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Mendham.Testing.AspNetCore.Hosting
+namespace Mendham.Testing.AspNetCore
 {
     public abstract class ServerFixture : IFixture, IDisposable
     {

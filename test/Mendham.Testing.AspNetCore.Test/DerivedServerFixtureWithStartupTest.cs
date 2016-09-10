@@ -1,17 +1,13 @@
-﻿using Mendham.Testing.AspNetCore.Test.SampleApp;
-using Mendham.Testing.AspNetCore.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using FluentAssertions;
+using Mendham.Infrastructure.Http;
+using Mendham.Testing.AspNetCore.Test.SampleApp;
+using Mendham.Testing.Moq;
+using Microsoft.Extensions.DependencyInjection;
+using Moq;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
-using Mendham.Testing.Moq;
-using Moq;
-using FluentAssertions;
-using System.Net;
-using Microsoft.Extensions.DependencyInjection;
-using System.Net.Http;
-using Mendham.Infrastructure.Http;
 
 namespace Mendham.Testing.AspNetCore.Test
 {
@@ -38,7 +34,16 @@ namespace Mendham.Testing.AspNetCore.Test
         }
 
         [Fact]
-        public async Task CallPostAction_WithServiceMocked_NoContentAndServiceCalled()
+        public async Task CallPostNoAction_Exists_NoContent()
+        {
+            var result = await Fixture.Client.PostAsync("test/noaction", new StringContent(""));
+
+            result.Should()
+                .HaveStatusCode(HttpStatusCode.NoContent);
+        }
+
+        [Fact]
+        public async Task CallPostActionWithJson_WithServiceMocked_NoContentAndServiceCalled()
         {
             string value = "abc";
 
