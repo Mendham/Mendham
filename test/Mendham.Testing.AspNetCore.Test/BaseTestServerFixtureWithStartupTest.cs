@@ -7,9 +7,9 @@ using Xunit;
 
 namespace Mendham.Testing.AspNetCore.Test
 {
-    public class BaseTestServerFixtureStartupTest : UnitTest<TestServerFixture<Startup>>
+    public class BaseTestServerFixtureWithStartupTest : UnitTest<TestServerFixture<Startup>>
     {
-        public BaseTestServerFixtureStartupTest(TestServerFixture<Startup> fixture) : base(fixture)
+        public BaseTestServerFixtureWithStartupTest(TestServerFixture<Startup> fixture) : base(fixture)
         {
         }
 

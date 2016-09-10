@@ -6,5 +6,6 @@ namespace Mendham.Testing.AspNetCore.Test.SampleApp
     {
         Task<int> GetValue();
         Task<bool> TakeAction(string value);
+        Task<int> GetDependentValueAsync();
     }
 }

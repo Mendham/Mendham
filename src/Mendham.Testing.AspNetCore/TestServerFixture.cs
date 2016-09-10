@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Http.Features;
 
 namespace Mendham.Testing.AspNetCore
 {
-    public abstract class TestServerFixture : IWebHostFixture
+    public abstract class TestServerFixture : IServiceProviderFixture
     {
         public TestServerFixture()
         {

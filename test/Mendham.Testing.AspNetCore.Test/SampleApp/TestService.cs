@@ -24,7 +24,7 @@ namespace Mendham.Testing.AspNetCore.Test.SampleApp
             return Task.FromResult(value == StringForTrueAction);
         }
 
-        public Task<int> GetDependentValue()
+        public Task<int> GetDependentValueAsync()
         {
             int value = _dependency1.GetValue();
             return Task.FromResult(value);

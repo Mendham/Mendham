@@ -11,9 +11,9 @@ using Xunit;
 
 namespace Mendham.Testing.AspNetCore.Test
 {
-    public class DerivedTestServerFixtureStartupTest : UnitTest<DerivedTestServerFixtureStartupFixture>
+    public class DerivedTestServerFixtureWithStartupTest : UnitTest<DerivedTestServerFixtureStartupFixture>
     {
-        public DerivedTestServerFixtureStartupTest(DerivedTestServerFixtureStartupFixture fixture) : base(fixture)
+        public DerivedTestServerFixtureWithStartupTest(DerivedTestServerFixtureStartupFixture fixture) : base(fixture)
         {
         }
 
