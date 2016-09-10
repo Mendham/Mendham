@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Mendham.Testing.AspNetCore.Test.SampleApp
 {
-    [Route("test")]
+    [Route("")]
     public class TestController : Controller
     {
         private readonly ITestService _testService;
@@ -33,10 +33,13 @@ namespace Mendham.Testing.AspNetCore.Test.SampleApp
             return NoContent();
         }
 
-        [HttpPost("noaction")]
-        public Task<ActionResult> TakeNoActionAsync()
+        [HttpPost("conditional")]
+        public async Task<ActionResult> ConditionalActionAsync([FromBody]string value)
         {
-            return Task.FromResult<ActionResult>(NoContent());
+            var result = await _testService.TakeAction(value);
+
+            return Ok(result);
         }
+
     }
 }

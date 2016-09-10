@@ -11,14 +11,14 @@ using Xunit;
 
 namespace Mendham.Testing.AspNetCore.Test
 {
-    public class ServerFixtureWithStartupTest : UnitTest<SampleAppFixture>
+    public class DerivedTestServerFixtureStartupTest : UnitTest<DerivedTestServerFixtureStartupFixture>
     {
-        public ServerFixtureWithStartupTest(SampleAppFixture fixture) : base(fixture)
+        public DerivedTestServerFixtureStartupTest(DerivedTestServerFixtureStartupFixture fixture) : base(fixture)
         {
         }
 
         [Fact]
-        public async Task CallGetAction_WithServiceMocked_MockedValueReturns()
+        public async Task Client_GetWithServiceMocked_MockedValueReturns()
         {
             int expectedResult = 117;
 
@@ -26,7 +26,7 @@ namespace Mendham.Testing.AspNetCore.Test
                 .Setup(a => a.GetValue())
                 .ReturnsAsync(expectedResult);
 
-            var result = await Fixture.Client.GetAsync("test");
+            var result = await Fixture.Client.GetAsync("");
 
             result.Should()
                 .HaveStatusCode(HttpStatusCode.OK)
@@ -34,25 +34,16 @@ namespace Mendham.Testing.AspNetCore.Test
         }
 
         [Fact]
-        public async Task CallPostNoAction_Exists_NoContent()
+        public async Task Client_PostWithServiceMocked_OKAndServiceCalled()
         {
-            var result = await Fixture.Client.PostAsync("test/noaction", new StringContent(""));
-
-            result.Should()
-                .HaveStatusCode(HttpStatusCode.NoContent);
-        }
-
-        [Fact]
-        public async Task CallPostActionWithJson_WithServiceMocked_NoContentAndServiceCalled()
-        {
-            string value = "abc";
+            string value = "test string";
 
             Fixture.TestService.AsMock()
                 .Setup(a => a.TakeAction(value))
-                .ReturnsTask()
+                .ReturnsAsync(true)
                 .Verifiable("did not call action with value");
 
-            var result = await Fixture.Client.PostAsync("test", JsonContent.FromObject(value));
+            var result = await Fixture.Client.PostAsync("", JsonContent.FromObject(value));
 
             result.Should()
                 .HaveStatusCode(HttpStatusCode.NoContent);
@@ -61,7 +52,7 @@ namespace Mendham.Testing.AspNetCore.Test
         }
     }
 
-    public class SampleAppFixture : ServerFixture<Startup>
+    public class DerivedTestServerFixtureStartupFixture : TestServerFixture<Startup>
     {
         public ITestService TestService { get; set; }
 

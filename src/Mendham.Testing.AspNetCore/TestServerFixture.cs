@@ -1,31 +1,31 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
-using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace Mendham.Testing.AspNetCore
 {
-    public abstract class ServerFixture : IFixture, IDisposable
+    public abstract class TestServerFixture : IWebHostFixture
     {
-        public ServerFixture()
+        public TestServerFixture()
         {
             var builder = GetWebHostBuilder();
 
             Server = new TestServer(builder);
             Client = Server.CreateClient();
             Services = Server.Host.Services;
+            ServerFeatures = Server.Host.ServerFeatures;
         }
+
+        protected abstract IWebHostBuilder GetWebHostBuilder();
 
         public TestServer Server { get; }
         public HttpClient Client { get; }
         public IServiceProvider Services { get; }
+        public IFeatureCollection ServerFeatures { get; }
 
-        protected abstract IWebHostBuilder GetWebHostBuilder();
-     
         public virtual void ResetFixture()
         {
         }
@@ -37,7 +37,7 @@ namespace Mendham.Testing.AspNetCore
         }
     }
 
-    public class ServerFixture<TStartup> : ServerFixture where TStartup : class
+    public class TestServerFixture<TStartup> : TestServerFixture where TStartup : class
     {
         protected sealed override IWebHostBuilder GetWebHostBuilder()
         {
@@ -46,7 +46,7 @@ namespace Mendham.Testing.AspNetCore
                 .UseStartup<TStartup>();
         }
 
-        protected virtual void ServiceConfiguration(IServiceCollection services)
+        protected virtual void ServiceConfiguration(IServiceCollection serviceCollection)
         {
         }
     }

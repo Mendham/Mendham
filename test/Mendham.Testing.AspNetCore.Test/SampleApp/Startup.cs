@@ -1,10 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Mendham.Testing.AspNetCore.Test.SampleApp
 {
@@ -17,6 +13,7 @@ namespace Mendham.Testing.AspNetCore.Test.SampleApp
                 .AddJsonFormatters();
 
             services.TryAddTransient<ITestService, TestService>();
+            services.TryAddTransient<IDependency1, Dependency1>();
         }
 
         public void Configure(IApplicationBuilder app)
