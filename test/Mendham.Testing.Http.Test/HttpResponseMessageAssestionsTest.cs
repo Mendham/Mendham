@@ -45,5 +45,52 @@ namespace Mendham.Testing.Http.Test
             act.ShouldThrow<XunitException>()
                 .WithMessage($"Expected a success status code because we want to test the failure message, but found \"{statusCode.ToString()}\".");
         }
+
+        [Fact]
+        public void HaveSuccessStatusCode_NullHttpResponseMessage_Throws()
+        {
+            HttpResponseMessage httpReponseMessage = null;
+
+            Action act = () => httpReponseMessage.Should()
+                .HaveSuccessStatusCode("we want to test the failure {0}", "message");
+
+            act.ShouldThrow<XunitException>()
+                .WithMessage("Expected a success status code because we want to test the failure message, but the HttpResponseMessage was null.");
+        }
+
+        [Fact]
+        public void HaveStatusCode_MatchesStatusCode_DoesNotThrow()
+        {
+            var httpReponseMessage = new HttpResponseMessage(HttpStatusCode.OK);
+
+            Action act = () => httpReponseMessage.Should()
+                .HaveStatusCode(HttpStatusCode.OK);
+
+            act.ShouldNotThrow();
+        }
+
+        [Fact]
+        public void HaveSuccessStatusCode_DoesNotMatchStatusCode_Throws()
+        {
+            var httpReponseMessage = new HttpResponseMessage(HttpStatusCode.BadRequest);
+
+            Action act = () => httpReponseMessage.Should()
+                .HaveStatusCode(HttpStatusCode.OK, "we want to test the failure {0}", "message");
+
+            act.ShouldThrow<XunitException>()
+                .WithMessage("Expected status code \"OK\" because we want to test the failure message, but found \"BadRequest\".");
+        }
+
+        [Fact]
+        public void HaveStatusCode_NullHttpResponseMessage_Throws()
+        {
+            HttpResponseMessage httpReponseMessage = null;
+
+            Action act = () => httpReponseMessage.Should()
+                .HaveStatusCode(HttpStatusCode.OK, "we want to test the failure {0}", "message");
+
+            act.ShouldThrow<XunitException>()
+                .WithMessage("Expected status code \"OK\" because we want to test the failure message, but the HttpResponseMessage was null.");
+        }
     }
 }
