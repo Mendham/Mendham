@@ -25,7 +25,22 @@ namespace Mendham.Testing.Http.Assertions
 
         private static readonly TaskFactory _taskFactory = new TaskFactory(CancellationToken.None, TaskCreationOptions.None, TaskContinuationOptions.None, TaskScheduler.Default);
         private static readonly JTokenFormatter _jTokenFormatter = new JTokenFormatter();
+        private const string JsonMediaType = "application/json";
 
+        /// <summary>
+        ///   Asserts that the media type found in the header of the <see cref="HttpContent"/> is equivalent to 
+        ///   <paramref name="mediaType"/>. 
+        /// </summary>
+        /// <param name="mediaType">
+        ///   The expected media type.
+        /// </param>
+        /// <param name = "because">
+        ///   A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        ///   is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name = "becauseArgs">
+        ///   Zero or more objects to format using the placeholders in <see cref = "because" />.
+        /// </param>
         public AndConstraint<HttpContentAssertions> HaveMediaType(string mediaType, string because = "", params object[] becauseArgs)
         {
             mediaType.VerifyArgumentNotNullOrEmpty(nameof(mediaType), "Media type is required");
@@ -33,18 +48,41 @@ namespace Mendham.Testing.Http.Assertions
             ValidateHttpContentNotNull(because, becauseArgs, "Expected media type {0}{reason}", mediaType);
 
             Execute.Assertion
-                .ForCondition(string.Equals(Subject.Headers.ContentType?.MediaType, mediaType, StringComparison.OrdinalIgnoreCase))
+                .ForCondition(IsMediaType(Subject.Headers.ContentType?.MediaType, mediaType))
                 .BecauseOf(because, becauseArgs)
                 .FailWith("Expected media type {0}{reason}, but found {1}.", mediaType, Subject.Headers.ContentType?.MediaType);
 
             return new AndConstraint<HttpContentAssertions>(this);
         }
 
+        /// <summary>
+        ///   Asserts that the media type found in the header of the <see cref="HttpContent"/> is equivalent to "application/json".
+        /// </summary>
+        /// <param name = "because">
+        ///   A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        ///   is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name = "becauseArgs">
+        ///   Zero or more objects to format using the placeholders in <see cref = "because" />.
+        /// </param>
         public AndConstraint<HttpContentAssertions> HaveJsonMediaType(string because = "", params object[] becauseArgs)
         {
-            return HaveMediaType("application/json", because, becauseArgs);
+            return HaveMediaType(JsonMediaType, because, becauseArgs);
         }
 
+        /// <summary>
+        ///   Asserts that the <see cref="HttpContent"/> contains a string that is exactly the same as <paramref name="expected"/>.
+        /// </summary>
+        /// <param name="expected">
+        ///   The expected string.
+        /// </param>
+        /// <param name = "because">
+        ///   A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        ///   is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name = "becauseArgs">
+        ///   Zero or more objects to format using the placeholders in <see cref = "because" />.
+        /// </param>
         public AndConstraint<HttpContentAssertions> BeString(string expected, string because = "", params object[] becauseArgs)
         {
             string expectedMessage = "Expected string {0}{reason}";
@@ -63,6 +101,19 @@ namespace Mendham.Testing.Http.Assertions
 
         private const string ExpectedJsonBe = "Expected json content to be {0}{{reason}}";
 
+        /// <summary>
+        ///   Asserts that the <see cref="HttpContent"/> contains JSON that equals <paramref name="expected"/>.
+        /// </summary>
+        /// <param name="expected">
+        ///   The expected element.
+        /// </param>
+        /// <param name = "because">
+        ///   A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        ///   is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name = "becauseArgs">
+        ///   Zero or more objects to format using the placeholders in <see cref = "because" />.
+        /// </param>
         public AndConstraint<HttpContentAssertions> HaveJsonBe(JToken expected, string because = "", params object[] becauseArgs)
         {
             JToken jToken = GetJTokenContent(because, becauseArgs, ExpectedJsonBe, expected);
@@ -80,11 +131,48 @@ namespace Mendham.Testing.Http.Assertions
 
         private const string ExpectedJsonEquivalentTo = "Expected json content to be equivalent to {0}{reason}";
 
+        /// <summary>
+        ///   Asserts that the <see cref="HttpContent"/> contains JSON that when deserialized into <typeparamref name="T"/> is
+        ///   equivalent to <paramref name="expected"/>.
+        /// </summary>
+        /// <typeparam name="T">
+        ///   The type to deserialize the JSON into.
+        /// </typeparam>
+        /// <param name="expected">
+        ///   The expected object.
+        /// </param>
+        /// <param name = "because">
+        ///   A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        ///   is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name = "becauseArgs">
+        ///   Zero or more objects to format using the placeholders in <see cref = "because" />.
+        /// </param>
         public AndConstraint<HttpContentAssertions> HaveJsonEquivalentTo<T>(T expected, string because = "", params object[] becauseArgs)
         {
             return HaveJsonEquivalentTo<T>(expected, EqualityComparer<T>.Default, because, becauseArgs);
         }
 
+        /// <summary>
+        ///   Asserts that the <see cref="HttpContent"/> contains JSON that when deserialized into <typeparamref name="T"/> is
+        ///   equivalent to <paramref name="expected"/> based upon <paramref name="comparer"/>.
+        /// </summary>
+        /// <typeparam name="T">
+        ///   The type to deserialize the JSON into.
+        /// </typeparam>
+        /// <param name="expected">
+        ///   The expected object.
+        /// </param>
+        /// <param name="comparer">
+        ///   The comparer to determine the eqivalence of the expected and the actual.
+        /// </param>
+        /// <param name = "because">
+        ///   A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        ///   is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name = "becauseArgs">
+        ///   Zero or more objects to format using the placeholders in <see cref = "because" />.
+        /// </param>
         public AndConstraint<HttpContentAssertions> HaveJsonEquivalentTo<T>(T expected, IEqualityComparer<T> comparer, string because = "", params object[] becauseArgs)
         {
             comparer.VerifyArgumentNotNull(nameof(comparer));
@@ -101,6 +189,19 @@ namespace Mendham.Testing.Http.Assertions
 
         private const string ExpectedContentMatch = "Expected content to match {0}{reason}";
 
+        /// <summary>
+        ///   Asserts that the <see cref="HttpContent"/> contains JSON that matches the condition in <paramref name="predicate"/>
+        /// </summary>
+        /// <param name="predicate">
+        ///   A predicate to match the the json content against.
+        /// </param>
+        /// <param name = "because">
+        ///   A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        ///   is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name = "becauseArgs">
+        ///   Zero or more objects to format using the placeholders in <see cref = "because" />.
+        /// </param>
         public AndConstraint<HttpContentAssertions> HaveJsonMatch(Expression<Func<JToken, bool>> predicate, string because = "", params object[] becauseArgs)
         {
             var jToken = GetJTokenContent(because, becauseArgs, ExpectedContentMatch, predicate.Body);
@@ -113,6 +214,23 @@ namespace Mendham.Testing.Http.Assertions
             return new AndConstraint<HttpContentAssertions>(this);
         }
 
+        /// <summary>
+        ///   Asserts that the <see cref="HttpContent"/> contains JSON that when deserialized into <typeparamref name="T"/> 
+        ///   matches the condition in <paramref name="predicate"/>
+        /// </summary>
+        /// <typeparam name="T">
+        ///   The type to deserialize the JSON into.
+        /// </typeparam>
+        /// <param name="predicate">
+        ///   A predicate to match the the json content against.
+        /// </param>
+        /// <param name = "because">
+        ///   A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        ///   is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name = "becauseArgs">
+        ///   Zero or more objects to format using the placeholders in <see cref = "because" />.
+        /// </param>
         public AndConstraint<HttpContentAssertions> HaveJsonMatch<T>(Expression<Func<T, bool>> predicate, string because = "", params object[] becauseArgs)
         {
             var obj = GetJsonContent<T>(because, becauseArgs, ExpectedContentMatch, predicate.Body);
@@ -124,7 +242,10 @@ namespace Mendham.Testing.Http.Assertions
 
             return new AndConstraint<HttpContentAssertions>(this);
         }
-       
+
+        /// <summary>
+        ///   Returns the type of the subject the assertion applies on.
+        /// </summary>
         protected override string Context
         {
             get { return nameof(HttpContent); }
@@ -176,11 +297,15 @@ namespace Mendham.Testing.Http.Assertions
             var failArgs = expectedArgs.ToList();
             failArgs.Add(contentMediaType);
                 
-
             Execute.Assertion
-                .ForCondition(string.Equals("application/json", contentMediaType, StringComparison.Ordinal))
+                .ForCondition(IsMediaType(JsonMediaType, contentMediaType))
                 .BecauseOf(because, becauseArgs)
                 .FailWith(failString, failArgs.ToArray());
+        }
+
+        private static bool IsMediaType(string expected, string actual)
+        {
+            return string.Equals(expected, actual, StringComparison.Ordinal);
         }
     }
 }

@@ -15,17 +15,24 @@ namespace Mendham.Testing.Http.Assertions
             Subject = value;
         }
 
+        /// <summary>
+        ///   Returns the type of the subject the assertion applies on.
+        /// </summary>
         protected override string Context
         {
             get { return nameof(HttpResponseMessage); }
         }
 
         /// <summary>
-        /// Asserts that the <see cref="HttpResponseMessage"/> has a successful response 
+        ///   Asserts that the <see cref="HttpResponseMessage"/> has a successful response.
         /// </summary>
-        /// <param name="because"> A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see paramref="because" />.</param>
+        /// <param name = "because">
+        ///   A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        ///   is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name = "becauseArgs">
+        ///   Zero or more objects to format using the placeholders in <see cref = "because" />.
+        /// </param>
         public AndConstraint<HttpResponseMessageAssestions> HaveSuccessStatusCode(string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
@@ -42,12 +49,18 @@ namespace Mendham.Testing.Http.Assertions
         }
 
         /// <summary>
-        /// Asserts that the <see cref="HttpResponseMessage"/> has a status code that matches <paramref name="expected"/>
+        ///   Asserts that the <see cref="HttpResponseMessage"/> has a status code that matches <paramref name="expected"/>.
         /// </summary>
-        /// <param name="expected">The expected value</param>
-        /// <param name="because"> A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion
-        /// is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.</param>
-        /// <param name="becauseArgs">Zero or more objects to format using the placeholders in <see paramref="because" />.</param>
+        /// <param name="expected">
+        ///   The expected value.
+        /// </param>
+        /// <param name = "because">
+        ///   A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        ///   is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name = "becauseArgs">
+        ///   Zero or more objects to format using the placeholders in <see cref = "because" />.
+        /// </param>
         public AndConstraint<HttpResponseMessageAssestions> HaveStatusCode(HttpStatusCode expected, string because = "", params object[] becauseArgs)
         {
             Execute.Assertion
@@ -63,6 +76,9 @@ namespace Mendham.Testing.Http.Assertions
             return new AndConstraint<HttpResponseMessageAssestions>(this);
         }
 
+        /// <summary>
+        ///   Allows for assertions to be made upon the content.
+        /// </summary>
         public HttpContentAssertions Content
         {
             get { return new HttpContentAssertions(Subject.Content); }
