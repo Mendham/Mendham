@@ -44,7 +44,7 @@ namespace Mendham.Testing.AspNetCore.Test
 
             Fixture.TestService.AsMock()
                 .Setup(a => a.TakeAction(value))
-                .ReturnsNoActionTask()
+                .ReturnsTask()
                 .Verifiable("did not call action with value");
 
             var result = await Fixture.Client.PostAsync("test", JsonContent.FromObject(value));

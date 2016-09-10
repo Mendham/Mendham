@@ -25,7 +25,7 @@ namespace Mendham.Events.Test
                 .Returns(handlers);
 			Fixture.EventHandlerProcessor.AsMock()
 				.Setup(a => a.HandleAllAsync(testEvent, handlers))
-				.ReturnsNoActionTask();
+				.ReturnsTask();
 
 			var sut = Fixture.CreateSut();
 
@@ -46,7 +46,7 @@ namespace Mendham.Events.Test
                 .Returns(handlers);
             Fixture.EventHandlerProcessor.AsMock()
 				.Setup(a => a.HandleAllAsync(testEvent, handlers))
-				.ReturnsNoActionTask();
+				.ReturnsTask();
 
 			var sut = Fixture.CreateSut();
 

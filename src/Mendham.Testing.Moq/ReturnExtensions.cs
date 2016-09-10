@@ -72,7 +72,7 @@ namespace Mendham.Testing.Moq
         /// </summary>
         /// <typeparam name="T">Type of Mock</typeparam>
         /// <param name="setup">Setup of Mock that expects a return type of Task</param>
-		public static IReturnsResult<T> ReturnsNoActionTask<T>(this ISetup<T, Task> setup)
+		public static IReturnsResult<T> ReturnsTask<T>(this ISetup<T, Task> setup)
             where T : class
         {
             return setup.Returns(Task.FromResult(0));

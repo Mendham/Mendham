@@ -75,12 +75,12 @@ namespace Mendham.Testing.Moq.Test
         }
 
         [Fact]
-        public void ReturnsNoActionTask_Called_EmptyTask()
+        public void ReturnsTask_Called_EmptyTask()
         {
             var mock = new Mock<IMockableContract>();
 
             mock.Setup(a => a.DoSomethingAsync())
-                .ReturnsNoActionTask();
+                .ReturnsTask();
 
             var sut = mock.Object;
 
