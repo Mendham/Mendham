@@ -36,7 +36,7 @@ namespace Mendham.Testing.Http.Assertions
             Execute.Assertion
                 .ForCondition(Subject.IsSuccessStatusCode)
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected a success status code{reason}, but found {0}.", Subject.StatusCode.ToString());
+                .FailWith("Expected a success status code{reason}, but found {0}.", Subject.StatusCode.FormattedStatusCode());
 
             return new AndConstraint<HttpResponseMessageAssestions>(this);
         }
@@ -53,16 +53,15 @@ namespace Mendham.Testing.Http.Assertions
             Execute.Assertion
                 .ForCondition(Subject != null)
                 .BecauseOf(because, becauseArgs)
-                .FailWith($"Expected status code {{0}}{{reason}}, but the {nameof(HttpResponseMessage)} was null.", expected.ToString());
+                .FailWith($"Expected status code {{0}}{{reason}}, but the {nameof(HttpResponseMessage)} was null.", expected.FormattedStatusCode());
 
             Execute.Assertion
                 .ForCondition(Subject.StatusCode.Equals(expected))
                 .BecauseOf(because, becauseArgs)
-                .FailWith("Expected status code {0}{reason}, but found {1}.", expected.ToString(), Subject.StatusCode.ToString());
+                .FailWith("Expected status code {0}{reason}, but found {1}.", expected.FormattedStatusCode(), Subject.StatusCode.FormattedStatusCode());
 
             return new AndConstraint<HttpResponseMessageAssestions>(this);
         }
-
 
         public HttpContentAssertions Content
         {

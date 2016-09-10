@@ -43,7 +43,7 @@ namespace Mendham.Testing.Http.Test
                 .HaveSuccessStatusCode("we want to test the failure {0}", "message");
 
             act.ShouldThrow<XunitException>()
-                .WithMessage($"Expected a success status code because we want to test the failure message, but found \"{statusCode.ToString()}\".");
+                .WithMessage($"Expected a success status code because we want to test the failure message, but found \"{statusCode.ToString()} ({(int)statusCode})\".");
         }
 
         [Fact]
@@ -78,7 +78,7 @@ namespace Mendham.Testing.Http.Test
                 .HaveStatusCode(HttpStatusCode.OK, "we want to test the failure {0}", "message");
 
             act.ShouldThrow<XunitException>()
-                .WithMessage("Expected status code \"OK\" because we want to test the failure message, but found \"BadRequest\".");
+                .WithMessage("Expected status code \"OK (200)\" because we want to test the failure message, but found \"BadRequest (400)\".");
         }
 
         [Fact]
@@ -90,7 +90,7 @@ namespace Mendham.Testing.Http.Test
                 .HaveStatusCode(HttpStatusCode.OK, "we want to test the failure {0}", "message");
 
             act.ShouldThrow<XunitException>()
-                .WithMessage("Expected status code \"OK\" because we want to test the failure message, but the HttpResponseMessage was null.");
+                .WithMessage("Expected status code \"OK (200)\" because we want to test the failure message, but the HttpResponseMessage was null.");
         }
     }
 }
