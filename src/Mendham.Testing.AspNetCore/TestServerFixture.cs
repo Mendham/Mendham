@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Http.Features;
 
 namespace Mendham.Testing.AspNetCore
 {
+    /// <summary>
+    /// Fixture that creates and manages a <see cref="TestServer"/> to be shared across a test class.
+    /// </summary>
     public abstract class TestServerFixture : IServiceProviderFixture
     {
         public TestServerFixture()
@@ -19,6 +22,9 @@ namespace Mendham.Testing.AspNetCore
             ServerFeatures = Server.Host.ServerFeatures;
         }
 
+        /// <summary>
+        /// Setup <see cref="IWebHostBuilder"/> to be used by fixture
+        /// </summary>
         protected abstract IWebHostBuilder GetWebHostBuilder();
 
         public TestServer Server { get; }
@@ -37,6 +43,10 @@ namespace Mendham.Testing.AspNetCore
         }
     }
 
+    /// <summary>
+    /// Fixture that creates and manages a <see cref="TestServer"/> to be shared across a test class. The host
+    /// is configured using <typeparamref name="TStartup"/>
+    /// </summary>
     public class TestServerFixture<TStartup> : TestServerFixture where TStartup : class
     {
         protected sealed override IWebHostBuilder GetWebHostBuilder()
@@ -46,6 +56,10 @@ namespace Mendham.Testing.AspNetCore
                 .UseStartup<TStartup>();
         }
 
+        /// <summary>
+        /// Extend the service configuration specified by <typeparamref name="TStartup"/>
+        /// </summary>
+        /// <param name="serviceCollection">ServiceCollection to apply configuration to</param>
         protected virtual void ServiceConfiguration(IServiceCollection serviceCollection)
         {
         }

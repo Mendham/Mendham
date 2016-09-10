@@ -2,11 +2,13 @@
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
 
 namespace Mendham.Testing.AspNetCore
 {
+    /// <summary>
+    /// Fixtured used to manage a <see cref="IServiceProvider"/> shared across a test class.
+    /// </summary>
     public abstract class ServiceProviderFixture : IServiceProviderFixture
     {
         public IServiceProvider Services { get; }
@@ -20,6 +22,10 @@ namespace Mendham.Testing.AspNetCore
             Services = serviceCollection.BuildServiceProvider();
         }
 
+        /// <summary>
+        /// Setup <see cref="IServiceCollection"/>
+        /// </summary>
+        /// <param name="serviceCollection">ServiceCollection to apply configuration to</param>
         protected abstract void ServiceConfiguration(IServiceCollection serviceCollection);
 
         public virtual void ResetFixture()
@@ -32,12 +38,18 @@ namespace Mendham.Testing.AspNetCore
         }
     }
 
+    /// <summary>
+    /// Fixtured used to manage a <see cref="IServiceProvider"/> shared across a test class. A <typeparamref name="TStartup"/>
+    /// class provides default service configuration. Those values can be extended by overriding ServiceConfiguration
+    /// </summary>
+    /// <typeparam name="TStartup">Startup type used for service configuration</typeparam>
     public class ServiceProviderFixture<TStartup> : IServiceProviderFixture where TStartup : class
     {
         private IWebHost _webHost;
 
         public ServiceProviderFixture()
         {
+            // WebHost is just built to apply TStartup harvest IServiceProvider 
             _webHost = new WebHostBuilder()
                 .ConfigureServices(ServiceConfiguration)
                 .UseStartup<TStartup>()
@@ -47,8 +59,15 @@ namespace Mendham.Testing.AspNetCore
             Services = _webHost.Services;
         }
 
+        /// <summary>
+        /// <see cref="IServiceProvider"/> that can be used to retrieve objects
+        /// </summary>
         public IServiceProvider Services { get; }
 
+        /// <summary>
+        /// Extend the service configuration specified by <typeparamref name="TStartup"/>
+        /// </summary>
+        /// <param name="serviceCollection">ServiceCollection to apply configuration to</param>
         protected virtual void ServiceConfiguration(IServiceCollection serviceCollection)
         {
         }
@@ -62,6 +81,9 @@ namespace Mendham.Testing.AspNetCore
             _webHost?.Dispose();
         }
 
+        /// <summary>
+        /// Empty server required when building a web host.
+        /// </summary>
         private class NoopServer : IServer
         {
             public IFeatureCollection Features { get; }
