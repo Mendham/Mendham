@@ -11,7 +11,7 @@ using Xunit;
 
 namespace Mendham.Events.Test
 {
-    public class EventHandlerProcessorTest : UnitTest<EventHandlerProcessorFixture>
+    public class EventHandlerProcessorTest : Test<EventHandlerProcessorFixture>
     {
         public EventHandlerProcessorTest(EventHandlerProcessorFixture fixture) : base(fixture)
         { }

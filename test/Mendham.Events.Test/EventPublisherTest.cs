@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Mendham.Events.Test
 {
-    public class EventPublisherTest : UnitTest<EventPublisherFixture>
+    public class EventPublisherTest : Test<EventPublisherFixture>
 	{
 		public EventPublisherTest(EventPublisherFixture fixture) : base(fixture)
 		{ }

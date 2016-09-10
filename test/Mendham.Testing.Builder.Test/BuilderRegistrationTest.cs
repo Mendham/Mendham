@@ -12,7 +12,7 @@ using Xunit;
 
 namespace Mendham.Testing.Builder.Test
 {
-    public class BuilderRegistrationTest : UnitTest<BuilderRegistrationFixture>
+    public class BuilderRegistrationTest : Test<BuilderRegistrationFixture>
     {
         public BuilderRegistrationTest(BuilderRegistrationFixture fixture) : base(fixture)
         {

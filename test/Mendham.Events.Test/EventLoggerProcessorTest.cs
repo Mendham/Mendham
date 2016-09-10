@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Mendham.Events.Test
 {
-    public class EventLoggerProcessorTest : UnitTest<EventLoggerProcessorFixture>
+    public class EventLoggerProcessorTest : Test<EventLoggerProcessorFixture>
     {
         public EventLoggerProcessorTest(EventLoggerProcessorFixture fixture) : base(fixture)
         { }

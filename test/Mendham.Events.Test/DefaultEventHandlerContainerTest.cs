@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Mendham.Events.Test
 {
-    public class DefaultEventHandlerContainerTest : UnitTest<DefaultEventHandlerContainerFixture>
+    public class DefaultEventHandlerContainerTest : Test<DefaultEventHandlerContainerFixture>
 	{
 		public DefaultEventHandlerContainerTest(DefaultEventHandlerContainerFixture fixture) : base(fixture)
 		{ }

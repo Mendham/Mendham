@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Mendham.Testing.AspNetCore.Test
 {
-    public class BaseServiceProviderFixtureWithStartupTest : UnitTest<ServiceProviderFixture<Startup>>
+    public class BaseServiceProviderFixtureWithStartupTest : Test<ServiceProviderFixture<Startup>>
     {
         public BaseServiceProviderFixtureWithStartupTest(ServiceProviderFixture<Startup> fixture) : base(fixture)
         {

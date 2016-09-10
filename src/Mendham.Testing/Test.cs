@@ -7,15 +7,15 @@ using Xunit;
 namespace Mendham.Testing
 {
     /// <summary>
-    /// Base for a unit test class that implements IClassFixture and provides access of that fixture to the tests
+    /// Base for a test class that implements IClassFixture and provides access of that fixture to the tests
     /// </summary>
     /// <typeparam name="TFixture">Type of test fixture</typeparam>
-    public abstract class UnitTest<TFixture> : IClassFixture<TFixture>
+    public abstract class Test<TFixture> : IClassFixture<TFixture>
 		where TFixture : class, IFixture, new()
 	{
 		protected TFixture Fixture { get; private set; }
 
-		public UnitTest(TFixture fixture)
+		public Test(TFixture fixture)
 		{
 			Fixture = fixture;
 

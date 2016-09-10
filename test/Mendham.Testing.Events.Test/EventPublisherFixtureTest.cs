@@ -7,7 +7,7 @@ using Fixture = Mendham.Testing.Events.Test.EventPublisherFixtureTestingFixture;
 
 namespace Mendham.Testing.Events.Test
 {
-    public class EventPublisherFixtureTest : UnitTest<EventPublisherFixtureTestingFixture>
+    public class EventPublisherFixtureTest : Test<EventPublisherFixtureTestingFixture>
     {
         public EventPublisherFixtureTest(EventPublisherFixtureTestingFixture fixture) : base(fixture)
         {

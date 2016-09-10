@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Mendham.Testing.Builder.Test
 {
-    public class BuilderQueryServiceTest : UnitTest<BuilderQueryServiceFixture>
+    public class BuilderQueryServiceTest : Test<BuilderQueryServiceFixture>
     {
         public BuilderQueryServiceTest(BuilderQueryServiceFixture fixture) : base(fixture)
         { }
