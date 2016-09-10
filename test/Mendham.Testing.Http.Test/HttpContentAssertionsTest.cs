@@ -83,7 +83,7 @@ namespace Mendham.Testing.Http.Test
 
         [Theory]
         [MendhamData]
-        public void BeString_StringMatches_DoesNotThrow(string strContent)
+        public void BeString_StringEqual_DoesNotThrow(string strContent)
         {
             HttpContent content = new StringContent(strContent);
 
@@ -94,7 +94,7 @@ namespace Mendham.Testing.Http.Test
 
         [Theory]
         [MendhamData]
-        public void BeString_StringDoesNotMatch_Throws(string strContent, string incorrectExpectation)
+        public void BeString_StringNotEqual_Throws(string strContent, string incorrectExpectation)
         {
             HttpContent content = new StringContent(strContent);
 
@@ -129,6 +129,56 @@ namespace Mendham.Testing.Http.Test
 
             act.ShouldThrow<XunitException>()
                 .WithMessage($"Expected string \"{incorrectExpectation}\" because we want to test the failure message, but found \"{bytesAsString}\".");
+        }
+
+        [Theory]
+        [MendhamData]
+        public void HaveStringMatch_StringMatches_DoesNotThrow(string strContent)
+        {
+            HttpContent content = new StringContent(strContent);
+
+            Action act = () => content.Should().HaveStringMatch(a => a.Equals(strContent));
+
+            act.ShouldNotThrow();
+        }
+
+        [Theory]
+        [MendhamData]
+        public void HaveStringMatch_StringDoesNotMatch_Throws(string strContent, string incorrectExpectation)
+        {
+            HttpContent content = new StringContent(strContent);
+
+            Action act = () => content.Should()
+                .HaveStringMatch(a => a == "abc", "we want to test the failure {0}", "message");
+
+            act.ShouldThrow<XunitException>()
+                .WithMessage($"Expected string to match (a == \"abc\") because we want to test the failure message, but \"{strContent}\" does not.");
+        }
+
+        [Fact]
+        public void HaveStringMatch_NullContent_Throws()
+        {
+            HttpContent content = null;
+
+            Action act = () => content.Should()
+                .HaveStringMatch(a => a == "abc", "we want to test the failure {0}", "message");
+
+            act.ShouldThrow<XunitException>()
+                .WithMessage("Expected string to match (a == \"abc\") because we want to test the failure message, but HttpContent was null.");
+        }
+
+        [Theory]
+        [MendhamData]
+        public async Task HaveStringMatch_ContainsByteArray_Throws(byte[] bytes, string incorrectExpectation)
+        {
+            HttpContent content = new ByteArrayContent(bytes);
+            var bytesAsString = await content.ReadAsStringAsync();
+
+            Action act = () => content.Should()
+                .HaveStringMatch(a => a == "abc", "we want to test the failure {0}", "message");
+
+            act.ShouldThrow<XunitException>()
+                .WithMessage($"Expected string to match (a == \"abc\") because we want to test the failure message, but \"{bytesAsString}\" does not.");
         }
 
         [Theory]

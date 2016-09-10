@@ -99,6 +99,35 @@ namespace Mendham.Testing.Http.Assertions
             return new AndConstraint<HttpContentAssertions>(this);
         }
 
+        /// <summary>
+        ///   Asserts that the <see cref="HttpContent"/> contains a string that matches the condition in <paramref name="predicate"/>.
+        /// </summary>
+        /// <param name="predicate">
+        ///   A predicate to match the string content against.
+        /// </param>
+        /// <param name = "because">
+        ///   A formatted phrase as is supported by <see cref="string.Format(string,object[])" /> explaining why the assertion 
+        ///   is needed. If the phrase does not start with the word <i>because</i>, it is prepended automatically.
+        /// </param>
+        /// <param name = "becauseArgs">
+        ///   Zero or more objects to format using the placeholders in <see cref = "because" />.
+        /// </param>
+        public AndConstraint<HttpContentAssertions> HaveStringMatch(Expression<Func<string, bool>> predicate, string because = "", params object[] becauseArgs)
+        {
+            string expectedMessage = "Expected string to match {0}{reason}";
+
+            ValidateHttpContentNotNull(because, becauseArgs, expectedMessage, predicate.Body);
+
+            var content = GetStringContent();
+
+            Execute.Assertion
+                .ForCondition(predicate.Compile()(content))
+                .BecauseOf(because, becauseArgs)
+                .FailWith(expectedMessage + ", but {1} does not.", predicate.Body, content);
+
+            return new AndConstraint<HttpContentAssertions>(this);
+        }
+
         private const string ExpectedJsonBe = "Expected json content to be {0}{{reason}}";
 
         /// <summary>
@@ -190,7 +219,7 @@ namespace Mendham.Testing.Http.Assertions
         private const string ExpectedContentMatch = "Expected content to match {0}{reason}";
 
         /// <summary>
-        ///   Asserts that the <see cref="HttpContent"/> contains JSON that matches the condition in <paramref name="predicate"/>
+        ///   Asserts that the <see cref="HttpContent"/> contains JSON that matches the condition in <paramref name="predicate"/>.
         /// </summary>
         /// <param name="predicate">
         ///   A predicate to match the the json content against.
