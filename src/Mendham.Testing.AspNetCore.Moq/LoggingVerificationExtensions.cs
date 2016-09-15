@@ -121,6 +121,26 @@ namespace Mendham.Testing.Moq
             VerifyLogMessage(loggerMock, logLevel, messagePredicate, Times.Once, failMessage);
         }
 
+        public static void VerifyLogMessage<TLogger>(this Mock<TLogger> loggerMock, LogLevel logLevel,
+            string message, Times times, string failMessage = null) where TLogger : class, ILogger
+        {
+            VerifyLogMessage(loggerMock, logLevel, message, () => times, failMessage);
+        }
+
+        public static void VerifyLogMessage<TLogger>(this Mock<TLogger> loggerMock, LogLevel logLevel,
+            string message, Func<Times> times, string failMessage = null) where TLogger : class, ILogger
+        {
+            loggerMock.Verify(a => a.Log(logLevel, It.IsAny<EventId>(), 
+                It.Is<FormattedLogValues>(flv => string.Equals(flv.ToString(), message)),
+                It.IsAny<Exception>(), It.IsAny<Func<object, Exception, string>>()), times, failMessage);
+        }
+
+        public static void VerifyLogMessage<TLogger>(this Mock<TLogger> loggerMock, LogLevel logLevel,
+            string message, string failMessage = null) where TLogger : class, ILogger
+        {
+            VerifyLogMessage(loggerMock, logLevel, message, Times.Once, failMessage);
+        }
+
         private class SwapVistor : ExpressionVisitor
         {
             private readonly Expression _from;
