@@ -1,9 +1,6 @@
 ﻿using Moq;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Linq.Expressions;
 using Microsoft.Extensions.Logging.Internal;
 
@@ -94,6 +91,51 @@ namespace Mendham.Testing.Moq
             where TLogger : class, ILogger
         {
             VerifyLogEntry(loggerMock, logLevel, Times.Once, failMessage);
+        }
+
+        public static void VerifyLogMessage<TLogger>(this Mock<TLogger> loggerMock, LogLevel logLevel,
+            Expression<Func<string, bool>> messagePredicate, Times times, string failMessage = null)
+            where TLogger : class, ILogger
+        {
+            VerifyLogMessage(loggerMock, logLevel, messagePredicate, () => times, failMessage);
+        }
+
+        public static void VerifyLogMessage<TLogger>(this Mock<TLogger> loggerMock, LogLevel logLevel,
+            Expression<Func<string, bool>> messagePredicate, Func<Times> times, string failMessage = null)
+            where TLogger : class, ILogger
+        {
+            Expression<Func<FormattedLogValues, string>> stringSelector = a => a.ToString();
+
+            var expression = Expression.Lambda<Func<FormattedLogValues, bool>>(
+                new SwapVistor(messagePredicate.Parameters[0], stringSelector.Body).Visit(messagePredicate.Body), 
+                    stringSelector.Parameters);
+
+            loggerMock.Verify(a => a.Log(logLevel, It.IsAny<EventId>(), It.Is(expression),
+                It.IsAny<Exception>(), It.IsAny<Func<object, Exception, string>>()), times, failMessage);
+        }
+
+        public static void VerifyLogMessage<TLogger>(this Mock<TLogger> loggerMock, LogLevel logLevel,
+            Expression<Func<string, bool>> messagePredicate, string failMessage = null)
+            where TLogger : class, ILogger
+        {
+            VerifyLogMessage(loggerMock, logLevel, messagePredicate, Times.Once, failMessage);
+        }
+
+        private class SwapVistor : ExpressionVisitor
+        {
+            private readonly Expression _from;
+            private readonly Expression _to;
+
+            public SwapVistor(Expression from, Expression to)
+            {
+                _from = from;
+                _to = to;
+            }
+
+            public override Expression Visit(Expression node)
+            {
+                return node == _from ? _to : base.Visit(node);
+            }
         }
     }
 }

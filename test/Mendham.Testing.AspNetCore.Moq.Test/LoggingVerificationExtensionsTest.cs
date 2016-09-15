@@ -2,9 +2,6 @@
 using Mendham.Testing.Moq;
 using Moq;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Xunit;
 using FluentAssertions;
 
@@ -624,6 +621,143 @@ namespace Mendham.Testing.AspNetCore.Moq.Test
             logger.LogWarning(msg, "message");
 
             Action act = () => logger.AsMock().VerifyLogEntry(LogLevel.Error, FailMessage);
+
+            act.ShouldThrow<MockException>("the log level did not match")
+                .Where(a => a.Message.StartsWith(FailMessage), "that is the fail message");
+        }
+
+        [Fact]
+        public void VerifyLogMessagePredicateWithFunc_EntryWithMessage_DoesNotThrow()
+        {
+            var logger = Mock.Of<ILogger<LoggingVerificationExtensionsTest>>();
+            var msg = "some error: {0}";
+
+            logger.LogWarning(msg, "message");
+
+            Action act = () => logger.AsMock().VerifyLogMessage(LogLevel.Warning, a => a.Contains("some error: message"),
+                Times.Once, FailMessage);
+
+            act.ShouldNotThrow();
+        }
+
+        [Fact]
+        public void VerifyLogMessagePredicateWithFunc_NoLogEntry_Throws()
+        {
+            var logger = Mock.Of<ILogger<LoggingVerificationExtensionsTest>>();
+
+            Action act = () => logger.AsMock().VerifyLogMessage(LogLevel.Warning, a => true, Times.Once, FailMessage);
+
+            act.ShouldThrow<MockException>("the logger was never called")
+                .Where(a => a.Message.StartsWith(FailMessage), "that is the fail message");
+        }
+
+        [Fact]
+        public void VerifyLogMessagePredicateWithFunc_LogLevelDoesNotMatch_Throws()
+        {
+            var logger = Mock.Of<ILogger<LoggingVerificationExtensionsTest>>();
+            var msg = "some error: {0}";
+
+            logger.LogWarning(msg, "message");
+
+            Action act = () => logger.AsMock().VerifyLogMessage(LogLevel.Error, a => a.Contains("some error: message"),
+                Times.Once, FailMessage);
+
+            act.ShouldThrow<MockException>("the log level did not match")
+                .Where(a => a.Message.StartsWith(FailMessage), "that is the fail message");
+        }
+
+        [Fact]
+        public void VerifyLogMessagePredicateWithFunc_FormattedLogValuesPredicateFalse_Throws()
+        {
+            var logger = Mock.Of<ILogger<LoggingVerificationExtensionsTest>>();
+            var msg = "some error: {0}";
+
+            logger.LogWarning(msg, "message");
+
+            Action act = () => logger.AsMock().VerifyLogMessage(LogLevel.Warning, a => false,
+                Times.Once, FailMessage);
+
+            act.ShouldThrow<MockException>("the formatted log levels predicate is false")
+                .Where(a => a.Message.StartsWith(FailMessage), "that is the fail message");
+        }
+
+        [Fact]
+        public void VerifyLogMessagePredicateWithTimes_EntryWithMessage_DoesNotThrow()
+        {
+            var logger = Mock.Of<ILogger<LoggingVerificationExtensionsTest>>();
+            var msg = "some error: {0}";
+
+            logger.LogWarning(msg, "message");
+
+            Action act = () => logger.AsMock().VerifyLogMessage(LogLevel.Warning, a => a.Contains("some error: message"),
+                Times.Once(), FailMessage);
+
+            act.ShouldNotThrow();
+        }
+
+        [Fact]
+        public void VerifyLogMessagePredicateWithTimes_NoLogEntry_Throws()
+        {
+            var logger = Mock.Of<ILogger<LoggingVerificationExtensionsTest>>();
+
+            Action act = () => logger.AsMock().VerifyLogMessage(LogLevel.Warning, a => true, Times.Once(), FailMessage);
+
+            act.ShouldThrow<MockException>("the logger was never called")
+                .Where(a => a.Message.StartsWith(FailMessage), "that is the fail message");
+        }
+
+        [Fact]
+        public void VerifyLogMessagePredicateWithTimes_LogLevelDoesNotMatch_Throws()
+        {
+            var logger = Mock.Of<ILogger<LoggingVerificationExtensionsTest>>();
+            var msg = "some error: {0}";
+
+            logger.LogWarning(msg, "message");
+
+            Action act = () => logger.AsMock().VerifyLogMessage(LogLevel.Error, a => a.Contains("some error: message"),
+                Times.Once(), FailMessage);
+
+            act.ShouldThrow<MockException>("the log level did not match")
+                .Where(a => a.Message.StartsWith(FailMessage), "that is the fail message");
+        }
+
+        [Fact]
+        public void VerifyLogMessagePredicateWithFailMessageOnly_EntryWithMessage_DoesNotThrow()
+        {
+            var logger = Mock.Of<ILogger<LoggingVerificationExtensionsTest>>();
+            var ex = new InvalidOperationException("error");
+            var msg = "some error: {0}";
+
+            logger.LogWarning(msg, "message");
+
+            Action act = () => logger.AsMock().VerifyLogMessage(LogLevel.Warning, a => a.Contains("some error: message"),
+                FailMessage);
+
+            act.ShouldNotThrow();
+        }
+
+        [Fact]
+        public void VerifyLogMessagePredicateWithFailMessageOnly_NoLogEntry_Throws()
+        {
+            var logger = Mock.Of<ILogger<LoggingVerificationExtensionsTest>>();
+            var ex = new InvalidOperationException("error");
+
+            Action act = () => logger.AsMock().VerifyLogMessage(LogLevel.Warning, a => true, FailMessage);
+
+            act.ShouldThrow<MockException>("the logger was never called")
+                .Where(a => a.Message.StartsWith(FailMessage), "that is the fail message");
+        }
+
+        [Fact]
+        public void VerifyLogMessagePredicateWithFailMessageOnly_LogLevelDoesNotMatch_Throws()
+        {
+            var logger = Mock.Of<ILogger<LoggingVerificationExtensionsTest>>();
+            var msg = "some error: {0}";
+
+            logger.LogWarning(msg, "message");
+
+            Action act = () => logger.AsMock().VerifyLogMessage(LogLevel.Error, a => a.Contains("some error: message"),
+                FailMessage);
 
             act.ShouldThrow<MockException>("the log level did not match")
                 .Where(a => a.Message.StartsWith(FailMessage), "that is the fail message");
