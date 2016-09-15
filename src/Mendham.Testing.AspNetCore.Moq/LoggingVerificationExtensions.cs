@@ -1,8 +1,8 @@
-﻿using Moq;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Internal;
+using Moq;
 using System;
 using System.Linq.Expressions;
-using Microsoft.Extensions.Logging.Internal;
 
 namespace Mendham.Testing.Moq
 {
@@ -93,14 +93,14 @@ namespace Mendham.Testing.Moq
             VerifyLogEntry(loggerMock, logLevel, Times.Once, failMessage);
         }
 
-        public static void VerifyLogMessage<TLogger>(this Mock<TLogger> loggerMock, LogLevel logLevel,
+        public static void VerifyMessageLogged<TLogger>(this Mock<TLogger> loggerMock, LogLevel logLevel,
             Expression<Func<string, bool>> messagePredicate, Times times, string failMessage = null)
             where TLogger : class, ILogger
         {
-            VerifyLogMessage(loggerMock, logLevel, messagePredicate, () => times, failMessage);
+            VerifyMessageLogged(loggerMock, logLevel, messagePredicate, () => times, failMessage);
         }
 
-        public static void VerifyLogMessage<TLogger>(this Mock<TLogger> loggerMock, LogLevel logLevel,
+        public static void VerifyMessageLogged<TLogger>(this Mock<TLogger> loggerMock, LogLevel logLevel,
             Expression<Func<string, bool>> messagePredicate, Func<Times> times, string failMessage = null)
             where TLogger : class, ILogger
         {
@@ -114,20 +114,20 @@ namespace Mendham.Testing.Moq
                 It.IsAny<Exception>(), It.IsAny<Func<object, Exception, string>>()), times, failMessage);
         }
 
-        public static void VerifyLogMessage<TLogger>(this Mock<TLogger> loggerMock, LogLevel logLevel,
+        public static void VerifyMessageLogged<TLogger>(this Mock<TLogger> loggerMock, LogLevel logLevel,
             Expression<Func<string, bool>> messagePredicate, string failMessage = null)
             where TLogger : class, ILogger
         {
-            VerifyLogMessage(loggerMock, logLevel, messagePredicate, Times.Once, failMessage);
+            VerifyMessageLogged(loggerMock, logLevel, messagePredicate, Times.Once, failMessage);
         }
 
-        public static void VerifyLogMessage<TLogger>(this Mock<TLogger> loggerMock, LogLevel logLevel,
+        public static void VerifyMessageLogged<TLogger>(this Mock<TLogger> loggerMock, LogLevel logLevel,
             string message, Times times, string failMessage = null) where TLogger : class, ILogger
         {
-            VerifyLogMessage(loggerMock, logLevel, message, () => times, failMessage);
+            VerifyMessageLogged(loggerMock, logLevel, message, () => times, failMessage);
         }
 
-        public static void VerifyLogMessage<TLogger>(this Mock<TLogger> loggerMock, LogLevel logLevel,
+        public static void VerifyMessageLogged<TLogger>(this Mock<TLogger> loggerMock, LogLevel logLevel,
             string message, Func<Times> times, string failMessage = null) where TLogger : class, ILogger
         {
             loggerMock.Verify(a => a.Log(logLevel, It.IsAny<EventId>(), 
@@ -135,10 +135,10 @@ namespace Mendham.Testing.Moq
                 It.IsAny<Exception>(), It.IsAny<Func<object, Exception, string>>()), times, failMessage);
         }
 
-        public static void VerifyLogMessage<TLogger>(this Mock<TLogger> loggerMock, LogLevel logLevel,
+        public static void VerifyMessageLogged<TLogger>(this Mock<TLogger> loggerMock, LogLevel logLevel,
             string message, string failMessage = null) where TLogger : class, ILogger
         {
-            VerifyLogMessage(loggerMock, logLevel, message, Times.Once, failMessage);
+            VerifyMessageLogged(loggerMock, logLevel, message, Times.Once, failMessage);
         }
 
         private class SwapVistor : ExpressionVisitor
