@@ -27,7 +27,7 @@ namespace Mendham.Testing.Moq
             Expression<Func<FormattedLogValues, bool>> formattedLogValuesPredicate, Exception exception, 
             string failMessage = null) where TLogger : class, ILogger
         {
-            VerifyLog(loggerMock, logLevel, exception, Times.Once, failMessage);
+            VerifyLog(loggerMock, logLevel, formattedLogValuesPredicate, exception, Times.Once, failMessage);
         }
 
         public static void VerifyLog<TLogger>(this Mock<TLogger> loggerMock, LogLevel logLevel,
@@ -139,6 +139,71 @@ namespace Mendham.Testing.Moq
             string message, string failMessage = null) where TLogger : class, ILogger
         {
             VerifyLogMessage(loggerMock, logLevel, message, Times.Once, failMessage);
+        }
+
+        public static void VerifyError<TLogger>(this Mock<TLogger> loggerMock,
+            Expression<Func<FormattedLogValues, bool>> formattedLogValuesPredicate, Exception exception, 
+            string failMessage = null) where TLogger : class, ILogger
+        {
+            VerifyLog(loggerMock, LogLevel.Error, formattedLogValuesPredicate, exception, failMessage);
+        }
+
+        public static void VerifyError<TLogger>(this Mock<TLogger> loggerMock,
+            Expression<Func<FormattedLogValues, bool>> formattedLogValuesPredicate,  string failMessage = null) 
+            where TLogger : class, ILogger
+        {
+            VerifyLog(loggerMock, LogLevel.Error, formattedLogValuesPredicate, failMessage);
+        }
+
+        public static void VerifyError<TLogger>(this Mock<TLogger> loggerMock, Exception exception,
+            string failMessage = null) where TLogger : class, ILogger
+        {
+            VerifyLog(loggerMock, LogLevel.Error, exception, failMessage);
+        }
+
+        public static void VerifyError<TLogger>(this Mock<TLogger> loggerMock, string message, 
+            string failMessage = null) where TLogger : class, ILogger
+        {
+            VerifyLogMessage(loggerMock, LogLevel.Error, message, failMessage);
+        }
+
+        public static void VerifyWarning<TLogger>(this Mock<TLogger> loggerMock,
+            Expression<Func<FormattedLogValues, bool>> formattedLogValuesPredicate, Exception exception,
+            string failMessage = null) where TLogger : class, ILogger
+        {
+            VerifyLog(loggerMock, LogLevel.Warning, formattedLogValuesPredicate, exception, failMessage);
+        }
+
+        public static void VerifyWarning<TLogger>(this Mock<TLogger> loggerMock,
+            Expression<Func<FormattedLogValues, bool>> formattedLogValuesPredicate, string failMessage = null)
+            where TLogger : class, ILogger
+        {
+            VerifyLog(loggerMock, LogLevel.Warning, formattedLogValuesPredicate, failMessage);
+        }
+
+        public static void VerifyWarning<TLogger>(this Mock<TLogger> loggerMock, Exception exception,
+            string failMessage = null) where TLogger : class, ILogger
+        {
+            VerifyLog(loggerMock, LogLevel.Warning, exception, failMessage);
+        }
+
+        public static void VerifyWarning<TLogger>(this Mock<TLogger> loggerMock, string message,
+            string failMessage = null) where TLogger : class, ILogger
+        {
+            VerifyLogMessage(loggerMock, LogLevel.Warning, message, failMessage);
+        }
+
+        public static void VerifyInformation<TLogger>(this Mock<TLogger> loggerMock,
+            Expression<Func<FormattedLogValues, bool>> formattedLogValuesPredicate, string failMessage = null)
+            where TLogger : class, ILogger
+        {
+            VerifyLog(loggerMock, LogLevel.Information, formattedLogValuesPredicate, failMessage);
+        }
+
+        public static void VerifyInformation<TLogger>(this Mock<TLogger> loggerMock, string message,
+            string failMessage = null) where TLogger : class, ILogger
+        {
+            VerifyLogMessage(loggerMock, LogLevel.Information, message, failMessage);
         }
 
         private class SwapVistor : ExpressionVisitor
