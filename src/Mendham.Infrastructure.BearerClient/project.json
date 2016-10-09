@@ -1,0 +1,21 @@
+﻿{
+  "version": "1.0.0-beta7-*",
+  "description": "Tools to make OAuth calls",
+
+  "packOptions": {
+    "tags": [ "mendham http oauth httpclient" ],
+    "projectUrl": "https://mendham.github.io",
+    "licenseUrl": "https://raw.githubusercontent.com/mendham/Mendham/master/LICENSE",
+    "requireLicenseAcceptance": false
+  },
+
+  "dependencies": {
+    "Mendham": "1.0.0-*",
+    "IdentityModel": "2.0.0-rc6"
+  },
+
+  "frameworks": {
+    "netstandard1.3": {},
+    "net451": {}
+  }
+}
