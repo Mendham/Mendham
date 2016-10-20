@@ -118,6 +118,8 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Testing.AspNetCore.
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Testing.AspNetCore.Moq.Test", "test\Mendham.Testing.AspNetCore.Moq.Test\Mendham.Testing.AspNetCore.Moq.Test.xproj", "{63F54843-859A-4614-9FE5-295C5A0FBA84}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Mendham.Events.DependencyInjection.SharedHandlerTestObjects", "test\Resources\Mendham.Events.DependencyInjection.SharedHandlerTestObjects\Mendham.Events.DependencyInjection.SharedHandlerTestObjects.xproj", "{93FB5612-99B7-4299-B6A5-F61F9BD82E30}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -312,6 +314,10 @@ Global
 		{63F54843-859A-4614-9FE5-295C5A0FBA84}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63F54843-859A-4614-9FE5-295C5A0FBA84}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63F54843-859A-4614-9FE5-295C5A0FBA84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93FB5612-99B7-4299-B6A5-F61F9BD82E30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93FB5612-99B7-4299-B6A5-F61F9BD82E30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93FB5612-99B7-4299-B6A5-F61F9BD82E30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93FB5612-99B7-4299-B6A5-F61F9BD82E30}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -370,5 +376,6 @@ Global
 		{62AF1C0E-484B-45D9-9647-6FE905A0C205} = {5837883B-CC74-4A1F-96F5-AEEEAFD73EC4}
 		{5EF1C74C-F32E-4639-A20B-5D914993F7C5} = {0939C9D9-E0AA-4599-AA22-AC58F16C96DE}
 		{63F54843-859A-4614-9FE5-295C5A0FBA84} = {5837883B-CC74-4A1F-96F5-AEEEAFD73EC4}
+		{93FB5612-99B7-4299-B6A5-F61F9BD82E30} = {C9AF6D12-2693-4513-BE01-B64EA0E89D11}
 	EndGlobalSection
 EndGlobal

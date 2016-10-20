@@ -5,6 +5,9 @@
     "Mendham.Events.DependencyInjection.AspNetCore": {
       "target": "project"
     },
+    "Mendham.Events.DependencyInjection.SharedHandlerTestObjects": {
+      "target": "project"
+    },
     "Mendham.Events.DependencyInjection.TestObjects": {
       "target": "project"
     },

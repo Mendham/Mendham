@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using FluentAssertions;
 using Mendham.DependencyInjection.Autofac;
+using Mendham.Events.DependencyInjection.SharedHandlerTestObjects;
 using Mendham.Events.DependencyInjection.TestObjects;
 using Mendham.Events.DependencyInjection.TrackableTestObjects;
 using System;
@@ -148,6 +149,36 @@ namespace Mendham.Events.DependencyInjection.Autofac.Test
                     .HaveCount(2)
                     .And.Contain(originalDomainEvent)
                     .And.Match(a => a.OfType<EventNoHandlerRegistered>().Any());
+            }
+        }
+
+        [Fact]
+        public async Task Raise_HandlerHasMultipleEvents_BothRaised()
+        {
+            var builder = new ContainerBuilder();
+
+            builder.RegisterModule<EventHandlingModule>();
+            builder.RegisterEventHandlers(typeof(SharedEventHandler).GetTypeInfo().Assembly);
+
+            /// Tracker that helps the handler (registered in previous line) determine if it was called.
+            builder.RegisterType<SharedHandlerTracker>()
+                .AsSelf()
+                .SingleInstance();
+
+            using (var scope = builder.Build().BeginLifetimeScope())
+            {
+                var publisher = scope.Resolve<IEventPublisher>();
+                var tracker = scope.Resolve<SharedHandlerTracker>();
+
+                var domainEvent1 = new SharedEvent1();
+                var domainEvent2 = new SharedEvent2();
+
+                await Task.WhenAll(publisher.RaiseAsync(domainEvent1), publisher.RaiseAsync(domainEvent2));
+
+                tracker.WasEvent1Called.Should()
+                    .BeTrue("the first interface handler should have been called");
+                tracker.WasEvent2Called.Should()
+                    .BeTrue("the second interface handler should have been called");
             }
         }
     }

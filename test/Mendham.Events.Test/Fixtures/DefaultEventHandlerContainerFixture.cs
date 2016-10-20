@@ -12,6 +12,8 @@ namespace Mendham.Events.Test.Fixtures
 		public IEventHandler<DerivedEvent> DerivedEventHandler { get; set; }
 		public IEventHandler<OtherEvent> OtherEventHandler { get; set; }
 
+        public IEventHandler SharedEventHandler { get; set; }
+
         public override DefaultEventHandlerContainer CreateSut()
 		{
 			return new DefaultEventHandlerContainer(() => Handlers);
@@ -24,7 +26,8 @@ namespace Mendham.Events.Test.Fixtures
 				yield return BaseEventHandler;
 				yield return DerivedEventHandler;
 				yield return OtherEventHandler;
-			}
+                yield return SharedEventHandler;
+            }
 		}
 
 		public override void ResetFixture()
@@ -34,6 +37,9 @@ namespace Mendham.Events.Test.Fixtures
 			BaseEventHandler = Mock.Of<IEventHandler<BaseEvent>>();
 			DerivedEventHandler = Mock.Of<IEventHandler<DerivedEvent>>();
 			OtherEventHandler = Mock.Of<IEventHandler<OtherEvent>>();
+
+            var sharedEventHandleMock = new Mock<IEventHandler<SharedEvent1>>();
+            SharedEventHandler = sharedEventHandleMock.As<IEventHandler<SharedEvent2>>().Object;
 		}
 
 		public BaseEvent CreateBaseEvent()
@@ -45,5 +51,15 @@ namespace Mendham.Events.Test.Fixtures
 		{
 			return new DerivedEvent();
 		}
-	}
+
+        public SharedEvent1 CreateSharedEvent1()
+        {
+            return new SharedEvent1();
+        }
+
+        public SharedEvent2 CreateSharedEvent2()
+        {
+            return new SharedEvent2();
+        }
+    }
 }

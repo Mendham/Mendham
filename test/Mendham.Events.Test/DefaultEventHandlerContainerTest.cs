@@ -14,7 +14,7 @@ namespace Mendham.Events.Test
 		{ }
 
 		[Fact]
-		public void HandleAllAsync_BaseEvent_BaseEventHandlerOnly()
+		public void GetHandlers_BaseEvent_BaseEventHandlerOnly()
 		{
 			var sut = Fixture.CreateSut();
 
@@ -26,7 +26,7 @@ namespace Mendham.Events.Test
 		}
 
         [Fact]
-        public void HandleAllAsync_DerivedEvent_TwoHandlers()
+        public void GetHandlers_DerivedEvent_TwoHandlers()
         {
             var sut = Fixture.CreateSut();
 
@@ -37,7 +37,7 @@ namespace Mendham.Events.Test
         }
 
         [Fact]
-        public void HandleAllAsync_DerivedEvent_DerivedHandler()
+        public void GetHandlers_DerivedEvent_DerivedHandler()
         {
             var sut = Fixture.CreateSut();
 
@@ -48,7 +48,7 @@ namespace Mendham.Events.Test
         }
 
         [Fact]
-        public void HandleAllAsync_DerivedEvent_WrappedBaseHandler()
+        public void GetHandlers_DerivedEvent_WrappedBaseHandler()
         {
             var sut = Fixture.CreateSut();
 
@@ -60,6 +60,22 @@ namespace Mendham.Events.Test
                 .NotBeNull();
             result.GetBaseHandlerType().Should()
                 .Be(Fixture.BaseEventHandler.GetType());
+        }
+
+        [Fact]
+        public void GetHandlers_HandlerWithMultipleInterfaces_AllEventsReturned()
+        {
+            var sut = Fixture.CreateSut();
+
+            var result1 = sut.GetHandlers<SharedEvent1>();
+            var result2 = sut.GetHandlers<SharedEvent2>();
+
+            result1.Should()
+                .NotBeEmpty("SharedEventHandler implements IEventHandler<SharedEvent1>")
+                .And.Contain(Fixture.SharedEventHandler as IEventHandler<SharedEvent1>);
+            result2.Should()
+                .NotBeEmpty("SharedEventHandler implements IEventHandler<SharedEvent1>")
+                .And.Contain(Fixture.SharedEventHandler as IEventHandler<SharedEvent2>);
         }
     }
 }

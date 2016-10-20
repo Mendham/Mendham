@@ -6,7 +6,6 @@ using System.Reflection;
 namespace Mendham.Events.Components
 {
     public static class EventHandlerContainerExtensions
-
     {
         /// <summary>
         /// Given a set of <see cref="IEventHandler"/>, select all that can handle the type of event (include base types)
@@ -32,32 +31,24 @@ namespace Mendham.Events.Components
 		private static bool HandlesEvent<TEvent>(IEventHandler handler)
         {
             var expectedEventTypeInfo = typeof(TEvent);
-            var handlerInterfaceEventType = GetEventTypeFromHandler(handler);
+            var handlerInterfaceEventTypes = GetEventTypesFromHandler(handler);
 
-            if (handlerInterfaceEventType == default(Type))
-                return false;
-
-            return handlerInterfaceEventType
-                .GetTypeInfo()
-                .IsAssignableFrom(expectedEventTypeInfo.GetTypeInfo());
+            return handlerInterfaceEventTypes
+                .Any(a => a.GetTypeInfo().IsAssignableFrom(expectedEventTypeInfo.GetTypeInfo()));
         }
 
         /// <summary>
 		/// Gets the type of event that is handled by the event handler
 		/// </summary>
 		/// <param name="handler">Handler</param>
-		/// <returns>Type of event the handler is meant to handle</returns>
-		private static Type GetEventTypeFromHandler(IEventHandler handler)
+		/// <returns>Types of events the handler is meant to handle</returns>
+		private static IEnumerable<Type> GetEventTypesFromHandler(IEventHandler handler)
         {
-            var handlerInterface = handler
+            return handler
                 .GetType()
                 .GetInterfaces()
-                .FirstOrDefault(IsGenericEventHandler);
-
-            if (handlerInterface == default(Type))
-                return default(Type);
-
-            return handlerInterface.GetGenericArguments()[0];
+                .Where(IsGenericEventHandler)
+                .Select(a => a.GetGenericArguments()[0]);
         }
 
         /// <summary>
@@ -74,7 +65,8 @@ namespace Mendham.Events.Components
             if (match != null)
                 return match;
 
-            var baseEventType = GetEventTypeFromHandler(handler);
+            Type baseEventType = GetEventTypesFromHandler(handler)
+                .FirstOrDefault(a => a.GetTypeInfo().IsAssignableFrom(typeof(TEvent).GetTypeInfo()));
 
             var genericEventHandlerWrapper = typeof(EventHandlerWrapper<,>);
             var constructedEventHandlerWrapper = genericEventHandlerWrapper

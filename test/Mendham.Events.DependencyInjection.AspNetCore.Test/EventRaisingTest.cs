@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Mendham.Events.DependencyInjection.SharedHandlerTestObjects;
 using Mendham.Events.DependencyInjection.TestObjects;
 using Mendham.Events.DependencyInjection.TrackableTestObjects;
 using Microsoft.AspNetCore.Hosting;
@@ -148,6 +149,35 @@ namespace Mendham.Events.DependencyInjection.AspNetCore.Test
                     .HaveCount(2)
                     .And.Contain(originalDomainEvent)
                     .And.Match(a => a.OfType<EventNoHandlerRegistered>().Any());
+            }
+        }
+
+        [Fact]
+        public async Task Raise_HandlerHasMultipleEvents_BothRaised()
+        {
+            var builder = new WebHostBuilder()
+               .ConfigureServices(sc =>
+               {
+                   sc.AddEventHandling()
+                       .AddEventHandlers(typeof(SharedEventHandler).GetTypeInfo().Assembly);
+                   sc.AddSingleton<SharedHandlerTracker>();
+               })
+               .Configure(app => { });
+
+            using (var server = new TestServer(builder))
+            {
+                var publisher = server.Host.Services.GetService<IEventPublisher>();
+                var tracker = server.Host.Services.GetService<SharedHandlerTracker>();
+
+                var domainEvent1 = new SharedEvent1();
+                var domainEvent2 = new SharedEvent2();
+
+                await Task.WhenAll(publisher.RaiseAsync(domainEvent1), publisher.RaiseAsync(domainEvent2));
+
+                tracker.WasEvent1Called.Should()
+                    .BeTrue("the first interface handler should have been called");
+                tracker.WasEvent2Called.Should()
+                    .BeTrue("the second interface handler should have been called");
             }
         }
     }

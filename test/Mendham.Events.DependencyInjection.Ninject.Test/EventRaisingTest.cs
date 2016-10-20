@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using Mendham.DependencyInjection.Ninject;
+using Mendham.Events.DependencyInjection.SharedHandlerTestObjects;
 using Mendham.Events.DependencyInjection.TestObjects;
 using Mendham.Events.DependencyInjection.TrackableTestObjects;
 using Ninject;
@@ -121,6 +122,29 @@ namespace Mendham.Events.DependencyInjection.Ninject.Test
                     .HaveCount(2)
                     .And.Contain(originalDomainEvent)
                     .And.Match(a => a.OfType<EventNoHandlerRegistered>().Any());
+            }
+        }
+
+        [Fact]
+        public async Task Raise_HandlerHasMultipleEvents_BothRaised()
+        {
+            using (var kernel = new StandardKernel(new EventHandlingModule()))
+            {
+                kernel.RegisterEventHandlers(typeof(SharedEventHandler).GetTypeInfo().Assembly);
+                kernel.Bind<SharedHandlerTracker>().ToSelf().InSingletonScope();
+
+                var publisher = kernel.Get<IEventPublisher>();
+                var tracker = kernel.Get<SharedHandlerTracker>();
+
+                var domainEvent1 = new SharedEvent1();
+                var domainEvent2 = new SharedEvent2();
+
+                await Task.WhenAll(publisher.RaiseAsync(domainEvent1), publisher.RaiseAsync(domainEvent2));
+
+                tracker.WasEvent1Called.Should()
+                    .BeTrue("the first interface handler should have been called");
+                tracker.WasEvent2Called.Should()
+                    .BeTrue("the second interface handler should have been called");
             }
         }
     }
