@@ -123,7 +123,7 @@ namespace Mendham.Testing.Http.Assertions
             Execute.Assertion
                 .ForCondition(predicate.Compile()(content))
                 .BecauseOf(because, becauseArgs)
-                .FailWith(expectedMessage + ", but {1} does not.", predicate.Body, content);
+                .FailWith(expectedMessage + $", but \"{content}\" does not.", predicate.Body);
 
             return new AndConstraint<HttpContentAssertions>(this);
         }

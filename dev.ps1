@@ -1,8 +1,8 @@
 Param(
-	[string]$buildNumber = "15",
+	[string]$buildNumber = "16",
 	[string]$tagBuild = $false
 )
 
 Write-Output "Starting local build"
 
-Invoke-Psake -taskList Restore,Build,Test,Pack -properties @{ buildNumber=$buildNumber; tagBuild=$tagBuild }
+Invoke-Psake -taskList Clean,Restore,Test,Pack -properties @{ buildNumber=$buildNumber; tagBuild=$tagBuild }

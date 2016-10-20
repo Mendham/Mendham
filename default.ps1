@@ -8,15 +8,9 @@ function Restore-Packages ([string] $DirectoryName)
     & dotnet restore ("""" + $DirectoryName + """") --source "https://www.nuget.org/api/v2/"
 }
 
-function Build-Projects ([string] $DirectoryName, [string] $ProjectName)
-{
-    Write-Output "Directory: $DirectoryName"
-    & dotnet build ("""" + $DirectoryName + """") --configuration Release; if($LASTEXITCODE -ne 0) { exit 1 }
-}
-
 function Pack-Projects ([string] $DirectoryName, [string] $ProjectName, [string] $VersionSuffix)
 {
-    $packCmd = "dotnet pack """ + $DirectoryName + """ --no-build --output "".\artifacts\packages\$ProjectName"""
+    $packCmd = "dotnet pack """ + $DirectoryName + """ --output "".\artifacts\packages\$ProjectName"""
 
     if ($VersionSuffix) {
         $packCmd += " --version-suffix $VersionSuffix"
@@ -28,7 +22,7 @@ function Pack-Projects ([string] $DirectoryName, [string] $ProjectName, [string]
 
 function Test-Projects ([string] $Project)
 {
-    $testCmd = "dotnet test """ + $Project + """ --no-build"
+    $testCmd = "dotnet test """ + $Project + """"
 
     Write-Output "Testing Project: $Project"
     Write-Output $testCmd
@@ -47,12 +41,7 @@ task Restore -description "Restores packages for all projects" {
     Restore-Packages (Get-Item -Path ".\" -Verbose).FullName
 }
 
-task Build -depends Clean -description "Builds every source project" {
-    Get-ChildItem -Path .\src -Filter *.xproj -Recurse |
-        % { Build-Projects $_.DirectoryName $_.Directory.Name }
-}
-
-task Pack -depends Build -description "Builds every source project" {
+task Pack -description "Builds every source project" {
     $versionSuffix = $null
 
     if ($tagBuild -eq $false) {
@@ -70,8 +59,8 @@ task Pack -depends Build -description "Builds every source project" {
         % { Pack-Projects $_.DirectoryName $_.Directory.Name $versionSuffix }
 }
 
-task Test -depends Build -description "Runs tests" {
+task Test -description "Runs tests" {
     Get-ChildItem -Path .\test -Filter project.json -Recurse |
         ? {$_.Directory.FullName -notmatch "test\\Resources" } |
-        % { Test-Projects $_.FullName }
+        % { Test-Projects $_.Directory.FullName }
 }
