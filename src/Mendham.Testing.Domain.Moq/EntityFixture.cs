@@ -1,8 +1,4 @@
 ﻿using Mendham.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Mendham.Testing.Moq
 {
@@ -22,8 +18,8 @@ namespace Mendham.Testing.Moq
 
         public EntityFixture()
         {
-            this.DomainEventPublisherFixture = new EventPublisherFixture();
-            this.DomainFacade = BuildDomainFacade();
+            DomainEventPublisherFixture = new EventPublisherFixture();
+            DomainFacade = BuildDomainFacade();
         }
 
         /// <summary>
@@ -34,7 +30,7 @@ namespace Mendham.Testing.Moq
         public override TBuilder GetSutBuilder()
         {
             return base.GetSutBuilder()
-                .WithFacade(this.DomainFacade);
+                .WithFacade(DomainFacade);
         }
 
         /// <summary>
@@ -44,13 +40,13 @@ namespace Mendham.Testing.Moq
         {
             base.ResetFixture();
 
-            this.DomainEventPublisherFixture.ResetFixture();
-            this.DomainFacade = BuildDomainFacade();
+            DomainEventPublisherFixture.ResetFixture();
+            DomainFacade = BuildDomainFacade();
         }
 
         protected virtual TDomainFacade BuildDomainFacade()
         {
-            return DomainFacadeMock.Of<TDomainFacade>(this.DomainEventPublisherFixture);
+            return DomainFacadeMock.Of<TDomainFacade>(DomainEventPublisherFixture);
         }
 
         TDomainFacade IEntityFixture<TEntity, TDomainFacade, TBuilder>.BuildFacade()
