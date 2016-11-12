@@ -75,7 +75,11 @@ namespace Mendham.Testing.Moq
 		public static IReturnsResult<T> ReturnsTask<T>(this ISetup<T, Task> setup)
             where T : class
         {
+#if NET451
             return setup.Returns(Task.FromResult(0));
+#else
+            return setup.Returns(Task.CompletedTask);
+#endif
         }
     }
 }
