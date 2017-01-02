@@ -20,7 +20,7 @@ namespace Mendham.Testing
 
         private static string MessageText(Type t, int timesCalled, TimesRaised timesExpected, string userMessage)
         {
-            var msg = "{3} Domain Event {0} publish error. The event was expected be called {1}, but was called {2} time(s)";
+            var msg = "{3} Event {0} publish error. The event was expected be called {1}, but was called {2} time(s)";
 
             return string.Format(CultureInfo.CurrentCulture, msg, t.FullName,
                 timesExpected.GetFailDetails(), timesCalled, FormatUserMessage(userMessage));
